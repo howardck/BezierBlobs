@@ -10,6 +10,7 @@ import SwiftUI
 enum BezierType {
     case lineSegments
     case markers(radius: CGFloat)
+    case singleMarker(index: Int, radius: CGFloat)
 }
 
 struct SuperEllipse : Shape {
@@ -38,6 +39,13 @@ struct SuperEllipse : Shape {
             case .markers(let radius) :
                 path.move(to: point)
                 path.addMarker(of: radius)
+                
+            case .singleMarker(let index, let radius) :
+                if i == index {
+                    path.move(to: point)
+                    path.addMarker(of: radius)
+                }
+                
             }
         }
         if smoothed {

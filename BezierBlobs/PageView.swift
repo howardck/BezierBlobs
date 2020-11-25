@@ -20,10 +20,10 @@ struct PageView: View {
     
     static let SUPER_E_DESCRIPTORS : [PageDescription] =
         [
-            (numPoints: 16, order: 2, offsets: (in: -0.3, out: 0.3), forceEqualAxes: true),
+            (numPoints: 16, order: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true),
             (numPoints: 6, order: 3, offsets: (in: -0.65, out: 0.35), false),
             (numPoints: 18, order: 3, offsets: (in: -0.3, out: 0.3), false),
-            (numPoints: 24, order: 0.9, offsets: (in: 0, out: 0.75), false)
+            (numPoints: 24, order: 0.9, offsets: (in: 0.1, out: 0.75), false)
         ]
     
     @ObservedObject var model = Model()
@@ -143,6 +143,13 @@ struct PageView: View {
                              smoothed: false)
                     .stroke(Color.init(white: 0.3), lineWidth: 1.0)
             }
+//            else if pageId == 4 {
+//                SuperEllipse(curve: animatingCurve,
+//                             bezierType: .singleMarker(index: 0, radius: 20),
+//                             smoothed: false)
+//                    .fill(Color.blue)
+//
+//            }
             else {
                 SuperEllipse(curve: animatingCurve,
                              bezierType: .lineSegments,
@@ -169,6 +176,7 @@ struct PageView: View {
     private func animatingBlobCurveMarkers(animatingCurve: [CGPoint]) -> some View {
         ZStack {
 
+            // every animating vertex gets this style of marker
             SuperEllipse(curve: animatingCurve,
                          bezierType: .markers(radius: BLOB_MARKER.radius + 1),
                          smoothed: false)
@@ -178,6 +186,21 @@ struct PageView: View {
                          bezierType: .markers(radius: BLOB_MARKER.radius),
                          smoothed: false)
                 .fill(BLOB_MARKER.color)
+            
+            // but we mark vertex 0 specially so it points out the origin
+            SuperEllipse(curve: animatingCurve,
+                         bezierType: .singleMarker(index: 0, radius: BLOB_MARKER.radius + 1),
+                         smoothed: false)
+                .fill(Color.black)
+            SuperEllipse(curve: animatingCurve,
+                         bezierType: .singleMarker(index: 0, radius: BLOB_MARKER.radius),
+                         smoothed: false)
+                .fill(Color.green)
+            
+            SuperEllipse(curve: animatingCurve,
+                         bezierType: .singleMarker(index: 0, radius: BLOB_MARKER.radius - 13),
+                         smoothed: false)
+                .fill(Color.white)
         }
     }
     

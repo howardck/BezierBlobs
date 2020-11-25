@@ -3,7 +3,13 @@
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2020-10-21.
-//
+/*
+    this project has been thru several tranmutations. it started life
+    as BezierBlob (singular), was then transmuted into TabViews, which
+    primarily started to explore the use of tabs to expand the
+    range of views on display for pedagogic purposes, and now exists
+    as what you're looking at.
+ */
 
 import SwiftUI
 

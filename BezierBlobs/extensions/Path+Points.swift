@@ -9,9 +9,7 @@
 import SwiftUI
 
 extension Int {
-    func isEven() -> Bool {
-        return self % 2 == 0
-    }
+    func isEven() -> Bool { self % 2 == 0 }
 }
 
 extension CGPoint {
