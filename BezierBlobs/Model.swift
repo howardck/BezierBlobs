@@ -28,6 +28,8 @@ class Model: ObservableObject {
     var baseCurve = [CGPoint]()
     var normals = [CGVector]()
     
+    
+    
     var baseCurvePlusNormals = [(CGPoint, CGVector)]()
     
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
@@ -35,7 +37,7 @@ class Model: ObservableObject {
     
     //MARK: TODO: OFFSETS SHOULD BE A PLATFORM-SPECIFIC SCREEN RATIO
     var offsets : Offsets = (in: 0, out: 0)
-    var order: Double = 0.0
+    var n: Double = 0.0
     
     //MARK: -
     func animateToNextZigZagPosition() {
@@ -58,7 +60,7 @@ class Model: ObservableObject {
         let numPoints = pageDescription.numPoints
         offsets = (in: radius * pageDescription.offsets.in,
                    out: radius * pageDescription.offsets.out)
-        order = pageDescription.order
+        n = pageDescription.n
         
         if pageDescription.forceEqualAxes {
             let minab = min(axes.a, axes.b)
@@ -127,17 +129,17 @@ class Model: ObservableObject {
             if sinT == 0 { sinT = Model.VANISHINGLY_SMALL_DOUBLE }
             // else dX goes infinite at theta == 0 & we're forked. kludge?
             
-            let inverseOrder = 2.0/order // not really an inverse but whatever...
+            let inverseN = 2.0/n // not really an inverse but whatever...
 
-            let x = axes.a * pow(abs(cosT), inverseOrder) * sign(cosT)
-            let y = axes.b * pow(abs(sinT), inverseOrder) * sign(sinT)
+            let x = axes.a * pow(abs(cosT), inverseN) * sign(cosT)
+            let y = axes.b * pow(abs(sinT), inverseN) * sign(sinT)
             
             let vertex = CGPoint(x: x, y: y)
             baseCurve += [vertex]
             
             // and the orthogonal (ie normal) to it at that point
-            let dX = inverseOrder * pow(abs(sinT), (inverseOrder - 1)) * cosT
-            let dY = inverseOrder * pow(abs(cosT), (inverseOrder - 1)) * sinT
+            let dX = inverseN * pow(abs(sinT), (inverseN - 1)) * cosT
+            let dY = inverseN * pow(abs(cosT), (inverseN - 1)) * sinT
             
             // store the normal in unit-vector form. thank you
             // 10th-grade geometry, euclid, and similar triangles!

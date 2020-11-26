@@ -8,7 +8,7 @@
 import SwiftUI
 
 typealias PageDescription = (numPoints: Int,
-                             order: Double,
+                             n: Double,
                              offsets: (in: CGFloat, out: CGFloat),
                              forceEqualAxes: Bool)
 
@@ -20,10 +20,10 @@ struct PageView: View {
     
     static let SUPER_E_DESCRIPTORS : [PageDescription] =
         [
-            (numPoints: 16, order: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true),
-            (numPoints: 6, order: 3, offsets: (in: -0.65, out: 0.35), false),
-            (numPoints: 18, order: 3, offsets: (in: -0.3, out: 0.3), false),
-            (numPoints: 24, order: 0.9, offsets: (in: 0.1, out: 0.75), false)
+            (numPoints: 16, n: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true),
+            (numPoints: 6, n: 3, offsets: (in: -0.65, out: 0.35), false),
+            (numPoints: 18, n: 3, offsets: (in: -0.3, out: 0.3), false),
+            (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
         ]
     
     @ObservedObject var model = Model()
@@ -58,10 +58,12 @@ struct PageView: View {
             animatingBlobCurve(animatingCurve: model.blobCurve)
             animatingBlobCurveMarkers(animatingCurve: model.blobCurve)
             
-            // static curves
-            baseCurve(baseCurve: model.baseCurve)
-            zigZagCurves(zigZagCurves: model.zigZagCurves)
-            boundingCurves(boundingCurves: model.boundingCurves)
+            if pageId == 0 {
+                // static curves
+                baseCurve(baseCurve: model.baseCurve)
+                zigZagCurves(zigZagCurves: model.zigZagCurves)
+                boundingCurves(boundingCurves: model.boundingCurves)
+            }
         }
         .onAppear() {
             print("PageView.onAppear()...")

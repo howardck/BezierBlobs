@@ -4,10 +4,10 @@
 //
 //  Created by Howard Katz on 2020-10-21.
 /*
-    this project has been thru several tranmutations. it started life
-    as BezierBlob (singular), was then transmuted into TabViews, which
-    primarily started to explore the use of tabs to expand the
-    range of views on display for pedagogic purposes, and now exists
+    this project has been thru several transmutations. it started life
+    as BezierBlob (singular), was then transformed into TabViews (which
+    was begun primarily to explore the use of tabs to expand the
+    range of views on display for pedagogic purposes), and now exists
     as what you're looking at.
  */
 
@@ -55,7 +55,7 @@ struct ContentView: View {
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "3.circle.fill");
-                        Text("ORBITAL MADNESS")
+                        Text("MUTANT BEETLE")
                     }
            }
         }
