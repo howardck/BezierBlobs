@@ -55,7 +55,7 @@ struct ContentView: View {
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "3.circle.fill");
-                        Text("MUTANT BEETLE")
+                        Text("MUTANT MOTH")
                     }
            }
         }

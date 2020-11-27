@@ -11,6 +11,7 @@ typealias Axes = (a: Double, b: Double)
 typealias Offsets = (in: CGFloat, out: CGFloat)
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
+typealias BaseCurve = (vertices: [CGPoint], normals: [CGVector])
 
 class Model: ObservableObject {
     
@@ -25,12 +26,12 @@ class Model: ObservableObject {
     
     var axes : Axes = (1, 1)
     
-    var baseCurve = [CGPoint]()
-    var normals = [CGVector]()
+    //var baseCurveVertices = [CGPoint]()
+    //var normals = [CGVector]()
     
+    var baseCurve : BaseCurve = (vertices: [CGPoint](), normals: [CGVector]())
     
-    
-    var baseCurvePlusNormals = [(CGPoint, CGVector)]()
+    //var baseCurvePlusNormals = [(CGPoint, CGVector)]()
     
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
@@ -70,7 +71,7 @@ class Model: ObservableObject {
             self.axes = axes
         }
 
-        let stuff = calculateBaseCurvePlus(for: numPoints, with: self.axes)
+        self.baseCurve = calculateBaseCurvePlus(for: numPoints, with: self.axes)
         
         if (true) {
             print("\nModel.calculateSuperEllipseCurves(pageId: [\(pageId)] numPoints: {\(numPoints)} ...)")
@@ -78,21 +79,17 @@ class Model: ObservableObject {
                     "b: {\((self.axes.b).format(fspec: "6.2"))}")
         }
         
-        baseCurve = stuff.baseCurve
-        normals = stuff.normals
-        
         boundingCurves = calculateBoundingCurves(offsets: self.offsets)
         zigZagCurves = calculateZigZagCurves(offsets: self.offsets)
-        
-        // our initial visual configuration
-         //blobCurve = baseCurve
         
         self.animateToNextZigZagPosition()
     }
     
+    // calculate the two curves defining the two
+    // extremes our blob path animates between
     func calculateZigZagCurves(offsets: Offsets) -> ZigZagCurves {
         // z.enumerated(() => ($0.0: Int, ($0.1.0: CGPoint, $0.1.1: CGVector))
-        let z = zip(baseCurve,normals)
+        let z = zip(baseCurve.vertices, baseCurve.normals)
         let zigCurve = z.enumerated().map {
             $0.1.0.newPoint(at: $0.0.isEven() ? offsets.in : offsets.out,
                             along: $0.1.1)
@@ -104,20 +101,28 @@ class Model: ObservableObject {
         return (zigCurve, zagCurve)
     }
     
-    // define an envelope within which our blob does it thing, ie zigs and zags.
+    // define an envelope within which our blob
+    // does it thing, ie zigs and zags.
     func calculateBoundingCurves(offsets: Offsets) -> BoundingCurves {
-        let z = zip(baseCurve, normals)
+        let z = zip(baseCurve.vertices, baseCurve.normals)
         return (inner: z.map{ $0.0.newPoint(at: offsets.in, along: $0.1) },
                 outer: z.map{ $0.0.newPoint(at: offsets.out, along: $0.1) })
     }
     
+    func calculateNormalsPseudoCurve() -> [CGPoint] {
+        var normals = [CGPoint]()
+        for i in 0..<boundingCurves.inner.count {
+            normals.append(boundingCurves.inner[i])
+            normals.append(boundingCurves.outer[i])
+        }
+        return normals
+    }
+    
     func calculateBaseCurvePlus(for numPoints: Int,
-                                with axes: Axes) -> (baseCurve:[CGPoint],
+                                with axes: Axes) -> (vertices:[CGPoint],
                                                      normals: [CGVector])
     {
-        var baseCurve = [CGPoint]()
-        var normals = [CGVector]()
-        
+        var baseCurve = (vertices: [CGPoint](), normals: [CGVector]())
         var i = 0
         for theta in stride(from: 0,
                             to: 2 * Double.pi,
@@ -135,7 +140,7 @@ class Model: ObservableObject {
             let y = axes.b * pow(abs(sinT), inverseN) * sign(sinT)
             
             let vertex = CGPoint(x: x, y: y)
-            baseCurve += [vertex]
+            baseCurve.vertices += [vertex]
             
             // and the orthogonal (ie normal) to it at that point
             let dX = inverseN * pow(abs(sinT), (inverseN - 1)) * cosT
@@ -144,14 +149,14 @@ class Model: ObservableObject {
             // store the normal in unit-vector form. thank you
             // 10th-grade geometry, euclid, and similar triangles!
             let normal = CGVector(dx: dX/hypot(dX, dY), dy: dY/hypot(dX, dY))
-            normals += [normal]
+            baseCurve.normals += [normal]
             
             if Model.DEBUG_PRINT {
                 debugPrint(i: i, theta: theta, vertex: vertex, normal: normal)
                 i += 1
             }
         }
-        return (baseCurve, normals)
+        return baseCurve
     }
     
     func sign(_ number: Double) -> Double {

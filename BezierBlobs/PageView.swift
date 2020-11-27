@@ -14,7 +14,6 @@ typealias PageDescription = (numPoints: Int,
 
 struct PageView: View {
     
-    //MARK: TODO: (offsets should be +/- 1.0-based) -------------
     // OFFSETS HARD-WIRED FOR IPAD FOR THE MOMENT ...
     // ==================================
     
@@ -23,7 +22,10 @@ struct PageView: View {
             (numPoints: 16, n: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true),
             (numPoints: 6, n: 3, offsets: (in: -0.65, out: 0.35), false),
             (numPoints: 18, n: 3, offsets: (in: -0.3, out: 0.3), false),
-            (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
+            
+            // testing out why this goes wonky for points at the 4 'extreme' vertices
+            // (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
+            (numPoints: 4, n: 1.0, offsets: (in: -0.4, out: 0.6), false)
         ]
     
     @ObservedObject var model = Model()
@@ -58,17 +60,28 @@ struct PageView: View {
             animatingBlobCurve(animatingCurve: model.blobCurve)
             animatingBlobCurveMarkers(animatingCurve: model.blobCurve)
             
-            if pageId == 0 {
-                // static curves
-                baseCurve(baseCurve: model.baseCurve)
+            // statics
+            if (pageId == 999) {
+                baseCurve(baseCurve: model.baseCurve.vertices)
                 zigZagCurves(zigZagCurves: model.zigZagCurves)
                 boundingCurves(boundingCurves: model.boundingCurves)
             }
+            
+            // NOTA: we call this every time our pageView
+            // is invalidated. a waste perhaps?
+            // ie calc once and cache perhaps is best ....
+            
+            let normals = model.calculateNormalsPseudoCurve()
+            SuperEllipse(curve: normals,
+                         bezierType: .normals_lineSegments)
+                .stroke(Color.black,
+                        style: StrokeStyle(lineWidth: 1.5, dash: [4,3]))
+
         }
         .onAppear() {
             print("PageView.onAppear()...")
             
-            model.blobCurve = model.baseCurve
+            model.blobCurve = model.baseCurve.vertices
         }
         .onTapGesture(count: 1) {
             print("PageView.onTapGesture() ...")
@@ -82,6 +95,7 @@ struct PageView: View {
 
         
     }
+    
     
     //MARK:-
     func sampleWidget() -> some View {
@@ -249,15 +263,15 @@ struct PageView: View {
        
             let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
             
-            SuperEllipse(curve: model.baseCurve,
+            SuperEllipse(curve: model.baseCurve.vertices,
                          bezierType: .lineSegments)
                 .stroke(Color.white, style: strokeStyle)
 
-            SuperEllipse(curve: model.baseCurve,
+            SuperEllipse(curve: model.baseCurve.vertices,
                          bezierType: .markers(radius: BASECURVE_MARKER.radius + 1))
                 .fill(Color.black)
             
-            SuperEllipse(curve: model.baseCurve,
+            SuperEllipse(curve: model.baseCurve.vertices,
                          bezierType: .markers(radius: BASECURVE_MARKER.radius))
                 .fill(BASECURVE_MARKER.color)
         }

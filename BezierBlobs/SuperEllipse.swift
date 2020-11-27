@@ -11,6 +11,7 @@ enum BezierType {
     case lineSegments
     case markers(radius: CGFloat)
     case singleMarker(index: Int, radius: CGFloat)
+    case normals_lineSegments
 }
 
 struct SuperEllipse : Shape {
@@ -28,7 +29,8 @@ struct SuperEllipse : Shape {
     
     func path(in rect: CGRect) -> Path {
         var path = Path()
-        for (i, point) in curve.enumerated() {
+        let points = curve.enumerated()
+        for (i, point) in points {
             switch(bezierType) {
             
             case .lineSegments :
@@ -45,7 +47,11 @@ struct SuperEllipse : Shape {
                     path.move(to: point)
                     path.addMarker(of: radius)
                 }
-                
+            case .normals_lineSegments :
+                if i % 2 == 0 && i < curve.count - 1 {
+                    path.move(to: point)
+                    path.addLine(to: curve[i + 1])
+                }
             }
         }
         if smoothed {
