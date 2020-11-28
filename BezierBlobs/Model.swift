@@ -15,14 +15,14 @@ typealias BaseCurve = (vertices: [CGPoint], normals: [CGVector])
 
 class Model: ObservableObject {
     
+    @Published var blobCurve = [CGPoint]()
+    
     // zig configuration starts to the inside at point 0
     // zag configuration starts to the outside
     var animateToZigConfiguration = false
     
     static let DEBUG_PRINT = false
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001
-        
-    @Published var blobCurve = [CGPoint]()
     
     var axes : Axes = (1, 1)
     
@@ -52,7 +52,7 @@ class Model: ObservableObject {
     
     //MARK: -
     
-    func calculateSuperEllipseCurves(for pageId: Int,
+    func calculateSuperEllipseCurves(for pageType: PageType,
                                      pageDescription: PageDescription,
                                      axes: Axes) {
         
@@ -74,7 +74,7 @@ class Model: ObservableObject {
         self.baseCurve = calculateBaseCurvePlus(for: numPoints, with: self.axes)
         
         if (true) {
-            print("\nModel.calculateSuperEllipseCurves(pageId: [\(pageId)] numPoints: {\(numPoints)} ...)")
+            print("\nModel.calculateSuperEllipseCurves(pageId: [\(pageType)] numPoints: {\(numPoints)} ...)")
             print("axes: a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((self.axes.b).format(fspec: "6.2"))}")
         }

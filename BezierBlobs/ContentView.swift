@@ -26,36 +26,36 @@ struct ContentView: View {
             
             TabView {
                 
-                PageView(pageId: 1,
-                         description: PageView.SUPER_E_DESCRIPTORS[0],
+                PageView(pageType: PageType.circle,
+                         description: PageView.DESCRIPTIONS[0],
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "record.circle")
-                        Text("CIRCLE")
+                        Text("\(PageType.circle.rawValue)")
                     }
                 
-                PageView(pageId: 2,
-                         description: PageView.SUPER_E_DESCRIPTORS[1],
+                PageView(pageType: PageType.sweptWing,
+                         description: PageView.DESCRIPTIONS[1],
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "2.circle.fill")
-                        Text("DELTA WING")
+                        Text("\(PageType.sweptWing.rawValue)" )
                 }
                 
-                PageView(pageId: 3,
-                         description: PageView.SUPER_E_DESCRIPTORS[2],
+                PageView(pageType: PageType.superEllipse,
+                         description: PageView.DESCRIPTIONS[2],
                          size: gr.size)
                     .tabItem {
-                        Image(systemName: "3.circle.fill");
-                        Text("SUPER ELLIPSE")
-                    }
+                        Image(systemName: "3.circle.fill")
+                        Text("\(PageType.superEllipse.rawValue)" )
+                }
 
-                PageView(pageId: 4,
-                         description: PageView.SUPER_E_DESCRIPTORS[3],
+                PageView(pageType: PageType.mutantMoth,
+                         description: PageView.DESCRIPTIONS[3],
                          size: gr.size)
                     .tabItem {
-                        Image(systemName: "3.circle.fill");
-                        Text("MUTANT MOTH")
+                        Image(systemName: "4.circle.fill");
+                        Text("\(PageType.mutantMoth.rawValue)" )
                     }
            }
         }

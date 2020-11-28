@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+enum PageType : String {
+    case circle = "CIRCLE"
+    case sweptWing = "SWEPT WING"
+    case superEllipse = "SUPER ELLIPSE"
+    case mutantMoth = "MUTANT MOTH"
+}
+
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              offsets: (in: CGFloat, out: CGFloat),
@@ -14,38 +21,54 @@ typealias PageDescription = (numPoints: Int,
 
 struct PageView: View {
     
+    var pageType: PageType
+    
     // OFFSETS HARD-WIRED FOR IPAD FOR THE MOMENT ...
     // ==================================
     
-    static let SUPER_E_DESCRIPTORS : [PageDescription] =
+    static let PAGE_INFO : [(PageType, PageDescription)] =
+    [
+        (PageType.circle,
+                (numPoints: 16, n: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true)),
+        (PageType.sweptWing,
+                (numPoints: 6, n: 3, offsets: (in: -0.65, out: 0.35), false)),
+        (PageType.superEllipse,
+                (numPoints: 18, n: 3, offsets: (in: -0.3, out: 0.3), false)),
+        // testing out why this goes wonky for points at the 4 'extreme' vertices
+        (PageType.mutantMoth,
+         (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false))
+//        (PageType.mutantMoth,
+//                (numPoints: 4, n: 1.0, offsets: (in: -0.4, out: 0.6), false))
+    ]
+    
+    static let DESCRIPTIONS : [PageDescription] =
         [
             (numPoints: 16, n: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true),
             (numPoints: 6, n: 3, offsets: (in: -0.65, out: 0.35), false),
             (numPoints: 18, n: 3, offsets: (in: -0.3, out: 0.3), false),
             
             // testing out why this goes wonky for points at the 4 'extreme' vertices
-            // (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
-            (numPoints: 4, n: 1.0, offsets: (in: -0.4, out: 0.6), false)
+             (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
+//            (numPoints: 4, n: 1.0, offsets: (in: -0.4, out: 0.6), false)
         ]
     
     @ObservedObject var model = Model()
  
-    let pageId: Int
     let description: PageDescription
     let size: CGSize
     
-    init(pageId: Int, description: PageDescription, size: CGSize) {
+    init(pageType: PageType, description: PageDescription, size: CGSize) {
         
         print("PageView.init()")
         
-        self.pageId = pageId
+        self.pageType = pageType
         self.description = description
         
         self.size = CGSize(width: size.width * PlatformSpecifics.IPAD.w,
                            height: size.height * PlatformSpecifics.IPAD.h)
         
         // invoke once per each individual PageView instantiation
-        model.calculateSuperEllipseCurves(for: pageId,
+        model.calculateSuperEllipseCurves(for: pageType,
                                           pageDescription: description,
                                           axes: (a: Double(self.size.width/2),
                                                  b: Double(self.size.height/2)))
@@ -54,29 +77,23 @@ struct PageView: View {
     var body: some View {
         
         ZStack {
-            Color.init(white: 0.45)
+            Color.init(white: 0.4)
+//            Color.white
             
             // dynamic curves
             animatingBlobCurve(animatingCurve: model.blobCurve)
-            animatingBlobCurveMarkers(animatingCurve: model.blobCurve)
             
-            // statics
-            if (pageId == 999) {
-                baseCurve(baseCurve: model.baseCurve.vertices)
-                zigZagCurves(zigZagCurves: model.zigZagCurves)
-                boundingCurves(boundingCurves: model.boundingCurves)
-            }
+            baseCurveLineSegments(baseCurve: model.baseCurve.vertices)
             
-            // NOTA: we call this every time our pageView
-            // is invalidated. a waste perhaps?
-            // ie calc once and cache perhaps is best ....
+            zigZagCurves(zigZagCurves: model.zigZagCurves)
+            boundingCurves(boundingCurves: model.boundingCurves)
             
-            let normals = model.calculateNormalsPseudoCurve()
-            SuperEllipse(curve: normals,
-                         bezierType: .normals_lineSegments)
-                .stroke(Color.black,
-                        style: StrokeStyle(lineWidth: 1.5, dash: [4,3]))
 
+            normals(normals: model.calculateNormalsPseudoCurve())
+            
+            animatingBlobCurveMarkers(animatingCurve: model.blobCurve)
+            baseCurveMarkers(baseCurve: model.baseCurve.vertices)
+    
         }
         .onAppear() {
             print("PageView.onAppear()...")
@@ -137,13 +154,13 @@ struct PageView: View {
     private func animatingBlobCurve(animatingCurve: [CGPoint]) -> some View {
         ZStack {
 
-            if self.pageId == 1 {
+            if self.pageType == .circle {
                 SuperEllipse(curve: animatingCurve,
                              bezierType: .lineSegments,
                              smoothed: true)
                     .fill(redGradient)
             }
-            else if self.pageId == 2 {
+            else if pageType == .sweptWing {
                 SuperEllipse(curve: animatingCurve,
                              bezierType: .lineSegments,
                              smoothed: true)
@@ -181,27 +198,42 @@ struct PageView: View {
     }
     
     
+    private func normals(normals: [CGPoint]) -> some View {
+        
+        SuperEllipse(curve: normals,
+                     bezierType: .normals_lineSegments)
+            .stroke(Color.green,
+                    style: StrokeStyle(lineWidth: 2.0, dash: [2, 3]))
+    }
+    
     //MARK:-
     typealias MARKER_DESCRIPTOR = (color: Color, radius: CGFloat)
     
-    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.yellow, radius: 17)
-    let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 11 )
-    let BOUNDING_MARKER : MARKER_DESCRIPTOR = (color: Color.black, radius: 6)
+    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.green, radius: 17)
+    let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 14 )
+    let BOUNDING_MARKER : MARKER_DESCRIPTOR = (color: Color.black, radius: 7)
     //MARK:-
     
     private func animatingBlobCurveMarkers(animatingCurve: [CGPoint]) -> some View {
         ZStack {
 
-            // every animating vertex gets this style of marker
+            // every animating blob vertex gets this style of marker
             SuperEllipse(curve: animatingCurve,
                          bezierType: .markers(radius: BLOB_MARKER.radius + 1),
                          smoothed: false)
-                .fill(Color.init(white: 0.25))
+                .fill(Color.init(white: 0.0))
             
             SuperEllipse(curve: animatingCurve,
                          bezierType: .markers(radius: BLOB_MARKER.radius),
                          smoothed: false)
                 .fill(BLOB_MARKER.color)
+            
+            SuperEllipse(curve: animatingCurve,
+                         bezierType: .markers(radius: BLOB_MARKER.radius - 13),
+                         smoothed: false)
+                .fill(Color.init(white: 1))
+            
+            // -----------------------------------------------------------
             
             // but we mark vertex 0 specially so it points out the origin
             SuperEllipse(curve: animatingCurve,
@@ -211,7 +243,7 @@ struct PageView: View {
             SuperEllipse(curve: animatingCurve,
                          bezierType: .singleMarker(index: 0, radius: BLOB_MARKER.radius),
                          smoothed: false)
-                .fill(Color.green)
+                .fill(Color.red)
             
             SuperEllipse(curve: animatingCurve,
                          bezierType: .singleMarker(index: 0, radius: BLOB_MARKER.radius - 13),
@@ -227,7 +259,7 @@ struct PageView: View {
         // zig curve
             SuperEllipse(curve: zigZagCurves.zig,
                          bezierType: .lineSegments)
-                .stroke(Color.green, style: lineStyle)
+                .stroke(Color.blue, style: lineStyle)
         // zag curve
             SuperEllipse(curve: zigZagCurves.zag,
                          bezierType: .lineSegments)
@@ -238,7 +270,7 @@ struct PageView: View {
     private func boundingCurves(boundingCurves: BoundingCurves) -> some View {
         Group {
             let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-            let color = Color.init(white: 0.15)
+            let color = Color.black//init(white: 0.15)
             
         // inner curve
             SuperEllipse(curve: boundingCurves.inner,
@@ -258,14 +290,18 @@ struct PageView: View {
         }
     }
     
-    private func baseCurve(baseCurve: [CGPoint]) -> some View {
-        ZStack {
-       
+    private func baseCurveLineSegments(baseCurve: [CGPoint]) -> some View {
+        Group {
             let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
             
             SuperEllipse(curve: model.baseCurve.vertices,
                          bezierType: .lineSegments)
                 .stroke(Color.white, style: strokeStyle)
+        }
+    }
+    
+    private func baseCurveMarkers(baseCurve: [CGPoint]) -> some View {
+        ZStack {
 
             SuperEllipse(curve: model.baseCurve.vertices,
                          bezierType: .markers(radius: BASECURVE_MARKER.radius + 1))
@@ -274,6 +310,10 @@ struct PageView: View {
             SuperEllipse(curve: model.baseCurve.vertices,
                          bezierType: .markers(radius: BASECURVE_MARKER.radius))
                 .fill(BASECURVE_MARKER.color)
+            
+            SuperEllipse(curve: model.baseCurve.vertices,
+                         bezierType: .markers(radius: 4))
+                .fill(Color.black)
         }
     }
     
@@ -304,8 +344,8 @@ struct PageView: View {
 
 //MARK:-
 
-struct PageView_Previews: PreviewProvider {
-    static var previews: some View {
-        PageView(pageId: 1, description: PageView.SUPER_E_DESCRIPTORS[0], size: CGSize(width: 650, height: 550))
-    }
-}
+//struct PageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PageView(pageType: PageType.circle, pageId: 1, description: PageView.SUPER_E_DESCRIPTORS[0], size: CGSize(width: 650, height: 550))
+//    }
+//}
