@@ -12,6 +12,7 @@ enum BezierType : Equatable {
     case markers(radius: CGFloat)
     case singleMarker(index: Int, radius: CGFloat)
     case normals_lineSegments
+    case normals_endMarkers(radius: CGFloat)
 }
 
 struct SuperEllipse : Shape {
@@ -54,11 +55,14 @@ struct SuperEllipse : Shape {
                 }
             case .normals_lineSegments :
                 if i % 2 == 0 && i < curve.count - 1 {
-                    
                     print("i: [\(i)] inside: \(point) -> outside: \(curve[i+1])")
+                    
                     path.move(to: point)
                     path.addLine(to: curve[i + 1])
                 }
+            case .normals_endMarkers(let radius) :
+                path.move(to: point)
+                path.addMarker(of: radius)
             }
         }
         if smoothed {
@@ -68,7 +72,7 @@ struct SuperEllipse : Shape {
         // NOTA: This produces a weird heavier dashed line only for
         // the LAST normal drawn if we do close the path.
         
-//        path.closeSubpath()
+        path.closeSubpath()
         return path.offsetBy(dx: rect.width/2, dy: rect.height/2)
     }
 }

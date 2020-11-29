@@ -85,12 +85,10 @@ struct PageView: View {
             
             baseCurveLineSegments(baseCurve: model.baseCurve.vertices)
             
-            zigZagCurves(zigZagCurves: model.zigZagCurves)
-            boundingCurves(boundingCurves: model.boundingCurves)
-            
+//            zigZagCurves(zigZagCurves: model.zigZagCurves)
+//            boundingCurves(boundingCurves: model.boundingCurves)
 
             normals(normals: model.calculateNormalsPseudoCurve())
-            
             animatingBlobCurveMarkers(animatingCurve: model.blobCurve)
             baseCurveMarkers(baseCurve: model.baseCurve.vertices)
     
@@ -112,7 +110,6 @@ struct PageView: View {
 
         
     }
-    
     
     //MARK:-
     func sampleWidget() -> some View {
@@ -200,18 +197,25 @@ struct PageView: View {
     
     private func normals(normals: [CGPoint]) -> some View {
         
-        SuperEllipse(curve: normals,
-                     bezierType: .normals_lineSegments)
-            .stroke(Color.green,
-                    style: StrokeStyle(lineWidth: 2.0, dash: [2, 3]))
+        ZStack {
+            SuperEllipse(curve: normals,
+                         bezierType: .normals_lineSegments)
+                .stroke(Color.init(white: 1),
+                        style: StrokeStyle(lineWidth: 4.0, dash: [0.5,3]))
+            SuperEllipse(curve: normals,
+                         bezierType: .normals_endMarkers(radius: 7))
+                .fill(Color.init(white: 0.15))
+        }
     }
     
     //MARK:-
     typealias MARKER_DESCRIPTOR = (color: Color, radius: CGFloat)
     
-    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.green, radius: 17)
+    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.blue, radius: 17)
     let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 14 )
     let BOUNDING_MARKER : MARKER_DESCRIPTOR = (color: Color.black, radius: 7)
+    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.red, radius: 17)
+
     //MARK:-
     
     private func animatingBlobCurveMarkers(animatingCurve: [CGPoint]) -> some View {
@@ -243,7 +247,7 @@ struct PageView: View {
             SuperEllipse(curve: animatingCurve,
                          bezierType: .singleMarker(index: 0, radius: BLOB_MARKER.radius),
                          smoothed: false)
-                .fill(Color.red)
+                .fill(ORIGIN_MARKER.color)
             
             SuperEllipse(curve: animatingCurve,
                          bezierType: .singleMarker(index: 0, radius: BLOB_MARKER.radius - 13),
@@ -322,12 +326,12 @@ struct PageView: View {
         ZStack {
     
             Text("numPoints: \(description.numPoints)")
-                .font(.title)
-                .foregroundColor(Color.init(white: 0.1))
+                .font(.title2)
+                .foregroundColor(Color.init(white: 0.2))
                 .offset(x: 2, y: 2)
 
             Text("numPoints: \(description.numPoints)")
-                .font(.title)
+                .font(.title2)
                 .foregroundColor(.white)
             
 //            let w_s = "\((size.width).format(fspec:" 7.2"))"
