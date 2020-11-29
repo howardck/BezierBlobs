@@ -30,10 +30,6 @@ struct SuperEllipse : Shape {
     
     func path(in rect: CGRect) -> Path {
         
-        if bezierType == .normals_lineSegments {
-            print("SuperEllipse.bezierType == .normals_lineSegments")
-        }
-        
         var path = Path()
         let points = curve.enumerated()
         for (i, point) in points {
@@ -55,7 +51,7 @@ struct SuperEllipse : Shape {
                 }
             case .normals_lineSegments :
                 if i % 2 == 0 && i < curve.count - 1 {
-                    print("i: [\(i)] inside: \(point) -> outside: \(curve[i+1])")
+//                    print("i: [\(i)] inside: \(point) -> outside: \(curve[i+1])")
                     
                     path.move(to: point)
                     path.addLine(to: curve[i + 1])

@@ -63,12 +63,10 @@ class Model: ObservableObject {
                    out: radius * pageDescription.offsets.out)
         n = pageDescription.n
         
+        self.axes = axes
         if pageDescription.forceEqualAxes {
             let minab = min(axes.a, axes.b)
             self.axes = (a: minab, b: minab)
-        }
-        else {
-            self.axes = axes
         }
 
         self.baseCurve = calculateBaseCurvePlus(for: numPoints, with: self.axes)
@@ -173,7 +171,7 @@ class Model: ObservableObject {
                 "dX: \((normal.dx).format(fspec: "5.3")), " +
                 "dY: \((normal.dy).format(fspec: "5.3"))}")
         
-//        alternatively ...
+//        alternatively 
 //        let i_s = "\((i).format(fspec: "2"))"
 //        let theta_s = "\((theta).format(fspec: "5.3"))"
 //        let x_s = "\((vertex.x).format(fspec:" 7.2"))"

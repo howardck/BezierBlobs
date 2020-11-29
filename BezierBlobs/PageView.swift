@@ -45,7 +45,7 @@ struct PageView: View {
         [
             (numPoints: 16, n: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true),
             (numPoints: 6, n: 3, offsets: (in: -0.65, out: 0.35), false),
-            (numPoints: 18, n: 3, offsets: (in: -0.3, out: 0.3), false),
+            (numPoints: 26, n: 4.0, offsets: (in: -0.2, out: 0.3), false),
             
             // testing out why this goes wonky for points at the 4 'extreme' vertices
              (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
@@ -77,18 +77,17 @@ struct PageView: View {
     var body: some View {
         
         ZStack {
-            Color.init(white: 0.4)
-//            Color.white
-            
+            Color.init(white: 0.6)
+
             // dynamic curves
             animatingBlobCurve(animatingCurve: model.blobCurve)
             
             baseCurveLineSegments(baseCurve: model.baseCurve.vertices)
             
 //            zigZagCurves(zigZagCurves: model.zigZagCurves)
-//            boundingCurves(boundingCurves: model.boundingCurves)
 
             normals(normals: model.calculateNormalsPseudoCurve())
+            boundingCurves(boundingCurves: model.boundingCurves)
             animatingBlobCurveMarkers(animatingCurve: model.blobCurve)
             baseCurveMarkers(baseCurve: model.baseCurve.vertices)
     
@@ -202,19 +201,19 @@ struct PageView: View {
                          bezierType: .normals_lineSegments)
                 .stroke(Color.init(white: 1),
                         style: StrokeStyle(lineWidth: 4.0, dash: [0.5,3]))
-            SuperEllipse(curve: normals,
-                         bezierType: .normals_endMarkers(radius: 7))
-                .fill(Color.init(white: 0.15))
+//            SuperEllipse(curve: normals,
+//                         bezierType: .normals_endMarkers(radius: 7))
+//                .fill(Color.init(white: 0.15))
         }
     }
     
     //MARK:-
     typealias MARKER_DESCRIPTOR = (color: Color, radius: CGFloat)
     
-    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.blue, radius: 17)
-    let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 14 )
+    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.blue, radius: 16)
+    let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 16 )
     let BOUNDING_MARKER : MARKER_DESCRIPTOR = (color: Color.black, radius: 7)
-    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.red, radius: 17)
+    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.red, radius: 16)
 
     //MARK:-
     
@@ -241,16 +240,16 @@ struct PageView: View {
             
             // but we mark vertex 0 specially so it points out the origin
             SuperEllipse(curve: animatingCurve,
-                         bezierType: .singleMarker(index: 0, radius: BLOB_MARKER.radius + 1),
+                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius + 1),
                          smoothed: false)
                 .fill(Color.black)
             SuperEllipse(curve: animatingCurve,
-                         bezierType: .singleMarker(index: 0, radius: BLOB_MARKER.radius),
+                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius),
                          smoothed: false)
                 .fill(ORIGIN_MARKER.color)
             
             SuperEllipse(curve: animatingCurve,
-                         bezierType: .singleMarker(index: 0, radius: BLOB_MARKER.radius - 13),
+                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius - 13),
                          smoothed: false)
                 .fill(Color.white)
         }
@@ -274,23 +273,27 @@ struct PageView: View {
     private func boundingCurves(boundingCurves: BoundingCurves) -> some View {
         Group {
             let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-            let color = Color.black//init(white: 0.15)
+            let color = Color.init(white: 0.15)
             
         // inner curve
             SuperEllipse(curve: boundingCurves.inner,
                          bezierType: .lineSegments)
                 .stroke(color, style: strokeStyle)
+            
             SuperEllipse(curve: boundingCurves.inner,
                          bezierType: .markers(radius: BOUNDING_MARKER.radius))
-                .fill(BOUNDING_MARKER.color)
+                .fill(color)
+//                .fill(BOUNDING_MARKER.color)
             
         // outer curve
             SuperEllipse(curve: boundingCurves.outer,
                          bezierType: .lineSegments)
                 .stroke(color, style: strokeStyle)
+            
             SuperEllipse(curve: boundingCurves.outer,
                          bezierType: .markers(radius: BOUNDING_MARKER.radius))
-                .fill(BOUNDING_MARKER.color)
+                .fill(color)
+//                .fill(BOUNDING_MARKER.color)
         }
     }
     
@@ -323,27 +326,33 @@ struct PageView: View {
     
     //MARK:-
     func textDescription() -> some View {
-        ZStack {
-    
-            Text("numPoints: \(description.numPoints)")
-                .font(.title2)
-                .foregroundColor(Color.init(white: 0.2))
-                .offset(x: 2, y: 2)
-
-            Text("numPoints: \(description.numPoints)")
-                .font(.title2)
-                .foregroundColor(.white)
-            
-//            let w_s = "\((size.width).format(fspec:" 7.2"))"
-//            let h_s = "\((size.height).format(fspec: "7.2"))"
-//
-//            Text("SE size: {W: \(w_s), H: \(h_s)}")
-//                .font(.title2)
-//                .foregroundColor(.yellow)
-       }
-//        .padding()
-//        .background(Color.green)
+        VStack {
+            ZStack {
+                Text("numPoints: \(description.numPoints)")
+                    .font(.title2)
+                    .foregroundColor(.init(white: 0.2))
+                    .offset(x: 2, y: 2)
+                
+                Text("numPoints: \(description.numPoints)")
+                    .font(.title2)
+                    .foregroundColor(.white)
+            }
+            ZStack {
+                Text("n: \(description.n.format(fspec: "3.1"))")
+                    .font(.title2)
+                    .foregroundColor(.init(white: 0.2))
+                    .offset(x: 2, y: 2)
+                
+                Text("n: \(description.n.format(fspec: "3.1"))")
+                    .font(.title2)
+                    .foregroundColor(Color.white)
+            }
+        }
    }
+    
+    func dropShadowedText(name: String, value: String) -> some View {
+        Text("TEST TEST TEST")
+    }
 }
 
 //MARK:-
