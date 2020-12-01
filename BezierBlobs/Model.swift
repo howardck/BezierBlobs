@@ -21,7 +21,7 @@ class Model: ObservableObject {
     // zag configuration starts to the outside
     var animateToZigConfiguration = false
     
-    static let DEBUG_PRINT = false
+    static let DEBUG_PRINT = true
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001
     
     var axes : Axes = (1, 1)
@@ -30,8 +30,6 @@ class Model: ObservableObject {
     //var normals = [CGVector]()
     
     var baseCurve : BaseCurve = (vertices: [CGPoint](), normals: [CGVector]())
-    
-    //var baseCurvePlusNormals = [(CGPoint, CGVector)]()
     
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
@@ -132,7 +130,7 @@ class Model: ObservableObject {
             if sinT == 0 { sinT = Model.VANISHINGLY_SMALL_DOUBLE }
             // else dX goes infinite at theta == 0 & we're forked. kludge?
             
-            let inverseN = 2.0/n // not really an inverse but whatever...
+            let inverseN = 2.0/n // not really named accurately, but whatever...
 
             let x = axes.a * pow(abs(cosT), inverseN) * sign(cosT)
             let y = axes.b * pow(abs(sinT), inverseN) * sign(sinT)
@@ -143,6 +141,11 @@ class Model: ObservableObject {
             // and the orthogonal (ie normal) to it at that point
             let dX = inverseN * pow(abs(sinT), (inverseN - 1)) * cosT
             let dY = inverseN * pow(abs(cosT), (inverseN - 1)) * sinT
+         
+            // 30nov2020 giving up on this for the moment, 'this' being a check that our
+            // normals are ok, since I'm getting 'weird' results for +/- n = 1.05 and less
+            let div = dY/dX
+            print( "[\(i)] \((div).format(fspec: "5.3"))]  ")
             
             // store the normal in unit-vector form. thank you
             // 10th-grade geometry, euclid, and similar triangles!
@@ -151,6 +154,8 @@ class Model: ObservableObject {
             
             if Model.DEBUG_PRINT {
                 debugPrint(i: i, theta: theta, vertex: vertex, normal: normal)
+                
+                print("")
                 i += 1
             }
         }
