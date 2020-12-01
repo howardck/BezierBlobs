@@ -42,11 +42,11 @@ struct PageView: View {
         [
             (numPoints: 16, n: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true),
             (numPoints: 6, n: 3, offsets: (in: -0.65, out: 0.35), false),
-            (numPoints: 26, n: 4.0, offsets: (in: -0.2, out: 0.3), false),
+            (numPoints: 26, n: 4.0, offsets: (in: -0.2, out: 0.35), false),
             
             // testing out why this goes wonky for points at the 4 'extreme' vertices
 //             (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
-            (numPoints: 4, n: 1.05, offsets: (in: -0.6, out: 0.6), false)
+            (numPoints: 24, n: 1.0, offsets: (in: 0.05, out: 0.6), false)
         ]
     
     @ObservedObject var model = Model()

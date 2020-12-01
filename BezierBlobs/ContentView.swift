@@ -26,29 +26,29 @@ struct ContentView: View {
             
             TabView {
                 
-//                PageView(pageType: PageType.circle,
-//                         description: PageView.DESCRIPTIONS[0],
-//                         size: gr.size)
-//                    .tabItem {
-//                        Image(systemName: "record.circle")
-//                        Text("\(PageType.circle.rawValue)")
-//                    }
-//                
-//                PageView(pageType: PageType.sweptWing,
-//                         description: PageView.DESCRIPTIONS[1],
-//                         size: gr.size)
-//                    .tabItem {
-//                        Image(systemName: "2.circle.fill")
-//                        Text("\(PageType.sweptWing.rawValue)" )
-//                }
-//                
-//                PageView(pageType: PageType.superEllipse,
-//                         description: PageView.DESCRIPTIONS[2],
-//                         size: gr.size)
-//                    .tabItem {
-//                        Image(systemName: "3.circle.fill")
-//                        Text("\(PageType.superEllipse.rawValue)" )
-//                }
+                PageView(pageType: PageType.circle,
+                         description: PageView.DESCRIPTIONS[0],
+                         size: gr.size)
+                    .tabItem {
+                        Image(systemName: "record.circle")
+                        Text("\(PageType.circle.rawValue)")
+                    }
+                
+                PageView(pageType: PageType.sweptWing,
+                         description: PageView.DESCRIPTIONS[1],
+                         size: gr.size)
+                    .tabItem {
+                        Image(systemName: "2.circle.fill")
+                        Text("\(PageType.sweptWing.rawValue)" )
+                }
+                
+                PageView(pageType: PageType.superEllipse,
+                         description: PageView.DESCRIPTIONS[2],
+                         size: gr.size)
+                    .tabItem {
+                        Image(systemName: "3.circle.fill")
+                        Text("\(PageType.superEllipse.rawValue)" )
+                }
 
                 PageView(pageType: PageType.mutantMoth,
                          description: PageView.DESCRIPTIONS[3],
