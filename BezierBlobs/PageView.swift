@@ -11,7 +11,7 @@ enum PageType : String {
     case circle = "CIRCLE"
     case sweptWing = "SWEPT WING"
     case superEllipse = "SUPER ELLIPSE"
-    case mutantMoth = "MUTANT MOTH"
+    case mutantMoth = "RORSCHACH"
 }
 
 typealias PageDescription = (numPoints: Int,
@@ -19,37 +19,34 @@ typealias PageDescription = (numPoints: Int,
                              offsets: (in: CGFloat, out: CGFloat),
                              forceEqualAxes: Bool)
 
+struct GradientBackground : View {
+    
+    let redGradient = LinearGradient(gradient: Gradient(
+                                        colors: [Color.init(white: 0.7), Color.init(white: 0.5)]),
+                                     startPoint: UnitPoint(x: 0, y: 0),
+                                     endPoint: UnitPoint(x: 1, y: 1))
+    var body : some View {
+        
+        RoundedRectangle(cornerRadius: 6).fill(redGradient)
+    }
+}
+
 struct PageView: View {
     
     var pageType: PageType
     
-    // OFFSETS HARD-WIRED FOR IPAD FOR THE MOMENT ...
-    // ==================================
-    
-    static let PAGE_INFO : [(PageType, PageDescription)] =
-    [
-        (PageType.circle,
-                (numPoints: 16, n: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true)),
-        (PageType.sweptWing,
-                (numPoints: 6, n: 3, offsets: (in: -0.65, out: 0.35), false)),
-        (PageType.superEllipse,
-                (numPoints: 18, n: 3, offsets: (in: -0.3, out: 0.3), false)),
-        // testing out why this goes wonky for points at the 4 'extreme' vertices
-        (PageType.mutantMoth,
-         (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false))
-//        (PageType.mutantMoth,
-//                (numPoints: 4, n: 1.0, offsets: (in: -0.4, out: 0.6), false))
-    ]
-    
-    static let DESCRIPTIONS : [PageDescription] =
+    // OFFSETS ARE HARD-WIRED FOR IPAD FOR THE MOMENT ...
+    // ===============================================
+
+     static let DESCRIPTIONS : [PageDescription] =
         [
             (numPoints: 16, n: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true),
             (numPoints: 6, n: 3, offsets: (in: -0.65, out: 0.35), false),
             (numPoints: 26, n: 4.0, offsets: (in: -0.2, out: 0.3), false),
             
             // testing out why this goes wonky for points at the 4 'extreme' vertices
-             (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
-//            (numPoints: 4, n: 1.0, offsets: (in: -0.4, out: 0.6), false)
+//             (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
+            (numPoints: 4, n: 1.05, offsets: (in: -0.6, out: 0.6), false)
         ]
     
     @ObservedObject var model = Model()
@@ -77,7 +74,9 @@ struct PageView: View {
     var body: some View {
         
         ZStack {
-            Color.init(white: 0.6)
+            
+            //Color.init(white: 0.6)
+            GradientBackground()
 
             // dynamic curves
             animatingBlobCurve(animatingCurve: model.blobCurve)
@@ -87,7 +86,9 @@ struct PageView: View {
 //            zigZagCurves(zigZagCurves: model.zigZagCurves)
 
             normals(normals: model.calculateNormalsPseudoCurve())
-            boundingCurves(boundingCurves: model.boundingCurves)
+            
+//            boundingCurves(boundingCurves: model.boundingCurves)
+            
             animatingBlobCurveMarkers(animatingCurve: model.blobCurve)
             baseCurveMarkers(baseCurve: model.baseCurve.vertices)
     
@@ -108,34 +109,6 @@ struct PageView: View {
         .overlay(textDescription())
 
         
-    }
-    
-    //MARK:-
-    func sampleWidget() -> some View {
-        HStack {
-            
-            Spacer()
-            VStack {
-                
-                Spacer()
-                VStack {
-                    Text("I'm a widget")
-                        .frame(width: 300, height: 30, alignment: .leading)
-                        .padding(6)
-                        .background(Color.white)
-                        .padding(6)
-                    Text("me too!")
-                        .frame(width: 300, height: 30, alignment: .leading)
-                        .padding(6)
-                        .background(Color.white)
-                        .padding(6)
-                }
-                .border(Color.init(white: 0.25), width: 2)
-                .background(Color.init(white: 0.85))
-                .padding(40)
-            }
-        }
-//        .border(Color.red, width: 3)
     }
     
     //MARK:-
@@ -201,9 +174,9 @@ struct PageView: View {
                          bezierType: .normals_lineSegments)
                 .stroke(Color.init(white: 1),
                         style: StrokeStyle(lineWidth: 4.0, dash: [0.5,3]))
-//            SuperEllipse(curve: normals,
-//                         bezierType: .normals_endMarkers(radius: 7))
-//                .fill(Color.init(white: 0.15))
+            SuperEllipse(curve: normals,
+                         bezierType: .normals_endMarkers(radius: 7))
+                .fill(Color.init(white: 0.15))
         }
     }
     
@@ -324,7 +297,36 @@ struct PageView: View {
         }
     }
     
-    //MARK:-
+    
+    //MARK:- OVERLAYS
+    
+    func sampleWidget() -> some View {
+        HStack {
+            
+            Spacer()
+            VStack {
+                
+                Spacer()
+                VStack {
+                    Text("I'm a widget")
+                        .frame(width: 300, height: 30, alignment: .leading)
+                        .padding(6)
+                        .background(Color.white)
+                        .padding(6)
+                    Text("me too!")
+                        .frame(width: 300, height: 30, alignment: .leading)
+                        .padding(6)
+                        .background(Color.white)
+                        .padding(6)
+                }
+                .border(Color.init(white: 0.25), width: 2)
+                .background(Color.init(white: 0.85))
+                .padding(40)
+            }
+        }
+//        .border(Color.red, width: 3)
+    }
+    
     func textDescription() -> some View {
         VStack {
             ZStack {
