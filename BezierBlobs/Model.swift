@@ -141,21 +141,19 @@ class Model: ObservableObject {
             // and the orthogonal (ie normal) to it at that point
             let dX = axes.b * inverseN * pow(abs(sinT), (inverseN - 1)) * cosT
             let dY = axes.a * inverseN * pow(abs(cosT), (inverseN - 1)) * sinT
-         
-            // 30nov2020 giving up on this for the moment, 'this' being a check that our
-            // normals are ok, since I'm getting 'weird' results for +/- n = 1.05 and less
-            let div = dY/dX
-            print( "[\(i)] \((div).format(fspec: "5.3"))]  ")
             
             // store the normal in unit-vector form. thank you
-            // 10th-grade geometry, euclid, and similar triangles!
-            let normal = CGVector(dx: dX/hypot(dX, dY), dy: dY/hypot(dX, dY))
+            // 10th-grade geometry, euclid, and similar triangles
+            let hypotenuse = hypot(dX, dY)
+            let normal = CGVector(dx: dX/hypotenuse, dy: dY/hypotenuse)
             baseCurve.normals += [normal]
             
             if Model.DEBUG_PRINT {
                 debugPrint(i: i, theta: theta, vertex: vertex, normal: normal)
                 
-                print("")
+                let div = dY/dX
+                //print( "dY/dX: [\((div).format(fspec: "5.3"))]  ")
+                //print("")
                 i += 1
             }
         }
