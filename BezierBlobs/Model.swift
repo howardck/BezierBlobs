@@ -139,8 +139,8 @@ class Model: ObservableObject {
             baseCurve.vertices += [vertex]
             
             // and the orthogonal (ie normal) to it at that point
-            let dX = inverseN * pow(abs(sinT), (inverseN - 1)) * cosT
-            let dY = inverseN * pow(abs(cosT), (inverseN - 1)) * sinT
+            let dX = axes.b * inverseN * pow(abs(sinT), (inverseN - 1)) * cosT
+            let dY = axes.a * inverseN * pow(abs(cosT), (inverseN - 1)) * sinT
          
             // 30nov2020 giving up on this for the moment, 'this' being a check that our
             // normals are ok, since I'm getting 'weird' results for +/- n = 1.05 and less

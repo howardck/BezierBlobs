@@ -21,13 +21,13 @@ typealias PageDescription = (numPoints: Int,
 
 struct GradientBackground : View {
     
-    let redGradient = LinearGradient(gradient: Gradient(
-                                        colors: [Color.init(white: 0.7), Color.init(white: 0.5)]),
-                                     startPoint: UnitPoint(x: 0, y: 0),
-                                     endPoint: UnitPoint(x: 1, y: 1))
+    let gradient = LinearGradient(gradient: Gradient(
+                                    colors: [Color.init(white: 0.7), Color.init(white: 0.4)]),
+                                  startPoint: UnitPoint(x: 0, y: 0),
+                                  endPoint: UnitPoint(x: 1, y: 1))
     var body : some View {
         
-        RoundedRectangle(cornerRadius: 6).fill(redGradient)
+        RoundedRectangle(cornerRadius: 6).fill(gradient)
     }
 }
 
@@ -46,7 +46,7 @@ struct PageView: View {
             
             // testing out why this goes wonky for points at the 4 'extreme' vertices
 //             (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
-            (numPoints: 24, n: 1.0, offsets: (in: 0.05, out: 0.6), false)
+            (numPoints: 24, n: 1.0, offsets: (in: 0.1, out: 0.5), false)
         ]
     
     @ObservedObject var model = Model()
@@ -91,6 +91,7 @@ struct PageView: View {
             
             animatingBlobCurveMarkers(animatingCurve: model.blobCurve)
             baseCurveMarkers(baseCurve: model.baseCurve.vertices)
+            animatingBlobCurveOriginMarker(animatingCurve: model.blobCurve)
     
         }
         .onAppear() {
@@ -186,8 +187,30 @@ struct PageView: View {
     let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.blue, radius: 16)
     let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 16 )
     let BOUNDING_MARKER : MARKER_DESCRIPTOR = (color: Color.black, radius: 7)
-    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.red, radius: 16)
+    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.green, radius: 16)
 
+    //MARK:-
+    
+    private func animatingBlobCurveOriginMarker(animatingCurve: [CGPoint]) -> some View {
+        ZStack {
+
+            // we mark vertex 0 specially so it points out the origin
+            SuperEllipse(curve: animatingCurve,
+                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius + 1),
+                         smoothed: false)
+                .fill(Color.black)
+            SuperEllipse(curve: animatingCurve,
+                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius),
+                         smoothed: false)
+                .fill(ORIGIN_MARKER.color)
+            
+            SuperEllipse(curve: animatingCurve,
+                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius - 13),
+                         smoothed: false)
+                .fill(Color.white)
+        }
+    }
+    
     //MARK:-
     
     private func animatingBlobCurveMarkers(animatingCurve: [CGPoint]) -> some View {
@@ -211,20 +234,6 @@ struct PageView: View {
             
             // -----------------------------------------------------------
             
-            // but we mark vertex 0 specially so it points out the origin
-            SuperEllipse(curve: animatingCurve,
-                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius + 1),
-                         smoothed: false)
-                .fill(Color.black)
-            SuperEllipse(curve: animatingCurve,
-                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius),
-                         smoothed: false)
-                .fill(ORIGIN_MARKER.color)
-            
-            SuperEllipse(curve: animatingCurve,
-                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius - 13),
-                         smoothed: false)
-                .fill(Color.white)
         }
     }
     
