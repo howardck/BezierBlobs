@@ -7,18 +7,6 @@
 
 import SwiftUI
 
-enum PageType : String {
-    case circle = "CIRCLE"
-    case sweptWing = "SWEPT WING"
-    case superEllipse = "SUPER ELLIPSE"
-    case mutantMoth = "RORSCHACH"
-}
-
-typealias PageDescription = (numPoints: Int,
-                             n: Double,
-                             offsets: (in: CGFloat, out: CGFloat),
-                             forceEqualAxes: Bool)
-
 struct GradientBackground : View {
     
     let gradient = LinearGradient(gradient: Gradient(
@@ -31,21 +19,27 @@ struct GradientBackground : View {
     }
 }
 
+enum PageType : String {
+    case circle = "CIRCLE"
+    case sweptWing = "SWEPT WING"
+    case superEllipse = "SUPER ELLIPSE"
+    case mutant = "MUTANT"
+}
+
+typealias PageDescription = (numPoints: Int,
+                             n: Double,
+                             offsets: (in: CGFloat, out: CGFloat),
+                             forceEqualAxes: Bool)
+
 struct PageView: View {
     
     var pageType: PageType
-    
-    // OFFSETS ARE HARD-WIRED FOR IPAD FOR THE MOMENT ...
-    // ===============================================
 
      static let DESCRIPTIONS : [PageDescription] =
         [
-            (numPoints: 16, n: 2, offsets: (in: -0.4, out: 0.35), forceEqualAxes: true),
-            (numPoints: 6, n: 3, offsets: (in: -0.65, out: 0.35), false),
-            (numPoints: 26, n: 4.0, offsets: (in: -0.2, out: 0.35), false),
-            
-            // testing out why this goes wonky for points at the 4 'extreme' vertices
-//             (numPoints: 24, n: 0.9, offsets: (in: 0.1, out: 0.75), false)
+            (numPoints: 16, n: 2, offsets: (in: -0.2, out: 0.35), forceEqualAxes: true),
+            (numPoints: 22, n: 4.0, offsets: (in: -0.2, out: 0.35), false),
+            (numPoints: 6, n: 3, offsets: (in: -0.55, out: 0.35), false),
             (numPoints: 24, n: 1.0, offsets: (in: 0.1, out: 0.5), false)
         ]
     
@@ -55,16 +49,13 @@ struct PageView: View {
     let size: CGSize
     
     init(pageType: PageType, description: PageDescription, size: CGSize) {
-        
-        print("PageView.init()")
-        
+
         self.pageType = pageType
         self.description = description
         
         self.size = CGSize(width: size.width * PlatformSpecifics.IPAD.w,
                            height: size.height * PlatformSpecifics.IPAD.h)
         
-        // invoke once per each individual PageView instantiation
         model.calculateSuperEllipseCurves(for: pageType,
                                           pageDescription: description,
                                           axes: (a: Double(self.size.width/2),
@@ -106,10 +97,9 @@ struct PageView: View {
                 model.animateToNextZigZagPosition()
             }
         }
-        .overlay(sampleWidget())
+//        .overlay(sampleWidget())
+        .overlay(SettingsGearButton())
         .overlay(textDescription())
-
-        
     }
     
     //MARK:-
@@ -146,13 +136,6 @@ struct PageView: View {
                              smoothed: false)
                     .stroke(Color.init(white: 0.3), lineWidth: 1.0)
             }
-//            else if pageId == 4 {
-//                SuperEllipse(curve: animatingCurve,
-//                             bezierType: .singleMarker(index: 0, radius: 20),
-//                             smoothed: false)
-//                    .fill(Color.blue)
-//
-//            }
             else {
                 SuperEllipse(curve: animatingCurve,
                              bezierType: .lineSegments,
@@ -187,7 +170,7 @@ struct PageView: View {
     let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.blue, radius: 16)
     let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 16 )
     let BOUNDING_MARKER : MARKER_DESCRIPTOR = (color: Color.black, radius: 7)
-    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.green, radius: 16)
+    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.red, radius: 16)
 
     //MARK:-
     

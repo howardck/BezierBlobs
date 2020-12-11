@@ -151,7 +151,7 @@ class Model: ObservableObject {
             if Model.DEBUG_PRINT {
                 debugPrint(i: i, theta: theta, vertex: vertex, normal: normal)
                 
-                let div = dY/dX
+//                let div = dY/dX
                 //print( "dY/dX: [\((div).format(fspec: "5.3"))]  ")
                 //print("")
                 i += 1

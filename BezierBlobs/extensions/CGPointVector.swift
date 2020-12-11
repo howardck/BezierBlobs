@@ -5,8 +5,8 @@
 //  Created by Howard Katz on 2020-06-20.
 //  Copyright © 2020 Howard Katz. All rights reserved.
 
-//  originally AnimatableCGPointVector
-//  from https://gist.github.com/mecid
+//  started life as AnimatableCGPointVector
+//  https://gist.github.com/mecid
 
 import SwiftUI
 

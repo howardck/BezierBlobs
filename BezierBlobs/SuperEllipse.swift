@@ -50,9 +50,7 @@ struct SuperEllipse : Shape {
                     path.addMarker(of: radius)
                 }
             case .normals_lineSegments :
-                if i % 2 == 0 && i < curve.count - 1 {
-//                    print("i: [\(i)] inside: \(point) -> outside: \(curve[i+1])")
-                    
+                if i < curve.count && i % 2 == 0 {
                     path.move(to: point)
                     path.addLine(to: curve[i + 1])
                 }

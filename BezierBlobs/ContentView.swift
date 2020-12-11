@@ -34,6 +34,14 @@ struct ContentView: View {
                         Text("\(PageType.circle.rawValue)")
                     }
                 
+                PageView(pageType: PageType.superEllipse,
+                         description: PageView.DESCRIPTIONS[1],
+                         size: gr.size)
+                    .tabItem {
+                        Image(systemName: "3.circle.fill")
+                        Text("\(PageType.superEllipse.rawValue)" )
+                    }
+                
                 PageView(pageType: PageType.sweptWing,
                          description: PageView.DESCRIPTIONS[1],
                          size: gr.size)
@@ -41,29 +49,28 @@ struct ContentView: View {
                         Image(systemName: "2.circle.fill")
                         Text("\(PageType.sweptWing.rawValue)" )
                 }
-                
-                PageView(pageType: PageType.superEllipse,
-                         description: PageView.DESCRIPTIONS[2],
-                         size: gr.size)
-                    .tabItem {
-                        Image(systemName: "3.circle.fill")
-                        Text("\(PageType.superEllipse.rawValue)" )
-                }
 
-                PageView(pageType: PageType.mutantMoth,
+                PageView(pageType: PageType.mutant,
                          description: PageView.DESCRIPTIONS[3],
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "4.circle.fill");
-                        Text("\(PageType.mutantMoth.rawValue)" )
+                        Text("\(PageType.mutant.rawValue)" )
                     }
            }
+        
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        PageView(pageType: PageType.mutant,
+                 description: PageView.DESCRIPTIONS[3],
+                 size: CGSize(width: 800, height: 800))
+            .tabItem {
+                Image(systemName: "4.circle.fill");
+                Text("\(PageType.mutant.rawValue)" )
+            }
     }
 }
