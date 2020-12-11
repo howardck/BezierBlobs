@@ -97,8 +97,24 @@ struct PageView: View {
                 model.animateToNextZigZagPosition()
             }
         }
-//        .overlay(sampleWidget())
-        .overlay(SettingsGearButton())
+        // put the GearButton in the lower-right corner
+        // (is there a 'cleaner' way of positioning this button other
+        // than building stack views in the overlay() ???)
+        
+        .overlay(
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    GearButton(edgeColor: .orange, faceColor: .blue)
+                        .scaleEffect(1.2)
+                        .padding(60)
+                        .onTapGesture {
+                            print("GEAR BUTTON TAPPED!")
+                        }
+                }
+            }
+        )
         .overlay(textDescription())
     }
     

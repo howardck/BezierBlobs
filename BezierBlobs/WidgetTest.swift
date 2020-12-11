@@ -6,53 +6,57 @@
 //
 
 import SwiftUI
-struct SettingsGearButton : View {
+
+extension View {
+    func measure() -> some View {
+        overlay(GeometryReader { gr in
+            Text("\(Int(gr.size.width))")
+        }, alignment: .topTrailing)
+    }
+}
+
+extension View {
+    func centerPoint() -> some View {
+        overlay(GeometryReader { reader in
+            Color.red.frame(width: 10, height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        })
+    }
+}
+
+struct GearLayer: View {
+    var color: Color
+    var size: CGSize
+    var body: some View {
+        Text(Image(systemName: "gearshape.fill"))
+            .font(.largeTitle).fontWeight(.black)
+            .foregroundColor(color)
+            .frame(width: size.width, height: size.height)
+    }
+}
+
+struct GearButton : View {
     
-    struct GearLayer: View {
-        var color: Color
-        var size: CGSize
-        var body: some View {
-            Text(Image(systemName: "gearshape.fill"))
-                .font(.largeTitle).fontWeight(.black)
-                .foregroundColor(color)
-                .frame(width: size.width, height: size.height)
+    var edgeColor: Color
+    var faceColor: Color
+    let s = CGSize(width: 50, height: 50)
+    
+    var body : some View {
+        ZStack {
+            GearLayer(color: edgeColor, size: s)
+                .offset(x: -3, y : -3)
+            GearLayer(color: Color.init(white: 0.25), size: s)
+                .scaleEffect(0.9)
+            GearLayer(color: Color.init(white: 0.25), size: s)
+                .scaleEffect(1.05)
+            GearLayer(color: faceColor, size: s)
         }
+//        .frame(width: 200, height: 100)
+//        .scaleEffect(1.8)
+//        .background(Color.green)
     }
-        
-    struct TestView: View {
-        
-        var edgeColor: Color
-        var faceColor: Color
+}
 
-        var body : some View {
-            ZStack {
-
-                GearLayer(color: edgeColor, size: CGSize(width: 80, height: 80))
-                    .offset(x: -3, y : -3)
-//
-                Text(Image(systemName: "gearshape.fill"))
-                    .font(.largeTitle).fontWeight(.black)
-                    .foregroundColor(Color.init(white: 0.25))
-                    .frame(width: 80, height: 80)
-                    .scaleEffect(0.9)
-                
-                Text(Image(systemName: "gearshape.fill"))
-                    .font(.largeTitle).fontWeight(.black)
-                    .foregroundColor(Color.init(white: 0.25))
-                    .frame(width: 80, height: 80)
-                    .scaleEffect(1.05)
-                
-                Text(Image(systemName: "gearshape.fill"))
-                    .font(.largeTitle).fontWeight(.black)
-                    .foregroundColor(faceColor)
-                    .frame(width: 80, height: 80)
-            }
-            .frame(width: 200, height: 200)
-            //.border(Color.red)
-            .scaleEffect(2.0)
-//            .border(Color.white)
-        }
-    }
+struct GearButtonTest : View {
     
     var body : some View {
         VStack {
@@ -60,11 +64,12 @@ struct SettingsGearButton : View {
             HStack {
                 Spacer()
                 ZStack {
-                    SettingsGearButton.TestView(edgeColor: .orange,
-                                                faceColor: .blue)
+                    GearButton(edgeColor: .orange, faceColor: .blue)
+                    GearButton(edgeColor: .yellow, faceColor: .blue)
+                    GearButton(edgeColor: .red, faceColor: .blue)
                 }
-                .padding(70)
-                //.border(Color.green)
+                .padding(12)
+                .background(Color.red)
             }
         }
     }
@@ -102,10 +107,10 @@ struct CurveSettingsView_Previews: PreviewProvider {
         ZStack {
             Color.init(white: 0.4)
             VStack {
-                SettingsGearButton.TestView(edgeColor: .black, faceColor: .white)
-                SettingsGearButton.TestView(edgeColor: .orange, faceColor: .blue)
-                SettingsGearButton.TestView(edgeColor: .yellow, faceColor: .blue)
-                SettingsGearButton.TestView(edgeColor: .red, faceColor: .blue)
+                GearButton(edgeColor: .black, faceColor: .white)
+                GearButton(edgeColor: .orange, faceColor: .blue)
+                GearButton(edgeColor: .yellow, faceColor: .blue)
+                GearButton(edgeColor: .red, faceColor: .blue)
             }
         }
     }
