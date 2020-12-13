@@ -27,38 +27,37 @@ struct ContentView: View {
             TabView {
                 
                 PageView(pageType: PageType.circle,
-                         description: PageView.DESCRIPTIONS[0],
+                         description: PageView.descriptions[0],
                          size: gr.size)
                     .tabItem {
-                        Image(systemName: "record.circle")
+                        Image(systemName: "1.circle.fill")
                         Text("\(PageType.circle.rawValue)")
                     }
                 
                 PageView(pageType: PageType.superEllipse,
-                         description: PageView.DESCRIPTIONS[1],
+                         description: PageView.descriptions[1],
                          size: gr.size)
                     .tabItem {
-                        Image(systemName: "3.circle.fill")
+                        Image(systemName: "2.circle.fill")
                         Text("\(PageType.superEllipse.rawValue)" )
                     }
                 
                 PageView(pageType: PageType.sweptWing,
-                         description: PageView.DESCRIPTIONS[1],
+                         description: PageView.descriptions[2],
                          size: gr.size)
                     .tabItem {
-                        Image(systemName: "2.circle.fill")
+                        Image(systemName: "3.circle.fill")
                         Text("\(PageType.sweptWing.rawValue)" )
                 }
 
                 PageView(pageType: PageType.mutant,
-                         description: PageView.DESCRIPTIONS[3],
+                         description: PageView.descriptions[3],
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "4.circle.fill");
                         Text("\(PageType.mutant.rawValue)" )
                     }
-           }
-        
+            }
         }
     }
 }
@@ -66,7 +65,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         PageView(pageType: PageType.mutant,
-                 description: PageView.DESCRIPTIONS[3],
+                 description: PageView.descriptions[3],
                  size: CGSize(width: 800, height: 800))
             .tabItem {
                 Image(systemName: "4.circle.fill");

@@ -7,18 +7,6 @@
 
 import SwiftUI
 
-struct GradientBackground : View {
-    
-    let gradient = LinearGradient(gradient: Gradient(
-                                    colors: [Color.init(white: 0.7), Color.init(white: 0.4)]),
-                                  startPoint: UnitPoint(x: 0, y: 0),
-                                  endPoint: UnitPoint(x: 1, y: 1))
-    var body : some View {
-        
-        RoundedRectangle(cornerRadius: 6).fill(gradient)
-    }
-}
-
 enum PageType : String {
     case circle = "CIRCLE"
     case sweptWing = "SWEPT WING"
@@ -33,9 +21,11 @@ typealias PageDescription = (numPoints: Int,
 
 struct PageView: View {
     
+    @State var settingsDialogIsVisible = false
+    
     var pageType: PageType
 
-     static let DESCRIPTIONS : [PageDescription] =
+     static let descriptions : [PageDescription] =
         [
             (numPoints: 16, n: 2, offsets: (in: -0.2, out: 0.35), forceEqualAxes: true),
             (numPoints: 22, n: 4.0, offsets: (in: -0.2, out: 0.35), false),
@@ -69,22 +59,29 @@ struct PageView: View {
             //Color.init(white: 0.6)
             GradientBackground()
 
-            // dynamic curves
-            animatingBlobCurve(animatingCurve: model.blobCurve)
+    // ANIMATED
+            blobCurve_lineSegs(animatingCurve: model.blobCurve)
             
-            baseCurveLineSegments(baseCurve: model.baseCurve.vertices)
+            baseCurve_lineSegs(curve: model.baseCurve.vertices)
             
-//            zigZagCurves(zigZagCurves: model.zigZagCurves)
-
-            normals(normals: model.calculateNormalsPseudoCurve())
+            zigZagCurves_lineSegs(curves: model.zigZagCurves)
             
-//            boundingCurves(boundingCurves: model.boundingCurves)
+            boundingCurves_lineSegs(curves: model.boundingCurves)
             
-            animatingBlobCurveMarkers(animatingCurve: model.blobCurve)
-            baseCurveMarkers(baseCurve: model.baseCurve.vertices)
-            animatingBlobCurveOriginMarker(animatingCurve: model.blobCurve)
-    
+            zigZagCurves_markers(curves: model.zigZagCurves)
+            
+            normals_lineSegs(pseudoCurve: model.calculateNormalsPseudoCurve())
+            
+    // ANIMATED
+            blobCurve_markers(animatingCurve: model.blobCurve)
+            
+            baseCurve_markers(curve: model.baseCurve.vertices)
+            
+    // ANIMATED
+            blobCurvePointZero_marker(animatingCurve: model.blobCurve)
+            
         }
+        .centerPoint()
         .onAppear() {
             print("PageView.onAppear()...")
             
@@ -92,26 +89,45 @@ struct PageView: View {
         }
         .onTapGesture(count: 1) {
             print("PageView.onTapGesture() ...")
+            
+            settingsDialogIsVisible.toggle()
+            
             withAnimation(Animation.easeInOut(duration: 1.5)) {
 
                 model.animateToNextZigZagPosition()
             }
         }
-        // put the GearButton in the lower-right corner
-        // (is there a 'cleaner' way of positioning this button other
-        // than building stack views in the overlay() ???)
         
+        // put GearButton in lower-right corner. cleaner way ????
         .overlay(
             VStack {
                 Spacer()
                 HStack {
                     Spacer()
-                    GearButton(edgeColor: .orange, faceColor: .blue)
-                        .scaleEffect(1.2)
-                        .padding(60)
-                        .onTapGesture {
-                            print("GEAR BUTTON TAPPED!")
-                        }
+                    
+                    if settingsDialogIsVisible {
+                        Rectangle()
+                            .frame(width: 100, height: 200)
+                            .foregroundColor(Color.white)
+                            .border(Color.red)
+                            .padding(60)
+                            .transition(.opacity)
+                            .animation(.easeInOut(duration: 2.0))
+                            .onTapGesture {
+                                
+                                settingsDialogIsVisible.toggle()
+                            }
+                    }
+                    else {
+                        GearButton(edgeColor: .orange, faceColor: .blue)
+                            .scaleEffect(1.25)
+                            .padding(60)
+                            .onTapGesture {
+                                print("GEAR BUTTON TAPPED!")
+                                
+                                settingsDialogIsVisible.toggle()
+                            }
+                    }
                 }
             }
         )
@@ -119,6 +135,18 @@ struct PageView: View {
     }
     
     //MARK:-
+    
+    struct GradientBackground : View {
+        
+        let gradient = LinearGradient(gradient: Gradient(
+                                        colors: [Color.init(white: 0.7), Color.init(white: 0.4)]),
+                                      startPoint: UnitPoint(x: 0, y: 0),
+                                      endPoint: UnitPoint(x: 1, y: 1))
+        var body : some View {
+            
+            RoundedRectangle(cornerRadius: 6).fill(gradient)
+        }
+    }
 
     let redGradient = LinearGradient(gradient: Gradient(colors: [Color.red, Color.yellow]),
                                      startPoint: .top, endPoint: .bottom)
@@ -127,73 +155,41 @@ struct PageView: View {
                                       startPoint: .top, endPoint: .bottom)
     
     //MARK:-
-    private func animatingBlobCurve(animatingCurve: [CGPoint]) -> some View {
-        ZStack {
-
-            if self.pageType == .circle {
-                SuperEllipse(curve: animatingCurve,
-                             bezierType: .lineSegments,
-                             smoothed: true)
-                    .fill(redGradient)
-            }
-            else if pageType == .sweptWing {
-                SuperEllipse(curve: animatingCurve,
-                             bezierType: .lineSegments,
-                             smoothed: true)
-                    .fill(blueGradient)
-                
-                SuperEllipse(curve: animatingCurve,
-                             bezierType: .lineSegments,
-                             smoothed: false)
-                    .fill(redGradient)
-                
-                SuperEllipse(curve: animatingCurve,
-                             bezierType: .lineSegments,
-                             smoothed: false)
-                    .stroke(Color.init(white: 0.3), lineWidth: 1.0)
-            }
-            else {
-                SuperEllipse(curve: animatingCurve,
-                             bezierType: .lineSegments,
-                             smoothed: true)
-                    .stroke(Color.init(white: 0.5), lineWidth: 1)
-                
-                SuperEllipse(curve: animatingCurve,
-                             bezierType: .lineSegments,
-                             smoothed: true)
-                    .fill(redGradient)
-            }
-        }
+    private func blobCurve_lineSegs(animatingCurve: [CGPoint]) -> some View {
+        
+        SuperEllipse(curve: animatingCurve,
+                     bezierType: .lineSegments,
+                     smoothed: true)
+            .fill(redGradient)
     }
     
-    
-    private func normals(normals: [CGPoint]) -> some View {
+    private func normals_lineSegs(pseudoCurve: [CGPoint]) -> some View {
         
         ZStack {
-            SuperEllipse(curve: normals,
+            SuperEllipse(curve: pseudoCurve,
                          bezierType: .normals_lineSegments)
                 .stroke(Color.init(white: 1),
-                        style: StrokeStyle(lineWidth: 4.0, dash: [0.5,3]))
-            SuperEllipse(curve: normals,
-                         bezierType: .normals_endMarkers(radius: 7))
-                .fill(Color.init(white: 0.15))
+                        style: StrokeStyle(lineWidth: 3.0, dash: [0.75,3]))
+            
+            SuperEllipse(curve: pseudoCurve,
+                         bezierType: .normals_endMarkers(radius: 4))
+                .fill(Color.black)//Color.init(white: 0.15))
         }
     }
     
     //MARK:-
     typealias MARKER_DESCRIPTOR = (color: Color, radius: CGFloat)
     
-    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.blue, radius: 16)
+    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.green, radius: 16)
     let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 16 )
     let BOUNDING_MARKER : MARKER_DESCRIPTOR = (color: Color.black, radius: 7)
-    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.red, radius: 16)
+    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.yellow, radius: 16)
 
     //MARK:-
     
-    private func animatingBlobCurveOriginMarker(animatingCurve: [CGPoint]) -> some View {
+    private func blobCurvePointZero_marker(animatingCurve: [CGPoint]) -> some View {
         ZStack {
 
-            // we mark vertex 0 specially so it points out the origin
             SuperEllipse(curve: animatingCurve,
                          bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius + 1),
                          smoothed: false)
@@ -212,7 +208,7 @@ struct PageView: View {
     
     //MARK:-
     
-    private func animatingBlobCurveMarkers(animatingCurve: [CGPoint]) -> some View {
+    private func blobCurve_markers(animatingCurve: [CGPoint]) -> some View {
         ZStack {
 
             // every animating blob vertex gets this style of marker
@@ -236,59 +232,72 @@ struct PageView: View {
         }
     }
     
-    private func zigZagCurves(zigZagCurves: ZigZagCurves) -> some View {
-        Group {
+    private func zigZagCurves_markers(curves: ZigZagCurves) -> some View {
+        
+        ZStack {
+            
+            SuperEllipse(curve: curves.zig,
+                         bezierType: .markers(radius: BASECURVE_MARKER.radius))
+                .fill(Color.blue)
+            
+            SuperEllipse(curve: curves.zag,
+                         bezierType: .markers(radius: BASECURVE_MARKER.radius))
+                .fill(Color.red)
+        }
+    }
+    
+    private func zigZagCurves_lineSegs(curves: ZigZagCurves) -> some View {
+        ZStack {
             let lineStyle = StrokeStyle(lineWidth: 2.0, dash: [4,2])
             
         // zig curve
-            SuperEllipse(curve: zigZagCurves.zig,
+            SuperEllipse(curve: curves.zig,
                          bezierType: .lineSegments)
                 .stroke(Color.blue, style: lineStyle)
         // zag curve
-            SuperEllipse(curve: zigZagCurves.zag,
+            SuperEllipse(curve: curves.zag,
                          bezierType: .lineSegments)
                 .stroke(Color.red, style: lineStyle)
         }
     }
     
-    private func boundingCurves(boundingCurves: BoundingCurves) -> some View {
+    private func boundingCurves_lineSegs(curves: BoundingCurves) -> some View {
         Group {
             let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
             let color = Color.init(white: 0.15)
             
         // inner curve
-            SuperEllipse(curve: boundingCurves.inner,
+            SuperEllipse(curve: curves.inner,
                          bezierType: .lineSegments)
                 .stroke(color, style: strokeStyle)
             
-            SuperEllipse(curve: boundingCurves.inner,
+            SuperEllipse(curve: curves.inner,
                          bezierType: .markers(radius: BOUNDING_MARKER.radius))
                 .fill(color)
 //                .fill(BOUNDING_MARKER.color)
             
         // outer curve
-            SuperEllipse(curve: boundingCurves.outer,
+            SuperEllipse(curve: curves.outer,
                          bezierType: .lineSegments)
                 .stroke(color, style: strokeStyle)
             
-            SuperEllipse(curve: boundingCurves.outer,
+            SuperEllipse(curve: curves.outer,
                          bezierType: .markers(radius: BOUNDING_MARKER.radius))
                 .fill(color)
 //                .fill(BOUNDING_MARKER.color)
         }
     }
     
-    private func baseCurveLineSegments(baseCurve: [CGPoint]) -> some View {
-        Group {
-            let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-            
-            SuperEllipse(curve: model.baseCurve.vertices,
-                         bezierType: .lineSegments)
-                .stroke(Color.white, style: strokeStyle)
-        }
+    let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+
+    private func baseCurve_lineSegs(curve: [CGPoint]) -> some View {
+
+        SuperEllipse(curve: model.baseCurve.vertices,
+                     bezierType: .lineSegments)
+            .stroke(Color.white, style: strokeStyle)
     }
     
-    private func baseCurveMarkers(baseCurve: [CGPoint]) -> some View {
+    private func baseCurve_markers(curve: [CGPoint]) -> some View {
         ZStack {
 
             SuperEllipse(curve: model.baseCurve.vertices,

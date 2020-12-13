@@ -11,7 +11,7 @@ extension View {
     func measure() -> some View {
         overlay(GeometryReader { gr in
             Text("\(Int(gr.size.width))")
-        }, alignment: .topTrailing)
+        }, alignment: .bottomTrailing)
     }
 }
 
@@ -19,6 +19,12 @@ extension View {
     func centerPoint() -> some View {
         overlay(GeometryReader { reader in
             Color.red.frame(width: 10, height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            
+            //            overlay(
+            //                Circle()
+            //                    .frame(width: 12, height: 12, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            //                    .foregroundColor(.red)
+            
         })
     }
 }
