@@ -62,12 +62,12 @@ struct PageView: View {
             
             //Color.init(white: 0.6)
             GradientBackground()
-            
-            normals_Lines(pseudoCurve: model.calculateNormalsPseudoCurve())
-            
+                        
 //            AnimatingBlob(curve: model.blobCurve, style: blackish).offset(x: 10, y: 6)
             AnimatingBlob(curve: model.blobCurve, style: orangish).offset(x: 0, y: 0)
             
+            normals_Lines(pseudoCurve: model.calculateNormalsPseudoCurve())
+
 //            animatingBlob_Lines(animatingCurve: model.blobCurve)
             
             baseCurve(curve: model.baseCurve.vertices)
@@ -181,7 +181,7 @@ struct PageView: View {
             SuperEllipse(curve: pseudoCurve,
                          bezierType: .normals_lineSegments)
                 .stroke(Color.init(white: 1),
-                        style: StrokeStyle(lineWidth: 3.5, dash: [0.75,3]))
+                        style: StrokeStyle(lineWidth: 4, dash: [0.75,3]))
             
 //            SuperEllipse(curve: pseudoCurve,
 //                         bezierType: .normals_endMarkers(radius: 4))

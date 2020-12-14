@@ -38,9 +38,9 @@ let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 3),
     .zeroPoint :        (color: .yellow, radius : r + 3),
     .envelopeBounds :   (color: .black, radius: r),
-    .baseCurve :        (color: .white, radius: r + 3),
-    .zig :              (color: .green, radius : r - 2),
-    .zag :              (color: .red, radius: r - 2)
+    .baseCurve :        (color: .white, radius: r),
+    .zig :              (color: .red, radius : r - 2),
+    .zag :              (color: .green, radius: r - 2)
 ]
 
 struct ZigZag_Markers : View {
@@ -92,6 +92,10 @@ struct BaseCurve_Markers : View {
         
         ZStack {
             SuperEllipse(curve: curve,
+                         bezierType: .markers(radius: style.radius + 1))
+                .fill(Color.black)
+            
+            SuperEllipse(curve: curve,
                          bezierType: .markers(radius: style.radius))
                 .fill(style.color)
             SuperEllipse(curve: curve,
@@ -107,9 +111,20 @@ struct AnimatingBlob_OriginMarker: View {
 
     var body : some View {
         SuperEllipse(curve: animatingCurve,
+                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius + 1),
+                     smoothed: false)
+            .fill(Color.black)
+        
+        SuperEllipse(curve: animatingCurve,
                      bezierType: .singleMarker(index: 0, radius: markerStyle.radius),
                                                smoothed: false)
             .fill(markerStyle.color)
+        
+        SuperEllipse(curve: animatingCurve,
+                     bezierType: .singleMarker(index: 0, radius: 3),
+                                               smoothed: false)
+            .fill(Color.white)
+        
 //            .fill(Color.black)
 //        SuperEllipse(curve: animatingCurve,
 //                     bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius),
