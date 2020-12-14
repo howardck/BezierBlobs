@@ -10,15 +10,26 @@ import SwiftUI
 extension View {
     func measure() -> some View {
         overlay(GeometryReader { gr in
-            Text("\(Int(gr.size.width))")
-        }, alignment: .bottomTrailing)
+            Text("{w: \(Int(gr.size.width)), h: \(Int(gr.size.height))}")
+                .italic()
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        })
     }
 }
 
 extension View {
     func centerPoint() -> some View {
         overlay(GeometryReader { reader in
-            Color.red.frame(width: 10, height: 10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            ZStack {
+                Circle().frame(width: 12, height: 12)
+                    .foregroundColor(.white)
+                Circle().frame(width: 10, height: 10)
+                    .foregroundColor(.red)
+                Circle().frame(width: 3, height: 3)
+                    .foregroundColor(.black)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             
             //            overlay(
             //                Circle()
