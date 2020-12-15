@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B779D262587CD5C00C5BC85 /* SEStacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B779D252587CD5C00C5BC85 /* SEStacks.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* WidgetTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* WidgetTest.swift */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
 		5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B779D252587CD5C00C5BC85 /* SEStacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEStacks.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* WidgetTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTest.swift; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierBlobsApp.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				3BB48CC12581A2CD005DEBB8 /* WidgetTest.swift */,
 				5E57D2E0256D5CDB00D6B1C0 /* Model.swift */,
 				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
+				3B779D252587CD5C00C5BC85 /* SEStacks.swift */,
 				5E57D2E1256D5CDB00D6B1C0 /* SuperEllipse.swift */,
 				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
@@ -177,6 +180,7 @@
 				5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */,
 				3BB48CC22581A2CD005DEBB8 /* WidgetTest.swift in Sources */,
 				5E57D2E2256D5CDB00D6B1C0 /* PageView.swift in Sources */,
+				3B779D262587CD5C00C5BC85 /* SEStacks.swift in Sources */,
 				5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */,
 				5E57D2EA256D5D1200D6B1C0 /* Formatting.swift in Sources */,
 				5E57D2DD256D5CBB00D6B1C0 /* PlatformSpecifics.swift in Sources */,
