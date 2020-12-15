@@ -17,11 +17,13 @@ class Model: ObservableObject {
     
     @Published var blobCurve = [CGPoint]()
     
-    // zig configuration starts to the inside at point 0
+    // at point 0
+    // zig configuration starts to the inside
     // zag configuration starts to the outside
     var animateToZigConfiguration = false
     
     static let DEBUG_PRINT = true
+    // kludge ahoy?!
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001
     
     var axes : Axes = (1, 1)
@@ -39,7 +41,7 @@ class Model: ObservableObject {
     var n: Double = 0.0
     
     //MARK: -
-    func animateToNextZigZagPosition() {
+    func animateToNextZigZagPhase() {
         
         blobCurve = animateToZigConfiguration ?
             zigZagCurves.zig :
@@ -78,11 +80,10 @@ class Model: ObservableObject {
         boundingCurves = calculateBoundingCurves(offsets: self.offsets)
         zigZagCurves = calculateZigZagCurves(offsets: self.offsets)
         
-        self.animateToNextZigZagPosition()
+        self.animateToNextZigZagPhase()
     }
     
-    // calculate the two curves defining the two
-    // extremes our blob path animates between
+    // these two curves define the two extremes our blob path animates between
     func calculateZigZagCurves(offsets: Offsets) -> ZigZagCurves {
         // z.enumerated(() => ($0.0: Int, ($0.1.0: CGPoint, $0.1.1: CGVector))
         let z = zip(baseCurve.vertices, baseCurve.normals)

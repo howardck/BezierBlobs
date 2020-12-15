@@ -13,12 +13,10 @@ enum PageType : String {
     case superEllipse = "SUPER ELLIPSE"
     case mutant = "MUTANT"
 }
-
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              offsets: (in: CGFloat, out: CGFloat),
                              forceEqualAxes: Bool)
-
 struct PageView: View {
     
     @State var settingsDialogIsVisible = false
@@ -52,27 +50,30 @@ struct PageView: View {
                                                  b: Double(self.size.height/2)))
      }
     
-    let orangishGradient = LinearGradient(gradient: Gradient(colors: [.yellow, .red]),
-                                startPoint: .topLeading, endPoint: .bottomTrailing)
-    
     @State var showAnimatingBlob = true
     @State var showNormals = true
     @State var showBaseCurve = false
     @State var showZigZagCurves = true
-    @State var showZigZagBounds = true
+    @State var showZigZagEnvelopeBounds = true
     @State var showZigZag_Markers = true
     @State var showBaseCurve_Markers = true
     @State var showAnimatingBlob_Markers = true
     @State var showAnimatingBlob_ZeroPointMarker = false
     
+//    let orangish = LinearGradient(gradient: Gradient(colors: [.yellow, .red]),
+//                                  startPoint: .topLeading,
+//                                  endPoint: .bottomTrailing)
     var body: some View {
         
         ZStack {
             
             pageGradientBackground()
-                        
+            
+            let orangish = LinearGradient(gradient: Gradient(colors: [.yellow, .red]),
+                                          startPoint: .topLeading,
+                                          endPoint: .bottomTrailing)
             if showAnimatingBlob {
-                AnimatingBlob(curve: model.blobCurve, style: orangishGradient)
+                AnimatingBlob(curve: model.blobCurve, style: orangish)
             }
             if showNormals {
                 normals_Lines(pseudoCurve: model.calculateNormalsPseudoCurve())
@@ -83,7 +84,7 @@ struct PageView: View {
             if showZigZagCurves {
                 zigZagCurves(curves: model.zigZagCurves)
             }
-            if showZigZagBounds {
+            if showZigZagEnvelopeBounds {
                 zigZagBounds(curves: model.boundingCurves)
             }
             if showZigZag_Markers {
@@ -91,20 +92,20 @@ struct PageView: View {
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
             }
+            if showAnimatingBlob_Markers {
+                AnimatingBlob_Markers(curve: model.blobCurve,
+                                      style: markerStyles[.blob]!)
+            }
             if showBaseCurve_Markers {
                 BaseCurve_Markers(curve: model.baseCurve.vertices,
                                   style: markerStyles[.baseCurve]!)
             }
-           if showAnimatingBlob_Markers {
-                AnimatingBlob_Markers(curve: model.blobCurve,
-                                      style: markerStyles[.blob]!)
-           }
             if showAnimatingBlob_ZeroPointMarker {
                 AnimatingBlob_PointZeroMarker(animatingCurve: model.blobCurve,
                                               markerStyle: markerStyles[.zeroPoint]!)
             }
         }
-        .measure(color: .green)
+        .measure(color: .blue)
         .onAppear() {
             print("PageView.onAppear()...")
             
@@ -112,16 +113,14 @@ struct PageView: View {
         }
         .onTapGesture(count: 1) {
             print("PageView.onTapGesture() ...")
-            
-            settingsDialogIsVisible.toggle()
-            
+                        
             withAnimation(Animation.easeInOut(duration: 1.5)) {
 
-                model.animateToNextZigZagPosition()
+                model.animateToNextZigZagPhase()
             }
         }
         
-        // put GearButton in lower-right corner. cleaner way ????
+        // put GearButton in lower-right corner. a cleaner way... ????
         .overlay(
             VStack {
                 Spacer()
@@ -274,11 +273,10 @@ struct PageView: View {
         ZStack {
             let lineStyle = StrokeStyle(lineWidth: 2.0, dash: [4,2])
             
-        // zig curve
             SuperEllipse(curve: curves.zig,
                          bezierType: .lineSegments)
                 .stroke(Color.green, style: lineStyle)
-        // zag curve
+            
             SuperEllipse(curve: curves.zag,
                          bezierType: .lineSegments)
                 .stroke(Color.red, style: lineStyle)
@@ -290,30 +288,17 @@ struct PageView: View {
             let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
             let color = Color.init(white: 0.15)
             
-        // inner curve
             SuperEllipse(curve: curves.inner,
                          bezierType: .lineSegments)
                 .stroke(color, style: strokeStyle)
             
-//            SuperEllipse(curve: curves.inner,
-//                         bezierType: .markers(radius: BOUNDING_MARKER.radius))
-//                .fill(color)
-////                .fill(BOUNDING_MARKER.color)
-            
-        // outer curve
             SuperEllipse(curve: curves.outer,
                          bezierType: .lineSegments)
                 .stroke(color, style: strokeStyle)
-            
-//            SuperEllipse(curve: curves.outer,
-//                         bezierType: .markers(radius: BOUNDING_MARKER.radius))
-//                .fill(color)
-////                .fill(BOUNDING_MARKER.color)
         }
     }
 
     private func baseCurve(curve: [CGPoint]) -> some View {
-
         Group {
             let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
             SuperEllipse(curve: model.baseCurve.vertices,
@@ -371,31 +356,57 @@ struct PageView: View {
     
     func textDescription() -> some View {
         VStack(spacing: 10) {
-            ZStack() {
-                Text("numPoints: \(description.numPoints)")
-                    .font(.title)
-                    .foregroundColor(.init(white: 0.2))
-                    .offset(x: 2, y: 2)
-                
-                Text("numPoints: \(description.numPoints)")
-                    .font(.title)
-                    .foregroundColor(.white)
-            }
-            ZStack {
-                Text("n: \(description.n.format(fspec: "3.1"))")
-                    .font(.title)
-                    .foregroundColor(.init(white: 0.2))
-                    .offset(x: 2, y: 2)
-                
-                Text("n: \(description.n.format(fspec: "3.1"))")
-                    .font(.title)
-                    .foregroundColor(.white)
-            }
+            DropShadowedText(text: "numPoints: \(description.numPoints)",
+                             foreColor: .init(white: 0.2),
+                             backColor: .white)
+            DropShadowedText(text: "n: \(description.n.format(fspec: "3.1"))",
+                             foreColor: .init(white: 0.2),
+                             backColor: .white)
         }
+//            ZStack() {
+//                Text("numPoints: \(description.numPoints)")
+//                    .font(.title)
+//                    .foregroundColor(.init(white: 0.2))
+//                    .offset(x: 2, y: 2)
+//
+//                Text("numPoints: \(description.numPoints)")
+//                    .font(.title)
+//                    .foregroundColor(.white)
+//            }
+//            ZStack {
+//                Text("n: \(description.n.format(fspec: "3.1"))")
+//                    .font(.title)
+//                    .foregroundColor(.init(white: 0.2))
+//                    .offset(x: 2, y: 2)
+//
+//                Text("n: \(description.n.format(fspec: "3.1"))")
+//                    .font(.title)
+//                    .foregroundColor(.white)
+//            }
    }
     
     func dropShadowedText(name: String, value: String) -> some View {
         Text("TEST TEST TEST")
+    }
+}
+
+struct DropShadowedText : View {
+    var text: String
+    var foreColor: Color
+    var backColor: Color
+    
+    var body: some View {
+        VStack(spacing: 10) {
+            ZStack {
+                Text(text)
+                    .font(.title)
+                    .foregroundColor(foreColor)
+                    .offset(x: 2, y: 2)
+                Text(text)
+                    .font(.title)
+                    .foregroundColor(backColor)
+            }
+        }
     }
 }
 
