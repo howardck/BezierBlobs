@@ -63,8 +63,9 @@ struct SuperEllipse : Shape {
             path = path.smoothed(numInterpolated: SuperEllipse.NUM_INTERPOLATED)
         }
         
-        // NOTA: This produces a weird heavier dashed line only for
-        // the LAST normal drawn if we do close the path.
+        // NOTA BUG: This produces a heavier dashed line for
+        // the last normal drawn if we DO close the path. but if
+        // we don't closeSubpath(), no other paths get closed.
         
         path.closeSubpath()
         return path.offsetBy(dx: rect.width/2, dy: rect.height/2)

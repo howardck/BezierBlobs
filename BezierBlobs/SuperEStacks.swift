@@ -11,7 +11,7 @@ let orangeish = Gradient(colors: [.yellow, .red])
 
 enum MarkerType : CaseIterable {
     case blob
-    case zeroPoint
+    case pointZero
     case envelopeBounds
     case baseCurve
     case zig
@@ -23,9 +23,9 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 2),
-    .zeroPoint :        (color: .yellow, radius : r + 2),
-    .envelopeBounds :   (color: .black, radius: r),
-    .baseCurve :        (color: .white, radius: r + 2),
+    .pointZero :        (color: .yellow, radius : r + 2),
+    .envelopeBounds :   (color: .black, radius: 6),
+    .baseCurve :        (color: .white, radius: r - 2),
     .zig :              (color: .green, radius : r),
     .zag :              (color: .red, radius: r)
 ]
@@ -51,6 +51,23 @@ struct AnimatingBlob: View {
                          smoothed: true)
                 .stroke(Color.white, lineWidth: 0.8)
         }
+    }
+}
+
+struct Normals_Markers : View {
+    var curves : BoundingCurves
+    var style : MarkerStyle
+    
+    var body: some View {
+        
+        ZStack {
+            SuperEllipse(curve: curves.inner,
+                         bezierType: .markers(radius: style.radius))
+                .fill(Color.black)
+        }
+        SuperEllipse(curve: curves.outer,
+                     bezierType: .markers(radius: style.radius))
+            .fill(Color.black)
     }
 }
 

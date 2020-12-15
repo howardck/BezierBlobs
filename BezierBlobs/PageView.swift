@@ -49,27 +49,39 @@ struct PageView: View {
                                           axes: (a: Double(self.size.width/2),
                                                  b: Double(self.size.height/2)))
      }
-    
+
     @State var showAnimatingBlob = true
     @State var showNormals = true
-    @State var showBaseCurve = false
-    @State var showZigZagCurves = true
+    @State var showBaseCurve = true
+    @State var showZigZagCurves = false
     @State var showZigZagEnvelopeBounds = true
-    @State var showZigZag_Markers = true
+    
+    @State var showNormals_Markers = true
+    //@State var showZigZag_Markers = true
     @State var showBaseCurve_Markers = true
     @State var showAnimatingBlob_Markers = true
     @State var showAnimatingBlob_ZeroPointMarker = false
+
     
-//    let orangish = LinearGradient(gradient: Gradient(colors: [.yellow, .red]),
-//                                  startPoint: .topLeading,
-//                                  endPoint: .bottomTrailing)
+//    @State var showAnimatingBlob = false
+//    @State var showNormals = true
+//    @State var showBaseCurve = false
+//    @State var showZigZagCurves = false
+//    @State var showZigZagEnvelopeBounds = false
+//
+//    @State var showNormals_Markers = true
+//    @State var showZigZag_Markers = false
+//    @State var showBaseCurve_Markers = false
+//    @State var showAnimatingBlob_Markers = false
+//    @State var showAnimatingBlob_ZeroPointMarker = false
+    
     var body: some View {
         
         ZStack {
             
             pageGradientBackground()
             
-            let orangish = LinearGradient(gradient: Gradient(colors: [.yellow, .red]),
+            let orangish = LinearGradient(gradient: Gradient(colors: [.red, .red]),
                                           startPoint: .topLeading,
                                           endPoint: .bottomTrailing)
             if showAnimatingBlob {
@@ -77,6 +89,10 @@ struct PageView: View {
             }
             if showNormals {
                 normals_Lines(pseudoCurve: model.calculateNormalsPseudoCurve())
+            }
+            if showNormals_Markers {
+                Normals_Markers(curves: model.boundingCurves,
+                                style: markerStyles[.envelopeBounds]!)
             }
             if showBaseCurve {
                 baseCurve(curve: model.baseCurve.vertices)
@@ -87,11 +103,11 @@ struct PageView: View {
             if showZigZagEnvelopeBounds {
                 zigZagBounds(curves: model.boundingCurves)
             }
-            if showZigZag_Markers {
-                ZigZag_Markers(curves: model.zigZagCurves,
-                               zigStyle : markerStyles[.zig]!,
-                               zagStyle : markerStyles[.zag]!)
-            }
+//            if showZigZag_Markers {
+//                ZigZag_Markers(curves: model.zigZagCurves,
+//                               zigStyle : markerStyles[.zig]!,
+//                               zagStyle : markerStyles[.zag]!)
+//            }
             if showAnimatingBlob_Markers {
                 AnimatingBlob_Markers(curve: model.blobCurve,
                                       style: markerStyles[.blob]!)
@@ -102,14 +118,16 @@ struct PageView: View {
             }
             if showAnimatingBlob_ZeroPointMarker {
                 AnimatingBlob_PointZeroMarker(animatingCurve: model.blobCurve,
-                                              markerStyle: markerStyles[.zeroPoint]!)
+                                              markerStyle: markerStyles[.pointZero]!)
             }
         }
         .measure(color: .blue)
         .onAppear() {
             print("PageView.onAppear()...")
             
-            model.blobCurve = model.baseCurve.vertices
+            // first static blob curve sits here ...
+//            model.blobCurve = model.baseCurve.vertices
+            model.blobCurve = model.boundingCurves.inner
         }
         .onTapGesture(count: 1) {
             print("PageView.onTapGesture() ...")
@@ -191,7 +209,7 @@ struct PageView: View {
         ZStack {
             SuperEllipse(curve: pseudoCurve,
                          bezierType: .normals_lineSegments)
-                .stroke(Color.init(white: 1),
+                .stroke(Color.init(white: 0),
                         style: StrokeStyle(lineWidth: 4, dash: [0.75,3]))
             
 //            SuperEllipse(curve: pseudoCurve,
