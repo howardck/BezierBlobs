@@ -25,8 +25,6 @@ extension View {
                 Circle().frame(width: 12, height: 12)
                     .foregroundColor(.white)
                 Circle().frame(width: 10, height: 10)
-                    .foregroundColor(.red)
-                Circle().frame(width: 3, height: 3)
                     .foregroundColor(.black)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

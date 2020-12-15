@@ -1,5 +1,5 @@
 //
-//  SuperEllipseStacks.swift
+//  SEStacks.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2020-12-14.
@@ -9,20 +9,7 @@ import SwiftUI
                            
 let orangeish = Gradient(colors: [.yellow, .red])
 
-struct AnimatingBlob: View {
-    var curve: [CGPoint]
-    var style : LinearGradient
-//    let lg = LinearGradient(gradient: orangeish,
-//                           startPoint: .topLeading, endPoint: .bottomTrailing)
-    var body : some View {
-        SuperEllipse(curve: curve,
-                     bezierType: .lineSegments,
-                     smoothed: true)
-            .fill(style)
-    }
-}
-
-enum MarkerType {
+enum MarkerType : CaseIterable {
     case blob
     case zeroPoint
     case envelopeBounds
@@ -35,13 +22,25 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .blue, radius: r + 3),
-    .zeroPoint :        (color: .yellow, radius : r + 3),
+    .blob :             (color: .blue, radius: r + 2),
+    .zeroPoint :        (color: .yellow, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: r),
-    .baseCurve :        (color: .white, radius: r),
-    .zig :              (color: .red, radius : r - 2),
-    .zag :              (color: .green, radius: r - 2)
+    .baseCurve :        (color: .white, radius: r + 2),
+    .zig :              (color: .green, radius : r),
+    .zag :              (color: .red, radius: r)
 ]
+
+struct AnimatingBlob: View {
+    var curve: [CGPoint]
+    var style : LinearGradient
+
+    var body : some View {
+        SuperEllipse(curve: curve,
+                     bezierType: .lineSegments,
+                     smoothed: true)
+            .fill(style)
+    }
+}
 
 struct ZigZag_Markers : View {
     var curves : ZigZagCurves
@@ -51,15 +50,15 @@ struct ZigZag_Markers : View {
     var body : some View {
         
         SuperEllipse(curve: curves.zig,
-                     bezierType: .markers(radius: zigStyle.radius + 1))
+                     bezierType: .markers(radius: zigStyle.radius + 2))
             .fill(Color.black)
         SuperEllipse(curve: curves.zig,
                      bezierType: .markers(radius: zigStyle.radius))
             .fill(zigStyle.color)
         
         SuperEllipse(curve: curves.zag,
-                     bezierType: .markers(radius: zagStyle.radius + 1))
-            .fill(Color.black)
+                     bezierType: .markers(radius: zagStyle.radius + 2))
+            .fill(Color.white)
         SuperEllipse(curve: curves.zag,
                      bezierType: .markers(radius: zagStyle.radius))
             .fill(zagStyle.color)
@@ -105,7 +104,7 @@ struct BaseCurve_Markers : View {
     }
 }
 
-struct AnimatingBlob_OriginMarker: View {
+struct AnimatingBlob_PointZeroMarker: View {
     var animatingCurve: [CGPoint]
     var markerStyle : MarkerStyle
 
@@ -123,7 +122,7 @@ struct AnimatingBlob_OriginMarker: View {
         SuperEllipse(curve: animatingCurve,
                      bezierType: .singleMarker(index: 0, radius: 3),
                                                smoothed: false)
-            .fill(Color.white)
+            .fill(Color.gray)
         
 //            .fill(Color.black)
 //        SuperEllipse(curve: animatingCurve,

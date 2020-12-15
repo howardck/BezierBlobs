@@ -23,8 +23,6 @@ struct PageView: View {
     
     @State var settingsDialogIsVisible = false
     
-    var pageType: PageType
-
      static let descriptions : [PageDescription] =
         [
             (numPoints: 16, n: 2, offsets: (in: -0.2, out: 0.35), forceEqualAxes: true),
@@ -37,6 +35,8 @@ struct PageView: View {
  
     let description: PageDescription
     let size: CGSize
+    
+    var pageType: PageType
     
     init(pageType: PageType, description: PageDescription, size: CGSize) {
 
@@ -52,48 +52,58 @@ struct PageView: View {
                                                  b: Double(self.size.height/2)))
      }
     
-    let orangish = LinearGradient(gradient: Gradient(colors: [.yellow, .red]),
+    let orangishGradient = LinearGradient(gradient: Gradient(colors: [.yellow, .red]),
                                 startPoint: .topLeading, endPoint: .bottomTrailing)
-    let blackish = LinearGradient(gradient: Gradient(colors: [.blue, .blue]),
-                                startPoint: .topLeading, endPoint: .bottomTrailing)
+    
+    @State var showAnimatingBlob = false
+    @State var showNormals = true
+    @State var showBaseCurve = false
+    @State var showZigZagCurves = false
+    @State var showZigZagBounds = false
+    @State var showZigZag_Markers = true
+    
+    @State var showBaseCurve_Markers = true
+    @State var showAnimatingBlob_Markers = true
+    @State var showAnimatingBlob_ZeroPointMarker = false
+    
     var body: some View {
         
         ZStack {
             
-            //Color.init(white: 0.6)
-            GradientBackground()
+            pageGradientBackground()
                         
-//            AnimatingBlob(curve: model.blobCurve, style: blackish).offset(x: 10, y: 6)
-            AnimatingBlob(curve: model.blobCurve, style: orangish).offset(x: 0, y: 0)
-            
-            normals_Lines(pseudoCurve: model.calculateNormalsPseudoCurve())
-
-//            animatingBlob_Lines(animatingCurve: model.blobCurve)
-            
-            baseCurve(curve: model.baseCurve.vertices)
-            
-            zigZagCurves(curves: model.zigZagCurves)
-            
-            zigZagBounds(curves: model.boundingCurves)
-            
-//            zigZagCurves_Markers(curves: model.zigZagCurves)
-            ZigZag_Markers(curves: model.zigZagCurves,
-                           zigStyle : markerStyles[.zig]!,
-                           zagStyle : markerStyles[.zag]!)
-            
-//            normals_Lines(pseudoCurve: model.calculateNormalsPseudoCurve())
-            
-            //baseCurve_Markers(curve: model.baseCurve.vertices)
-            BaseCurve_Markers(curve: model.baseCurve.vertices,
-                              style: markerStyles[.baseCurve]!)
-
-            // blobCurve_Markers(animatingCurve: model.blobCurve)
-             AnimatingBlob_Markers(curve: model.blobCurve,
-                                   style: markerStyles[.blob]!)
-             
-//            animatingBlob_PointZeroMarker(animatingCurve: model.blobCurve)
-            AnimatingBlob_OriginMarker(animatingCurve: model.blobCurve,
-                                      markerStyle: markerStyles[.zeroPoint]!)
+            if showAnimatingBlob {
+                AnimatingBlob(curve: model.blobCurve, style: orangishGradient)
+            }
+            if showNormals {
+                normals_Lines(pseudoCurve: model.calculateNormalsPseudoCurve())
+            }
+            if showBaseCurve {
+                baseCurve(curve: model.baseCurve.vertices)
+            }
+            if showZigZagCurves {
+                zigZagCurves(curves: model.zigZagCurves)
+            }
+            if showZigZagBounds {
+                zigZagBounds(curves: model.boundingCurves)
+            }
+            if showZigZag_Markers {
+                ZigZag_Markers(curves: model.zigZagCurves,
+                               zigStyle : markerStyles[.zig]!,
+                               zagStyle : markerStyles[.zag]!)
+            }
+            if showBaseCurve_Markers {
+                BaseCurve_Markers(curve: model.baseCurve.vertices,
+                                  style: markerStyles[.baseCurve]!)
+            }
+           if showAnimatingBlob_Markers {
+                AnimatingBlob_Markers(curve: model.blobCurve,
+                                      style: markerStyles[.blob]!)
+           }
+            if showAnimatingBlob_ZeroPointMarker {
+                AnimatingBlob_PointZeroMarker(animatingCurve: model.blobCurve,
+                                              markerStyle: markerStyles[.zeroPoint]!)
+            }
         }
         .centerPoint()
         .onAppear() {
@@ -149,14 +159,17 @@ struct PageView: View {
     }
     
     //MARK:-
+    private func pageGradientBackground() -> some View {
+        let colors : [Color] = [.init(white: 0.3), .init(white: 0.7)]
+        return LinearGradient(gradient: Gradient(colors: colors),
+                              startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
     
-    struct GradientBackground : View {
-        
-        let gradient = LinearGradient(gradient: Gradient(colors: [.init(white: 0.35), .init(white: 0.7)]),
-                                      startPoint: .topLeading, endPoint: .bottomTrailing)
+    struct PageGradientBackground : View {
+        let colorRange : [Color] = [.init(white: 0.35), .init(white: 0.7)]
         var body : some View {
-            LinearGradient(gradient: Gradient(colors: [.init(white: 0.35), .init(white: 0.7)]),
-                                          startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(gradient: Gradient(colors: colorRange),
+                                              startPoint: .topLeading, endPoint: .bottomTrailing)
         }
     }
 
@@ -358,26 +371,26 @@ struct PageView: View {
     }
     
     func textDescription() -> some View {
-        VStack {
-            ZStack {
+        VStack(spacing: 10) {
+            ZStack() {
                 Text("numPoints: \(description.numPoints)")
-                    .font(.title2)
+                    .font(.title)
                     .foregroundColor(.init(white: 0.2))
                     .offset(x: 2, y: 2)
                 
                 Text("numPoints: \(description.numPoints)")
-                    .font(.title2)
+                    .font(.title)
                     .foregroundColor(.white)
             }
             ZStack {
                 Text("n: \(description.n.format(fspec: "3.1"))")
-                    .font(.title2)
+                    .font(.title)
                     .foregroundColor(.init(white: 0.2))
                     .offset(x: 2, y: 2)
                 
                 Text("n: \(description.n.format(fspec: "3.1"))")
-                    .font(.title2)
-                    .foregroundColor(Color.white)
+                    .font(.title)
+                    .foregroundColor(.white)
             }
         }
    }
