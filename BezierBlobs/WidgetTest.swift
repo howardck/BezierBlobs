@@ -8,32 +8,25 @@
 import SwiftUI
 
 extension View {
-    func measure() -> some View {
+    func measure(color: Color = .black) -> some View {
         overlay(GeometryReader { gr in
-            Text("{w: \(Int(gr.size.width)), h: \(Int(gr.size.height))}")
-                .italic()
-                .foregroundColor(.black)
+            Text("{w: \(Int(gr.size.width)) x h: \(Int(gr.size.height))}")
+                .foregroundColor(color)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         })
     }
 }
 
 extension View {
-    func centerPoint() -> some View {
+    func centerPoint(color: Color = .red) -> some View {
         overlay(GeometryReader { reader in
             ZStack {
                 Circle().frame(width: 12, height: 12)
                     .foregroundColor(.white)
                 Circle().frame(width: 10, height: 10)
-                    .foregroundColor(.black)
+                    .foregroundColor(color)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
-            //            overlay(
-            //                Circle()
-            //                    .frame(width: 12, height: 12, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            //                    .foregroundColor(.red)
-            
         })
     }
 }

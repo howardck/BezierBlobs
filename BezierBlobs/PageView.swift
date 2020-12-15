@@ -55,13 +55,12 @@ struct PageView: View {
     let orangishGradient = LinearGradient(gradient: Gradient(colors: [.yellow, .red]),
                                 startPoint: .topLeading, endPoint: .bottomTrailing)
     
-    @State var showAnimatingBlob = false
+    @State var showAnimatingBlob = true
     @State var showNormals = true
     @State var showBaseCurve = false
-    @State var showZigZagCurves = false
-    @State var showZigZagBounds = false
+    @State var showZigZagCurves = true
+    @State var showZigZagBounds = true
     @State var showZigZag_Markers = true
-    
     @State var showBaseCurve_Markers = true
     @State var showAnimatingBlob_Markers = true
     @State var showAnimatingBlob_ZeroPointMarker = false
@@ -105,7 +104,7 @@ struct PageView: View {
                                               markerStyle: markerStyles[.zeroPoint]!)
             }
         }
-        .centerPoint()
+        .measure(color: .green)
         .onAppear() {
             print("PageView.onAppear()...")
             

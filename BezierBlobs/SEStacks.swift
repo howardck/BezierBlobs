@@ -35,10 +35,17 @@ struct AnimatingBlob: View {
     var style : LinearGradient
 
     var body : some View {
-        SuperEllipse(curve: curve,
-                     bezierType: .lineSegments,
-                     smoothed: true)
-            .fill(style)
+        ZStack {
+//            SuperEllipse(curve: curve,
+//                         bezierType: .lineSegments,
+//                         smoothed: true)
+//                .fill(style)
+            
+            SuperEllipse(curve: curve,
+                         bezierType: .lineSegments,
+                         smoothed: true)
+                .stroke(Color.yellow, lineWidth: 1.8)
+        }
     }
 }
 
