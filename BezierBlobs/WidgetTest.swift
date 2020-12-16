@@ -10,7 +10,9 @@ import SwiftUI
 extension View {
     func measure(color: Color = .black) -> some View {
         overlay(GeometryReader { gr in
-            Text("{w: \(Int(gr.size.width)) x h: \(Int(gr.size.height))}")
+            Text("w: \(Int(gr.size.width)) x h: \(Int(gr.size.height))")
+                .font(.caption)
+                .fontWeight(.light)
                 .foregroundColor(color)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         })

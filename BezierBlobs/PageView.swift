@@ -18,9 +18,7 @@ typealias PageDescription = (numPoints: Int,
                              offsets: (in: CGFloat, out: CGFloat),
                              forceEqualAxes: Bool)
 struct PageView: View {
-    
-    @State var settingsDialogIsVisible = false
-    
+        
      static let descriptions : [PageDescription] =
         [
             (numPoints: 16, n: 2, offsets: (in: -0.2, out: 0.35), forceEqualAxes: true),
@@ -36,19 +34,20 @@ struct PageView: View {
     
     var pageType: PageType
 
-    //MARK: - SHOW & HIDE THINGS -
+    //MARK: - SHOW & HIDE THINGS
+    
+    @State var settingsDialogIsVisible = false
+
     @State var showAnimatingBlob = true
     @State var showNormals = true
     @State var showBaseCurve = true
-    @State var showZigZagCurves = false
-    @State var showZigZagEnvelopeBounds = true
+    @State var showZigZagCurves = true
+    @State var showEnvelopeBounds = true
     
-    @State var showNormals_Markers = true
-    //@State var showZigZag_Markers = true
-    @State var showBaseCurve_Markers = true
+    @State var showZigZag_Markers = false
+    @State var showBaseCurve_Markers = false
     @State var showAnimatingBlob_Markers = true
     @State var showAnimatingBlob_ZeroPointMarker = false
-    
     
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
@@ -75,27 +74,35 @@ struct PageView: View {
             if showAnimatingBlob {
                 AnimatingBlob(curve: model.blobCurve)
             }
-            if showNormals {
-                normals_Lines(pseudoCurve: model.calculateNormalsPseudoCurve())
+            
+            
+            if showZigZagCurves {
+                zigZagCurves(curves: model.zigZagCurves)
             }
-            if showNormals_Markers {
-                Normals_Markers(curves: model.boundingCurves,
-                                style: markerStyles[.envelopeBounds]!)
+            
+            // combine lines plus marker since we're at 10-view limit
+            if showNormals {
+                NormalsPlusMarkers(pseudoCurve: model.calculateNormalsPseudoCurve(),
+                                   markerCurves: model.boundingCurves,
+                                   style: markerStyles[.envelopeBounds]!)
             }
             if showBaseCurve {
                 baseCurve(curve: model.baseCurve.vertices)
             }
-            if showZigZagCurves {
-                zigZagCurves(curves: model.zigZagCurves)
-            }
-            if showZigZagEnvelopeBounds {
+
+            
+            
+            
+            if showEnvelopeBounds {
                 zigZagBounds(curves: model.boundingCurves)
             }
-//            if showZigZag_Markers {
-//                ZigZag_Markers(curves: model.zigZagCurves,
-//                               zigStyle : markerStyles[.zig]!,
-//                               zagStyle : markerStyles[.zag]!)
-//            }
+            
+            if showZigZag_Markers {
+                ZigZag_Markers(curves: model.zigZagCurves,
+                               zigStyle : markerStyles[.zig]!,
+                               zagStyle : markerStyles[.zag]!)
+            }
+            
             if showAnimatingBlob_Markers {
                 AnimatingBlob_Markers(curve: model.blobCurve,
                                       style: markerStyles[.blob]!)
@@ -161,55 +168,18 @@ struct PageView: View {
         )
         .overlay(dropShadowedTextDescription())
     }
-    
-
-    //MARK:-
-    typealias MARKER_DESCRIPTOR = (color: Color, radius: CGFloat)
-    
-    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.green, radius: 16)
-    let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 16 )
-    let BOUNDING_MARKER : MARKER_DESCRIPTOR = (color: Color.black, radius: 7)
-    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.yellow, radius: 16)
 
     //MARK:-
     private func pageGradientBackground() -> some View {
-        let colors : [Color] = [.init(white: 0.3), .init(white: 0.7)]
+        let colors : [Color] = [.init(white: 0.65), .init(white: 0.3)]
         return LinearGradient(gradient: Gradient(colors: colors),
-                              startPoint: .topLeading, endPoint: .bottomTrailing)
+                              startPoint: .topLeading,
+                              endPoint: .bottomTrailing)
     }
     
-    //MARK:-
-    private func normals_Lines(pseudoCurve: [CGPoint]) -> some View {
-        
-        ZStack {
-            SuperEllipse(curve: pseudoCurve,
-                         bezierType: .normals_lineSegments)
-                .stroke(Color.init(white: 0),
-                        style: StrokeStyle(lineWidth: 4, dash: [0.75,3]))
-            
-//            SuperEllipse(curve: pseudoCurve,
-//                         bezierType: .normals_endMarkers(radius: 4))
-//                .fill(Color.black)//Color.init(white: 0.15))
-        }
-    }
-    
-    private func zigZagCurves_Markers(curves: ZigZagCurves) -> some View {
-
-        ZStack {
-
-            SuperEllipse(curve: curves.zig,
-                         bezierType: .markers(radius: BASECURVE_MARKER.radius))
-                .fill(Color.blue)
-
-            SuperEllipse(curve: curves.zag,
-                         bezierType: .markers(radius: BASECURVE_MARKER.radius))
-                .fill(Color.red)
-        }
-    }
-//
     private func zigZagCurves(curves: ZigZagCurves) -> some View {
         ZStack {
-            let lineStyle = StrokeStyle(lineWidth: 2.0, dash: [4,2])
+            let lineStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
             
             SuperEllipse(curve: curves.zig,
                          bezierType: .lineSegments)
@@ -292,14 +262,16 @@ struct DropShadowedText : View {
     var backColor: Color
     
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 32) {
             ZStack {
                 Text(text)
-                    .font(.title)
+                    .font(.title3)
+                    .fontWeight(.light)
                     .foregroundColor(backColor)
                     .offset(x: 2, y: 2)
                 Text(text)
-                    .font(.title)
+                    .font(.title3)
+                    .fontWeight(.light)
                     .foregroundColor(foreColor)
             }
         }
