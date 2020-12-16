@@ -35,7 +35,22 @@ struct PageView: View {
     let size: CGSize
     
     var pageType: PageType
+
+    //MARK: - SHOW & HIDE THINGS -
+    @State var showAnimatingBlob = true
+    @State var showNormals = true
+    @State var showBaseCurve = true
+    @State var showZigZagCurves = false
+    @State var showZigZagEnvelopeBounds = true
     
+    @State var showNormals_Markers = true
+    //@State var showZigZag_Markers = true
+    @State var showBaseCurve_Markers = true
+    @State var showAnimatingBlob_Markers = true
+    @State var showAnimatingBlob_ZeroPointMarker = false
+    
+    
+    //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
 
         self.pageType = pageType
@@ -49,43 +64,16 @@ struct PageView: View {
                                           axes: (a: Double(self.size.width/2),
                                                  b: Double(self.size.height/2)))
      }
-
-    @State var showAnimatingBlob = true
-    @State var showNormals = true
-    @State var showBaseCurve = true
-    @State var showZigZagCurves = false
-    @State var showZigZagEnvelopeBounds = true
     
-    @State var showNormals_Markers = true
-    //@State var showZigZag_Markers = true
-    @State var showBaseCurve_Markers = true
-    @State var showAnimatingBlob_Markers = true
-    @State var showAnimatingBlob_ZeroPointMarker = false
-
-    
-//    @State var showAnimatingBlob = false
-//    @State var showNormals = true
-//    @State var showBaseCurve = false
-//    @State var showZigZagCurves = false
-//    @State var showZigZagEnvelopeBounds = false
-//
-//    @State var showNormals_Markers = true
-//    @State var showZigZag_Markers = false
-//    @State var showBaseCurve_Markers = false
-//    @State var showAnimatingBlob_Markers = false
-//    @State var showAnimatingBlob_ZeroPointMarker = false
-    
+    //MARK:-
     var body: some View {
-        
+    
         ZStack {
             
             pageGradientBackground()
-            
-            let orangish = LinearGradient(gradient: Gradient(colors: [.red, .red]),
-                                          startPoint: .topLeading,
-                                          endPoint: .bottomTrailing)
+
             if showAnimatingBlob {
-                AnimatingBlob(curve: model.blobCurve, style: orangish)
+                AnimatingBlob(curve: model.blobCurve)
             }
             if showNormals {
                 normals_Lines(pseudoCurve: model.calculateNormalsPseudoCurve())
@@ -121,11 +109,11 @@ struct PageView: View {
                                               markerStyle: markerStyles[.pointZero]!)
             }
         }
-        .measure(color: .blue)
+        .measure(color: .yellow)
         .onAppear() {
             print("PageView.onAppear()...")
             
-            // first static blob curve sits here ...
+            // blob curve first appearance
 //            model.blobCurve = model.baseCurve.vertices
             model.blobCurve = model.boundingCurves.inner
         }
@@ -171,9 +159,18 @@ struct PageView: View {
                 }
             }
         )
-        .overlay(textDescription())
+        .overlay(dropShadowedTextDescription())
     }
     
+
+    //MARK:-
+    typealias MARKER_DESCRIPTOR = (color: Color, radius: CGFloat)
+    
+    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.green, radius: 16)
+    let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 16 )
+    let BOUNDING_MARKER : MARKER_DESCRIPTOR = (color: Color.black, radius: 7)
+    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.yellow, radius: 16)
+
     //MARK:-
     private func pageGradientBackground() -> some View {
         let colors : [Color] = [.init(white: 0.3), .init(white: 0.7)]
@@ -181,29 +178,7 @@ struct PageView: View {
                               startPoint: .topLeading, endPoint: .bottomTrailing)
     }
     
-    struct PageGradientBackground : View {
-        let colorRange : [Color] = [.init(white: 0.35), .init(white: 0.7)]
-        var body : some View {
-            LinearGradient(gradient: Gradient(colors: colorRange),
-                                              startPoint: .topLeading, endPoint: .bottomTrailing)
-        }
-    }
-
-    let redGradient = LinearGradient(gradient: Gradient(colors: [Color.red, Color.yellow]),
-                                     startPoint: .top, endPoint: .bottom)
-    let blueGradient = LinearGradient(gradient: Gradient(colors: [Color.blue,
-                                                                  Color.init(white: 0.8)]),
-                                      startPoint: .top, endPoint: .bottom)
-    
     //MARK:-
-    private func animatingBlob_Lines(animatingCurve: [CGPoint]) -> some View {
-        
-        SuperEllipse(curve: animatingCurve,
-                     bezierType: .lineSegments,
-                     smoothed: true)
-            .fill(redGradient)
-    }
-    
     private func normals_Lines(pseudoCurve: [CGPoint]) -> some View {
         
         ZStack {
@@ -218,75 +193,20 @@ struct PageView: View {
         }
     }
     
-    //MARK:-
-    typealias MARKER_DESCRIPTOR = (color: Color, radius: CGFloat)
-    
-    let BLOB_MARKER : MARKER_DESCRIPTOR = (color: Color.green, radius: 16)
-    let BASECURVE_MARKER : MARKER_DESCRIPTOR = (color: Color.white, radius: 16 )
-    let BOUNDING_MARKER : MARKER_DESCRIPTOR = (color: Color.black, radius: 7)
-    let ORIGIN_MARKER : MARKER_DESCRIPTOR = (color: Color.yellow, radius: 16)
-
-    //MARK:-
-    
-    private func animatingBlob_PointZeroMarker(animatingCurve: [CGPoint]) -> some View {
-        ZStack {
-
-            SuperEllipse(curve: animatingCurve,
-                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius + 1),
-                         smoothed: false)
-                .fill(Color.black)
-            SuperEllipse(curve: animatingCurve,
-                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius),
-                         smoothed: false)
-                .fill(ORIGIN_MARKER.color)
-            
-            SuperEllipse(curve: animatingCurve,
-                         bezierType: .singleMarker(index: 0, radius: ORIGIN_MARKER.radius - 13),
-                         smoothed: false)
-                .fill(Color.white)
-        }
-    }
-    
-    //MARK:-
-    
-    private func blobCurve_Markers(animatingCurve: [CGPoint]) -> some View {
-        ZStack {
-
-            // every animating blob vertex gets this style of marker
-            SuperEllipse(curve: animatingCurve,
-                         bezierType: .markers(radius: BLOB_MARKER.radius + 1),
-                         smoothed: false)
-                .fill(Color.init(white: 0.0))
-            
-            SuperEllipse(curve: animatingCurve,
-                         bezierType: .markers(radius: BLOB_MARKER.radius),
-                         smoothed: false)
-                .fill(BLOB_MARKER.color)
-            
-            SuperEllipse(curve: animatingCurve,
-                         bezierType: .markers(radius: BLOB_MARKER.radius - 13),
-                         smoothed: false)
-                .fill(Color.init(white: 1))
-            
-            // -----------------------------------------------------------
-            
-        }
-    }
-    
     private func zigZagCurves_Markers(curves: ZigZagCurves) -> some View {
-        
+
         ZStack {
-            
+
             SuperEllipse(curve: curves.zig,
                          bezierType: .markers(radius: BASECURVE_MARKER.radius))
                 .fill(Color.blue)
-            
+
             SuperEllipse(curve: curves.zag,
                          bezierType: .markers(radius: BASECURVE_MARKER.radius))
                 .fill(Color.red)
         }
     }
-    
+//
     private func zigZagCurves(curves: ZigZagCurves) -> some View {
         ZStack {
             let lineStyle = StrokeStyle(lineWidth: 2.0, dash: [4,2])
@@ -325,24 +245,6 @@ struct PageView: View {
         }
     }
     
-    private func baseCurve_Markers(curve: [CGPoint]) -> some View {
-        ZStack {
-
-            SuperEllipse(curve: model.baseCurve.vertices,
-                         bezierType: .markers(radius: BASECURVE_MARKER.radius + 1))
-                .fill(Color.black)
-            
-            SuperEllipse(curve: model.baseCurve.vertices,
-                         bezierType: .markers(radius: BASECURVE_MARKER.radius))
-                .fill(BASECURVE_MARKER.color)
-            
-            SuperEllipse(curve: model.baseCurve.vertices,
-                         bezierType: .markers(radius: 4))
-                .fill(Color.black)
-        }
-    }
-    
-    
     //MARK:- OVERLAYS
     
     func sampleWidget() -> some View {
@@ -372,40 +274,16 @@ struct PageView: View {
 //        .border(Color.red, width: 3)
     }
     
-    func textDescription() -> some View {
+    func dropShadowedTextDescription() -> some View {
         VStack(spacing: 10) {
             DropShadowedText(text: "numPoints: \(description.numPoints)",
-                             foreColor: .init(white: 0.2),
-                             backColor: .white)
+                             foreColor: .white,
+                             backColor: .init(white: 0.2))
             DropShadowedText(text: "n: \(description.n.format(fspec: "3.1"))",
-                             foreColor: .init(white: 0.2),
-                             backColor: .white)
+                             foreColor: .white,
+                             backColor: .init(white: 0.2))
         }
-//            ZStack() {
-//                Text("numPoints: \(description.numPoints)")
-//                    .font(.title)
-//                    .foregroundColor(.init(white: 0.2))
-//                    .offset(x: 2, y: 2)
-//
-//                Text("numPoints: \(description.numPoints)")
-//                    .font(.title)
-//                    .foregroundColor(.white)
-//            }
-//            ZStack {
-//                Text("n: \(description.n.format(fspec: "3.1"))")
-//                    .font(.title)
-//                    .foregroundColor(.init(white: 0.2))
-//                    .offset(x: 2, y: 2)
-//
-//                Text("n: \(description.n.format(fspec: "3.1"))")
-//                    .font(.title)
-//                    .foregroundColor(.white)
-//            }
    }
-    
-    func dropShadowedText(name: String, value: String) -> some View {
-        Text("TEST TEST TEST")
-    }
 }
 
 struct DropShadowedText : View {
@@ -418,11 +296,11 @@ struct DropShadowedText : View {
             ZStack {
                 Text(text)
                     .font(.title)
-                    .foregroundColor(foreColor)
+                    .foregroundColor(backColor)
                     .offset(x: 2, y: 2)
                 Text(text)
                     .font(.title)
-                    .foregroundColor(backColor)
+                    .foregroundColor(foreColor)
             }
         }
     }

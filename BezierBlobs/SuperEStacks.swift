@@ -32,7 +32,6 @@ let markerStyles : [MarkerType : MarkerStyle] = [
 
 struct AnimatingBlob: View {
     var curve: [CGPoint]
-    var style : LinearGradient
 
     var body : some View {
         ZStack {
@@ -44,7 +43,7 @@ struct AnimatingBlob: View {
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: true)
-                .stroke(style, lineWidth: 6)
+                .stroke(Color.red, lineWidth: 6)
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,

@@ -22,7 +22,7 @@ class Model: ObservableObject {
     // zag configuration starts to the outside
     var animateToZigConfiguration = false
     
-    static let DEBUG_PRINT = true
+    static let DEBUG_PRINT = false
     // kludge ahoy?!
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001
     
@@ -69,9 +69,9 @@ class Model: ObservableObject {
             self.axes = (a: minab, b: minab)
         }
 
-        self.baseCurve = calculateBaseCurvePlus(for: numPoints, with: self.axes)
-        
-        if (true) {
+        self.baseCurve = calculateBaseCurvePlusNormals(for: numPoints,
+                                                       with: self.axes)
+        if Model.DEBUG_PRINT {
             print("\nModel.calculateSuperEllipseCurves(pageId: [\(pageType)] numPoints: {\(numPoints)} ...)")
             print("axes: a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((self.axes.b).format(fspec: "6.2"))}")
@@ -85,8 +85,17 @@ class Model: ObservableObject {
     
     // these two curves define the two extremes our blob path animates between
     func calculateZigZagCurves(offsets: Offsets) -> ZigZagCurves {
-        // z.enumerated(() => ($0.0: Int, ($0.1.0: CGPoint, $0.1.1: CGVector))
+
         let z = zip(baseCurve.vertices, baseCurve.normals)
+        
+        /*  after enumerating a zipped array pair of a vertex &
+            its normal, a map function sees this:
+                $0.0: index of the point
+                $0.1: the vertex/normal pair for the point. ie
+                $0.1.0: the vertex of the point
+                @0.1.1: the normal (a CGVector) of/at the point
+         */
+    
         let zigCurve = z.enumerated().map {
             $0.1.0.newPoint(at: $0.0.isEven() ? offsets.in : offsets.out,
                             along: $0.1.1)
@@ -115,9 +124,9 @@ class Model: ObservableObject {
         return normals
     }
     
-    func calculateBaseCurvePlus(for numPoints: Int,
-                                with axes: Axes) -> (vertices:[CGPoint],
-                                                     normals: [CGVector])
+    func calculateBaseCurvePlusNormals(for numPoints: Int,
+                                       with axes: Axes) -> (vertices:[CGPoint],
+                                                            normals: [CGVector])
     {
         var baseCurve = (vertices: [CGPoint](), normals: [CGVector]())
         var i = 0
