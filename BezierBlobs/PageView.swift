@@ -37,17 +37,6 @@ struct PageView: View {
     //MARK: - SHOW & HIDE THINGS
     
     @State var settingsDialogIsVisible = false
-
-    @State var showAnimatingBlob = true
-    @State var showNormals = true
-    @State var showBaseCurve = true
-    @State var showZigZagCurves = true
-    @State var showEnvelopeBounds = true
-    
-    @State var showZigZag_Markers = false
-    @State var showBaseCurve_Markers = false
-    @State var showAnimatingBlob_Markers = true
-    @State var showAnimatingBlob_ZeroPointMarker = false
     
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
@@ -63,6 +52,18 @@ struct PageView: View {
                                           axes: (a: Double(self.size.width/2),
                                                  b: Double(self.size.height/2)))
      }
+        
+    //MARK:-
+    
+    @State var showAnimatingBlob = true
+    @State var showNormalsPlusMarkers = true
+    @State var showBaseCurve = true
+    @State var showZigZagCurves = false
+    @State var showEnvelopeBounds = true
+    @State var showZigZag_Markers = false
+    @State var showBaseCurve_Markers = true
+    @State var showAnimatingBlob_Markers = true
+    @State var showAnimatingBlob_PointZeroMarker = true
     
     //MARK:-
     var body: some View {
@@ -72,31 +73,26 @@ struct PageView: View {
             pageGradientBackground()
 
             if showAnimatingBlob {
-                AnimatingBlob(curve: model.blobCurve)
+                AnimatingBlob(curve: model.blobCurve,
+                              stroked: true,
+                              filled: true)
             }
-            
-            
             if showZigZagCurves {
                 zigZagCurves(curves: model.zigZagCurves)
             }
-            
-            // combine lines plus marker since we're at 10-view limit
-            if showNormals {
-                NormalsPlusMarkers(pseudoCurve: model.calculateNormalsPseudoCurve(),
+            // combine lines and markers to avoid 10-view limit
+            if showNormalsPlusMarkers {
+                NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
             if showBaseCurve {
-                baseCurve(curve: model.baseCurve.vertices)
+                BaseCurve(vertices: model.baseCurve.vertices)
             }
-
-            
-            
-            
             if showEnvelopeBounds {
-                zigZagBounds(curves: model.boundingCurves)
+                //zigZagBounds(curves: model.boundingCurves)
+                EnvelopeBounds(curves: model.boundingCurves)
             }
-            
             if showZigZag_Markers {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
@@ -111,21 +107,21 @@ struct PageView: View {
                 BaseCurve_Markers(curve: model.baseCurve.vertices,
                                   style: markerStyles[.baseCurve]!)
             }
-            if showAnimatingBlob_ZeroPointMarker {
+            if showAnimatingBlob_PointZeroMarker {
                 AnimatingBlob_PointZeroMarker(animatingCurve: model.blobCurve,
                                               markerStyle: markerStyles[.pointZero]!)
             }
         }
         .measure(color: .yellow)
         .onAppear() {
-            print("PageView.onAppear()...")
+            print("PageView.onAppear(PageType.\(self.pageType.rawValue))")
             
             // blob curve first appearance
 //            model.blobCurve = model.baseCurve.vertices
             model.blobCurve = model.boundingCurves.inner
         }
         .onTapGesture(count: 1) {
-            print("PageView.onTapGesture() ...")
+            print("PageView.onTapGesture(PageType.\(self.pageType.rawValue))")
                         
             withAnimation(Animation.easeInOut(duration: 1.5)) {
 
@@ -173,8 +169,8 @@ struct PageView: View {
     private func pageGradientBackground() -> some View {
         let colors : [Color] = [.init(white: 0.65), .init(white: 0.3)]
         return LinearGradient(gradient: Gradient(colors: colors),
-                              startPoint: .topLeading,
-                              endPoint: .bottomTrailing)
+                              startPoint: .top,
+                              endPoint: .bottom)
     }
     
     private func zigZagCurves(curves: ZigZagCurves) -> some View {
@@ -203,15 +199,6 @@ struct PageView: View {
             SuperEllipse(curve: curves.outer,
                          bezierType: .lineSegments)
                 .stroke(color, style: strokeStyle)
-        }
-    }
-
-    private func baseCurve(curve: [CGPoint]) -> some View {
-        Group {
-            let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-            SuperEllipse(curve: model.baseCurve.vertices,
-                         bezierType: .lineSegments)
-                .stroke(Color.white, style: strokeStyle)
         }
     }
     

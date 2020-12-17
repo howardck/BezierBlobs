@@ -11,7 +11,7 @@ typealias Axes = (a: Double, b: Double)
 typealias Offsets = (in: CGFloat, out: CGFloat)
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
-typealias BaseCurve = (vertices: [CGPoint], normals: [CGVector])
+typealias BaseCurveAlias = (vertices: [CGPoint], normals: [CGVector])
 
 class Model: ObservableObject {
     
@@ -31,10 +31,10 @@ class Model: ObservableObject {
     //var baseCurveVertices = [CGPoint]()
     //var normals = [CGVector]()
     
-    var baseCurve : BaseCurve = (vertices: [CGPoint](), normals: [CGVector]())
-    
+    var baseCurve : BaseCurveAlias = (vertices: [CGPoint](), normals: [CGVector]())
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
+    var normalsCurve : [CGPoint] = [CGPoint]()
     
     //MARK: TODO: OFFSETS SHOULD BE A PLATFORM-SPECIFIC SCREEN RATIO
     var offsets : Offsets = (in: 0, out: 0)
@@ -79,6 +79,8 @@ class Model: ObservableObject {
         
         boundingCurves = calculateBoundingCurves(offsets: self.offsets)
         zigZagCurves = calculateZigZagCurves(offsets: self.offsets)
+        
+        normalsCurve = calculateNormalsPseudoCurve()
         
         self.animateToNextZigZagPhase()
     }

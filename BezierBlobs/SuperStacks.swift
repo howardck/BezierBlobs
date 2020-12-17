@@ -23,7 +23,7 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 2),
-    .pointZero :        (color: .yellow, radius : r + 2),
+    .pointZero :        (color: .orange, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r),
     .zig :              (color: .green, radius : r),
@@ -32,47 +32,53 @@ let markerStyles : [MarkerType : MarkerStyle] = [
 
 struct AnimatingBlob: View {
     var curve: [CGPoint]
+    var stroked: Bool
+    var filled: Bool
     
-    let orangish = LinearGradient(gradient: Gradient(colors: [.blue, .init(white: 0.05)]),
-                                               startPoint: .topLeading,
-                                               endPoint: .bottomTrailing)
+//    let gradient = LinearGradient(gradient: Gradient(colors: [.red, .yellow]),
+    let gradient = LinearGradient(gradient: Gradient(colors: [.blue, .init(white: 0.025)]),
+                                 startPoint: .topLeading,
+                                 endPoint: .bottomTrailing)
     var body : some View {
         ZStack {
             
-        // FILLED
-        SuperEllipse(curve: curve,
-                     bezierType: .lineSegments,
-                     smoothed: true)
-            .fill(orangish)
-            
-        //STROKED
-            SuperEllipse(curve: curve,
-                         bezierType: .lineSegments,
-                         smoothed: true)
-                .stroke(Color.red, lineWidth: 6)
-
-            SuperEllipse(curve: curve,
-                         bezierType: .lineSegments,
-                         smoothed: true)
-                .stroke(Color.white, lineWidth: 0.8)
+            if filled {
+                SuperEllipse(curve: curve,
+                             bezierType: .lineSegments,
+                             smoothed: true)
+                    .fill(gradient)
+            }
+            if stroked {
+                SuperEllipse(curve: curve,
+                             bezierType: .lineSegments,
+                             smoothed: true)
+                    .stroke(Color.red, lineWidth: 8)
+                
+                SuperEllipse(curve: curve,
+                             bezierType: .lineSegments,
+                             smoothed: true)
+                    .stroke(Color.white, lineWidth: 0.75)
+            }
         }
     }
 }
 
 struct NormalsPlusMarkers : View {
     
-    var pseudoCurve: [CGPoint]
+    var normals: [CGPoint]
     var markerCurves: BoundingCurves
     var style : MarkerStyle
     
     var body: some View {
         
         ZStack {
-            SuperEllipse(curve: pseudoCurve,
+            // NORMALS
+            SuperEllipse(curve: normals,
                          bezierType: .normals_lineSegments)
                 .stroke(Color.init(white: 0.85),
                         style: StrokeStyle(lineWidth: 6, dash: [0.75,4]))
             
+            // NORMALS INNER & OUTER MARKERS
             SuperEllipse(curve: markerCurves.inner,
                          bezierType: .markers(radius: style.radius))
                 .fill(Color.black)
@@ -80,6 +86,37 @@ struct NormalsPlusMarkers : View {
             SuperEllipse(curve: markerCurves.outer,
                          bezierType: .markers(radius: style.radius))
                 .fill(Color.black)
+        }
+    }
+}
+
+struct BaseCurve : View {
+    var vertices: [CGPoint]
+    
+    let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+    var body: some View {
+        SuperEllipse(curve: vertices,
+                     bezierType: .lineSegments)
+        .stroke(Color.white, style: strokeStyle)
+    }
+}
+
+struct EnvelopeBounds : View {
+    var curves: BoundingCurves
+    
+    let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+    let color = Color.init(white: 0.15)
+    
+    var body: some View {
+        
+        ZStack {
+            SuperEllipse(curve: curves.inner,
+                         bezierType: .lineSegments)
+                .stroke(color, style: strokeStyle)
+            
+            SuperEllipse(curve: curves.outer,
+                         bezierType: .lineSegments)
+                .stroke(color, style: strokeStyle)
         }
     }
 }
@@ -164,7 +201,7 @@ struct AnimatingBlob_PointZeroMarker: View {
         SuperEllipse(curve: animatingCurve,
                      bezierType: .singleMarker(index: 0, radius: 3),
                                                smoothed: false)
-            .fill(Color.gray)
+            .fill(Color.white)
     }
 }
 
