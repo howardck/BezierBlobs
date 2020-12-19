@@ -83,12 +83,21 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        PageView(pageType: PageType.killerMoth,
-                 description: PageView.descriptions[3],
-                 size: CGSize(width: 800, height: 800))
-            .tabItem {
-                Image(systemName: "4.circle.fill");
-                Text("\(PageType.killerMoth.rawValue)" )
+        Group {
+            PageView(pageType: PageType.sweptWing,
+                     description: PageView.descriptions[3],
+                     size: CGSize(width: 800, height: 800))
+                .tabItem {
+                    Image(systemName: "4.circle.fill");
+                    Text("\(PageType.killerMoth.rawValue)" )
             }
+            PageView(pageType: PageType.sweptWing,
+                     description: PageView.descriptions[3],
+                     size: CGSize(width: 800, height: 800))
+                .tabItem {
+                    Image(systemName: "4.circle.fill");
+                    Text("\(PageType.killerMoth.rawValue)" )
+                }
+        }
     }
 }

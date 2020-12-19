@@ -175,7 +175,7 @@ struct PageView: View {
     private func pageGradientBackground() -> some View {
         let colors : [Color] = [.init(white: 0.65), .init(white: 0.3)]
         return LinearGradient(gradient: Gradient(colors: colors),
-                              startPoint: .top,
+                              startPoint: .topLeading,
                               endPoint: .bottom)
     }
     

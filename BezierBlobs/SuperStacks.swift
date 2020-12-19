@@ -23,20 +23,22 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 3),
-    .pointZero :        (color: .orange, radius : r + 3),
+    .pointZero :        (color: .red, radius : r + 3),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r),
     .zig :              (color: .green, radius : r),
     .zag :              (color: .red, radius: r)
 ]
 
+let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
+let redGradient = Gradient(colors: [.red, .yellow])
+
 struct AnimatingBlob: View {
     var curve: [CGPoint]
     var stroked: Bool
     var filled: Bool
     
-//    let gradient = LinearGradient(gradient: Gradient(colors: [.red, .yellow]),
-    let gradient = LinearGradient(gradient: Gradient(colors: [.blue, .init(white: 0.025)]),
+    let gradient = LinearGradient(gradient: blueGradient,
                                  startPoint: .topLeading,
                                  endPoint: .bottomTrailing)
     var body : some View {
