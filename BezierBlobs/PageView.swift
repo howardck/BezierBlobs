@@ -11,12 +11,13 @@ enum PageType : String {
     case circle = "CIRCLE"
     case sweptWing = "SWEPT WING"
     case superEllipse = "SUPER ELLIPSE"
-    case mutant = "MUTANT"
+    case killerMoth = "KILLER MOTH"
 }
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              offsets: (in: CGFloat, out: CGFloat),
                              forceEqualAxes: Bool)
+
 struct PageView: View {
         
      static let descriptions : [PageDescription] =
@@ -41,6 +42,8 @@ struct PageView: View {
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
 
+        print("PageView.init(PageType.------------  \(pageType.rawValue)  -------------)")
+        
         self.pageType = pageType
         self.description = description
         
@@ -98,7 +101,6 @@ struct PageView: View {
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
             }
-            
             if showAnimatingBlob_Markers {
                 AnimatingBlob_Markers(curve: model.blobCurve,
                                       style: markerStyles[.blob]!)
@@ -113,15 +115,19 @@ struct PageView: View {
             }
         }
         .measure(color: .yellow)
-        .onAppear() {
-            print("PageView.onAppear(PageType.\(self.pageType.rawValue))")
-            
-            // blob curve first appearance
-//            model.blobCurve = model.baseCurve.vertices
-            model.blobCurve = model.boundingCurves.inner
-        }
+//        .onAppear() {
+//            print("PageView.onAppear(PageType.\(self.pageType.rawValue)) (moving to baseCurve vertices)")
+//
+//            // blob curve first appearance
+//            withAnimation(Animation.easeInOut(duration: 0.8)) {
+//                model.blobCurve = model.baseCurve.vertices
+////                model.blobCurve = model.boundingCurves.inner
+//
+//                print("PageView.body.onAppear(withAnimation())=@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+//            }
+//        }
         .onTapGesture(count: 1) {
-            print("PageView.onTapGesture(PageType.\(self.pageType.rawValue))")
+            //print("PageView.onTapGesture(PageType.\(self.pageType.rawValue))")
                         
             withAnimation(Animation.easeInOut(duration: 1.5)) {
 

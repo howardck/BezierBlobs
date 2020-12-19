@@ -17,6 +17,25 @@ struct ContentView: View {
     @Environment(\.verticalSizeClass) var vClass
     @Environment(\.horizontalSizeClass) var hClass
     
+    struct StatusTracker {
+        static var isInitialized : [PageType : Bool] = [
+            .circle: false,
+            .superEllipse: false,
+            .sweptWing: false,
+            .killerMoth: false
+        ]
+        static func isUninitialzed(pageType: PageType) -> Bool {
+            return !ContentView.StatusTracker.isInitialized[pageType]!
+        }
+        static func markInited(pageType: PageType) {
+            ContentView.StatusTracker.isInitialized[pageType] = true
+        }
+    }
+    
+    init() {
+        print("ContentView.init() #########################################")
+    }
+    
     var body: some View {
         GeometryReader { gr in
             
@@ -50,12 +69,12 @@ struct ContentView: View {
                         Text("\(PageType.sweptWing.rawValue)" )
                 }
 
-                PageView(pageType: PageType.mutant,
+                PageView(pageType: PageType.killerMoth,
                          description: PageView.descriptions[3],
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "4.circle.fill");
-                        Text("\(PageType.mutant.rawValue)" )
+                        Text("\(PageType.killerMoth.rawValue)" )
                     }
             }
         }
@@ -64,12 +83,12 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        PageView(pageType: PageType.mutant,
+        PageView(pageType: PageType.killerMoth,
                  description: PageView.descriptions[3],
                  size: CGSize(width: 800, height: 800))
             .tabItem {
                 Image(systemName: "4.circle.fill");
-                Text("\(PageType.mutant.rawValue)" )
+                Text("\(PageType.killerMoth.rawValue)" )
             }
     }
 }

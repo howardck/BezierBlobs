@@ -11,7 +11,7 @@ enum BezierType : Equatable {
     case lineSegments
     case markers(radius: CGFloat)
     case singleMarker(index: Int, radius: CGFloat)
-    case normals_lineSegments
+    case normals_lineSegs
 }
 
 struct SuperEllipse : Shape {
@@ -52,8 +52,8 @@ struct SuperEllipse : Shape {
                 are on the inner envelope boundary; we line from there
                 to their counterparts on the outer envelope boundary.
              */
-            case .normals_lineSegments :
-                if i < curve.count && i % 2 == 0 {
+            case .normals_lineSegs :
+                if i.isEven() && i < curve.count {
                     path.move(to: point)
                     path.addLine(to: curve[i + 1])
                 }

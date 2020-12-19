@@ -15,12 +15,17 @@ typealias BaseCurveAlias = (vertices: [CGPoint], normals: [CGVector])
 
 class Model: ObservableObject {
     
+    init() {
+        print("Model being inited @@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    }
+    
     @Published var blobCurve = [CGPoint]()
     
     // at point 0
     // zig configuration starts to the inside
     // zag configuration starts to the outside
-    var animateToZigConfiguration = false
+    var animateToZigConfiguration = true
+    var inited = false
     
     static let DEBUG_PRINT = false
     // kludge ahoy?!
@@ -41,8 +46,15 @@ class Model: ObservableObject {
     var n: Double = 0.0
     
     //MARK: -
+    func animateToCurrZigZagPhase() {
+        blobCurve = animateToZigConfiguration ?
+            zigZagCurves.zag :
+            zigZagCurves.zig
+    }
+    
     func animateToNextZigZagPhase() {
         
+        //print("Model.animateToNextZigZagPhase()")
         blobCurve = animateToZigConfiguration ?
             zigZagCurves.zig :
             zigZagCurves.zag
@@ -79,10 +91,16 @@ class Model: ObservableObject {
         
         boundingCurves = calculateBoundingCurves(offsets: self.offsets)
         zigZagCurves = calculateZigZagCurves(offsets: self.offsets)
-        
         normalsCurve = calculateNormalsPseudoCurve()
         
-        self.animateToNextZigZagPhase()
+        if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
+//            print("Model.inited: {\(inited)}" )
+            blobCurve = boundingCurves.inner
+            ContentView.StatusTracker.markInited(pageType: pageType)
+        }
+        else {
+            animateToCurrZigZagPhase()
+        }
     }
     
     // these two curves define the two extremes our blob path animates between
@@ -90,12 +108,12 @@ class Model: ObservableObject {
 
         let z = zip(baseCurve.vertices, baseCurve.normals)
         
-        /*  after enumerating a zipped array pair of a vertex &
-            its normal, a map function sees this:
+        /*  on enumerating a zipped array pair of vertices &
+            their normals, a map{ } function sees this:
                 $0.0: index of the point
                 $0.1: the vertex/normal pair for the point. ie
-                $0.1.0: the vertex of the point
-                @0.1.1: the normal (a CGVector) of/at the point
+                    $0.1.0: the vertex
+                    @0.1.1: the normal (a CGVector) of/at the point
          */
     
         let zigCurve = z.enumerated().map {
@@ -162,10 +180,6 @@ class Model: ObservableObject {
             
             if Model.DEBUG_PRINT {
                 debugPrint(i: i, theta: theta, vertex: vertex, normal: normal)
-                
-//                let div = dY/dX
-                //print( "dY/dX: [\((div).format(fspec: "5.3"))]  ")
-                //print("")
                 i += 1
             }
         }

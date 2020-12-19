@@ -22,8 +22,8 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .blue, radius: r + 2),
-    .pointZero :        (color: .orange, radius : r + 2),
+    .blob :             (color: .blue, radius: r + 3),
+    .pointZero :        (color: .orange, radius : r + 3),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r),
     .zig :              (color: .green, radius : r),
@@ -74,7 +74,7 @@ struct NormalsPlusMarkers : View {
         ZStack {
             // NORMALS
             SuperEllipse(curve: normals,
-                         bezierType: .normals_lineSegments)
+                         bezierType: .normals_lineSegs)
                 .stroke(Color.init(white: 0.85),
                         style: StrokeStyle(lineWidth: 6, dash: [0.75,4]))
             
