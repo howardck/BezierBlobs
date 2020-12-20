@@ -1,5 +1,5 @@
 //
-//  SuperStacks.swift
+//  SELayerStacks.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2020-12-14.

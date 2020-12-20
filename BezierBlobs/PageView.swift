@@ -37,7 +37,7 @@ struct PageView: View {
 
     //MARK: - SHOW & HIDE THINGS
     
-    @State var settingsDialogIsVisible = false
+    @State var superEllipseLayerStackListIsVisible = false
     
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
@@ -64,9 +64,9 @@ struct PageView: View {
     @State var showZigZagCurves = true
     @State var showEnvelopeBounds = false
     @State var showZigZag_Markers = false
-    @State var showBaseCurve_Markers = false
+    @State var showBaseCurve_Markers = true
     @State var showAnimatingBlob_Markers = true
-    @State var showAnimatingBlob_PointZeroMarker = false
+    @State var showAnimatingBlob_PointZeroMarker = true
     
 //    @State var showAnimatingBlob = true
 //    @State var showNormalsPlusMarkers = true
@@ -103,7 +103,6 @@ struct PageView: View {
                 BaseCurve(vertices: model.baseCurve.vertices)
             }
             if showEnvelopeBounds {
-                //zigZagBounds(curves: model.boundingCurves)
                 EnvelopeBounds(curves: model.boundingCurves)
             }
             if showZigZag_Markers {
@@ -143,34 +142,48 @@ struct PageView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    
-                    if settingsDialogIsVisible {
-                        Rectangle()
-                            .frame(width: 100, height: 200)
-                            .foregroundColor(Color.white)
-                            .border(Color.red)
-                            .padding(60)
-                            .transition(.opacity)
-                            .animation(.easeInOut(duration: 2.0))
-                            .onTapGesture {
-                                
-                                settingsDialogIsVisible.toggle()
-                            }
+                    if superEllipseLayerStackListIsVisible {
+                        let s = CGSize(width: 376, height: 376)
+                        ZStack {
+                            SuperEllipseLayerStacksSelectionList()
+                                .frame(width: s.width, height: s.height)
+                                .padding(50)
+                            bezelFrame(color: .red, size: s)
+                        }
+                        
+/* NOTA:    tapping here consumes the tap on the row that was tapped
+            and we disappear w/out changing the row selection.
+*/
+                        
+//                        .onTapGesture {
+//                            superEllipseLayerStackListIsVisible.toggle()
+//                        }
                     }
                     else {
                         GearButton(edgeColor: .orange, faceColor: .blue)
                             .scaleEffect(1.25)
-                            .padding(60)
+                            .padding(50)
                             .onTapGesture {
                                 print("GEAR BUTTON TAPPED!")
                                 
-                                settingsDialogIsVisible.toggle()
+                                superEllipseLayerStackListIsVisible.toggle()
                             }
                     }
                 }
             }
         )
-        .overlay(dropShadowedTextDescription())
+        .overlay(pageMetricsTextDescription())
+    }
+    
+    private func bezelFrame(color: Color, size: CGSize) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 6)
+                .stroke(color, lineWidth: 8)
+                .frame(width: size.width, height: size.height)
+            RoundedRectangle(cornerRadius: 6)
+                .stroke(Color.white, lineWidth: 1.25)
+                .frame(width: size.width, height: size.height)
+        }
     }
 
     //MARK:-
@@ -181,22 +194,33 @@ struct PageView: View {
                               endPoint: .bottom)
     }
     
+    func pageMetricsTextDescription() -> some View {
+        VStack(spacing: 10) {
+            DropShadowedText(text: "numPoints: \(description.numPoints)",
+                             foreColor: .white,
+                             backColor: .init(white: 0.2))
+            DropShadowedText(text: "n: \(description.n.format(fspec: "3.1"))",
+                             foreColor: .white,
+                             backColor: .init(white: 0.2))
+        }
+   }
+    
     //MARK:- OVERLAYS
     
     func sampleWidget() -> some View {
         HStack {
-            
             Spacer()
             VStack {
-                
                 Spacer()
                 VStack {
                     Text("I'm a widget")
+                        .foregroundColor(.red)
                         .frame(width: 300, height: 30, alignment: .leading)
                         .padding(6)
                         .background(Color.white)
                         .padding(6)
                     Text("me too!")
+                        .foregroundColor(.blue)
                         .frame(width: 300, height: 30, alignment: .leading)
                         .padding(6)
                         .background(Color.white)
@@ -207,19 +231,11 @@ struct PageView: View {
                 .padding(40)
             }
         }
-//        .border(Color.red, width: 3)
-    }
-    
-    func dropShadowedTextDescription() -> some View {
-        VStack(spacing: 10) {
-            DropShadowedText(text: "numPoints: \(description.numPoints)",
-                             foreColor: .white,
-                             backColor: .init(white: 0.2))
-            DropShadowedText(text: "n: \(description.n.format(fspec: "3.1"))",
-                             foreColor: .white,
-                             backColor: .init(white: 0.2))
+        .onTapGesture {
+            print("sample widget tapped!")
+            superEllipseLayerStackListIsVisible.toggle()
         }
-   }
+    }
 }
 
 struct DropShadowedText : View {
