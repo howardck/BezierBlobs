@@ -9,8 +9,8 @@ import SwiftUI
 
 enum PageType : String {
     case circle = "CIRCLE"
+    case superEllipse = "SUPER-ELLIPSE BLOB"
     case sweptWing = "SWEPT WING"
-    case superEllipse = "SUPER ELLIPSE"
     case killerMoth = "KILLER MOTH"
 }
 typealias PageDescription = (numPoints: Int,
@@ -58,15 +58,25 @@ struct PageView: View {
         
     //MARK:-
     
-    @State var showAnimatingBlob = true
-    @State var showNormalsPlusMarkers = true
+    @State var showAnimatingBlob = false
+    @State var showNormalsPlusMarkers = false
     @State var showBaseCurve = true
-    @State var showZigZagCurves = false
-    @State var showEnvelopeBounds = true
+    @State var showZigZagCurves = true
+    @State var showEnvelopeBounds = false
     @State var showZigZag_Markers = false
-    @State var showBaseCurve_Markers = true
+    @State var showBaseCurve_Markers = false
     @State var showAnimatingBlob_Markers = true
-    @State var showAnimatingBlob_PointZeroMarker = true
+    @State var showAnimatingBlob_PointZeroMarker = false
+    
+//    @State var showAnimatingBlob = true
+//    @State var showNormalsPlusMarkers = true
+//    @State var showBaseCurve = true
+//    @State var showZigZagCurves = false
+//    @State var showEnvelopeBounds = true
+//    @State var showZigZag_Markers = false
+//    @State var showBaseCurve_Markers = true
+//    @State var showAnimatingBlob_Markers = true
+//    @State var showAnimatingBlob_PointZeroMarker = true
     
     //MARK:-
     var body: some View {
@@ -81,7 +91,7 @@ struct PageView: View {
                               filled: true)
             }
             if showZigZagCurves {
-                zigZagCurves(curves: model.zigZagCurves)
+                ZigZags(curves: model.zigZagCurves)
             }
             // combine lines and markers to avoid 10-view limit
             if showNormalsPlusMarkers {
@@ -115,22 +125,14 @@ struct PageView: View {
             }
         }
         .measure(color: .yellow)
-//        .onAppear() {
-//            print("PageView.onAppear(PageType.\(self.pageType.rawValue)) (moving to baseCurve vertices)")
-//
-//            // blob curve first appearance
-//            withAnimation(Animation.easeInOut(duration: 0.8)) {
-//                model.blobCurve = model.baseCurve.vertices
-////                model.blobCurve = model.boundingCurves.inner
-//
-//                print("PageView.body.onAppear(withAnimation())=@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-//            }
-//        }
-        .onTapGesture(count: 1) {
-            //print("PageView.onTapGesture(PageType.\(self.pageType.rawValue))")
-                        
-            withAnimation(Animation.easeInOut(duration: 1.5)) {
-
+        .onAppear()
+        {
+            print("PageView.onAppear(PageType.\(self.pageType.rawValue))" )
+        }
+        .onTapGesture(count: 1)
+        {
+            withAnimation(Animation.easeInOut(duration: 1.5))
+            {
                 model.animateToNextZigZagPhase()
             }
         }
@@ -177,35 +179,6 @@ struct PageView: View {
         return LinearGradient(gradient: Gradient(colors: colors),
                               startPoint: .topLeading,
                               endPoint: .bottom)
-    }
-    
-    private func zigZagCurves(curves: ZigZagCurves) -> some View {
-        ZStack {
-            let lineStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-            
-            SuperEllipse(curve: curves.zig,
-                         bezierType: .lineSegments)
-                .stroke(Color.green, style: lineStyle)
-            
-            SuperEllipse(curve: curves.zag,
-                         bezierType: .lineSegments)
-                .stroke(Color.red, style: lineStyle)
-        }
-    }
-    
-    private func zigZagBounds(curves: BoundingCurves) -> some View {
-        Group {
-            let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-            let color = Color.init(white: 0.15)
-            
-            SuperEllipse(curve: curves.inner,
-                         bezierType: .lineSegments)
-                .stroke(color, style: strokeStyle)
-            
-            SuperEllipse(curve: curves.outer,
-                         bezierType: .lineSegments)
-                .stroke(color, style: strokeStyle)
-        }
     }
     
     //MARK:- OVERLAYS

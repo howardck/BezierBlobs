@@ -39,7 +39,7 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { gr in
             
-            let specifics = PlatformSpecifics.forSizeClasses(
+            let _ = PlatformSpecifics.forSizeClasses(
                 vSizeClass: vClass!,
                 hSizeClass: hClass!)
             

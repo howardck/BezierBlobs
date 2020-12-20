@@ -92,6 +92,24 @@ struct NormalsPlusMarkers : View {
     }
 }
 
+struct ZigZags : View {
+    var curves: ZigZagCurves
+    
+    var body: some View {
+        ZStack {
+            let lineStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+            
+            SuperEllipse(curve: curves.zig,
+                         bezierType: .lineSegments)
+                .stroke(Color.green, style: lineStyle)
+            
+            SuperEllipse(curve: curves.zag,
+                         bezierType: .lineSegments)
+                .stroke(Color.red, style: lineStyle)
+        }
+    }
+}
+
 struct BaseCurve : View {
     var vertices: [CGPoint]
     
