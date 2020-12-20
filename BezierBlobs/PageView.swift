@@ -134,6 +134,10 @@ struct PageView: View {
             {
                 model.animateToNextZigZagPhase()
             }
+            
+            if superEllipseLayerStackListIsVisible {
+                superEllipseLayerStackListIsVisible = false
+            }
         }
         
         // put GearButton in lower-right corner. a cleaner way... ????
