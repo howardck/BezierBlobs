@@ -10,27 +10,19 @@ import SwiftUI
 struct SuperEllipseLayerItem : Identifiable {
     let id = UUID()
     var name : String
-    var isSelected = false
+    var showLayer = false
 }
 
 struct SuperEllipseLayerStacksSelectionList: View {
-    @State var listItems : [SuperEllipseLayerItem] = [
-        .init(name: "animatingBlob"),
-        .init(name: "normals"),
-        .init(name: "baseCurve"),
-        .init(name: "zigZags"),
-        .init(name: "envelope bounds"),
-        .init(name: "baseCurve (markers)"),
-        .init(name: "animatingBlob (markers)"),
-        .init(name: "animatingBlob (point zero marker)")
-    ]
+    @Binding var listItems : [SuperEllipseLayerItem]
+    
     var body: some View {
         List {
             ForEach(listItems) { item in
                 LayerItemRow(layerItem: item)
                     .onTapGesture {
                         if let tappedItem = listItems.firstIndex(where: { $0.id == item.id }) {
-                            listItems[tappedItem].isSelected.toggle()
+                            listItems[tappedItem].showLayer.toggle()
                         }
                     }
             }
@@ -44,7 +36,7 @@ struct LayerItemRow : View {
 
     var body: some View {
         HStack {
-            CheckBox(checked: layerItem.isSelected)
+            CheckBox(checked: layerItem.showLayer)
             Spacer()
             Text(layerItem.name)
                 .frame(width: 310, height: 30, alignment: .leading)
@@ -69,8 +61,8 @@ struct CheckBox : View {
     }
 }
 
-struct LayersSelectionList_Previews: PreviewProvider {
-    static var previews: some View {
-        SuperEllipseLayerStacksSelectionList()
-    }
-}
+//struct LayersSelectionList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SuperEllipseLayerStacksSelectionList()
+//    }
+//}

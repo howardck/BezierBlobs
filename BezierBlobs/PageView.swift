@@ -39,6 +39,17 @@ struct PageView: View {
     
     @State var superEllipseLayerStackListIsVisible = false
     
+    @State var superEllipseLayers : [SuperEllipseLayerItem] = [
+        .init(name: "animatingBlob"),
+        .init(name: "normals"),
+        .init(name: "baseCurve", showLayer: true),
+        .init(name: "zigZags"),
+        .init(name: "envelope bounds"),
+        .init(name: "baseCurve (markers)"),
+        .init(name: "animatingBlob (markers)", showLayer: true),
+        .init(name: "animatingBlob (point zero marker)")
+    ]
+    
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
 
@@ -57,7 +68,6 @@ struct PageView: View {
      }
         
     //MARK:-
-    
     @State var showAnimatingBlob = false
     @State var showNormalsPlusMarkers = false
     @State var showBaseCurve = true
@@ -68,22 +78,13 @@ struct PageView: View {
     @State var showAnimatingBlob_Markers = true
     @State var showAnimatingBlob_PointZeroMarker = true
     
-//    @State var showAnimatingBlob = true
-//    @State var showNormalsPlusMarkers = true
-//    @State var showBaseCurve = true
-//    @State var showZigZagCurves = false
-//    @State var showEnvelopeBounds = true
-//    @State var showZigZag_Markers = false
-//    @State var showBaseCurve_Markers = true
-//    @State var showAnimatingBlob_Markers = true
-//    @State var showAnimatingBlob_PointZeroMarker = true
-    
     //MARK:-
     var body: some View {
     
         ZStack {
             
             pageGradientBackground()
+        
 
             if showAnimatingBlob {
                 AnimatingBlob(curve: model.blobCurve,
@@ -149,7 +150,7 @@ struct PageView: View {
                     if superEllipseLayerStackListIsVisible {
                         let s = CGSize(width: 376, height: 376)
                         ZStack {
-                            SuperEllipseLayerStacksSelectionList()
+                            SuperEllipseLayerStacksSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
                                 .padding(50)
                             bezelFrame(color: .red, size: s)
