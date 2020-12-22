@@ -39,15 +39,18 @@ struct PageView: View {
     
     @State var superEllipseLayerStackListIsVisible = false
     
-    @State var superEllipseLayers : [SuperEllipseLayerItem] = [
-        .init(name: "animatingBlob"),
-        .init(name: "normals"),
-        .init(name: "baseCurve", showLayer: true),
-        .init(name: "zigZags"),
-        .init(name: "envelope bounds"),
-        .init(name: "baseCurve (markers)"),
-        .init(name: "animatingBlob (markers)", showLayer: true),
-        .init(name: "animatingBlob (point zero marker)")
+    // "isVisible = true" entries below indicate which layers are VISIBLE BY DEFAULT @ startup
+    @State var superEllipseLayers : [SuperEllipseLayer] =
+    [
+        .init(type: .animatingBlob, name: "animatingBlob", isVisible: true),
+        .init(type: .animatingBlob_markers , name: "animatingBlob (markers)", isVisible: true),
+        .init(type: .animatingBlob_originMarkers, name: "animatingBlob (point zero marker)"),
+        .init(type: .baseCurve, name: "baseCurve"),
+        .init(type: .baseCurve_markers, name: "baseCurve (markers)"),
+        .init(type: .normals, name: "normals (lines & markers)"),
+        .init(type: .zigZags, name: "zigZags"),
+        .init(type: .zigZag_markers, name: "ZigZag (markers)"),
+        .init(type: .envelopeBounds, name: "envelope bounds")
     ]
     
     //MARK:-
@@ -86,40 +89,40 @@ struct PageView: View {
             pageGradientBackground()
         
 
-            if showAnimatingBlob {
+            if superEllipseLayers[LayerType.animatingBlob.rawValue].isVisible {
                 AnimatingBlob(curve: model.blobCurve,
                               stroked: true,
                               filled: true)
             }
-            if showZigZagCurves {
+            if superEllipseLayers[LayerType.zigZags.rawValue].isVisible {
                 ZigZags(curves: model.zigZagCurves)
             }
             // combine lines and markers to avoid 10-view limit
-            if showNormalsPlusMarkers {
+            if superEllipseLayers[LayerType.normals.rawValue].isVisible {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
-            if showBaseCurve {
+            if superEllipseLayers[LayerType.baseCurve.rawValue].isVisible {
                 BaseCurve(vertices: model.baseCurve.vertices)
             }
-            if showEnvelopeBounds {
+            if superEllipseLayers[LayerType.envelopeBounds.rawValue].isVisible {
                 EnvelopeBounds(curves: model.boundingCurves)
             }
-            if showZigZag_Markers {
+            if superEllipseLayers[LayerType.zigZag_markers.rawValue].isVisible {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
             }
-            if showAnimatingBlob_Markers {
+            if superEllipseLayers[LayerType.animatingBlob_markers.rawValue].isVisible {
                 AnimatingBlob_Markers(curve: model.blobCurve,
                                       style: markerStyles[.blob]!)
             }
-            if showBaseCurve_Markers {
+            if superEllipseLayers[LayerType.baseCurve_markers.rawValue].isVisible {
                 BaseCurve_Markers(curve: model.baseCurve.vertices,
                                   style: markerStyles[.baseCurve]!)
             }
-            if showAnimatingBlob_PointZeroMarker {
+            if superEllipseLayers[LayerType.animatingBlob_originMarkers.rawValue].isVisible {
                 AnimatingBlob_PointZeroMarker(animatingCurve: model.blobCurve,
                                               markerStyle: markerStyles[.pointZero]!)
             }
@@ -150,7 +153,7 @@ struct PageView: View {
                     if superEllipseLayerStackListIsVisible {
                         let s = CGSize(width: 376, height: 376)
                         ZStack {
-                            SuperEllipseLayerStacksSelectionList(listItems: $superEllipseLayers)
+                            SuperEllipseLayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
                                 .padding(50)
                             bezelFrame(color: .red, size: s)

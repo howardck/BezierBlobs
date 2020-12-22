@@ -7,36 +7,48 @@
 
 import SwiftUI
 
-struct SuperEllipseLayerItem : Identifiable {
-    let id = UUID()
-    var name : String
-    var showLayer = false
+enum LayerType : Int {
+    case animatingBlob
+    case animatingBlob_markers
+    case animatingBlob_originMarkers
+    case baseCurve
+    case baseCurve_markers
+    case normals
+    case zigZags
+    case zigZag_markers
+    case envelopeBounds
 }
 
-struct SuperEllipseLayerStacksSelectionList: View {
-    @Binding var listItems : [SuperEllipseLayerItem]
-    
+struct SuperEllipseLayer  {
+    var type : LayerType
+    var name : String
+    var isVisible = false
+}
+
+struct SuperEllipseLayerSelectionList: View {
+    @Binding var listItems : [SuperEllipseLayer]
+
     var body: some View {
-        List {
-            ForEach(listItems) { item in
-                LayerItemRow(layerItem: item)
-                    .onTapGesture {
-                        if let tappedItem = listItems.firstIndex(where: { $0.id == item.id }) {
-                            listItems[tappedItem].showLayer.toggle()
-                        }
+        List( listItems, id: \.type ) { item in
+            LayerItemRow(layerItem: item)
+                .onAppear {print(".onAppear{}: \"\(item.name)\"")}
+                .onTapGesture {
+                    print("LayersList: tapped on item {\"\(item.name)\"} type: {\(item.type.rawValue)}")
+                    if let tappedItem = listItems.firstIndex(where: { $0.type.rawValue == item.type.rawValue }) {
+                        listItems[tappedItem].isVisible.toggle()
                     }
-            }
+                }
         }
         .environment(\.defaultMinListRowHeight, 46)
     }
 }
 
 struct LayerItemRow : View {
-    var layerItem : SuperEllipseLayerItem
+    var layerItem : SuperEllipseLayer
 
     var body: some View {
         HStack {
-            CheckBox(checked: layerItem.showLayer)
+            CheckBox(checked: layerItem.isVisible)
             Spacer()
             Text(layerItem.name)
                 .frame(width: 310, height: 30, alignment: .leading)
