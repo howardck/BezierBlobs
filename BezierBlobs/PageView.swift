@@ -48,7 +48,7 @@ struct PageView: View {
         .init(type: .baseCurve, name: "baseCurve", isVisible: true),
         .init(type: .baseCurve_markers, name: "baseCurve (markers)", isVisible: true),
         
-        .init(type: .normals, name: "normals (lines & markers)", isVisible: true),
+        .init(type: .normals, name: "normals", isVisible: false),
         .init(type: .zigZags, name: "zigZags"),
         .init(type: .zigZag_markers, name: "ZigZag (markers)"),
         .init(type: .envelopeBounds, name: "envelope bounds", isVisible: true)
@@ -119,7 +119,14 @@ struct PageView: View {
         .measure(color: .yellow)
         .onAppear()
         {
-            print("PageView.onAppear(PageType.\(self.pageType.rawValue))" )
+            print("PageView.onAppear(PageType.\(pageType.rawValue))" )
+        }
+        // NB: check for 2 taps before checking for 1 tap
+        .onTapGesture(count: 2) {
+            withAnimation(Animation.easeInOut(duration: 0.6))
+            {
+                model.returnToInitialConfiguration()
+            }
         }
         .onTapGesture(count: 1)
         {
@@ -133,7 +140,7 @@ struct PageView: View {
             }
         }
         
-        // put GearButton in lower-right corner. a cleaner way... ????
+        // GearButton to lower-right corner. a cleaner way... ??
         .overlay(
             VStack {
                 Spacer()
@@ -151,7 +158,6 @@ struct PageView: View {
 /* NOTA:    tapping here consumes the tap on the row that was tapped
             and we disappear w/out changing the row selection.
 */
-                        
 //                        .onTapGesture {
 //                            superEllipseLayerStackListIsVisible.toggle()
 //                        }

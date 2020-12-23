@@ -11,12 +11,12 @@ typealias Axes = (a: Double, b: Double)
 typealias Offsets = (in: CGFloat, out: CGFloat)
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
-typealias BaseCurveAlias = (vertices: [CGPoint], normals: [CGVector])
+typealias BaseCurveType = (vertices: [CGPoint], normals: [CGVector])
 
 class Model: ObservableObject {
     
 //    init() {
-//        print("Model being inited @@@@@@@@@@@@@@@@@@@@@@@@@@@")
+//        print("Model.init()")
 //    }
     
     @Published var blobCurve = [CGPoint]()
@@ -24,19 +24,14 @@ class Model: ObservableObject {
     // at point 0
     // zig configuration starts to the inside
     // zag configuration starts to the outside
-    var animateToZigConfiguration = true
-    var inited = false
+    var animateToZigConfiguration = false
     
     static let DEBUG_PRINT = false
-    // kludge ahoy?!
-    static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001
+    static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001  // kludge ahoy?
     
     var axes : Axes = (1, 1)
-    
-    //var baseCurveVertices = [CGPoint]()
-    //var normals = [CGVector]()
-    
-    var baseCurve : BaseCurveAlias = (vertices: [CGPoint](), normals: [CGVector]())
+
+    var baseCurve : BaseCurveType = (vertices: [CGPoint](), normals: [CGVector]())
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
     var normalsCurve : [CGPoint] = [CGPoint]()
@@ -53,8 +48,8 @@ class Model: ObservableObject {
     }
     
     func animateToNextZigZagPhase() {
-        
         //print("Model.animateToNextZigZagPhase()")
+        
         blobCurve = animateToZigConfiguration ?
             zigZagCurves.zig :
             zigZagCurves.zag
@@ -64,9 +59,13 @@ class Model: ObservableObject {
     
     //MARK: -
     
+    var pageType: PageType?
+    
     func calculateSuperEllipseCurves(for pageType: PageType,
                                      pageDescription: PageDescription,
                                      axes: Axes) {
+        
+        self.pageType = pageType // for debugging reference
         
         let radius = CGFloat((axes.a + axes.b)/2.0)
         
@@ -84,7 +83,8 @@ class Model: ObservableObject {
         self.baseCurve = calculateBaseCurvePlusNormals(for: numPoints,
                                                        with: self.axes)
         if Model.DEBUG_PRINT {
-            print("\nModel.calculateSuperEllipseCurves(pageId: [\(pageType)] numPoints: {\(numPoints)} ...)")
+            print("\nModel.calculateSuperEllipseCurves")
+            print("(pageId: [\(pageType)] numPoints: {\(numPoints)} ...)")
             print("axes: a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((self.axes.b).format(fspec: "6.2"))}")
         }
@@ -94,13 +94,24 @@ class Model: ObservableObject {
         normalsCurve = calculateNormalsPseudoCurve()
         
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
-            print("Model.calculateSuperEllipseCurves: setting initial blobCurve ==  baseCurve.vertices" )
-            blobCurve = baseCurve.vertices
+            setInitialBlobCurve()
             ContentView.StatusTracker.markInited(pageType: pageType)
         }
         else {
             animateToCurrZigZagPhase()
         }
+    }
+    
+    func setInitialBlobCurve() {
+        print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
+        
+        blobCurve = baseCurve.vertices
+    }
+    
+    func returnToInitialConfiguration() {
+        print("Model.returnToInitialConfiguration(PageType.\(pageType!.rawValue))" )
+        
+        blobCurve = baseCurve.vertices
     }
     
     // these two curves define the two extremes our blob path animates between
