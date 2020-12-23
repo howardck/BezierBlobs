@@ -23,9 +23,9 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 3),
-    .pointZero :        (color: .red, radius : r + 3),
+    .pointZero :        (color: .green, radius : r + 3),
     .envelopeBounds :   (color: .black, radius: 8),
-    .baseCurve :        (color: .white, radius: r),
+    .baseCurve :        (color: .white, radius: r + 2),
     .zig :              (color: .green, radius : r),
     .zag :              (color: .red, radius: r)
 ]

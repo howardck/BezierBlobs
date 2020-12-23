@@ -147,7 +147,7 @@ struct PageView: View {
                 HStack {
                     Spacer()
                     if superEllipseLayerStackListIsVisible {
-                        let s = CGSize(width: 376, height: 376)
+                        let s = CGSize(width: 376, height: 420)
                         ZStack {
                             SuperEllipseLayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
