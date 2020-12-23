@@ -15,9 +15,9 @@ typealias BaseCurveAlias = (vertices: [CGPoint], normals: [CGVector])
 
 class Model: ObservableObject {
     
-    init() {
-        print("Model being inited @@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    }
+//    init() {
+//        print("Model being inited @@@@@@@@@@@@@@@@@@@@@@@@@@@")
+//    }
     
     @Published var blobCurve = [CGPoint]()
     
@@ -94,8 +94,8 @@ class Model: ObservableObject {
         normalsCurve = calculateNormalsPseudoCurve()
         
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
-//            print("Model.inited: {\(inited)}" )
-            blobCurve = boundingCurves.inner
+            print("Model.calculateSuperEllipseCurves: setting initial blobCurve ==  baseCurve.vertices" )
+            blobCurve = baseCurve.vertices
             ContentView.StatusTracker.markInited(pageType: pageType)
         }
         else {

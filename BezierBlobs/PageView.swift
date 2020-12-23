@@ -11,7 +11,7 @@ enum PageType : String {
     case circle = "CIRCLE"
     case superEllipse = "SUPER-ELLIPSE BLOB"
     case sweptWing = "SWEPT WING"
-    case killerMoth = "KILLER MOTH"
+    case killerMoth = "MUTANT MOTH"
 }
 typealias PageDescription = (numPoints: Int,
                              n: Double,
@@ -43,20 +43,21 @@ struct PageView: View {
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
         .init(type: .animatingBlob, name: "animatingBlob", isVisible: true),
-        .init(type: .animatingBlob_markers , name: "animatingBlob (markers)", isVisible: true),
-        .init(type: .animatingBlob_originMarkers, name: "animatingBlob (point zero marker)"),
-        .init(type: .baseCurve, name: "baseCurve"),
-        .init(type: .baseCurve_markers, name: "baseCurve (markers)"),
-        .init(type: .normals, name: "normals (lines & markers)"),
+        .init(type: .animatingBlob_markers , name: "animatingBlob (all markers)", isVisible: true),
+        .init(type: .animatingBlob_originMarkers, name: "animatingBlob (origin marker)", isVisible: true),
+        .init(type: .baseCurve, name: "baseCurve", isVisible: true),
+        .init(type: .baseCurve_markers, name: "baseCurve (markers)", isVisible: true),
+        
+        .init(type: .normals, name: "normals (lines & markers)", isVisible: true),
         .init(type: .zigZags, name: "zigZags"),
         .init(type: .zigZag_markers, name: "ZigZag (markers)"),
-        .init(type: .envelopeBounds, name: "envelope bounds")
+        .init(type: .envelopeBounds, name: "envelope bounds", isVisible: true)
     ]
     
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
 
-        print("PageView.init(PageType.------------  \(pageType.rawValue)  -------------)")
+//        print("PageView.init(PageType.------------  \(pageType.rawValue)  -------------)")
         
         self.pageType = pageType
         self.description = description
@@ -69,17 +70,6 @@ struct PageView: View {
                                           axes: (a: Double(self.size.width/2),
                                                  b: Double(self.size.height/2)))
      }
-        
-    //MARK:-
-    @State var showAnimatingBlob = false
-    @State var showNormalsPlusMarkers = false
-    @State var showBaseCurve = true
-    @State var showZigZagCurves = true
-    @State var showEnvelopeBounds = false
-    @State var showZigZag_Markers = false
-    @State var showBaseCurve_Markers = true
-    @State var showAnimatingBlob_Markers = true
-    @State var showAnimatingBlob_PointZeroMarker = true
     
     //MARK:-
     var body: some View {
@@ -87,7 +77,6 @@ struct PageView: View {
         ZStack {
             
             pageGradientBackground()
-        
 
             if superEllipseLayers[LayerType.animatingBlob.rawValue].isVisible {
                 AnimatingBlob(curve: model.blobCurve,
