@@ -78,16 +78,16 @@ struct NormalsPlusMarkers : View {
             SuperEllipse(curve: normals,
                          bezierType: .normals_lineSegs)
                 .stroke(Color.init(white: 0.85),
-                        style: StrokeStyle(lineWidth: 6, dash: [0.75,4]))
+                        style: StrokeStyle(lineWidth: 5, dash: [0.75,4]))
             
             // NORMALS INNER & OUTER MARKERS
-            SuperEllipse(curve: markerCurves.inner,
-                         bezierType: .markers(radius: style.radius))
-                .fill(Color.black)
-            
-            SuperEllipse(curve: markerCurves.outer,
-                         bezierType: .markers(radius: style.radius))
-                .fill(Color.black)
+//            SuperEllipse(curve: markerCurves.inner,
+//                         bezierType: .markers(radius: style.radius))
+//                .fill(Color.black)
+//
+//            SuperEllipse(curve: markerCurves.outer,
+//                         bezierType: .markers(radius: style.radius))
+//                .fill(Color.black)
         }
     }
 }
@@ -123,6 +123,7 @@ struct BaseCurve : View {
 
 struct EnvelopeBounds : View {
     var curves: BoundingCurves
+    var style : MarkerStyle
     
     let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
     let color = Color.init(white: 0.15)
@@ -137,6 +138,16 @@ struct EnvelopeBounds : View {
             SuperEllipse(curve: curves.outer,
                          bezierType: .lineSegments)
                 .stroke(color, style: strokeStyle)
+            
+            // MOVING THE MARKERS AT ENDS OF THE NORMALS TO HERE ...
+            // NORMALS INNER & OUTER MARKERS
+            SuperEllipse(curve: curves.inner,
+                         bezierType: .markers(radius: style.radius))
+                .fill(Color.black)
+            
+            SuperEllipse(curve: curves.outer,
+                         bezierType: .markers(radius: style.radius))
+                .fill(Color.black)
         }
     }
 }

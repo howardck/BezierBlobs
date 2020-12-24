@@ -86,7 +86,11 @@ struct PageView: View {
             if superEllipseLayers[LayerType.zigZags.rawValue].isVisible {
                 ZigZags(curves: model.zigZagCurves)
             }
-            // combine lines and markers to avoid 10-view limit
+            // combine lines and markers to avoid the 10-view limit
+            /*
+                NOTA: trying a newish version in which the normal END MARKERS
+                are now being drawn by the EnvelopeBounds() routine below.
+             */
             if superEllipseLayers[LayerType.normals.rawValue].isVisible {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
@@ -96,7 +100,8 @@ struct PageView: View {
                 BaseCurve(vertices: model.baseCurve.vertices)
             }
             if superEllipseLayers[LayerType.envelopeBounds.rawValue].isVisible {
-                EnvelopeBounds(curves: model.boundingCurves)
+                EnvelopeBounds(curves: model.boundingCurves,
+                               style: markerStyles[.envelopeBounds]!)
             }
             if superEllipseLayers[LayerType.zigZag_markers.rawValue].isVisible {
                 ZigZag_Markers(curves: model.zigZagCurves,
