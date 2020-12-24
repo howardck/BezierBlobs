@@ -13,10 +13,10 @@ enum LayerType : Int {
     case animatingBlob_originMarkers
     case baseCurve
     case baseCurve_markers
+    case envelopeBounds
     case normals
     case zigZags
     case zigZag_markers
-    case envelopeBounds
 }
 
 struct SuperEllipseLayer  {

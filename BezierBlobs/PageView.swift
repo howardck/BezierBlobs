@@ -48,10 +48,11 @@ struct PageView: View {
         .init(type: .baseCurve, name: "baseCurve", isVisible: true),
         .init(type: .baseCurve_markers, name: "baseCurve (markers)", isVisible: true),
         
+        .init(type: .envelopeBounds, name: "envelope bounds", isVisible: true),
         .init(type: .normals, name: "normals", isVisible: false),
+            
         .init(type: .zigZags, name: "zigZags"),
-        .init(type: .zigZag_markers, name: "ZigZag (markers)"),
-        .init(type: .envelopeBounds, name: "envelope bounds", isVisible: true)
+        .init(type: .zigZag_markers, name: "ZigZag (markers)")
     ]
     
     //MARK:-
@@ -99,6 +100,8 @@ struct PageView: View {
             if superEllipseLayers[LayerType.baseCurve.rawValue].isVisible {
                 BaseCurve(vertices: model.baseCurve.vertices)
             }
+            // see above. EnvelopeBounds() now draw both the bounds + the inner
+            // and outer markers, priorly the remit of NormalsPlusMarkers
             if superEllipseLayers[LayerType.envelopeBounds.rawValue].isVisible {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
@@ -126,7 +129,10 @@ struct PageView: View {
         {
             print("PageView.onAppear(PageType.\(pageType.rawValue))" )
         }
-        // NB: check for 2 taps before checking for 1 tap
+        // NOTA: check for 2 taps BEFORE checking for 1 tap.
+        // NOTA: this slows down start of the animation BRIEFLY
+        // while the system waits to determine a 2-tap DIDN'T happen.
+        
         .onTapGesture(count: 2) {
             withAnimation(Animation.easeInOut(duration: 0.6))
             {
@@ -156,9 +162,10 @@ struct PageView: View {
                         ZStack {
                             SuperEllipseLayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
-                                .padding(50)
+                                .padding(60)
                             bezelFrame(color: .red, size: s)
                         }
+                    }
                         
 /* NOTA:    tapping here consumes the tap on the row that was tapped
             and we disappear w/out changing the row selection.
@@ -166,11 +173,11 @@ struct PageView: View {
 //                        .onTapGesture {
 //                            superEllipseLayerStackListIsVisible.toggle()
 //                        }
-                    }
+                    
                     else {
                         GearButton(edgeColor: .orange, faceColor: .blue)
                             .scaleEffect(1.25)
-                            .padding(50)
+                            .padding(60)
                             .onTapGesture {
                                 print("GEAR BUTTON TAPPED!")
                                 

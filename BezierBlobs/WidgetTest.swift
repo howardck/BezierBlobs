@@ -37,7 +37,8 @@ struct GearLayer: View {
     var color: Color
     var size: CGSize
     var body: some View {
-        Text(Image(systemName: "gearshape.fill"))
+//        Text(Image(systemName: "gearshape.fill"))
+        Text(Image(systemName: "square.stack.3d.up"))
             .font(.largeTitle).fontWeight(.black)
             .foregroundColor(color)
             .frame(width: size.width, height: size.height)
@@ -52,17 +53,11 @@ struct GearButton : View {
     
     var body : some View {
         ZStack {
+            // first the base (or edge) shadow
             GearLayer(color: edgeColor, size: s)
-                .offset(x: -3, y : -3)
-            GearLayer(color: Color.init(white: 0.25), size: s)
-                .scaleEffect(0.9)
-            GearLayer(color: Color.init(white: 0.25), size: s)
-                .scaleEffect(1.05)
+                .offset(x: 1, y : 1)
             GearLayer(color: faceColor, size: s)
         }
-//        .frame(width: 200, height: 100)
-//        .scaleEffect(1.8)
-//        .background(Color.green)
     }
 }
 
@@ -114,14 +109,12 @@ struct WidgetTest: View {
 
 struct CurveSettingsView_Previews: PreviewProvider {
     static var previews: some View {
+ 
         ZStack {
-            Color.init(white: 0.4)
-            VStack {
-                GearButton(edgeColor: .black, faceColor: .white)
-                GearButton(edgeColor: .orange, faceColor: .blue)
-                GearButton(edgeColor: .yellow, faceColor: .blue)
-                GearButton(edgeColor: .red, faceColor: .blue)
-            }
+            Color.gray
+            GearButton(edgeColor: .red, faceColor: .blue)
+                .scaleEffect(3)
+                .padding(50)
         }
     }
 }
