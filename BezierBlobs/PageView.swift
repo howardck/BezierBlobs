@@ -43,24 +43,24 @@ struct PageView: View {
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
         .init(type: .animatingBlob, id: .animatingBlob,
-              animationType: .animating, name: "blob (animating)", isVisible: true),
+              animationType: .animating, name: "blob", isVisible: true),
         .init(type: .animatingBlob_markers, id: .animatingBlob_markers,
-              animationType: .animating, name: "blob--all vertices (animating)", isVisible: true),
+              animationType: .animating, name: "blob [all vertex markers]", isVisible: true),
         .init(type: .animatingBlob_originMarkers, id: .animatingBlob_originMarkers,
-              animationType: .animating, name: "blob--origin marker (animating)", isVisible: true),
+              animationType: .animating, name: "blob [vertex 0 marker only]", isVisible: true),
         
         .init(type: .baseCurve, id: .baseCurve,
-              animationType: .ancillary, name: "baseCurve", isVisible: true),
+              animationType: .ancillary, name: "base curve", isVisible: true),
         .init(type: .baseCurve_markers, id: .baseCurve_markers,
-              animationType : .ancillary, name: "baseCurve (markers)", isVisible: true),
+              animationType : .ancillary, name: "base curve [all markers]", isVisible: true),
         .init(type: .envelopeBounds, id: .envelopeBounds, animationType: .ancillary,
               name: "envelope bounds", isVisible: true),
         .init(type: .normals, id: .normals,
               animationType : .ancillary, name: "normals"),
         .init(type: .zigZags, id: .zigZags,
-              animationType : .ancillary, name: "zigZags"),
+              animationType : .ancillary, name: "zig-zag curves", isVisible: true),
         .init(type: .zigZag_markers, id: .zigZag_markers,
-              animationType : .ancillary, name: "ZigZag (markers)")
+              animationType : .ancillary, name: "zig-zag curves [all markers]", isVisible: true)
     ]
     
     //MARK:-
@@ -166,7 +166,7 @@ struct PageView: View {
                 HStack {
                     Spacer()
                     if isLayerSelectionListVisible {
-                        let s = CGSize(width: 376, height: 420)
+                        let s = CGSize(width: 290, height: 460)
                         ZStack {
                             SELayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)

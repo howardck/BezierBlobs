@@ -51,17 +51,21 @@ struct SELayerSelectionList: View {
 //        .environment(\.defaultMinListRowHeight, 46)
         //    }
         List {
-            Section(header: Text("animating layers").padding(8)) {
+            Section(header: Text("Animating layers").padding(8)) {
                 ForEach(listItems.filter{$0.animationType == .animating}, id: \.type) { item in
                     LayerItemRow(layerItem: item)
                 }
             }
-            Section(header: Text("support layers").padding(8)) {
+            .textCase(.lowercase)
+            Section(header: Text("Static support layers").padding(8)) {
                 ForEach(listItems.filter{$0.animationType == .ancillary}, id: \.type) { item in
                     LayerItemRow(layerItem: item)
                 }
             }
+            .textCase(.lowercase) // or .Text.Case.lowercase or .lowercase or nil
         }
+        // adding .environment(... : 0) makes spacing as tight as possible
+        .environment(\.defaultMinListRowHeight, 0)
     }
 }
 
