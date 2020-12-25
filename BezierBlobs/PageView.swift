@@ -45,22 +45,24 @@ struct PageView: View {
         .init(type: .animatingBlob, id: .animatingBlob,
               animationType: .animating, name: "blob", isVisible: true),
         .init(type: .animatingBlob_markers, id: .animatingBlob_markers,
-              animationType: .animating, name: "blob [all vertex markers]", isVisible: true),
+              animationType: .animating, name: "blob [markers only]", isVisible: true),
         .init(type: .animatingBlob_originMarkers, id: .animatingBlob_originMarkers,
               animationType: .animating, name: "blob [vertex 0 marker only]", isVisible: true),
         
         .init(type: .baseCurve, id: .baseCurve,
               animationType: .ancillary, name: "base curve", isVisible: true),
         .init(type: .baseCurve_markers, id: .baseCurve_markers,
-              animationType : .ancillary, name: "base curve [all markers]", isVisible: true),
-        .init(type: .envelopeBounds, id: .envelopeBounds, animationType: .ancillary,
-              name: "envelope bounds", isVisible: true),
+              animationType : .ancillary, name: "base curve [markers only]", isVisible: true),
+        
         .init(type: .normals, id: .normals,
               animationType : .ancillary, name: "normals"),
+        
+        .init(type: .envelopeBounds, id: .envelopeBounds, animationType: .ancillary,
+              name: "envelope", isVisible: true),
         .init(type: .zigZags, id: .zigZags,
               animationType : .ancillary, name: "zig-zag curves", isVisible: true),
         .init(type: .zigZag_markers, id: .zigZag_markers,
-              animationType : .ancillary, name: "zig-zag curves [all markers]", isVisible: true)
+              animationType : .ancillary, name: "zig-zag curves w/ all markers", isVisible: true)
     ]
     
     //MARK:-
@@ -166,7 +168,10 @@ struct PageView: View {
                 HStack {
                     Spacer()
                     if isLayerSelectionListVisible {
-                        let s = CGSize(width: 290, height: 460)
+                        // @@@@@@@@@@@@@
+                        // NOTA: SIZE IS IPAD-ONLY RIGHT NOW
+                        // @@@@@@@@@@@@@
+                        let s = CGSize(width: 300, height: 424)
                         ZStack {
                             SELayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
@@ -174,20 +179,19 @@ struct PageView: View {
                             bezelFrame(color: .red, size: s)
                         }
                     }
-  
 /*
- NOTA:    tapping here consumes the tap on the row that was tapped
-            and we disappear w/out changing the row selection.
-//                     .onTapGesture {
-//                     superEllipseLayerStackListIsVisible.toggle()
-//                     }
+ NOTA:  tapping here consumes the tap on the row that was tapped
+        and we disappear w/out changing the row selection
+                     
+        .onTapGesture { superEllipseLayerStackListIsVisible.toggle() }
 */
                     else {
-                        SquareStackSymbol(edgeColor: .orange, faceColor: .blue)
+                        DoubleLayeredSquareStackSymbol(faceColor: .blue,
+                                                       edgeColor: .orange)
                             .scaleEffect(1.25)
                             .padding(60)
                             .onTapGesture {
-                                print("GEAR BUTTON TAPPED!")
+                                print("SquareStackSymbol tapped")
                                 
                                 isLayerSelectionListVisible.toggle()
                             }
@@ -227,38 +231,6 @@ struct PageView: View {
                              backColor: .init(white: 0.2))
         }
    }
-    
-    //MARK:- OVERLAYS
-    
-    func sampleWidget() -> some View {
-        HStack {
-            Spacer()
-            VStack {
-                Spacer()
-                VStack {
-                    Text("I'm a widget")
-                        .foregroundColor(.red)
-                        .frame(width: 300, height: 30, alignment: .leading)
-                        .padding(6)
-                        .background(Color.white)
-                        .padding(6)
-                    Text("me too!")
-                        .foregroundColor(.blue)
-                        .frame(width: 300, height: 30, alignment: .leading)
-                        .padding(6)
-                        .background(Color.white)
-                        .padding(6)
-                }
-                .border(Color.init(white: 0.25), width: 2)
-                .background(Color.init(white: 0.85))
-                .padding(40)
-            }
-        }
-        .onTapGesture {
-            print("sample widget tapped!")
-            isLayerSelectionListVisible.toggle()
-        }
-    }
 }
 
 struct DropShadowedText : View {
