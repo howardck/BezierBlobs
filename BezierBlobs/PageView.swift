@@ -37,22 +37,30 @@ struct PageView: View {
 
     //MARK: - SHOW & HIDE THINGS
     
-    @State var superEllipseLayerStackListIsVisible = false
+    @State var isLayerSelectionListVisible = false
     
     // "isVisible = true" entries below indicate which layers are VISIBLE BY DEFAULT @ startup
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
-        .init(type: .animatingBlob, name: "animatingBlob", isVisible: true),
-        .init(type: .animatingBlob_markers , name: "animatingBlob (all markers)", isVisible: true),
-        .init(type: .animatingBlob_originMarkers, name: "animatingBlob (origin marker)", isVisible: true),
-        .init(type: .baseCurve, name: "baseCurve", isVisible: true),
-        .init(type: .baseCurve_markers, name: "baseCurve (markers)", isVisible: true),
+        .init(type: .animatingBlob, id: .animatingBlob,
+              animationType: .animating, name: "blob (animating)", isVisible: true),
+        .init(type: .animatingBlob_markers, id: .animatingBlob_markers,
+              animationType: .animating, name: "blob--all vertices (animating)", isVisible: true),
+        .init(type: .animatingBlob_originMarkers, id: .animatingBlob_originMarkers,
+              animationType: .animating, name: "blob--origin marker (animating)", isVisible: true),
         
-        .init(type: .envelopeBounds, name: "envelope bounds", isVisible: true),
-        .init(type: .normals, name: "normals", isVisible: false),
-            
-        .init(type: .zigZags, name: "zigZags"),
-        .init(type: .zigZag_markers, name: "ZigZag (markers)")
+        .init(type: .baseCurve, id: .baseCurve,
+              animationType: .ancillary, name: "baseCurve", isVisible: true),
+        .init(type: .baseCurve_markers, id: .baseCurve_markers,
+              animationType : .ancillary, name: "baseCurve (markers)", isVisible: true),
+        .init(type: .envelopeBounds, id: .envelopeBounds, animationType: .ancillary,
+              name: "envelope bounds", isVisible: true),
+        .init(type: .normals, id: .normals,
+              animationType : .ancillary, name: "normals"),
+        .init(type: .zigZags, id: .zigZags,
+              animationType : .ancillary, name: "zigZags"),
+        .init(type: .zigZag_markers, id: .zigZag_markers,
+              animationType : .ancillary, name: "ZigZag (markers)")
     ]
     
     //MARK:-
@@ -120,8 +128,8 @@ struct PageView: View {
                                   style: markerStyles[.baseCurve]!)
             }
             if superEllipseLayers[LayerType.animatingBlob_originMarkers.rawValue].isVisible {
-                AnimatingBlob_PointZeroMarker(animatingCurve: model.blobCurve,
-                                              markerStyle: markerStyles[.pointZero]!)
+                AnimatingBlob_VertexOriginMarker(animatingCurve: model.blobCurve,
+                                              markerStyle: markerStyles[.vertexOrigin]!)
             }
         }
         .measure(color: .yellow)
@@ -141,13 +149,13 @@ struct PageView: View {
         }
         .onTapGesture(count: 1)
         {
-            withAnimation(Animation.easeInOut(duration: 1.5))
+            withAnimation(Animation.easeInOut(duration: 1.6))
             {
                 model.animateToNextZigZagPhase()
             }
             
-            if superEllipseLayerStackListIsVisible {
-                superEllipseLayerStackListIsVisible = false
+            if isLayerSelectionListVisible {
+                isLayerSelectionListVisible = false
             }
         }
         
@@ -157,31 +165,31 @@ struct PageView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    if superEllipseLayerStackListIsVisible {
+                    if isLayerSelectionListVisible {
                         let s = CGSize(width: 376, height: 420)
                         ZStack {
-                            SuperEllipseLayerSelectionList(listItems: $superEllipseLayers)
+                            SELayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
                                 .padding(60)
                             bezelFrame(color: .red, size: s)
                         }
                     }
-                        
-/* NOTA:    tapping here consumes the tap on the row that was tapped
+  
+/*
+ NOTA:    tapping here consumes the tap on the row that was tapped
             and we disappear w/out changing the row selection.
+//                     .onTapGesture {
+//                     superEllipseLayerStackListIsVisible.toggle()
+//                     }
 */
-//                        .onTapGesture {
-//                            superEllipseLayerStackListIsVisible.toggle()
-//                        }
-                    
                     else {
-                        GearButton(edgeColor: .orange, faceColor: .blue)
+                        SquareStackSymbol(edgeColor: .orange, faceColor: .blue)
                             .scaleEffect(1.25)
                             .padding(60)
                             .onTapGesture {
                                 print("GEAR BUTTON TAPPED!")
                                 
-                                superEllipseLayerStackListIsVisible.toggle()
+                                isLayerSelectionListVisible.toggle()
                             }
                     }
                 }
@@ -248,7 +256,7 @@ struct PageView: View {
         }
         .onTapGesture {
             print("sample widget tapped!")
-            superEllipseLayerStackListIsVisible.toggle()
+            isLayerSelectionListVisible.toggle()
         }
     }
 }

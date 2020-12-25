@@ -45,7 +45,7 @@ struct GearLayer: View {
     }
 }
 
-struct GearButton : View {
+struct SquareStackSymbol : View {
     
     var edgeColor: Color
     var faceColor: Color
@@ -69,9 +69,9 @@ struct GearButtonTest : View {
             HStack {
                 Spacer()
                 ZStack {
-                    GearButton(edgeColor: .orange, faceColor: .blue)
-                    GearButton(edgeColor: .yellow, faceColor: .blue)
-                    GearButton(edgeColor: .red, faceColor: .blue)
+                    SquareStackSymbol(edgeColor: .orange, faceColor: .blue)
+                    SquareStackSymbol(edgeColor: .yellow, faceColor: .blue)
+                    SquareStackSymbol(edgeColor: .red, faceColor: .blue)
                 }
                 .padding(12)
                 .background(Color.red)
@@ -112,7 +112,7 @@ struct CurveSettingsView_Previews: PreviewProvider {
  
         ZStack {
             Color.gray
-            GearButton(edgeColor: .red, faceColor: .blue)
+            SquareStackSymbol(edgeColor: .red, faceColor: .blue)
                 .scaleEffect(3)
                 .padding(50)
         }

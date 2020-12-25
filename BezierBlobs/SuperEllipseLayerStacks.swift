@@ -11,7 +11,7 @@ let orangeish = Gradient(colors: [.yellow, .red])
 
 enum MarkerType : CaseIterable {
     case blob
-    case pointZero
+    case vertexOrigin
     case envelopeBounds
     case baseCurve
     case zig
@@ -23,16 +23,19 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 3),
-    .pointZero :        (color: .green, radius : r + 3),
+    .vertexOrigin :        (color: .yellow, radius : r + 3),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r + 2),
-    .zig :              (color: .green, radius : r),
-    .zag :              (color: .red, radius: r)
+//    .zig :              (color: .orange, radius : r - 4),
+//    .zag :              (color: .red, radius: r - 4)
+    .zig :              (color: .red, radius : r - 4),
+    .zag :              (color: .green, radius: r - 4)
 ]
 
 let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
 let redGradient = Gradient(colors: [.red, .yellow])
 
+//MARK:-
 struct AnimatingBlob: View {
     var curve: [CGPoint]
     var stroked: Bool
@@ -65,6 +68,49 @@ struct AnimatingBlob: View {
     }
 }
 
+//MARK:-
+
+struct AnimatingBlob_Markers : View {
+    var curve : [CGPoint]
+    var style : MarkerStyle
+    
+    var body : some View {
+        
+        SuperEllipse(curve: curve,
+                     bezierType: .markers(radius: style.radius + 1))
+            .fill(Color.black)
+        SuperEllipse(curve: curve,
+                     bezierType: .markers(radius: style.radius))
+            .fill(style.color)
+        SuperEllipse(curve: curve,
+                     bezierType: .markers(radius: 3))
+            .fill(Color.white)
+    }
+}
+
+struct AnimatingBlob_VertexOriginMarker: View {
+    var animatingCurve: [CGPoint]
+    var markerStyle : MarkerStyle
+
+    var body : some View {
+        SuperEllipse(curve: animatingCurve,
+                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius + 1.5),
+                     smoothed: false)
+            .fill(Color.black)
+        
+        SuperEllipse(curve: animatingCurve,
+                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius),
+                                               smoothed: false)
+            .fill(markerStyle.color)
+        
+        SuperEllipse(curve: animatingCurve,
+                     bezierType: .singleMarker(index: 0, radius: 3),
+                                               smoothed: false)
+            .fill(Color.white)
+    }
+}
+
+//MARK:-
 struct NormalsPlusMarkers : View {
     
     var normals: [CGPoint]
@@ -92,24 +138,7 @@ struct NormalsPlusMarkers : View {
     }
 }
 
-struct ZigZags : View {
-    var curves: ZigZagCurves
-    
-    var body: some View {
-        ZStack {
-            let lineStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-            
-            SuperEllipse(curve: curves.zig,
-                         bezierType: .lineSegments)
-                .stroke(Color.green, style: lineStyle)
-            
-            SuperEllipse(curve: curves.zag,
-                         bezierType: .lineSegments)
-                .stroke(Color.red, style: lineStyle)
-        }
-    }
-}
-
+//MARK:-
 struct BaseCurve : View {
     var vertices: [CGPoint]
     
@@ -120,7 +149,28 @@ struct BaseCurve : View {
         .stroke(Color.white, style: strokeStyle)
     }
 }
+struct BaseCurve_Markers : View {
+    var curve : [CGPoint]
+    var style : MarkerStyle
+    
+    var body : some View {
+        
+        ZStack {
+            SuperEllipse(curve: curve,
+                         bezierType: .markers(radius: style.radius + 1))
+                .fill(Color.black)
+            
+            SuperEllipse(curve: curve,
+                         bezierType: .markers(radius: style.radius))
+                .fill(style.color)
+            SuperEllipse(curve: curve,
+                         bezierType: .markers(radius: 3))
+                .fill(Color.black)
+        }
+    }
+}
 
+//MARK:-
 struct EnvelopeBounds : View {
     var curves: BoundingCurves
     var style : MarkerStyle
@@ -152,6 +202,26 @@ struct EnvelopeBounds : View {
     }
 }
 
+//MARK:-
+
+struct ZigZags : View {
+    var curves: ZigZagCurves
+    
+    var body: some View {
+        ZStack {
+            let lineStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+            
+            SuperEllipse(curve: curves.zig,
+                         bezierType: .lineSegments)
+                .stroke(Color.red, style: lineStyle)
+            
+            SuperEllipse(curve: curves.zag,
+                         bezierType: .lineSegments)
+                .stroke(Color.green, style: lineStyle)
+        }
+    }
+}
+
 struct ZigZag_Markers : View {
     var curves : ZigZagCurves
     var zigStyle : MarkerStyle
@@ -159,80 +229,25 @@ struct ZigZag_Markers : View {
     
     var body : some View {
         
-        SuperEllipse(curve: curves.zig,
-                     bezierType: .markers(radius: zigStyle.radius + 2))
-            .fill(Color.init(white: 0.3))
+//        SuperEllipse(curve: curves.zig,
+//                     bezierType: .markers(radius: zigStyle.radius + 1))
+//            .fill(Color.white)//init(white: 0.9))
         SuperEllipse(curve: curves.zig,
                      bezierType: .markers(radius: zigStyle.radius))
             .fill(zigStyle.color)
+//        SuperEllipse(curve: curves.zig,
+//                     bezierType: .markers(radius: 1.5))
+//            .fill(Color.black)
         
-        SuperEllipse(curve: curves.zag,
-                     bezierType: .markers(radius: zagStyle.radius + 2))
-            .fill(Color.init(white: 0.9))
+//        SuperEllipse(curve: curves.zag,
+//                     bezierType: .markers(radius: zagStyle.radius + 1))
+//            .fill(Color.init(white: 1.0))
         SuperEllipse(curve: curves.zag,
                      bezierType: .markers(radius: zagStyle.radius))
             .fill(zagStyle.color)
-    }
-}
-
-struct AnimatingBlob_Markers : View {
-    var curve : [CGPoint]
-    var style : MarkerStyle
-    
-    var body : some View {
-        
-        SuperEllipse(curve: curve,
-                     bezierType: .markers(radius: style.radius + 1))
-            .fill(Color.black)
-        SuperEllipse(curve: curve,
-                     bezierType: .markers(radius: style.radius))
-            .fill(style.color)
-        SuperEllipse(curve: curve,
-                     bezierType: .markers(radius: 3))
-            .fill(Color.white)
-    }
-}
-
-struct BaseCurve_Markers : View {
-    var curve : [CGPoint]
-    var style : MarkerStyle
-    
-    var body : some View {
-        
-        ZStack {
-            SuperEllipse(curve: curve,
-                         bezierType: .markers(radius: style.radius + 1))
-                .fill(Color.black)
-            
-            SuperEllipse(curve: curve,
-                         bezierType: .markers(radius: style.radius))
-                .fill(style.color)
-            SuperEllipse(curve: curve,
-                         bezierType: .markers(radius: 3))
-                .fill(Color.black)
-        }
-    }
-}
-
-struct AnimatingBlob_PointZeroMarker: View {
-    var animatingCurve: [CGPoint]
-    var markerStyle : MarkerStyle
-
-    var body : some View {
-        SuperEllipse(curve: animatingCurve,
-                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius + 1),
-                     smoothed: false)
-            .fill(Color.black)
-        
-        SuperEllipse(curve: animatingCurve,
-                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius),
-                                               smoothed: false)
-            .fill(markerStyle.color)
-        
-        SuperEllipse(curve: animatingCurve,
-                     bezierType: .singleMarker(index: 0, radius: 3),
-                                               smoothed: false)
-            .fill(Color.white)
+//        SuperEllipse(curve: curves.zag,
+//                     bezierType: .markers(radius: 1.5))
+//            .fill(Color.white)
     }
 }
 

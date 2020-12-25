@@ -19,27 +19,49 @@ enum LayerType : Int {
     case zigZag_markers
 }
 
-struct SuperEllipseLayer  {
+enum AnimationType {
+    case animating
+    case ancillary
+}
+
+struct SuperEllipseLayer : Identifiable {
     var type : LayerType
+    var id : LayerType
+    var animationType: AnimationType
     var name : String
     var isVisible = false
 }
 
-struct SuperEllipseLayerSelectionList: View {
+struct SELayerSelectionList: View {
     @Binding var listItems : [SuperEllipseLayer]
 
     var body: some View {
-        List( listItems, id: \.type ) { item in
-            LayerItemRow(layerItem: item)
-                .onAppear {print(".onAppear{}: \"\(item.name)\"")}
-                .onTapGesture {
-                    print("LayersList: tapped on item {\"\(item.name)\"} type: {\(item.type.rawValue)}")
-                    if let tappedItem = listItems.firstIndex(where: { $0.type.rawValue == item.type.rawValue }) {
-                        listItems[tappedItem].isVisible.toggle()
-                    }
+//    {
+////        List( listItems, id: \.type ) { item in
+//        List( listItems ) { item in
+//            LayerItemRow(layerItem: item)
+//                .onAppear {print(".onAppear{}: \"\(item.name)\"")}
+//                .onTapGesture {
+//                    print("LayerList: tapped on item {\"\(item.name)\"} type: {\(item.type.rawValue)}")
+//                    if let tappedItem = listItems.firstIndex(where: { $0.type.rawValue == item.type.rawValue }) {
+//                        listItems[tappedItem].isVisible.toggle()
+//                    }
+//                }
+//        }
+//        .environment(\.defaultMinListRowHeight, 46)
+        //    }
+        List {
+            Section(header: Text("animating layers").padding(8)) {
+                ForEach(listItems.filter{$0.animationType == .animating}, id: \.type) { item in
+                    LayerItemRow(layerItem: item)
                 }
+            }
+            Section(header: Text("support layers").padding(8)) {
+                ForEach(listItems.filter{$0.animationType == .ancillary}, id: \.type) { item in
+                    LayerItemRow(layerItem: item)
+                }
+            }
         }
-        .environment(\.defaultMinListRowHeight, 46)
     }
 }
 
