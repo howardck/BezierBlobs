@@ -22,8 +22,8 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .blue, radius: r + 3),
-    .vertexOrigin :        (color: .yellow, radius : r + 3),
+    .blob :             (color: .blue, radius: r + 4),
+    .vertexOrigin :     (color: .yellow, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r + 2),
 //    .zig :              (color: .orange, radius : r - 4),
@@ -96,7 +96,7 @@ struct AnimatingBlob_VertexOriginMarker: View {
         SuperEllipse(curve: animatingCurve,
                      bezierType: .singleMarker(index: 0, radius: markerStyle.radius + 1.5),
                      smoothed: false)
-            .fill(Color.black)
+            .fill(Color.white)
         
         SuperEllipse(curve: animatingCurve,
                      bezierType: .singleMarker(index: 0, radius: markerStyle.radius),
@@ -106,7 +106,7 @@ struct AnimatingBlob_VertexOriginMarker: View {
         SuperEllipse(curve: animatingCurve,
                      bezierType: .singleMarker(index: 0, radius: 3),
                                                smoothed: false)
-            .fill(Color.white)
+            .fill(Color.black)
     }
 }
 
@@ -127,13 +127,13 @@ struct NormalsPlusMarkers : View {
                         style: StrokeStyle(lineWidth: 5, dash: [0.75,4]))
             
             // NORMALS INNER & OUTER MARKERS
-//            SuperEllipse(curve: markerCurves.inner,
-//                         bezierType: .markers(radius: style.radius))
-//                .fill(Color.black)
-//
-//            SuperEllipse(curve: markerCurves.outer,
-//                         bezierType: .markers(radius: style.radius))
-//                .fill(Color.black)
+            SuperEllipse(curve: markerCurves.inner,
+                         bezierType: .markers(radius: style.radius))
+                .fill(Color.black)
+
+            SuperEllipse(curve: markerCurves.outer,
+                         bezierType: .markers(radius: style.radius))
+                .fill(Color.black)
         }
     }
 }
@@ -141,14 +141,15 @@ struct NormalsPlusMarkers : View {
 //MARK:-
 struct BaseCurve : View {
     var vertices: [CGPoint]
-    
     let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+    
     var body: some View {
         SuperEllipse(curve: vertices,
                      bezierType: .lineSegments)
-        .stroke(Color.white, style: strokeStyle)
+        .stroke(Color.yellow, style: strokeStyle)
     }
 }
+
 struct BaseCurve_Markers : View {
     var curve : [CGPoint]
     var style : MarkerStyle

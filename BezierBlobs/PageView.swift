@@ -58,7 +58,7 @@ struct PageView: View {
               animationType : .ancillary, name: "normals"),
         
         .init(type: .envelopeBounds, id: .envelopeBounds, animationType: .ancillary,
-              name: "envelope", isVisible: true),
+              name: "inner-to-outer-curve envelope", isVisible: true),
         .init(type: .zigZags, id: .zigZags,
               animationType : .ancillary, name: "zig-zag curves", isVisible: true),
         .init(type: .zigZag_markers, id: .zigZag_markers,
@@ -89,14 +89,15 @@ struct PageView: View {
             
             pageGradientBackground()
 
-            if superEllipseLayers[LayerType.animatingBlob.rawValue].isVisible {
-                AnimatingBlob(curve: model.blobCurve,
-                              stroked: true,
-                              filled: true)
-            }
-            if superEllipseLayers[LayerType.zigZags.rawValue].isVisible {
-                ZigZags(curves: model.zigZagCurves)
-            }
+//            if superEllipseLayers[LayerType.animatingBlob.rawValue].isVisible {
+//                AnimatingBlob(curve: model.blobCurve,
+//                              stroked: true,
+//                              filled: true)
+//            }
+//            if superEllipseLayers[LayerType.zigZags.rawValue].isVisible {
+//                ZigZags(curves: model.zigZagCurves)
+//            }
+            
             // combine lines and markers to avoid the 10-view limit
             /*
                 NOTA: trying a newish version in which the normal END MARKERS
@@ -107,32 +108,35 @@ struct PageView: View {
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
-            if superEllipseLayers[LayerType.baseCurve.rawValue].isVisible {
-                BaseCurve(vertices: model.baseCurve.vertices)
-            }
+            
+//            if superEllipseLayers[LayerType.baseCurve.rawValue].isVisible {
+//                BaseCurve(vertices: model.baseCurve.vertices)
+//            }
+            
             // see above. EnvelopeBounds() now draw both the bounds + the inner
             // and outer markers, priorly the remit of NormalsPlusMarkers
             if superEllipseLayers[LayerType.envelopeBounds.rawValue].isVisible {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
-            if superEllipseLayers[LayerType.zigZag_markers.rawValue].isVisible {
-                ZigZag_Markers(curves: model.zigZagCurves,
-                               zigStyle : markerStyles[.zig]!,
-                               zagStyle : markerStyles[.zag]!)
-            }
-            if superEllipseLayers[LayerType.animatingBlob_markers.rawValue].isVisible {
-                AnimatingBlob_Markers(curve: model.blobCurve,
-                                      style: markerStyles[.blob]!)
-            }
-            if superEllipseLayers[LayerType.baseCurve_markers.rawValue].isVisible {
-                BaseCurve_Markers(curve: model.baseCurve.vertices,
-                                  style: markerStyles[.baseCurve]!)
-            }
-            if superEllipseLayers[LayerType.animatingBlob_originMarkers.rawValue].isVisible {
-                AnimatingBlob_VertexOriginMarker(animatingCurve: model.blobCurve,
-                                              markerStyle: markerStyles[.vertexOrigin]!)
-            }
+            
+//            if superEllipseLayers[LayerType.zigZag_markers.rawValue].isVisible {
+//                ZigZag_Markers(curves: model.zigZagCurves,
+//                               zigStyle : markerStyles[.zig]!,
+//                               zagStyle : markerStyles[.zag]!)
+//            }
+//            if superEllipseLayers[LayerType.animatingBlob_markers.rawValue].isVisible {
+//                AnimatingBlob_Markers(curve: model.blobCurve,
+//                                      style: markerStyles[.blob]!)
+//            }
+//            if superEllipseLayers[LayerType.baseCurve_markers.rawValue].isVisible {
+//                BaseCurve_Markers(curve: model.baseCurve.vertices,
+//                                  style: markerStyles[.baseCurve]!)
+//            }
+//            if superEllipseLayers[LayerType.animatingBlob_originMarkers.rawValue].isVisible {
+//                AnimatingBlob_VertexOriginMarker(animatingCurve: model.blobCurve,
+//                                              markerStyle: markerStyles[.vertexOrigin]!)
+//            }
         }
         .measure(color: .yellow)
         .onAppear()
