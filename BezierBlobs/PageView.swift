@@ -44,26 +44,26 @@ struct PageView: View {
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
         .init(type: .animatingBlob, id: .animatingBlob,
-              animationType: .animating, name: "blob", isVisible: false),
+              animationType: .animating, name: "blob"),
         .init(type: .animatingBlob_markers, id: .animatingBlob_markers,
-              animationType: .animating, name: "blob [markers only]", isVisible: true),
+              animationType: .animating, name: "blob -- markers", isVisible: true),
         .init(type: .animatingBlob_originMarkers, id: .animatingBlob_originMarkers,
-              animationType: .animating, name: "blob [vertex 0 marker only]", isVisible: true),
+              animationType: .animating, name: "blob -- vertex 0 marker", isVisible: true),
         
         .init(type: .baseCurve, id: .baseCurve,
-              animationType: .ancillary, name: "base curve", isVisible: false),
+              animationType: .ancillary, name: "base curve", isVisible: true),
         .init(type: .baseCurve_markers, id: .baseCurve_markers,
-              animationType : .ancillary, name: "base curve [markers only]", isVisible: false),
+              animationType : .ancillary, name: "base curve -- markers", isVisible: true),
         
         .init(type: .normals, id: .normals,
-              animationType : .ancillary, name: "normals"),
+              animationType : .ancillary, name: "normals", isVisible: true),
         
         .init(type: .envelopeBounds, id: .envelopeBounds, animationType: .ancillary,
-              name: "inner-to-outer-curve envelope", isVisible: false),
+              name: "inner-to-outer-curve envelope"),
         .init(type: .zigZags, id: .zigZags,
-              animationType : .ancillary, name: "zig-zag curves", isVisible: false),
+              animationType : .ancillary, name: "zig-zag curves"),
         .init(type: .zigZag_markers, id: .zigZag_markers,
-              animationType : .ancillary, name: "zig-zag curves w/ all markers", isVisible: false)
+              animationType : .ancillary, name: "zig-zag curves -- markers")
     ]
     
     //MARK:-
