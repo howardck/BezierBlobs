@@ -22,7 +22,7 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .blue, radius: r + 4),
+    .blob :             (color: .blue, radius: r + 2),
     .vertexOrigin :     (color: .yellow, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r + 2),
@@ -146,7 +146,7 @@ struct BaseCurve : View {
     var body: some View {
         SuperEllipse(curve: vertices,
                      bezierType: .lineSegments)
-        .stroke(Color.yellow, style: strokeStyle)
+        .stroke(Color.white, style: strokeStyle)
     }
 }
 

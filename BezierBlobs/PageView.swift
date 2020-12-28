@@ -22,9 +22,9 @@ struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            (numPoints: 16, n: 2, offsets: (in: -0.2, out: 0.35), forceEqualAxes: true),
+            (numPoints: 4, n: 2, offsets: (in: -0.2, out: 0.35), forceEqualAxes: true),
             (numPoints: 22, n: 4.0, offsets: (in: -0.2, out: 0.35), false),
-            (numPoints: 4, n: 3, offsets: (in: -0.55, out: 0.35), false),
+            (numPoints: 6, n: 3, offsets: (in: -0.55, out: 0.35), false),
             (numPoints: 24, n: 1.0, offsets: (in: 0.1, out: 0.5), false)
         ]
     

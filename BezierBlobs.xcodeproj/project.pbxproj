@@ -72,11 +72,11 @@
 		5E57D2AE256D5AD900D6B1C0 /* BezierBlobs */ = {
 			isa = PBXGroup;
 			children = (
-				5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */,
-				3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */,
 				5E57D2E0256D5CDB00D6B1C0 /* Model.swift */,
-				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
 				5E57D2E1256D5CDB00D6B1C0 /* SuperEllipse.swift */,
+				5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */,
+				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
+				3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */,
 				3B779D252587CD5C00C5BC85 /* SuperEllipseLayerStacks.swift */,
 				3B686E022590091C00466BF5 /* SuperEllipseLayerStackSelection.swift */,
 				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
@@ -320,7 +320,7 @@
 				DEVELOPMENT_TEAM = 5GH34SU7UW;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BezierBlobs/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -342,7 +342,7 @@
 				DEVELOPMENT_TEAM = 5GH34SU7UW;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BezierBlobs/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
