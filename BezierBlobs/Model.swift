@@ -140,11 +140,21 @@ class Model: ObservableObject {
     
     // define an envelope within which our blob
     // does it thing, ie zigs and zags.
-    func calculateBoundingCurves(offsets: Offsets) -> BoundingCurves {
-        let z = zip(baseCurve.vertices, baseCurve.normals)
-        return (inner: z.map{ $0.0.newPoint(at: offsets.in, along: $0.1) },
-                outer: z.map{ $0.0.newPoint(at: offsets.out, along: $0.1) })
-    }
+    
+//    func calculateBoundingCurves(offsets: Offsets) -> BoundingCurves {
+//        let z = zip(baseCurve.vertices, baseCurve.normals)
+//        return (inner: z.map{ $0.0.newPoint(at: offsets.in, along: $0.1) },
+//                outer: z.map{ $0.0.newPoint(at: offsets.out, along: $0.1) })
+//    }
+//
+//    func calculateNormalsPseudoCurve() -> [CGPoint] {
+//        var normals = [CGPoint]()
+//        for i in 0..<boundingCurves.inner.count {
+//            normals.append(boundingCurves.inner[i])
+//            normals.append(boundingCurves.outer[i])
+//        }
+//        return normals
+//    }
     
     func calculateNormalsPseudoCurve() -> [CGPoint] {
         var normals = [CGPoint]()
@@ -153,6 +163,12 @@ class Model: ObservableObject {
             normals.append(boundingCurves.outer[i])
         }
         return normals
+    }
+    
+    func calculateBoundingCurves(offsets: Offsets) -> BoundingCurves {
+        let z = zip(baseCurve.vertices, baseCurve.normals)
+        return (inner: z.map{ $0.0.newPoint(at: offsets.in, along: $0.1) },
+                outer: z.map{ $0.0.newPoint(at: offsets.out, along: $0.1) })
     }
     
     func calculateBaseCurvePlusNormals(for numPoints: Int,
