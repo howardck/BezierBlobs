@@ -212,12 +212,12 @@ struct PageView: View {
                         VStack {
                             HighlightedPencilButton(name: pencilInSquare,
                                                     faceColor: .blue,
-                                                    edgeColor: .red)
+                                                    edgeColor: .orange)
                             Spacer()
                                 .frame(width: 70, height: 20)
                             
                             HighlightedLayerStackButton(faceColor: .blue,
-                                                        edgeColor: .red)
+                                                        edgeColor: .orange)
                                 .onTapGesture {
                                     print("SquareStackSymbol tapped")
                                     isLayerSelectionListVisible.toggle()
