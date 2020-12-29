@@ -205,7 +205,7 @@ struct PageView: View {
                             LayerSelectionDialog(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
                                 .padding(70)
-                            bezelFrame(color: .red, size: s)
+                            bezelFrame(color: .orange, size: s)
                         }
                     }
                     else {
