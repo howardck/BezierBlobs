@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B686E032590091C00466BF5 /* SuperEllipseLayerStackSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* SuperEllipseLayerStackSelection.swift */; };
-		3B779D262587CD5C00C5BC85 /* SuperEllipseLayerStacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B779D252587CD5C00C5BC85 /* SuperEllipseLayerStacks.swift */; };
+		3B686E032590091C00466BF5 /* LayerSelectionDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* LayerSelectionDialog.swift */; };
+		3B779D262587CD5C00C5BC85 /* SuperEllipseLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* ScreenButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
 		5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */; };
@@ -24,8 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3B686E022590091C00466BF5 /* SuperEllipseLayerStackSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseLayerStackSelection.swift; sourceTree = "<group>"; };
-		3B779D252587CD5C00C5BC85 /* SuperEllipseLayerStacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseLayerStacks.swift; sourceTree = "<group>"; };
+		3B686E022590091C00466BF5 /* LayerSelectionDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerSelectionDialog.swift; sourceTree = "<group>"; };
+		3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseLayers.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenButtons.swift; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierBlobsApp.swift; sourceTree = "<group>"; };
@@ -77,8 +77,8 @@
 				5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */,
 				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
 				3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */,
-				3B779D252587CD5C00C5BC85 /* SuperEllipseLayerStacks.swift */,
-				3B686E022590091C00466BF5 /* SuperEllipseLayerStackSelection.swift */,
+				3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */,
+				3B686E022590091C00466BF5 /* LayerSelectionDialog.swift */,
 				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
 				5E57D2E6256D5CF900D6B1C0 /* extensions */,
@@ -178,13 +178,13 @@
 			files = (
 				5E57D2E4256D5CDB00D6B1C0 /* SuperEllipse.swift in Sources */,
 				5E57D2EC256D5D1200D6B1C0 /* CGPointVector.swift in Sources */,
-				3B686E032590091C00466BF5 /* SuperEllipseLayerStackSelection.swift in Sources */,
+				3B686E032590091C00466BF5 /* LayerSelectionDialog.swift in Sources */,
 				5E57D2EB256D5D1200D6B1C0 /* Path+Points.swift in Sources */,
 				5E57D2E3256D5CDB00D6B1C0 /* Model.swift in Sources */,
 				5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */,
 				3BB48CC22581A2CD005DEBB8 /* ScreenButtons.swift in Sources */,
 				5E57D2E2256D5CDB00D6B1C0 /* PageView.swift in Sources */,
-				3B779D262587CD5C00C5BC85 /* SuperEllipseLayerStacks.swift in Sources */,
+				3B779D262587CD5C00C5BC85 /* SuperEllipseLayers.swift in Sources */,
 				5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */,
 				5E57D2EA256D5D1200D6B1C0 /* Formatting.swift in Sources */,
 				5E57D2DD256D5CBB00D6B1C0 /* PlatformSpecifics.swift in Sources */,

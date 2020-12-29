@@ -32,7 +32,7 @@ struct SuperEllipseLayer : Identifiable {
     var isVisible = false
 }
 
-struct SELayerSelectionList: View {
+struct LayerSelectionDialog: View {
     @Binding var listItems : [SuperEllipseLayer]
     
     var body: some View
@@ -43,8 +43,7 @@ struct SELayerSelectionList: View {
                     LayerItemRow(layerItem: item)
                         .onTapGesture {
                             if let tapped = listItems.firstIndex(
-                                where:
-                                    { $0.type.rawValue == item.type.rawValue })
+                                where: { $0.type.rawValue == item.type.rawValue })
                             {
                                 listItems[tapped].isVisible.toggle()
                             }
@@ -58,8 +57,7 @@ struct SELayerSelectionList: View {
                     LayerItemRow(layerItem: item)
                         .onTapGesture {
                             if let tappedItem = listItems.firstIndex(
-                                where:
-                                    { $0.type.rawValue == item.type.rawValue })
+                                where: { $0.type.rawValue == item.type.rawValue })
                             {
                                 listItems[tappedItem].isVisible.toggle()
                             }

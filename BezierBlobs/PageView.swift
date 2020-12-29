@@ -166,40 +166,65 @@ struct PageView: View {
             }
         }
         
-        // GearButton to lower-right corner. a cleaner way... ??
+        // COMING UP : initially placed in the lower-left ...
+        /*
+         HighlightedPencilButton(name: pencilInSquare,
+                                 faceColor: .blue,
+                                 edgeColor: .pink)
+         */
+        
+//        .overlay(
+//            VStack {
+//                Spacer()
+//                HStack {
+//                    HighlightedPencilButton(name: pencilWithEllipsis,
+//                                            faceColor: .blue,
+//                                            edgeColor: .red)
+//                        .scaleEffect(1.25)
+//                        .padding(60)
+//                    Spacer()
+//                }
+//            }
+//        )
+        
+        // LayerStack Button to lower-right corner. is there a cleaner way ... ??
         .overlay(
             VStack {
                 Spacer()
                 HStack {
                     Spacer()
                     if isLayerSelectionListVisible {
-                        // @@@@@@@@@@@@@
+                        
+                        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                         // NOTA: SIZE IS IPAD-ONLY RIGHT NOW
-                        // @@@@@@@@@@@@@
+                        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                        
                         let s = CGSize(width: 320, height: 500)
+                        
                         ZStack {
-                            SELayerSelectionList(listItems: $superEllipseLayers)
+                            LayerSelectionDialog(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
-                                .padding(60)
+                                .padding(70)
                             bezelFrame(color: .red, size: s)
                         }
                     }
-/*
- NOTA:  tapping here consumes the tap on the row that was tapped
-        and we disappear w/out changing the row selection
-                     
-        .onTapGesture { superEllipseLayerStackListIsVisible.toggle() }
-*/
                     else {
-                        DoubleLayeredSquareStackSymbol(faceColor: .blue,
-                                                       edgeColor: .orange)
-                            .scaleEffect(1.25)
-                            .padding(60)
-                            .onTapGesture {
-                                print("SquareStackSymbol tapped")
-                                
-                                isLayerSelectionListVisible.toggle()
-                            }
+                        VStack {
+                            HighlightedPencilButton(name: pencilInSquare,
+                                                    faceColor: .blue,
+                                                    edgeColor: .red)
+                            Spacer()
+                                .frame(width: 70, height: 20)
+                            
+                            HighlightedLayerStackButton(faceColor: .blue,
+                                                        edgeColor: .red)
+                                .onTapGesture {
+                                    print("SquareStackSymbol tapped")
+                                    isLayerSelectionListVisible.toggle()
+                                }
+                        }
+                        .scaleEffect(1.4)
+                        .padding(70)
                     }
                 }
             }
