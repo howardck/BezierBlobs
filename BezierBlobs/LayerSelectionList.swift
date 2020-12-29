@@ -21,7 +21,7 @@ enum LayerType : Int {
 
 enum AnimationType {
     case animating
-    case ancillary
+    case support
 }
 
 struct SuperEllipseLayer : Identifiable {
@@ -30,16 +30,24 @@ struct SuperEllipseLayer : Identifiable {
     var animationType: AnimationType
     var name : String
     var isVisible = false
+    
+    // trying to simplify the List() selection mechanism.
+    // this doesn't work with ForEach(listItems) ...
+    // the compiler complains that 'item' is an immmutable 'let' constant
+    mutating func toggleVisibility() {
+        isVisible.toggle()
+    }
 }
 
-struct LayerSelectionDialog: View {
+struct LayerSelectionList: View {
     @Binding var listItems : [SuperEllipseLayer]
     
     var body: some View
     {
         List () { // item in
             Section(header: Text("Animating layers").padding(8)) {
-                ForEach(listItems.filter{$0.animationType == .animating}, id: \.type) { item in
+                ForEach(listItems.filter{$0.animationType == .animating}, id: \.type)
+                { item in
                     LayerItemRow(layerItem: item)
                         .onTapGesture {
                             if let tapped = listItems.firstIndex(
@@ -53,9 +61,14 @@ struct LayerSelectionDialog: View {
             .textCase(.lowercase)
             
             Section(header: Text("Static support layers").padding(8)) {
-                ForEach(listItems.filter{$0.animationType == .ancillary}, id: \.type) { item in
+                ForEach(listItems.filter{$0.animationType == .support}, id: \.type)
+                { item in
                     LayerItemRow(layerItem: item)
                         .onTapGesture {
+                            print("item = {\(item.name)}")
+                            // no-go -- see struct SuperEllipseLayer {} above
+                            //item.toggleVisibility()
+                            
                             if let tappedItem = listItems.firstIndex(
                                 where: { $0.type.rawValue == item.type.rawValue })
                             {

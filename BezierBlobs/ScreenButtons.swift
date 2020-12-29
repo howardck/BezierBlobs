@@ -53,7 +53,7 @@ struct HighlightedPencilButton : View {
     
     var body : some View {
         ZStack {
-            // the base (or edge) on the bottom
+            // the highlight
             PencilSymbol(name: name, color: edgeColor, size: s)
                 .offset(x: 1, y : 1)
             // and then the face

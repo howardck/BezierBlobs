@@ -37,7 +37,7 @@ struct PageView: View {
 
     //MARK: - SHOW & HIDE THINGS
     
-    @State var isLayerSelectionListVisible = false
+    @State var layerSelectionListIsVisible = false
     
     // "isVisible = true" entries below indicate which layers are
     // VISIBLE BY DEFAULT at startup
@@ -51,19 +51,19 @@ struct PageView: View {
               animationType: .animating, name: "blob -- vertex 0 marker", isVisible: true),
         
         .init(type: .baseCurve, id: .baseCurve,
-              animationType: .ancillary, name: "base curve", isVisible: true),
+              animationType: .support, name: "base curve", isVisible: true),
         .init(type: .baseCurve_markers, id: .baseCurve_markers,
-              animationType : .ancillary, name: "base curve -- markers", isVisible: true),
+              animationType : .support, name: "base curve -- markers", isVisible: true),
         
         .init(type: .normals, id: .normals,
-              animationType : .ancillary, name: "normals", isVisible: true),
+              animationType : .support, name: "normals", isVisible: true),
         
-        .init(type: .envelopeBounds, id: .envelopeBounds, animationType: .ancillary,
+        .init(type: .envelopeBounds, id: .envelopeBounds, animationType: .support,
               name: "inner-to-outer-curve envelope"),
         .init(type: .zigZags, id: .zigZags,
-              animationType : .ancillary, name: "zig-zag curves"),
+              animationType : .support, name: "zig-zag curves"),
         .init(type: .zigZag_markers, id: .zigZag_markers,
-              animationType : .ancillary, name: "zig-zag curves -- markers")
+              animationType : .support, name: "zig-zag curves -- markers")
     ]
     
     //MARK:-
@@ -161,18 +161,18 @@ struct PageView: View {
                 model.animateToNextZigZagPhase()
             }
             
-            if isLayerSelectionListVisible {
-                isLayerSelectionListVisible = false
+            if layerSelectionListIsVisible {
+                layerSelectionListIsVisible.toggle()
             }
         }
         
-        // COMING UP : initially placed in the lower-left ...
+        // initially placed the HighlightedPencilButton
+        // in the LOWER-LEFT, separate from the LayerSelectionList button
         /*
          HighlightedPencilButton(name: pencilInSquare,
                                  faceColor: .blue,
                                  edgeColor: .pink)
          */
-        
 //        .overlay(
 //            VStack {
 //                Spacer()
@@ -193,16 +193,15 @@ struct PageView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    if isLayerSelectionListVisible {
+                    if layerSelectionListIsVisible {
                         
                         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                         // NOTA: SIZE IS IPAD-ONLY RIGHT NOW
                         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                         
                         let s = CGSize(width: 320, height: 500)
-                        
                         ZStack {
-                            LayerSelectionDialog(listItems: $superEllipseLayers)
+                            LayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
                                 .padding(70)
                             bezelFrame(color: .orange, size: s)
@@ -214,13 +213,13 @@ struct PageView: View {
                                                     faceColor: .blue,
                                                     edgeColor: .orange)
                             Spacer()
-                                .frame(width: 70, height: 20)
+                                .frame(width: 70, height: 25)
                             
                             HighlightedLayerStackButton(faceColor: .blue,
                                                         edgeColor: .orange)
                                 .onTapGesture {
                                     print("SquareStackSymbol tapped")
-                                    isLayerSelectionListVisible.toggle()
+                                    layerSelectionListIsVisible.toggle()
                                 }
                         }
                         .scaleEffect(1.4)

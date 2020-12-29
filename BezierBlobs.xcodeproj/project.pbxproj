@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B686E032590091C00466BF5 /* LayerSelectionDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* LayerSelectionDialog.swift */; };
+		3B3052D4259B66B3009E5707 /* DrawTypeSelectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3052D3259B66B3009E5707 /* DrawTypeSelectionList.swift */; };
+		3B686E032590091C00466BF5 /* LayerSelectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* LayerSelectionList.swift */; };
 		3B779D262587CD5C00C5BC85 /* SuperEllipseLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* ScreenButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
@@ -24,7 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3B686E022590091C00466BF5 /* LayerSelectionDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerSelectionDialog.swift; sourceTree = "<group>"; };
+		3B3052D3259B66B3009E5707 /* DrawTypeSelectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTypeSelectionList.swift; sourceTree = "<group>"; };
+		3B686E022590091C00466BF5 /* LayerSelectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerSelectionList.swift; sourceTree = "<group>"; };
 		3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseLayers.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenButtons.swift; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,7 +80,8 @@
 				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
 				3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */,
 				3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */,
-				3B686E022590091C00466BF5 /* LayerSelectionDialog.swift */,
+				3B686E022590091C00466BF5 /* LayerSelectionList.swift */,
+				3B3052D3259B66B3009E5707 /* DrawTypeSelectionList.swift */,
 				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
 				5E57D2E6256D5CF900D6B1C0 /* extensions */,
@@ -177,8 +180,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E57D2E4256D5CDB00D6B1C0 /* SuperEllipse.swift in Sources */,
+				3B3052D4259B66B3009E5707 /* DrawTypeSelectionList.swift in Sources */,
 				5E57D2EC256D5D1200D6B1C0 /* CGPointVector.swift in Sources */,
-				3B686E032590091C00466BF5 /* LayerSelectionDialog.swift in Sources */,
+				3B686E032590091C00466BF5 /* LayerSelectionList.swift in Sources */,
 				5E57D2EB256D5D1200D6B1C0 /* Path+Points.swift in Sources */,
 				5E57D2E3256D5CDB00D6B1C0 /* Model.swift in Sources */,
 				5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */,
