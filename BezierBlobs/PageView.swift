@@ -176,7 +176,7 @@ struct PageView: View {
                         // @@@@@@@@@@@@@
                         // NOTA: SIZE IS IPAD-ONLY RIGHT NOW
                         // @@@@@@@@@@@@@
-                        let s = CGSize(width: 300, height: 424)
+                        let s = CGSize(width: 320, height: 500)
                         ZStack {
                             SELayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)

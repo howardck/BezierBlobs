@@ -34,46 +34,44 @@ struct SuperEllipseLayer : Identifiable {
 
 struct SELayerSelectionList: View {
     @Binding var listItems : [SuperEllipseLayer]
-
+    
     var body: some View
     {
-//        List( listItems, id: \.type ) { item in
-        List( listItems ) { item in
-            LayerItemRow(layerItem: item)
-                .onAppear { print(".onAppear{}: \"\(item.name)\"") }
-                .onTapGesture {
-                    print("LayerList: tapped on item {\"\(item.name)\"} type: {\(item.type.rawValue)}")
-
-                    if let tappedItem = listItems.firstIndex(where:
-                                                                { $0.type.rawValue == item.type.rawValue })
-                    {
-                        listItems[tappedItem].isVisible.toggle()
-                    }
+        List () { // item in
+            Section(header: Text("Animating layers").padding(8)) {
+                ForEach(listItems.filter{$0.animationType == .animating}, id: \.type) { item in
+                    LayerItemRow(layerItem: item)
+                        .onTapGesture {
+                            if let tapped = listItems.firstIndex(
+                                where:
+                                    { $0.type.rawValue == item.type.rawValue })
+                            {
+                                listItems[tapped].isVisible.toggle()
+                            }
+                        }
                 }
+            }
+            .textCase(.lowercase)
+            
+            Section(header: Text("Static support layers").padding(8)) {
+                ForEach(listItems.filter{$0.animationType == .ancillary}, id: \.type) { item in
+                    LayerItemRow(layerItem: item)
+                        .onTapGesture {
+                            if let tappedItem = listItems.firstIndex(
+                                where:
+                                    { $0.type.rawValue == item.type.rawValue })
+                            {
+                                listItems[tappedItem].isVisible.toggle()
+                            }
+                        }
+                }
+            }
+            .textCase(.lowercase) // or .Text.Case.lowercase or .lowercase or nil
         }
+        // .environment(default... : 0) makes spacing as tight as possible
         .environment(\.defaultMinListRowHeight, 46)
     }
 }
-        
-        
-//        List {
-//            Section(header: Text("Animating layers").padding(8)) {
-//                ForEach(listItems.filter{$0.animationType == .animating}, id: \.type) { item in
-//                    LayerItemRow(layerItem: item)
-//                }
-//            }
-//            .textCase(.lowercase)
-//            Section(header: Text("Static support layers").padding(8)) {
-//                ForEach(listItems.filter{$0.animationType == .ancillary}, id: \.type) { item in
-//                    LayerItemRow(layerItem: item)
-//                }
-//            }
-//            .textCase(.lowercase) // or .Text.Case.lowercase or .lowercase or nil
-//        }
-//        // adding .environment(... : 0) makes spacing as tight as possible
-//        .environment(\.defaultMinListRowHeight, 0)
-//    }
-//}
 
 struct LayerItemRow : View {
     var layerItem : SuperEllipseLayer
