@@ -24,6 +24,13 @@ enum AnimationType {
     case support
 }
 
+//extension SuperEllipseLayer : Equatable {
+//    static func ==(lhs: SuperEllipseLayer, rhs: SuperEllipseLayer) -> Bool {
+//        print("Checking that \(lhs.name) == \(rhs.name) \(lhs.name == rhs.name)")
+//        return lhs.name == rhs.name
+//    }
+//}
+
 struct SuperEllipseLayer : Identifiable {
     var type : LayerType
     var id : LayerType
@@ -50,10 +57,18 @@ struct LayerSelectionList: View {
                 { item in
                     LayerItemRow(layerItem: item)
                         .onTapGesture {
+//                        error on following if 'SuperEllipseLayer does not conform to Equatable
+//                        which I did try to make work
+//                        print(".animating item = {\(item.name)} "
+//                                + "\(String(describing: listItems.firstIndex(of: item)))")
+//                            if let ix = listItems.firstIndex(of: item) {
+//                                print("toggling listItems[\(ix)]")
+//                                listItems[ ix ].isVisible.toggle()
+//                            }
+//
                             if let tapped = listItems.firstIndex(
-                                where: { $0.type.rawValue == item.type.rawValue })
-                            {
-                                listItems[tapped].isVisible.toggle()
+                                where: { $0.type == item.type }) {
+                                listItems[ tapped ].isVisible.toggle()
                             }
                         }
                 }
@@ -65,7 +80,6 @@ struct LayerSelectionList: View {
                 { item in
                     LayerItemRow(layerItem: item)
                         .onTapGesture {
-                            print("item = {\(item.name)}")
                             // no-go -- see struct SuperEllipseLayer {} above
                             //item.toggleVisibility()
                             
