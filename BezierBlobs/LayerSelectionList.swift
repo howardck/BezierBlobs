@@ -37,13 +37,6 @@ struct SuperEllipseLayer : Identifiable {
     var animationType: AnimationType
     var name : String
     var isVisible = false
-    
-    // trying to simplify the List() selection mechanism.
-    // this doesn't work with ForEach(listItems) ...
-    // the compiler complains that 'item' is an immmutable 'let' constant
-    mutating func toggleVisibility() {
-        isVisible.toggle()
-    }
 }
 
 struct LayerSelectionList: View {
@@ -57,18 +50,9 @@ struct LayerSelectionList: View {
                 { item in
                     LayerItemRow(layerItem: item)
                         .onTapGesture {
-//                        error on following if 'SuperEllipseLayer does not conform to Equatable
-//                        which I did try to make work
-//                        print(".animating item = {\(item.name)} "
-//                                + "\(String(describing: listItems.firstIndex(of: item)))")
-//                            if let ix = listItems.firstIndex(of: item) {
-//                                print("toggling listItems[\(ix)]")
-//                                listItems[ ix ].isVisible.toggle()
-//                            }
-//
-                            if let tapped = listItems.firstIndex(
+                            if let indexTapped = listItems.firstIndex(
                                 where: { $0.type == item.type }) {
-                                listItems[ tapped ].isVisible.toggle()
+                                listItems[ indexTapped ].isVisible.toggle()
                             }
                         }
                 }
