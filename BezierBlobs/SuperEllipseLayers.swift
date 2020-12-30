@@ -28,8 +28,8 @@ let markerStyles : [MarkerType : MarkerStyle] = [
     .baseCurve :        (color: .white, radius: r + 2),
 //    .zig :              (color: .orange, radius : r - 4),
 //    .zag :              (color: .red, radius: r - 4)
-    .zig :              (color: .red, radius : r - 4),
-    .zag :              (color: .green, radius: r - 4)
+    .zig :              (color: .red, radius : r - 3),
+    .zag :              (color: .green, radius: r - 3)
 ]
 
 let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
@@ -57,7 +57,7 @@ struct AnimatingBlob: View {
                 SuperEllipse(curve: curve,
                              bezierType: .lineSegments,
                              smoothed: true)
-                    .stroke(Color.red, lineWidth: 8)
+                    .stroke(Color.red, lineWidth: 10)
                 
                 SuperEllipse(curve: curve,
                              bezierType: .lineSegments,
@@ -218,37 +218,32 @@ struct ZigZags : View {
     // ZIG
             SuperEllipse(curve: curves.zig,
                          bezierType: .lineSegments)
-                .stroke(Color.init(white: 0.3), style: StrokeStyle(lineWidth: 6, dash: [4,0]))
-            
-            SuperEllipse(curve: curves.zig,
-                         bezierType: .lineSegments)
-                .stroke(Color.red, style: lineStyle)
+                .stroke(Color.red, style: StrokeStyle(lineWidth: 2, dash: [4,3]))
 
             SuperEllipse(curve: curves.zig,
                          bezierType: .lineSegments,
                          smoothed: true)
-                .stroke(Color.init(white: 0.7), style: StrokeStyle(lineWidth: 6, dash: [4,3]))
+                .stroke(Color.init(white: 0.6), style: StrokeStyle(lineWidth: 8, dash: [4,2]))
+            
             SuperEllipse(curve: curves.zig,
                          bezierType: .lineSegments,
                          smoothed: true)
-                .stroke(Color.red, style: StrokeStyle(lineWidth: 1.5))//, dash: [4,3]))
+                .stroke(Color.red, style: StrokeStyle(lineWidth: 1.5))
+            
     // ZAG
             SuperEllipse(curve: curves.zag,
                          bezierType: .lineSegments)
-                .stroke(Color.init(white: 0.3), style: StrokeStyle(lineWidth: 6, dash: [4,0]))
-            
-            SuperEllipse(curve: curves.zag,
-                         bezierType: .lineSegments)
-                .stroke(Color.green, style: lineStyle)
+                .stroke(Color.green, style: StrokeStyle(lineWidth: 2, dash: [4,3]))
             
             SuperEllipse(curve: curves.zag,
                          bezierType: .lineSegments,
                          smoothed: true)
-                .stroke(Color.init(white: 0.7), style: StrokeStyle(lineWidth: 6, dash: [4,3]))
+                .stroke(Color.init(white: 0.6), style: StrokeStyle(lineWidth: 8, dash: [4,2]))
+            
             SuperEllipse(curve: curves.zag,
                          bezierType: .lineSegments,
                          smoothed: true)
-                .stroke(Color.green, style: StrokeStyle(lineWidth: 1.5))//, dash: [4,3]))
+                .stroke(Color.green, style: StrokeStyle(lineWidth: 1.5))
         }
     }
 }
@@ -260,22 +255,26 @@ struct ZigZag_Markers : View {
     
     var body : some View {
         
-//        SuperEllipse(curve: curves.zig,
-//                     bezierType: .markers(radius: zigStyle.radius + 1))
-//            .fill(Color.white)//init(white: 0.9))
+        SuperEllipse(curve: curves.zig,
+                     bezierType: .markers(radius: zigStyle.radius + 1))
+            .fill(Color.init(white: 0.2))
+        
         SuperEllipse(curve: curves.zig,
                      bezierType: .markers(radius: zigStyle.radius))
             .fill(zigStyle.color)
+        
 //        SuperEllipse(curve: curves.zig,
 //                     bezierType: .markers(radius: 1.5))
 //            .fill(Color.black)
         
-//        SuperEllipse(curve: curves.zag,
-//                     bezierType: .markers(radius: zagStyle.radius + 1))
-//            .fill(Color.init(white: 1.0))
+        SuperEllipse(curve: curves.zag,
+                     bezierType: .markers(radius: zagStyle.radius + 1))
+            .fill(Color.init(white: 0.2))
+        
         SuperEllipse(curve: curves.zag,
                      bezierType: .markers(radius: zagStyle.radius))
             .fill(zagStyle.color)
+        
 //        SuperEllipse(curve: curves.zag,
 //                     bezierType: .markers(radius: 1.5))
 //            .fill(Color.white)
