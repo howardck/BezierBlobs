@@ -212,13 +212,43 @@ struct ZigZags : View {
         ZStack {
             let lineStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
             
+        // NEW ADDITION: try back-stopping the thin dashed version
+        // with a thicker, different colored (?), smoothed version
+            
+    // ZIG
+            SuperEllipse(curve: curves.zig,
+                         bezierType: .lineSegments)
+                .stroke(Color.init(white: 0.3), style: StrokeStyle(lineWidth: 6, dash: [4,0]))
+            
             SuperEllipse(curve: curves.zig,
                          bezierType: .lineSegments)
                 .stroke(Color.red, style: lineStyle)
+
+            SuperEllipse(curve: curves.zig,
+                         bezierType: .lineSegments,
+                         smoothed: true)
+                .stroke(Color.init(white: 0.7), style: StrokeStyle(lineWidth: 6, dash: [4,3]))
+            SuperEllipse(curve: curves.zig,
+                         bezierType: .lineSegments,
+                         smoothed: true)
+                .stroke(Color.red, style: StrokeStyle(lineWidth: 1.5))//, dash: [4,3]))
+    // ZAG
+            SuperEllipse(curve: curves.zag,
+                         bezierType: .lineSegments)
+                .stroke(Color.init(white: 0.3), style: StrokeStyle(lineWidth: 6, dash: [4,0]))
             
             SuperEllipse(curve: curves.zag,
                          bezierType: .lineSegments)
                 .stroke(Color.green, style: lineStyle)
+            
+            SuperEllipse(curve: curves.zag,
+                         bezierType: .lineSegments,
+                         smoothed: true)
+                .stroke(Color.init(white: 0.7), style: StrokeStyle(lineWidth: 6, dash: [4,3]))
+            SuperEllipse(curve: curves.zag,
+                         bezierType: .lineSegments,
+                         smoothed: true)
+                .stroke(Color.green, style: StrokeStyle(lineWidth: 1.5))//, dash: [4,3]))
         }
     }
 }
