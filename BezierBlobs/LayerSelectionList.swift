@@ -41,34 +41,32 @@ struct LayerSelectionList: View {
     {
         List () {
             Section(header: sectionHeader_Animation.padding(8)) {
-                ForEach( listItems.filter{ $0.section == .animating }, id: \.type ) {
+                ForEach( listItems.filter{ $0.section == .animating }, id: \.type ) { item in
                     
-                    item in LayerItemRow(layerItem: item)
-                        .onTapGesture {
-                            if let indexTapped = listItems.firstIndex (
-                                where: { $0.type == item.type }) {
-                                listItems[ indexTapped ].visible.toggle()
-                            }
-                        }
+                    toggleCheckmarkIfTapped(item: item)
                 }
             }
             .textCase(.lowercase)
             
             Section(header: sectionHeader_Support.padding(8)) {
-                ForEach( listItems.filter{ $0.section == .support }, id: \.type ) {
+                ForEach( listItems.filter{ $0.section == .support }, id: \.type ) { item in
                     
-                    item in LayerItemRow(layerItem: item)
-                        .onTapGesture {
-                            if let tappedItem = listItems.firstIndex (
-                                where: { $0.type.rawValue == item.type.rawValue }) {
-                                listItems[tappedItem].visible.toggle()
-                            }
-                        }
+                    toggleCheckmarkIfTapped(item: item)
                 }
             }
             .textCase(.lowercase) // or .Text.Case.lowercase or .lowercase or nil
         }
         .environment(\.defaultMinListRowHeight, 46) // 0 makes as tight as possible
+    }
+    
+    func toggleCheckmarkIfTapped(item: SuperEllipseLayer) -> some View {
+        LayerItemRow(layerItem: item)
+            .onTapGesture {
+                if let tappedItem = listItems.firstIndex (
+                    where: { $0.type.rawValue == item.type.rawValue }) {
+                    listItems[tappedItem].visible.toggle()
+                }
+            }
     }
 }
 

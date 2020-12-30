@@ -71,7 +71,8 @@ struct PageView: View {
             
             pageGradientBackground()
             
-            //MARK: - Show & Hide SE Layers
+        //MARK: - Show & Hide SuperEllipse Layers
+        //MARK: according to the settings in the Layer selection list
 
     // ANIMATING BLOB
             if superEllipseLayers[LayerType.blob.rawValue].visible {
