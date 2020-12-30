@@ -8,9 +8,9 @@
 import SwiftUI
 
 enum LayerType : Int {
-    case animatingBlob
-    case animatingBlob_markers
-    case animatingBlob_originMarkers
+    case blob
+    case blob_markers
+    case blob_originMarkers
     case baseCurve
     case baseCurve_markers
     case normals
@@ -19,66 +19,56 @@ enum LayerType : Int {
     case zigZag_markers
 }
 
-enum AnimationType {
+enum SectionType {
     case animating
     case support
 }
 
-//extension SuperEllipseLayer : Equatable {
-//    static func ==(lhs: SuperEllipseLayer, rhs: SuperEllipseLayer) -> Bool {
-//        print("Checking that \(lhs.name) == \(rhs.name) \(lhs.name == rhs.name)")
-//        return lhs.name == rhs.name
-//    }
-//}
-
-struct SuperEllipseLayer : Identifiable {
+struct SuperEllipseLayer {
     var type : LayerType
-    var id : LayerType
-    var animationType: AnimationType
+    var section: SectionType
     var name : String
-    var isVisible = false
+    var visible = false
 }
 
 struct LayerSelectionList: View {
     @Binding var listItems : [SuperEllipseLayer]
     
+    let sectionHeader_Animation = Text("Animating layers")
+    let sectionHeader_Support = Text("Static support layers")
+    
     var body: some View
     {
-        List () { // item in
-            Section(header: Text("Animating layers").padding(8)) {
-                ForEach(listItems.filter{$0.animationType == .animating}, id: \.type)
-                { item in
-                    LayerItemRow(layerItem: item)
+        List () {
+            Section(header: sectionHeader_Animation.padding(8)) {
+                ForEach( listItems.filter{ $0.section == .animating }, id: \.type ) {
+                    
+                    item in LayerItemRow(layerItem: item)
                         .onTapGesture {
-                            if let indexTapped = listItems.firstIndex(
+                            if let indexTapped = listItems.firstIndex (
                                 where: { $0.type == item.type }) {
-                                listItems[ indexTapped ].isVisible.toggle()
+                                listItems[ indexTapped ].visible.toggle()
                             }
                         }
                 }
             }
             .textCase(.lowercase)
             
-            Section(header: Text("Static support layers").padding(8)) {
-                ForEach(listItems.filter{$0.animationType == .support}, id: \.type)
-                { item in
-                    LayerItemRow(layerItem: item)
+            Section(header: sectionHeader_Support.padding(8)) {
+                ForEach( listItems.filter{ $0.section == .support }, id: \.type ) {
+                    
+                    item in LayerItemRow(layerItem: item)
                         .onTapGesture {
-                            // no-go -- see struct SuperEllipseLayer {} above
-                            //item.toggleVisibility()
-                            
-                            if let tappedItem = listItems.firstIndex(
-                                where: { $0.type.rawValue == item.type.rawValue })
-                            {
-                                listItems[tappedItem].isVisible.toggle()
+                            if let tappedItem = listItems.firstIndex (
+                                where: { $0.type.rawValue == item.type.rawValue }) {
+                                listItems[tappedItem].visible.toggle()
                             }
                         }
                 }
             }
             .textCase(.lowercase) // or .Text.Case.lowercase or .lowercase or nil
         }
-        // .environment(default... : 0) makes spacing as tight as possible
-        .environment(\.defaultMinListRowHeight, 46)
+        .environment(\.defaultMinListRowHeight, 46) // 0 makes as tight as possible
     }
 }
 
@@ -87,7 +77,7 @@ struct LayerItemRow : View {
 
     var body: some View {
         HStack {
-            CheckBox(checked: layerItem.isVisible)
+            CheckBox(checked: layerItem.visible)
             Spacer()
             Text(layerItem.name)
                 .frame(width: 310, height: 30, alignment: .leading)

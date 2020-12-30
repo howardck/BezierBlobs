@@ -34,46 +34,28 @@ struct PageView: View {
     let size: CGSize
     
     var pageType: PageType
-
-    //MARK: - SHOW & HIDE THINGS
     
     @State var layerSelectionListIsVisible = false
     
-    // "isVisible = true" entries below indicate which layers are
-    // VISIBLE BY DEFAULT at startup
+    //MARK:- [SuperEllipseLayers] array initialization
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
-        .init(type: .animatingBlob, id: .animatingBlob,
-              animationType: .animating, name: "blob"),
-        .init(type: .animatingBlob_markers, id: .animatingBlob_markers,
-              animationType: .animating, name: "blob -- markers", isVisible: true),
-        .init(type: .animatingBlob_originMarkers, id: .animatingBlob_originMarkers,
-              animationType: .animating, name: "blob -- vertex 0 marker", isVisible: true),
-        
-        .init(type: .baseCurve, id: .baseCurve,
-              animationType: .support, name: "base curve", isVisible: true),
-        .init(type: .baseCurve_markers, id: .baseCurve_markers,
-              animationType : .support, name: "base curve -- markers", isVisible: true),
-        
-        .init(type: .normals, id: .normals,
-              animationType : .support, name: "normals", isVisible: true),
-        
-        .init(type: .envelopeBounds, id: .envelopeBounds, animationType: .support,
-              name: "inner-to-outer-curve envelope"),
-        .init(type: .zigZags, id: .zigZags,
-              animationType : .support, name: "zig-zag curves"),
-        .init(type: .zigZag_markers, id: .zigZag_markers,
-              animationType : .support, name: "zig-zag curves -- markers")
+        .init(type: .blob, section: .animating, name: "blob"),
+        .init(type: .blob_markers, section: .animating, name: "blob -- markers", visible: true),
+        .init(type: .blob_originMarkers, section: .animating, name: "blob -- vertex 0 marker", visible: true),
+        .init(type: .baseCurve, section: .support, name: "base curve", visible: true),
+        .init(type: .baseCurve_markers, section : .support, name: "base curve -- markers", visible: true),
+        .init(type: .normals, section : .support, name: "normals", visible: true),
+        .init(type: .envelopeBounds, section: .support,  name: "inner-to-outer-curve envelope"),
+        .init(type: .zigZags, section : .support, name: "zig-zag curves"),
+        .init(type: .zigZag_markers,  section : .support, name: "zig-zag curves -- markers")
     ]
     
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
 
-//        print("PageView.init(PageType.------------  \(pageType.rawValue)  -------------)")
-        
         self.pageType = pageType
         self.description = description
-        
         self.size = CGSize(width: size.width * PlatformSpecifics.IPAD.w,
                            height: size.height * PlatformSpecifics.IPAD.h)
         
@@ -83,58 +65,55 @@ struct PageView: View {
                                                  b: Double(self.size.height/2)))
      }
     
-    //MARK:-
     var body: some View {
     
         ZStack {
             
             pageGradientBackground()
+            
+            //MARK: - Show & Hide SE Layers
 
-            if superEllipseLayers[LayerType.animatingBlob.rawValue].isVisible {
+            if superEllipseLayers[LayerType.blob.rawValue].visible {
                 AnimatingBlob(curve: model.blobCurve,
                               stroked: true,
                               filled: true)
             }
-            if superEllipseLayers[LayerType.zigZags.rawValue].isVisible {
+            if superEllipseLayers[LayerType.zigZags.rawValue].visible {
                 ZigZags(curves: model.zigZagCurves)
             }
             
             // combine lines and markers to avoid the 10-view limit
-            /*
-                NOTA: trying a newish version in which the normal END MARKERS
-                are now being drawn by the EnvelopeBounds() routine below.
-             */
-            if superEllipseLayers[LayerType.normals.rawValue].isVisible {
+            
+            if superEllipseLayers[LayerType.normals.rawValue].visible {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
-            
-            if superEllipseLayers[LayerType.baseCurve.rawValue].isVisible {
+            if superEllipseLayers[LayerType.baseCurve.rawValue].visible {
                 BaseCurve(vertices: model.baseCurve.vertices)
             }
             
-            // see above. EnvelopeBounds() now draw both the bounds + the inner
-            // and outer markers, priorly the remit of NormalsPlusMarkers
-            if superEllipseLayers[LayerType.envelopeBounds.rawValue].isVisible {
+            // see above. EnvelopeBounds() now draws both the bounds + the inner
+            // & outer markers, priorly the remit of NormalsPlusMarkers
+            
+            if superEllipseLayers[LayerType.envelopeBounds.rawValue].visible {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
-            
-            if superEllipseLayers[LayerType.zigZag_markers.rawValue].isVisible {
+            if superEllipseLayers[LayerType.zigZag_markers.rawValue].visible {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
             }
-            if superEllipseLayers[LayerType.animatingBlob_markers.rawValue].isVisible {
+            if superEllipseLayers[LayerType.blob_markers.rawValue].visible {
                 AnimatingBlob_Markers(curve: model.blobCurve,
                                       style: markerStyles[.blob]!)
             }
-            if superEllipseLayers[LayerType.baseCurve_markers.rawValue].isVisible {
+            if superEllipseLayers[LayerType.baseCurve_markers.rawValue].visible {
                 BaseCurve_Markers(curve: model.baseCurve.vertices,
                                   style: markerStyles[.baseCurve]!)
             }
-            if superEllipseLayers[LayerType.animatingBlob_originMarkers.rawValue].isVisible {
+            if superEllipseLayers[LayerType.blob_originMarkers.rawValue].visible {
                 AnimatingBlob_VertexOriginMarker(animatingCurve: model.blobCurve,
                                               markerStyle: markerStyles[.vertexOrigin]!)
             }
@@ -145,8 +124,7 @@ struct PageView: View {
             print("PageView.onAppear(PageType.\(pageType.rawValue))" )
         }
         // NOTA: check for 2 taps BEFORE checking for 1 tap.
-        // NOTA: this slows down start of the animation BRIEFLY
-        // while the system waits to determine a 2-tap DIDN'T happen.
+        // this slows down the start of the animation slightly
         
         .onTapGesture(count: 2) {
             withAnimation(Animation.easeInOut(duration: 0.6))
@@ -166,28 +144,7 @@ struct PageView: View {
             }
         }
         
-        // initially placed the HighlightedPencilButton
-        // in the LOWER-LEFT, separate from the LayerSelectionList button
-        /*
-         HighlightedPencilButton(name: pencilInSquare,
-                                 faceColor: .blue,
-                                 edgeColor: .pink)
-         */
-//        .overlay(
-//            VStack {
-//                Spacer()
-//                HStack {
-//                    HighlightedPencilButton(name: pencilWithEllipsis,
-//                                            faceColor: .blue,
-//                                            edgeColor: .red)
-//                        .scaleEffect(1.25)
-//                        .padding(60)
-//                    Spacer()
-//                }
-//            }
-//        )
-        
-        // LayerStack Button to lower-right corner. is there a cleaner way ... ??
+        // LayerStack Button to lower-right corner.
         .overlay(
             VStack {
                 Spacer()
@@ -231,6 +188,8 @@ struct PageView: View {
         .overlay(pageMetricsTextDescription())
     }
     
+    // a little bit of eye candy
+    //MARK:-
     private func bezelFrame(color: Color, size: CGSize) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 6)
@@ -242,7 +201,6 @@ struct PageView: View {
         }
     }
 
-    //MARK:-
     private func pageGradientBackground() -> some View {
         let colors : [Color] = [.init(white: 0.65), .init(white: 0.3)]
         return LinearGradient(gradient: Gradient(colors: colors),
@@ -262,6 +220,7 @@ struct PageView: View {
    }
 }
 
+//MARK:-
 struct DropShadowedText : View {
     var text: String
     var foreColor: Color
