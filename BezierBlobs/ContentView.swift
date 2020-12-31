@@ -21,7 +21,7 @@ struct ContentView: View {
         static var isInitialized : [PageType : Bool] = [
             .circle: false,
             .superEllipse: false,
-            .sweptWing: false,
+            .deltaWing: false,
             .killerMoth: false
         ]
         static func isUninitialzed(pageType: PageType) -> Bool {
@@ -61,12 +61,12 @@ struct ContentView: View {
                         Text("\(PageType.superEllipse.rawValue)" )
                     }
                 
-                PageView(pageType: PageType.sweptWing,
+                PageView(pageType: PageType.deltaWing,
                          description: PageView.descriptions[2],
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "3.circle.fill")
-                        Text("\(PageType.sweptWing.rawValue)" )
+                        Text("\(PageType.deltaWing.rawValue)" )
                 }
 
                 PageView(pageType: PageType.killerMoth,
@@ -84,14 +84,14 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PageView(pageType: PageType.sweptWing,
+            PageView(pageType: PageType.deltaWing,
                      description: PageView.descriptions[3],
                      size: CGSize(width: 800, height: 800))
                 .tabItem {
                     Image(systemName: "4.circle.fill");
                     Text("\(PageType.killerMoth.rawValue)" )
             }
-            PageView(pageType: PageType.sweptWing,
+            PageView(pageType: PageType.deltaWing,
                      description: PageView.descriptions[3],
                      size: CGSize(width: 800, height: 800))
                 .tabItem {

@@ -8,6 +8,8 @@
 import SwiftUI
 
 enum LayerType : Int {
+    case showAll
+    case hideAll
     case blob
     case blob_markers
     case blob_originMarkers
@@ -22,6 +24,7 @@ enum LayerType : Int {
 enum SectionType {
     case animating
     case support
+    case control
 }
 
 struct SuperEllipseLayer {
@@ -33,14 +36,27 @@ struct SuperEllipseLayer {
 
 struct LayerSelectionList: View {
     @Binding var listItems : [SuperEllipseLayer]
+    @State var lastItemClicked = -1
     
-    let sectionHeader_Animation = Text("Animating layers")
-    let sectionHeader_Support = Text("Static support layers")
+    let sectionHeader_animation = Text("Animating layers")
+    let sectionHeader_support = Text("Static support layers")
+    let sectionHeader_control = Text("Computer, talk to me")
     
     var body: some View
     {
         List () {
-            Section(header: sectionHeader_Animation.padding(8)) {
+                        
+    // SHOW ALL/HIDE ALL CONTROLS
+            Section(header: sectionHeader_control.padding(8)) {
+                ForEach( listItems.filter{ $0.section == .control }, id: \.type ) { item in
+                    
+                    toggleCheckmarkIfTapped(item: item)
+                }
+            }
+            .textCase(.lowercase) // also .Text.Case.lowercase, .lowercase & nil
+            
+    // ANIMATED LAYERS
+            Section(header: sectionHeader_animation.padding(8)) {
                 ForEach( listItems.filter{ $0.section == .animating }, id: \.type ) { item in
                     
                     toggleCheckmarkIfTapped(item: item)
@@ -48,13 +64,14 @@ struct LayerSelectionList: View {
             }
             .textCase(.lowercase)
             
-            Section(header: sectionHeader_Support.padding(8)) {
+    // STATIC SUPPORT LAYERS
+            Section(header: sectionHeader_support.padding(8)) {
                 ForEach( listItems.filter{ $0.section == .support }, id: \.type ) { item in
                     
                     toggleCheckmarkIfTapped(item: item)
                 }
             }
-            .textCase(.lowercase) // or .Text.Case.lowercase or .lowercase or nil
+            .textCase(.lowercase)
         }
         .environment(\.defaultMinListRowHeight, 46) // 0 makes as tight as possible
     }
@@ -64,7 +81,16 @@ struct LayerSelectionList: View {
             .onTapGesture {
                 if let tappedItem = listItems.firstIndex (
                     where: { $0.type.rawValue == item.type.rawValue }) {
+                    
+                    // update @State -- DO WE NEED TO ???????
+                    lastItemClicked = listItems[tappedItem].type.rawValue
+                    
+                    assert(lastItemClicked == tappedItem)
+                    
                     listItems[tappedItem].visible.toggle()
+                    
+                    print("toggleCheckmarkIfTapped(): tappedItem: {\(tappedItem)}")
+                    // `````````````````````````````````````````````````````````````
                 }
             }
     }

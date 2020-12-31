@@ -10,7 +10,7 @@ import SwiftUI
 enum PageType : String {
     case circle = "CIRCLE"
     case superEllipse = "SUPER-ELLIPSE BLOB"
-    case sweptWing = "SWEPT WING"
+    case deltaWing = "DELTA WING"
     case killerMoth = "MUTANT MOTH"
 }
 typealias PageDescription = (numPoints: Int,
@@ -40,9 +40,13 @@ struct PageView: View {
     //MARK:- [SuperEllipseLayers] array initialization
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
+        .init(type: .showAll, section: .control, name: "show all layers"),
+        .init(type: .hideAll, section: .control, name: "hide all layers"),
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .blob, section: .animating, name: "blob"),
         .init(type: .blob_markers, section: .animating, name: "blob -- markers", visible: true),
         .init(type: .blob_originMarkers, section: .animating, name: "blob -- vertex 0 marker", visible: true),
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .baseCurve, section: .support, name: "base curve", visible: true),
         .init(type: .baseCurve_markers, section : .support, name: "base curve -- markers", visible: true),
         .init(type: .normals, section : .support, name: "normals", visible: true),
