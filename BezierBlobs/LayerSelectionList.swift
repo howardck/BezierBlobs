@@ -48,27 +48,39 @@ struct LayerSelectionList: View {
                         
     // SHOW ALL/HIDE ALL CONTROLS
             Section(header: sectionHeader_control.padding(8)) {
-                ForEach( listItems.filter{ $0.section == .control }, id: \.type ) { item in
+                
+                let sectionType : SectionType = .control
+                let itemsInSection = listItems.filter{ $0.section == sectionType }
+                
+                ForEach( itemsInSection, id: \.type ) { item in
                     
-                    toggleCheckmarkIfTapped(item: item)
+                    toggleCheckmarkIfTapped(sectionType: sectionType, item: item)
                 }
             }
             .textCase(.lowercase) // also .Text.Case.lowercase, .lowercase & nil
             
     // ANIMATED LAYERS
             Section(header: sectionHeader_animation.padding(8)) {
-                ForEach( listItems.filter{ $0.section == .animating }, id: \.type ) { item in
+                
+                let sectionType : SectionType = .animating
+                let itemsInSection = listItems.filter{ $0.section == sectionType }
+                
+                ForEach( itemsInSection, id: \.type ) { item in
                     
-                    toggleCheckmarkIfTapped(item: item)
+                    toggleCheckmarkIfTapped(sectionType: sectionType, item: item)
                 }
             }
             .textCase(.lowercase)
             
     // STATIC SUPPORT LAYERS
             Section(header: sectionHeader_support.padding(8)) {
-                ForEach( listItems.filter{ $0.section == .support }, id: \.type ) { item in
+                
+                let sectionType : SectionType = .support
+                let itemsInSection = listItems.filter{ $0.section == sectionType }
+                
+                ForEach(itemsInSection, id: \.type ) { item in
                     
-                    toggleCheckmarkIfTapped(item: item)
+                    toggleCheckmarkIfTapped(sectionType: sectionType, item: item)
                 }
             }
             .textCase(.lowercase)
@@ -76,8 +88,12 @@ struct LayerSelectionList: View {
         .environment(\.defaultMinListRowHeight, 46) // 0 makes as tight as possible
     }
     
-    func toggleCheckmarkIfTapped(item: SuperEllipseLayer) -> some View {
-        LayerItemRow(layerItem: item)
+    func toggleCheckmarkIfTapped(sectionType: SectionType,
+                                 item: SuperEllipseLayer) -> some View {
+        
+        //print("toggleCheckmarkIfTapped(): section: {\(sectionType)}")
+        
+        return LayerItemRow(layerItem: item)
             .onTapGesture {
                 // existence of a tappedItem and subsquent closure means
                 // SOMETHING WAS TAPPED AND THE WHOLE LIST DISPLAY NEED TO BE RECOMPUTED
@@ -87,13 +103,27 @@ struct LayerSelectionList: View {
                     
                     // update @State -- DO WE NEED TO ???????
                     lastItemClicked = listItems[tappedItem].type.rawValue
+                    assert(lastItemClicked == tappedItem, "ASSERTING lastItemClicked == tappedItem")
                     
-                    assert(lastItemClicked == tappedItem)
+                    switch sectionType {
                     
-                    listItems[tappedItem].visible.toggle()
-                    
-                    print("toggleCheckmarkIfTapped(): tappedItem: {\(tappedItem)}")
-                    // `````````````````````````````````````````````````````````````
+                    case .control :
+                        if item.type == .hideAll {
+                            for ix in 0..<listItems.count {
+                                listItems[ix].visible = false
+                            }
+                        }
+                        else if item.type == .showAll {
+                            for ix in 0..<listItems.count {
+                                listItems[ix].visible = true
+                            }
+                        }
+                        break
+                        
+                    case .animating, .support:
+                        
+                        listItems[tappedItem].visible.toggle()
+                    }
                 }
             }
     }
