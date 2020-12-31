@@ -79,6 +79,9 @@ struct LayerSelectionList: View {
     func toggleCheckmarkIfTapped(item: SuperEllipseLayer) -> some View {
         LayerItemRow(layerItem: item)
             .onTapGesture {
+                // existence of a tappedItem and subsquent closure means
+                // SOMETHING WAS TAPPED AND THE WHOLE LIST DISPLAY NEED TO BE RECOMPUTED
+                
                 if let tappedItem = listItems.firstIndex (
                     where: { $0.type.rawValue == item.type.rawValue }) {
                     
