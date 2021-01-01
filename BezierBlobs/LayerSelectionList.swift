@@ -36,11 +36,10 @@ struct SuperEllipseLayer {
 
 struct LayerSelectionList: View {
     @Binding var listItems : [SuperEllipseLayer]
-    @State var lastItemClicked = -1
     
-    let sectionHeader_animation = Text("Animating layers")
-    let sectionHeader_support = Text("Static support layers")
-    let sectionHeader_control = Text("Computer, talk to me")
+    let sectionHeader_animation = Text("animating layers")
+    let sectionHeader_support = Text("static support layers")
+    let sectionHeader_control = Text("show/hide all layers")
     
     var body: some View
     {
@@ -48,84 +47,71 @@ struct LayerSelectionList: View {
                         
     // SHOW ALL/HIDE ALL CONTROLS
             Section(header: sectionHeader_control.padding(8)) {
-                
-                let sectionType : SectionType = .control
-                let itemsInSection = listItems.filter{ $0.section == sectionType }
+                let section : SectionType = .control
+                let itemsInSection = listItems.filter{ $0.section == section }
                 
                 ForEach( itemsInSection, id: \.type ) { item in
-                    
-                    toggleCheckmarkIfTapped(sectionType: sectionType, item: item)
+                    handleCheckmarksForTapped(item: item, in: section)
                 }
             }
-            .textCase(.lowercase) // also .Text.Case.lowercase, .lowercase & nil
+            .textCase(.lowercase)
             
     // ANIMATED LAYERS
             Section(header: sectionHeader_animation.padding(8)) {
-                
-                let sectionType : SectionType = .animating
-                let itemsInSection = listItems.filter{ $0.section == sectionType }
+                let section : SectionType = .animating
+                let itemsInSection = listItems.filter{ $0.section == section }
                 
                 ForEach( itemsInSection, id: \.type ) { item in
-                    
-                    toggleCheckmarkIfTapped(sectionType: sectionType, item: item)
+                    handleCheckmarksForTapped(item: item, in: section)
                 }
             }
             .textCase(.lowercase)
             
     // STATIC SUPPORT LAYERS
             Section(header: sectionHeader_support.padding(8)) {
-                
-                let sectionType : SectionType = .support
-                let itemsInSection = listItems.filter{ $0.section == sectionType }
+                let section : SectionType = .support
+                let itemsInSection = listItems.filter{ $0.section == section}
                 
                 ForEach(itemsInSection, id: \.type ) { item in
-                    
-                    toggleCheckmarkIfTapped(sectionType: sectionType, item: item)
+                    handleCheckmarksForTapped(item: item, in: section)
                 }
             }
             .textCase(.lowercase)
         }
-        .environment(\.defaultMinListRowHeight, 46) // 0 makes as tight as possible
+        .environment(\.defaultMinListRowHeight, 46) // 0 == as tight as possible
     }
     
-    func toggleCheckmarkIfTapped(sectionType: SectionType,
-                                 item: SuperEllipseLayer) -> some View {
-        
-        //print("toggleCheckmarkIfTapped(): section: {\(sectionType)}")
-        
-        return LayerItemRow(layerItem: item)
+    func handleCheckmarksForTapped(item: SuperEllipseLayer,
+                                   in section: SectionType) -> some View {
+        LayerItemRow(layerItem: item)
             .onTapGesture {
-                // existence of a tappedItem and subsquent closure means
-                // SOMETHING WAS TAPPED AND THE WHOLE LIST DISPLAY NEED TO BE RECOMPUTED
-                
                 if let tappedItem = listItems.firstIndex (
                     where: { $0.type.rawValue == item.type.rawValue }) {
                     
-                    // update @State -- DO WE NEED TO ???????
-                    lastItemClicked = listItems[tappedItem].type.rawValue
-                    assert(lastItemClicked == tappedItem, "ASSERTING lastItemClicked == tappedItem")
-                    
-                    switch sectionType {
-                    
+                    switch section {
                     case .control :
                         if item.type == .hideAll {
-                            for ix in 0..<listItems.count {
-                                listItems[ix].visible = false
-                            }
+                            showHideAllLayers(show: false)
+                            listItems[1].visible = true
                         }
                         else if item.type == .showAll {
-                            for ix in 0..<listItems.count {
-                                listItems[ix].visible = true
-                            }
+                            showHideAllLayers(show: true)
+                            listItems[1].visible = false
                         }
                         break
-                        
                     case .animating, .support:
-                        
+                        listItems[0].visible = false
+                        listItems[1].visible = false
                         listItems[tappedItem].visible.toggle()
                     }
                 }
             }
+    }
+    
+    func showHideAllLayers(show: Bool) {
+        for ix in 0..<listItems.count {
+            listItems[ix].visible = show ? true : false
+        }
     }
 }
 

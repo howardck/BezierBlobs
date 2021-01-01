@@ -42,7 +42,7 @@ struct PageView: View {
     [
         .init(type: .showAll, section: .control, name: "show all layers"),
         .init(type: .hideAll, section: .control, name: "hide all layers"),
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .blob, section: .animating, name: "blob"),
         .init(type: .blob_markers, section: .animating, name: "blob -- markers", visible: true),
         .init(type: .blob_originMarkers, section: .animating, name: "blob -- vertex 0 marker", visible: true),
