@@ -50,9 +50,8 @@ struct PageView: View {
         .init(type: .baseCurve, section: .support, name: "base curve", visible: true),
         .init(type: .baseCurve_markers, section : .support, name: "base curve -- markers", visible: true),
         .init(type: .normals, section : .support, name: "normals", visible: true),
-        .init(type: .envelopeBounds, section: .support,  name: "inner-to-outer-curve envelope"),
-        .init(type: .zigZags, section : .support, name: "zig-zag curves"),
-        .init(type: .zigZag_markers,  section : .support, name: "zig-zag curves -- markers")
+        .init(type: .envelopeBounds, section: .support,  name: "inner-to-outer envelope"),
+        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags + markers"),
     ]
     
     //MARK:-
@@ -75,8 +74,8 @@ struct PageView: View {
             
             pageGradientBackground()
             
-        //MARK: - Show & Hide SuperEllipse Layers
-        //MARK: according to the settings in the Layer selection list
+        //MARK: - show & hide SuperEllipse layers according to
+        //MARK: the user's selections in the layer selection list
 
     // ANIMATING BLOB
             if superEllipseLayers[LayerType.blob.rawValue].visible {
@@ -84,8 +83,8 @@ struct PageView: View {
                               stroked: true,
                               filled: true)
             }
-    // ZIG-ZAG CURVES
-            if superEllipseLayers[LayerType.zigZags.rawValue].visible {
+    // ZIG-ZAGS -- CURVES SECTION
+            if superEllipseLayers[LayerType.zigZagsPlusMarkers.rawValue].visible {
                 ZigZags(curves: model.zigZagCurves)
             }
             
@@ -108,8 +107,8 @@ struct PageView: View {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
-    // ZIG-ZAG MARKERS
-            if superEllipseLayers[LayerType.zigZag_markers.rawValue].visible {
+    // ZIG-ZAG -- MARKERS SECTION
+            if superEllipseLayers[LayerType.zigZagsPlusMarkers.rawValue].visible {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
@@ -164,11 +163,9 @@ struct PageView: View {
                     Spacer()
                     if layerSelectionListIsVisible {
                         
-                        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                        // NOTA: SIZE IS IPAD-ONLY RIGHT NOW
-                        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                        // NB: padding might change w/ iPhone sizing ... (?)
                         
-                        let s = CGSize(width: 320, height: 500)
+                        let s = CGSize(width: 280, height: 580)
                         ZStack {
                             LayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)

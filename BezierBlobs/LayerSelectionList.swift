@@ -17,8 +17,7 @@ enum LayerType : Int {
     case baseCurve_markers
     case normals
     case envelopeBounds
-    case zigZags
-    case zigZag_markers
+    case zigZagsPlusMarkers
 }
 
 enum SectionType {
@@ -39,7 +38,7 @@ struct LayerSelectionList: View {
     
     let sectionHeader_animation = Text("animating layers")
     let sectionHeader_support = Text("static support layers")
-    let sectionHeader_control = Text("show/hide all layers")
+    let sectionHeader_control = Text("show/hide everything")
     
     var body: some View
     {

@@ -208,12 +208,12 @@ struct EnvelopeBounds : View {
 struct ZigZags : View {
     var curves: ZigZagCurves
     
+    // IMO: a little too busy if we show smoothed variants as well
     static let SHOW_SMOOTHED_CURVES_TOO = false
     
     var body: some View {
         ZStack {
             let lineSegStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-
     // ZIG
             SuperEllipse(curve: curves.zig,
                          bezierType: .lineSegments)
