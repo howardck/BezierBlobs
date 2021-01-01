@@ -23,11 +23,9 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 2),
-    .vertexOrigin :     (color: .yellow, radius : r + 2),
+    .vertexOrigin :     (color: .orange, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r + 2),
-//    .zig :              (color: .orange, radius : r - 4),
-//    .zag :              (color: .red, radius: r - 4)
     .zig :              (color: .red, radius : r - 3),
     .zag :              (color: .green, radius: r - 3)
 ]
@@ -94,7 +92,7 @@ struct AnimatingBlob_VertexOriginMarker: View {
 
     var body : some View {
         SuperEllipse(curve: animatingCurve,
-                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius + 1.5),
+                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius + 1),
                      smoothed: false)
             .fill(Color.white)
         

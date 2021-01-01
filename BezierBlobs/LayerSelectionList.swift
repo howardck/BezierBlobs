@@ -8,8 +8,6 @@
 import SwiftUI
 
 enum LayerType : Int {
-    case showAll
-    case hideAll
     case blob
     case blob_markers
     case blob_originMarkers
@@ -18,6 +16,8 @@ enum LayerType : Int {
     case normals
     case envelopeBounds
     case zigZagsPlusMarkers
+    case showAll
+    case hideAll
 }
 
 enum SectionType {
@@ -38,22 +38,11 @@ struct LayerSelectionList: View {
     
     let sectionHeader_animation = Text("animating layers")
     let sectionHeader_support = Text("static support layers")
-    let sectionHeader_control = Text("show/hide everything")
+    let sectionHeader_control = Text("for your convenience")
     
     var body: some View
     {
         List () {
-                        
-    // SHOW ALL/HIDE ALL CONTROLS
-            Section(header: sectionHeader_control.padding(8)) {
-                let section : SectionType = .control
-                let itemsInSection = listItems.filter{ $0.section == section }
-                
-                ForEach( itemsInSection, id: \.type ) { item in
-                    handleCheckmarksForTapped(item: item, in: section)
-                }
-            }
-            .textCase(.lowercase)
             
     // ANIMATED LAYERS
             Section(header: sectionHeader_animation.padding(8)) {
@@ -76,6 +65,18 @@ struct LayerSelectionList: View {
                 }
             }
             .textCase(.lowercase)
+            
+            
+    // SHOW ALL/HIDE ALL CONTROLS
+            Section(header: sectionHeader_control.padding(8)) {
+                let section : SectionType = .control
+                let itemsInSection = listItems.filter{ $0.section == section }
+                
+                ForEach( itemsInSection, id: \.type ) { item in
+                    handleCheckmarksForTapped(item: item, in: section)
+                }
+            }
+            .textCase(.lowercase)
         }
         .environment(\.defaultMinListRowHeight, 46) // 0 == as tight as possible
     }
@@ -89,18 +90,23 @@ struct LayerSelectionList: View {
                     
                     switch section {
                     case .control :
+                        // if we're hiding all, hide EVERYTHING
+                        // then turn 'hide all' back on
                         if item.type == .hideAll {
                             showHideAllLayers(show: false)
-                            listItems[1].visible = true
+                            listItems[LayerType.hideAll.rawValue].visible = true
                         }
+                        // if we're showing all, show EVERYTHING
+                        // then turn 'hide all' back off
                         else if item.type == .showAll {
                             showHideAllLayers(show: true)
-                            listItems[1].visible = false
+                            listItems[LayerType.hideAll.rawValue].visible = false
                         }
                         break
                     case .animating, .support:
-                        listItems[0].visible = false
-                        listItems[1].visible = false
+                        
+                        listItems[LayerType.showAll.rawValue].visible = false
+                        listItems[LayerType.hideAll.rawValue].visible = false
                         listItems[tappedItem].visible.toggle()
                     }
                 }
