@@ -208,42 +208,44 @@ struct EnvelopeBounds : View {
 struct ZigZags : View {
     var curves: ZigZagCurves
     
+    static let SHOW_SMOOTHED_CURVES_TOO = false
+    
     var body: some View {
         ZStack {
-            let lineStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-            
-        // NEW ADDITION: try back-stopping the thin dashed version
-        // with a thicker, different colored (?), smoothed version
-            
+            let lineSegStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+
     // ZIG
             SuperEllipse(curve: curves.zig,
                          bezierType: .lineSegments)
-                .stroke(Color.red, style: StrokeStyle(lineWidth: 2, dash: [4,3]))
+                .stroke(Color.red, style: lineSegStyle)
 
-            SuperEllipse(curve: curves.zig,
-                         bezierType: .lineSegments,
-                         smoothed: true)
-                .stroke(Color.init(white: 0.6), style: StrokeStyle(lineWidth: 8, dash: [4,2]))
-            
-            SuperEllipse(curve: curves.zig,
-                         bezierType: .lineSegments,
-                         smoothed: true)
-                .stroke(Color.red, style: StrokeStyle(lineWidth: 1.5))
-            
+            if ZigZags.SHOW_SMOOTHED_CURVES_TOO {
+                SuperEllipse(curve: curves.zig,
+                             bezierType: .lineSegments,
+                             smoothed: true)
+                    .stroke(Color.init(white: 0.6), style: StrokeStyle(lineWidth: 8, dash: [4,2]))
+                
+                SuperEllipse(curve: curves.zig,
+                             bezierType: .lineSegments,
+                             smoothed: true)
+                    .stroke(Color.red, style: StrokeStyle(lineWidth: 1.5))
+            }
     // ZAG
             SuperEllipse(curve: curves.zag,
                          bezierType: .lineSegments)
-                .stroke(Color.green, style: StrokeStyle(lineWidth: 2, dash: [4,3]))
+                .stroke(Color.green, style: lineSegStyle)
             
-            SuperEllipse(curve: curves.zag,
-                         bezierType: .lineSegments,
-                         smoothed: true)
-                .stroke(Color.init(white: 0.6), style: StrokeStyle(lineWidth: 8, dash: [4,2]))
-            
-            SuperEllipse(curve: curves.zag,
-                         bezierType: .lineSegments,
-                         smoothed: true)
-                .stroke(Color.green, style: StrokeStyle(lineWidth: 1.5))
+            if ZigZags.SHOW_SMOOTHED_CURVES_TOO {
+                SuperEllipse(curve: curves.zag,
+                             bezierType: .lineSegments,
+                             smoothed: true)
+                    .stroke(Color.init(white: 0.6), style: StrokeStyle(lineWidth: 8, dash: [4,2]))
+                
+                SuperEllipse(curve: curves.zag,
+                             bezierType: .lineSegments,
+                             smoothed: true)
+                    .stroke(Color.green, style: StrokeStyle(lineWidth: 1.5))
+            }
         }
     }
 }
