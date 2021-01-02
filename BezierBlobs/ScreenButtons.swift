@@ -29,14 +29,14 @@ extension View {
 
 extension View {
     func bullseye(color: Color = .red) -> some View {
-        let r : CGFloat = 12
+        let r : CGFloat = 14
         return ZStack {
             Circle().frame(width: r, height: r)
                 .foregroundColor(.white)
             Circle().frame(width: r - 1, height: r - 1)
                 .foregroundColor(color)
-            Circle().frame(width: 2.5, height: 2.5)
-                .foregroundColor(.white)
+//            Circle().frame(width: 2.5, height: 2.5)
+//                .foregroundColor(.white)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -54,7 +54,7 @@ struct PencilSymbol: View {
     }
 }
 
-struct HighlightedPencilButton : View {
+struct LayerDrawingOptionsButton : View {
     let name: String
     var faceColor: Color
     var edgeColor: Color
@@ -82,7 +82,7 @@ struct LayerStackSymbol: View {
     }
 }
 
-struct HighlightedLayerStackButton : View {
+struct LayerSelectionListButton : View {
     var faceColor: Color
     var edgeColor: Color
     let s = CGSize(width: 70, height: 50)
@@ -109,21 +109,21 @@ struct ScreenButtons_Previews: PreviewProvider {
         ZStack {
             Color.init(white: 0.4)
             VStack {
-                HighlightedPencilButton(name: pencil,
-                                        faceColor: .blue,
-                                        edgeColor: .pink)
+                LayerDrawingOptionsButton(name: pencil,
+                                          faceColor: .blue,
+                                          edgeColor: .pink)
                     .border(Color.pink, width: 0.5)
-                HighlightedPencilButton(name: pencilInSquare,
-                                        faceColor: .blue,
-                                        edgeColor: .pink)
+                LayerDrawingOptionsButton(name: pencilInSquare,
+                                          faceColor: .blue,
+                                          edgeColor: .pink)
                     .border(Color.pink, width: 0.5)
-                HighlightedPencilButton(name: pencilWithEllipsis,
-                                        faceColor: .blue,
-                                        edgeColor: .orange)
+                LayerDrawingOptionsButton(name: pencilWithEllipsis,
+                                          faceColor: .blue,
+                                          edgeColor: .orange)
                     .border(Color.pink, width: 0.5)
-                HighlightedPencilButton(name: pencilInsideSquiggle,
-                                        faceColor: .blue,
-                                        edgeColor: .orange)
+                LayerDrawingOptionsButton(name: pencilInsideSquiggle,
+                                          faceColor: .blue,
+                                          edgeColor: .orange)
                     .border(Color.pink, width: 0.5)
             }
         }

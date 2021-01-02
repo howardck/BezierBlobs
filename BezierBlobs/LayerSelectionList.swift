@@ -33,16 +33,30 @@ struct SuperEllipseLayer {
     var visible = false
 }
 
+struct ExampleView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Button("New Message") { print("new message")}
+            Text("Reply").background(Color.gray)// { print("reply") }
+            Text("Forward") //{ print("forward")}
+        }
+    }
+}
+
 struct LayerSelectionList: View {
     @Binding var listItems : [SuperEllipseLayer]
     
     let sectionHeader_animation = Text("animating layers")
     let sectionHeader_support = Text("static support layers")
-    let sectionHeader_control = Text("for your convenience")
+    let sectionHeader_control = Text("convenience functions")
     
     var body: some View
     {
         List () {
+            
+            Section() {
+                ExampleView()
+            }
             
     // ANIMATED LAYERS
             Section(header: sectionHeader_animation.padding(8)) {
@@ -65,7 +79,6 @@ struct LayerSelectionList: View {
                 }
             }
             .textCase(.lowercase)
-            
             
     // SHOW ALL/HIDE ALL CONTROLS
             Section(header: sectionHeader_control.padding(8)) {

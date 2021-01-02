@@ -36,12 +36,11 @@ struct PageView: View {
     var pageType: PageType
     
     @State var layerSelectionListIsVisible = false
+    @State var layerDrawingOptionsListIsVisible = false
     
     //MARK:- [SuperEllipseLayers] array initialization
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
-
- 
         .init(type: .blob, section: .animating, name: "blob"),
         .init(type: .blob_originMarker, section: .animating, name: "blob -- vertex 0 marker",
               visible: true),
@@ -53,8 +52,8 @@ struct PageView: View {
               visible: true),
         .init(type: .normals, section : .support, name: "normals",
               visible: false),
-        .init(type: .envelopeBounds, section: .support,  name: "inner-to-outer envelope"),
-        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags + markers"),
+        .init(type: .envelopeBounds, section: .support,  name: "zig-zag curves envelope"),
+        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zag curves + markers"),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
         .init(type: .hideAll, section: .control, name: "hide all layers")
@@ -83,13 +82,13 @@ struct PageView: View {
         //MARK: - show & hide SuperEllipse layers according to
         //MARK: the user's selections in the layer selection list
 
-    // ANIMATING BLOB
+    // BLOB (ANIMATING)
             if superEllipseLayers[LayerType.blob.rawValue].visible {
                 AnimatingBlob(curve: model.blobCurve,
                               stroked: true,
                               filled: true)
             }
-    // ZIG-ZAGS -- CURVES SECTION
+    // ZIG-ZAGS -- CURVES
             if superEllipseLayers[LayerType.zigZagsPlusMarkers.rawValue].visible {
                 ZigZags(curves: model.zigZagCurves)
             }
@@ -113,13 +112,13 @@ struct PageView: View {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
-    // ZIG-ZAG -- MARKERS SECTION
+    // ZIG-ZAG -- MARKERS
             if superEllipseLayers[LayerType.zigZagsPlusMarkers.rawValue].visible {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
             }
-    // ANIMATING BLOB MARKERS
+    // BLOB MARKERS (ANIMATING)
             if superEllipseLayers[LayerType.blob_markers.rawValue].visible {
                 AnimatingBlob_Markers(curve: model.blobCurve,
                                       style: markerStyles[.blob]!)
@@ -129,7 +128,7 @@ struct PageView: View {
                 BaseCurve_Markers(curve: model.baseCurve.vertices,
                                   style: markerStyles[.baseCurve]!)
             }
-    // VERTEX[0] MARKER
+    // VERTEX[0] MARKER (ANIMATING)
             if superEllipseLayers[LayerType.blob_originMarker.rawValue].visible {
                 AnimatingBlob_VertexOriginMarker(animatingCurve: model.blobCurve,
                                               markerStyle: markerStyles[.vertexOrigin]!)
@@ -160,7 +159,7 @@ struct PageView: View {
             }
         }
             
-        .overlay(bullseye())
+        .overlay(bullseye(color: .green))
         .overlay(displaySuperEllipseMetrics())
         .displayScreenSizeMetrics(frontColor: .black, backColor: Color.init(white: 0.6))
         
@@ -178,27 +177,32 @@ struct PageView: View {
                         ZStack {
                             LayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
-                                .padding(70)
+                                .padding(75)
                             bezelFrame(color: .orange, size: s)
                         }
                     }
                     else {
-                        VStack {
-//                            HighlightedPencilButton(name: pencilInSquare,
-//                                                    faceColor: .blue,
-//                                                    edgeColor: .orange)
-//                            Spacer()
-//                                .frame(width: 70, height: 25)
+                        HStack {
+                            LayerDrawingOptionsButton(name: pencilInSquare,
+                                                      faceColor: .blue,
+                                                      edgeColor: .orange)
+                                .onTapGesture {
+                                    print("LayerDrawingOptionsButton tapped")
+                                    layerDrawingOptionsListIsVisible.toggle()
+                                }
                             
-                            HighlightedLayerStackButton(faceColor: .blue,
-                                                        edgeColor: .orange)
+                            Spacer()
+                                .frame(width: 20, height: 1)
+                            
+                            LayerSelectionListButton(faceColor: .blue,
+                                                     edgeColor: .orange)
                                 .onTapGesture {
                                     print("SquareStackSymbol tapped")
                                     layerSelectionListIsVisible.toggle()
                                 }
                         }
                         .scaleEffect(1.4)
-                        .padding(70)
+                        .padding(75)
                     }
                 }
             }

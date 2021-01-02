@@ -148,6 +148,7 @@ struct BaseCurve : View {
     }
 }
 
+//MARK:-
 struct BaseCurve_Markers : View {
     var curve : [CGPoint]
     var style : MarkerStyle
@@ -188,8 +189,8 @@ struct EnvelopeBounds : View {
                          bezierType: .lineSegments)
                 .stroke(color, style: strokeStyle)
             
-            // MOVING THE MARKERS AT ENDS OF THE NORMALS TO HERE ...
-            // NORMALS INNER & OUTER MARKERS
+            // MARKERS AT THE INNER-CURVE AND
+            // OUTER-CURVE ENDS OF THE NORMALS
             SuperEllipse(curve: curves.inner,
                          bezierType: .markers(radius: style.radius))
                 .fill(Color.black)
@@ -248,6 +249,7 @@ struct ZigZags : View {
     }
 }
 
+//MARK:-
 struct ZigZag_Markers : View {
     var curves : ZigZagCurves
     var zigStyle : MarkerStyle
