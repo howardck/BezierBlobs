@@ -135,8 +135,6 @@ struct PageView: View {
                                               markerStyle: markerStyles[.vertexOrigin]!)
             }
         }
-        .overlay(bullseye())
-        .displayScreenSizeMetrics(color: .green)
         .onAppear()
         {
             print("PageView.onAppear(PageType.\(pageType.rawValue))" )
@@ -161,7 +159,12 @@ struct PageView: View {
                 layerSelectionListIsVisible.toggle()
             }
         }
-        // LayerStack Button to lower-right corner.
+            
+        .overlay(bullseye())
+        .overlay(displaySuperEllipseMetrics())
+        .displayScreenSizeMetrics(frontColor: .black, backColor: Color.init(white: 0.6))
+        
+        // push LayerStack Button down to lower-right corner
         .overlay(
             VStack {
                 Spacer()
@@ -181,11 +184,11 @@ struct PageView: View {
                     }
                     else {
                         VStack {
-                            HighlightedPencilButton(name: pencilInSquare,
-                                                    faceColor: .blue,
-                                                    edgeColor: .orange)
-                            Spacer()
-                                .frame(width: 70, height: 25)
+//                            HighlightedPencilButton(name: pencilInSquare,
+//                                                    faceColor: .blue,
+//                                                    edgeColor: .orange)
+//                            Spacer()
+//                                .frame(width: 70, height: 25)
                             
                             HighlightedLayerStackButton(faceColor: .blue,
                                                         edgeColor: .orange)
@@ -200,7 +203,7 @@ struct PageView: View {
                 }
             }
         )
-        .overlay(SuperEllipseMetricsTextDescription())
+//        .overlay(bullseye())
     }
     
     // a little bit of eye candy
@@ -223,7 +226,7 @@ struct PageView: View {
                               endPoint: .bottom)
     }
     
-    func SuperEllipseMetricsTextDescription() -> some View {
+    func displaySuperEllipseMetrics() -> some View {
         VStack(spacing: 10) {
             DropShadowedText(text: "numPoints: \(description.numPoints)",
                              foreColor: .white,

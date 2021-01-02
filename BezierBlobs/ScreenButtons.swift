@@ -8,12 +8,20 @@
 import SwiftUI
 
 extension View {
-    func displayScreenSizeMetrics(color: Color = .black) -> some View {
+    func displayScreenSizeMetrics(frontColor: Color, backColor: Color) -> some View {
         overlay(GeometryReader { gr in
+            
             Text("w: \(Int(gr.size.width)) x h: \(Int(gr.size.height))")
                 .font(.caption)
                 .fontWeight(.regular)
-                .foregroundColor(color)
+                .foregroundColor(backColor)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .offset(x: 1, y: 1)
+            
+            Text("w: \(Int(gr.size.width)) x h: \(Int(gr.size.height))")
+                .font(.caption)
+                .fontWeight(.regular)
+                .foregroundColor(frontColor)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         })
     }
@@ -24,7 +32,7 @@ extension View {
         let r : CGFloat = 12
         return ZStack {
             Circle().frame(width: r, height: r)
-                .foregroundColor(.yellow)
+                .foregroundColor(.white)
             Circle().frame(width: r - 1, height: r - 1)
                 .foregroundColor(color)
             Circle().frame(width: 2.5, height: 2.5)
