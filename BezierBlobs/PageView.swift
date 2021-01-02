@@ -136,7 +136,7 @@ struct PageView: View {
             }
         }
         .overlay(bullseye())
-        .measure(color: .orange)
+        .displayScreenSizeMetrics(color: .green)
         .onAppear()
         {
             print("PageView.onAppear(PageType.\(pageType.rawValue))" )

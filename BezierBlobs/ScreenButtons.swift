@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension View {
-    func measure(color: Color = .black) -> some View {
+    func displayScreenSizeMetrics(color: Color = .black) -> some View {
         overlay(GeometryReader { gr in
             Text("w: \(Int(gr.size.width)) x h: \(Int(gr.size.height))")
                 .font(.caption)
