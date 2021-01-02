@@ -55,8 +55,13 @@ struct LayerSelectionList: View {
         List () {
             
             Section() {
-                ExampleView()
+                ForEach(1..<2) { _ in
+                    Text("Experimenting w/ a List Header...")
+                        .background(Color.orange)
+                        .frame(height: 35)
+                }
             }
+            .textCase(.lowercase)
             
     // ANIMATED LAYERS
             Section(header: sectionHeader_animation.padding(8)) {

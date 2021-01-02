@@ -79,28 +79,32 @@ struct PageView: View {
             
             pageGradientBackground()
             
-        //MARK: - show & hide SuperEllipse layers according to
-        //MARK: the user's selections in the layer selection list
+            //MARK: -
+    //MARK: SuperEllipse Layers: SHOW IF FLAGGED: -
 
     // BLOB (ANIMATING)
+            //MARK: layer 1.  AnimatingBlob
             if superEllipseLayers[LayerType.blob.rawValue].visible {
                 AnimatingBlob(curve: model.blobCurve,
                               stroked: true,
                               filled: true)
             }
     // ZIG-ZAGS -- CURVES
+            //MARK: layer 2. ZigZags
             if superEllipseLayers[LayerType.zigZagsPlusMarkers.rawValue].visible {
                 ZigZags(curves: model.zigZagCurves)
             }
             
             // combine lines and markers to avoid the 10-view limit
     // NORMALS + MARKERS
+            //MARK: layer 3.  NormalsPlusMarkers
             if superEllipseLayers[LayerType.normals.rawValue].visible {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
     // BASE CURVE
+            //MARK: layer 4.  BaseCurve
             if superEllipseLayers[LayerType.baseCurve.rawValue].visible {
                 BaseCurve(vertices: model.baseCurve.vertices)
             }
@@ -108,27 +112,32 @@ struct PageView: View {
             // see above. EnvelopeBounds() now draws both the bounds + the inner
             // & outer markers, priorly the remit of NormalsPlusMarkers
     // ENVELOPE BOUNDS
+            //MARK: layer 5.  EnvelopeBounds
             if superEllipseLayers[LayerType.envelopeBounds.rawValue].visible {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
     // ZIG-ZAG -- MARKERS
+            //MARK: layer 6. ZigZag_Markers
             if superEllipseLayers[LayerType.zigZagsPlusMarkers.rawValue].visible {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
             }
     // BLOB MARKERS (ANIMATING)
+            //MARK: layer 6.  AnimatingBlob_Markers
             if superEllipseLayers[LayerType.blob_markers.rawValue].visible {
                 AnimatingBlob_Markers(curve: model.blobCurve,
                                       style: markerStyles[.blob]!)
             }
     // BASE CURVE MARKERS
+            //MARK: layer 8. BaseCurve_Markers
             if superEllipseLayers[LayerType.baseCurve_markers.rawValue].visible {
                 BaseCurve_Markers(curve: model.baseCurve.vertices,
                                   style: markerStyles[.baseCurve]!)
             }
     // VERTEX[0] MARKER (ANIMATING)
+            //MARK: layer 9. AnimatingBlob_VertexOriginMarker
             if superEllipseLayers[LayerType.blob_originMarker.rawValue].visible {
                 AnimatingBlob_VertexOriginMarker(animatingCurve: model.blobCurve,
                                               markerStyle: markerStyles[.vertexOrigin]!)
@@ -159,7 +168,9 @@ struct PageView: View {
             }
         }
             
-        .overlay(bullseye(color: .green))
+        // keep around for now, but makes center of shape quite busy
+        // .overlay(bullseye(color: .green))
+        
         .overlay(displaySuperEllipseMetrics())
         .displayScreenSizeMetrics(frontColor: .black, backColor: Color.init(white: 0.6))
         
@@ -197,7 +208,7 @@ struct PageView: View {
                             LayerSelectionListButton(faceColor: .blue,
                                                      edgeColor: .orange)
                                 .onTapGesture {
-                                    print("SquareStackSymbol tapped")
+                                    print("LayerSelectionListButton tapped")
                                     layerSelectionListIsVisible.toggle()
                                 }
                         }
@@ -207,7 +218,6 @@ struct PageView: View {
                 }
             }
         )
-//        .overlay(bullseye())
     }
     
     // a little bit of eye candy
