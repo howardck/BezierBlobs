@@ -33,7 +33,7 @@ struct ContentView: View {
     }
     
     init() {
-        print("ContentView.init() #########################################")
+        print("ContentView.init()")
     }
     
     var body: some View {

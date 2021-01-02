@@ -12,7 +12,7 @@ extension View {
         overlay(GeometryReader { gr in
             Text("w: \(Int(gr.size.width)) x h: \(Int(gr.size.height))")
                 .font(.caption)
-                .fontWeight(.light)
+                .fontWeight(.regular)
                 .foregroundColor(color)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         })
@@ -20,16 +20,17 @@ extension View {
 }
 
 extension View {
-    func centerPoint(color: Color = .red) -> some View {
-        overlay(GeometryReader { reader in
-            ZStack {
-                Circle().frame(width: 12, height: 12)
-                    .foregroundColor(.white)
-                Circle().frame(width: 10, height: 10)
-                    .foregroundColor(color)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        })
+    func bullseye(color: Color = .red) -> some View {
+        let r : CGFloat = 12
+        return ZStack {
+            Circle().frame(width: r, height: r)
+                .foregroundColor(.yellow)
+            Circle().frame(width: r - 1, height: r - 1)
+                .foregroundColor(color)
+            Circle().frame(width: 2.5, height: 2.5)
+                .foregroundColor(.white)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -89,28 +90,10 @@ struct HighlightedLayerStackButton : View {
     }
 }
 
-//struct CurveSettingsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//
-//        ZStack {
-//            Color.gray
-//
-//            VStack {
-//                HighlightedLayerStackButton(faceColor: .blue, edgeColor: .red)
-//                HighlightedLayerStackButton(faceColor: .blue, edgeColor: .orange)
-//                HighlightedLayerStackButton(faceColor: .red, edgeColor: .yellow)
-//                HighlightedLayerStackButton(faceColor: .red, edgeColor: .orange)
-//            }
-//            .scaleEffect(3)
-//        }
-//    }
-//}
-
 let pencil = "pencil"
 let pencilInSquare = "square.and.pencil"
 let pencilWithEllipsis = "rectangle.and.pencil.and.ellipsis"
 let pencilInsideSquiggle = "pencil.and.outline"
-
 
 struct ScreenButtons_Previews: PreviewProvider {
     static var previews: some View {

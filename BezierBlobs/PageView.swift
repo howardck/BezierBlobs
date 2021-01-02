@@ -43,15 +43,16 @@ struct PageView: View {
 
  
         .init(type: .blob, section: .animating, name: "blob"),
-        .init(type: .blob_markers, section: .animating, name: "blob -- markers"),
-        .init(type: .blob_originMarkers, section: .animating, name: "blob -- vertex 0 marker",
+        .init(type: .blob_originMarker, section: .animating, name: "blob -- vertex 0 marker",
               visible: true),
+        .init(type: .blob_markers, section: .animating, name: "blob -- all vertex markers"),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .baseCurve, section: .support, name: "base curve",
               visible: true),
         .init(type: .baseCurve_markers, section : .support, name: "base curve -- markers",
               visible: true),
-        .init(type: .normals, section : .support, name: "normals", visible: true),
+        .init(type: .normals, section : .support, name: "normals",
+              visible: false),
         .init(type: .envelopeBounds, section: .support,  name: "inner-to-outer envelope"),
         .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags + markers"),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,12 +130,13 @@ struct PageView: View {
                                   style: markerStyles[.baseCurve]!)
             }
     // VERTEX[0] MARKER
-            if superEllipseLayers[LayerType.blob_originMarkers.rawValue].visible {
+            if superEllipseLayers[LayerType.blob_originMarker.rawValue].visible {
                 AnimatingBlob_VertexOriginMarker(animatingCurve: model.blobCurve,
                                               markerStyle: markerStyles[.vertexOrigin]!)
             }
         }
-        .measure(color: .yellow)
+        .overlay(bullseye())
+        .measure(color: .orange)
         .onAppear()
         {
             print("PageView.onAppear(PageType.\(pageType.rawValue))" )
@@ -159,7 +161,6 @@ struct PageView: View {
                 layerSelectionListIsVisible.toggle()
             }
         }
-        
         // LayerStack Button to lower-right corner.
         .overlay(
             VStack {
@@ -199,7 +200,7 @@ struct PageView: View {
                 }
             }
         )
-        .overlay(pageMetricsTextDescription())
+        .overlay(SuperEllipseMetricsTextDescription())
     }
     
     // a little bit of eye candy
@@ -222,7 +223,7 @@ struct PageView: View {
                               endPoint: .bottom)
     }
     
-    func pageMetricsTextDescription() -> some View {
+    func SuperEllipseMetricsTextDescription() -> some View {
         VStack(spacing: 10) {
             DropShadowedText(text: "numPoints: \(description.numPoints)",
                              foreColor: .white,

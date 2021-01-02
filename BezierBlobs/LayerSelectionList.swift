@@ -9,8 +9,8 @@ import SwiftUI
 
 enum LayerType : Int {
     case blob
+    case blob_originMarker
     case blob_markers
-    case blob_originMarkers
     case baseCurve
     case baseCurve_markers
     case normals
