@@ -8,8 +8,9 @@
 import SwiftUI
 
 enum LayerType : Int {
-    case blob_stroke
-    case blob_originMarker
+    case blob_filled
+    case blob_stroked
+    case blob_vertex_0_Marker
     case blob_markers
     case baseCurve
     case baseCurve_markers

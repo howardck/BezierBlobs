@@ -33,6 +33,21 @@ let markerStyles : [MarkerType : MarkerStyle] = [
 let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
 let redGradient = Gradient(colors: [.red, .yellow])
 
+struct AnimatingBlob_Filled: View {
+    var curve: [CGPoint]
+    let gradient = LinearGradient(gradient: redGradient,
+                                 startPoint: .topLeading,
+                                 endPoint: .bottomTrailing)
+    var body : some View {
+        ZStack {
+            SuperEllipse(curve: curve,
+                         bezierType: .lineSegments,
+                         smoothed: true)
+                .fill(gradient)
+        }
+    }
+}
+
 //MARK:-
 struct AnimatingBlob_Stroked: View {
     var curve: [CGPoint]
@@ -51,42 +66,10 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: true)
-                .stroke(Color.white, lineWidth: 0.75)
+                .stroke(Color.white, lineWidth: 0.5)
         }
     }
 }
-
-//struct AnimatingBlob: View {
-//    var curve: [CGPoint]
-//    var stroked: Bool
-//    var filled: Bool
-//
-//    let gradient = LinearGradient(gradient: blueGradient,
-//                                 startPoint: .topLeading,
-//                                 endPoint: .bottomTrailing)
-//    var body : some View {
-//        ZStack {
-//
-//            if filled {
-//                SuperEllipse(curve: curve,
-//                             bezierType: .lineSegments,
-//                             smoothed: true)
-//                    .fill(gradient)
-//            }
-//            if stroked {
-//                SuperEllipse(curve: curve,
-//                             bezierType: .lineSegments,
-//                             smoothed: true)
-//                    .stroke(Color.red, lineWidth: 10)
-//
-//                SuperEllipse(curve: curve,
-//                             bezierType: .lineSegments,
-//                             smoothed: true)
-//                    .stroke(Color.white, lineWidth: 0.75)
-//            }
-//        }
-//    }
-//}
 
 //MARK:-
 
@@ -229,7 +212,8 @@ struct EnvelopeBounds : View {
 struct ZigZags : View {
     var curves: ZigZagCurves
     
-    // IMO: a little too busy if we show smoothed variants as well
+    // IMO a bit too busy if we show smoothed variants as well
+    // however, just in case you think it's worth a look ...
     static let SHOW_SMOOTHED_CURVES_TOO = false
     
     var body: some View {
