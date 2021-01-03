@@ -34,37 +34,59 @@ let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
 let redGradient = Gradient(colors: [.red, .yellow])
 
 //MARK:-
-struct AnimatingBlob: View {
+struct AnimatingBlob_Stroked: View {
     var curve: [CGPoint]
-    var stroked: Bool
-    var filled: Bool
     
     let gradient = LinearGradient(gradient: blueGradient,
                                  startPoint: .topLeading,
                                  endPoint: .bottomTrailing)
     var body : some View {
+        
         ZStack {
+            SuperEllipse(curve: curve,
+                         bezierType: .lineSegments,
+                         smoothed: true)
+                .stroke(Color.red, lineWidth: 9)
             
-            if filled {
-                SuperEllipse(curve: curve,
-                             bezierType: .lineSegments,
-                             smoothed: true)
-                    .fill(gradient)
-            }
-            if stroked {
-                SuperEllipse(curve: curve,
-                             bezierType: .lineSegments,
-                             smoothed: true)
-                    .stroke(Color.red, lineWidth: 10)
-                
-                SuperEllipse(curve: curve,
-                             bezierType: .lineSegments,
-                             smoothed: true)
-                    .stroke(Color.white, lineWidth: 0.75)
-            }
+            SuperEllipse(curve: curve,
+                         bezierType: .lineSegments,
+                         smoothed: true)
+                .stroke(Color.white, lineWidth: 0.75)
         }
     }
 }
+
+//struct AnimatingBlob: View {
+//    var curve: [CGPoint]
+//    var stroked: Bool
+//    var filled: Bool
+//
+//    let gradient = LinearGradient(gradient: blueGradient,
+//                                 startPoint: .topLeading,
+//                                 endPoint: .bottomTrailing)
+//    var body : some View {
+//        ZStack {
+//
+//            if filled {
+//                SuperEllipse(curve: curve,
+//                             bezierType: .lineSegments,
+//                             smoothed: true)
+//                    .fill(gradient)
+//            }
+//            if stroked {
+//                SuperEllipse(curve: curve,
+//                             bezierType: .lineSegments,
+//                             smoothed: true)
+//                    .stroke(Color.red, lineWidth: 10)
+//
+//                SuperEllipse(curve: curve,
+//                             bezierType: .lineSegments,
+//                             smoothed: true)
+//                    .stroke(Color.white, lineWidth: 0.75)
+//            }
+//        }
+//    }
+//}
 
 //MARK:-
 
@@ -232,7 +254,7 @@ struct ZigZags : View {
     // ZAG
             SuperEllipse(curve: curves.zag,
                          bezierType: .lineSegments)
-                .stroke(Color.green, style: lineSegStyle)
+                .stroke(Color.yellow, style: lineSegStyle)
             
             if ZigZags.SHOW_SMOOTHED_CURVES_TOO {
                 SuperEllipse(curve: curves.zag,
@@ -243,7 +265,7 @@ struct ZigZags : View {
                 SuperEllipse(curve: curves.zag,
                              bezierType: .lineSegments,
                              smoothed: true)
-                    .stroke(Color.green, style: StrokeStyle(lineWidth: 1.5))
+                    .stroke(Color.yellow, style: StrokeStyle(lineWidth: 1.5))
             }
         }
     }

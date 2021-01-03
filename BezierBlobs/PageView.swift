@@ -41,7 +41,7 @@ struct PageView: View {
     //MARK:- [SuperEllipseLayers] array initialization
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
-        .init(type: .blob, section: .animating, name: "blob"),
+        .init(type: .blob_stroke, section: .animating, name: "blob (stroked)"),
         .init(type: .blob_originMarker, section: .animating, name: "blob -- vertex 0 marker",
               visible: true),
         .init(type: .blob_markers, section: .animating, name: "blob -- all vertex markers"),
@@ -52,7 +52,7 @@ struct PageView: View {
               visible: true),
         .init(type: .normals, section : .support, name: "normals",
               visible: false),
-        .init(type: .envelopeBounds, section: .support,  name: "zig-zag curves envelope"),
+        .init(type: .envelopeBounds, section: .support,  name: "envelope bounds"),
         .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zag curves + markers"),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
@@ -84,10 +84,8 @@ struct PageView: View {
 
     // BLOB (ANIMATING)
             //MARK: layer 1.  AnimatingBlob
-            if superEllipseLayers[LayerType.blob.rawValue].visible {
-                AnimatingBlob(curve: model.blobCurve,
-                              stroked: true,
-                              filled: true)
+            if superEllipseLayers[LayerType.blob_stroke.rawValue].visible {
+                AnimatingBlob_Stroked(curve: model.blobCurve)
             }
     // ZIG-ZAGS -- CURVES
             //MARK: layer 2. ZigZags
