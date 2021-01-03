@@ -49,7 +49,7 @@ struct LayerSelectionList: View {
     
     let sectionHeader_animation = Text("animating layers")
     let sectionHeader_support = Text("static support layers")
-    let sectionHeader_control = Text("convenience functions")
+    let sectionHeader_control = Text("at a fell swoop ...")
     
     var body: some View
     {

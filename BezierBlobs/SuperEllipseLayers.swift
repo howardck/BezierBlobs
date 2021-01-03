@@ -23,7 +23,7 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 2),
-    .vertexOrigin :     (color: .green, radius : r + 2),
+    .vertexOrigin :     (color: .red, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r + 2),
     .zig :              (color: .red, radius : r - 3),
@@ -212,8 +212,8 @@ struct EnvelopeBounds : View {
 struct ZigZags : View {
     var curves: ZigZagCurves
     
-    // IMO a bit too busy if we show smoothed variants as well
-    // however, just in case you think it's worth a look ...
+    // IMO too busy if we show smoothed variants as well
+    // however just in case you think it's worth a look ...
     static let SHOW_SMOOTHED_CURVES_TOO = false
     
     var body: some View {

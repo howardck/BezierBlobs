@@ -43,8 +43,8 @@ struct PageView: View {
     //MARK:- [SuperEllipseLayers] array initialization
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
-        // 'visible: true == setting for the layer's 1st-time appearance,
-        // and indicated by a checkmark in the LayerSelectionList dialog
+        // 'visible: true == setting for the layer's first appearance,
+        // switchable thereafter via checkmark in the LayerSelectionList dlog
         .init(type: .blob_filled, section: .animating, name: "blob (filled)"),
         .init(type: .blob_stroked, section: .animating, name: "blob (stroked)",
               visible: true),
@@ -59,7 +59,7 @@ struct PageView: View {
               visible: true),
         .init(type: .normals, section : .support, name: "normals"),
         .init(type: .envelopeBounds, section: .support,  name: "envelope bounds"),
-        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zag curves + markers"),
+        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags and markers"),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
         .init(type: .hideAll, section: .control, name: "hide all layers")
@@ -85,8 +85,10 @@ struct PageView: View {
             
             pageGradientBackground()
             
-            //MARK: -
-    //MARK: SuperEllipse Layers: SHOW IF FLAGGED: -
+    //MARK:-
+    //MARK: show these SuperEllipse layer stacks if flagged.
+    //MARK: higher-numbered stacks occlude lower ones
+    //MARK:-
 
     // BLOB (ANIMATING -- FILLED)
             //MARK: layer 1.  AnimatingBlob_Filled
@@ -183,18 +185,17 @@ struct PageView: View {
             }
         }
             
-        // keep around for now, but makes center of shape quite busy
+        // a nice thought, but makes center of shape quite busy
         // .overlay(bullseye(color: .green))
         
         .overlay(displaySuperEllipseMetrics())
         .displayScreenSizeMetrics(frontColor: .black, backColor: Color.init(white: 0.6))
         
-        // push LayerStack Button down to lower-right corner
+        // push both Screen Buttons down to lower-left corner
         .overlay(
             VStack {
                 Spacer()
                 HStack {
-                    Spacer()
                     if layerSelectionListIsVisible {
                         
                         // NB: padding might change w/ iPhone sizing ... (?)
@@ -227,9 +228,12 @@ struct PageView: View {
                                     layerSelectionListIsVisible.toggle()
                                 }
                         }
+                        .border(Color.orange)
                         .scaleEffect(1.4)
+                        .border(Color.red)
                         .padding(75)
                     }
+                    Spacer() // pushes to the left in HStack
                 }
             }
         )
