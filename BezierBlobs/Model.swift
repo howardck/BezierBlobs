@@ -15,46 +15,55 @@ typealias BaseCurveType = (vertices: [CGPoint], normals: [CGVector])
 
 class Model: ObservableObject {
     
-//    init() {
-//        print("Model.init()")
-//    }
+//  init() { print("Model.init()") }
     
     @Published var blobCurve = [CGPoint]()
     
-    // at point 0
+    // at vertex 0,
     // zig configuration starts to the inside
     // zag configuration starts to the outside
-    var animateToZigConfiguration = false
+    
+    // go to the outside (== ZIG) first
+    var animateToZigConfiguration = true
     
     static let DEBUG_PRINT = false
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001  // kludge ahoy?
     
     var axes : Axes = (1, 1)
 
+    // MARK:-
+    // TODO: SEE NOTE in baseCurvePlusNormals() on recasting as:
+    // TODO: var baseCurve: ([(vertex: CGPoint, normal: CGVector)]
+    // MARK:-
     var baseCurve : BaseCurveType = (vertices: [CGPoint](), normals: [CGVector]())
+    
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
     var normalsCurve : [CGPoint] = [CGPoint]()
     
-    //MARK: TODO: OFFSETS SHOULD BE A PLATFORM-SPECIFIC SCREEN RATIO
+    //MARK:-
+    //TODO: TODO: OFFSETS SHOULD BE A PLATFORM-SPECIFIC SCREEN RATIO
+    
     var offsets : Offsets = (in: 0, out: 0)
     var n: Double = 0.0
     
     //MARK: -
-    func animateToCurrZigZagPhase() {
-        blobCurve = animateToZigConfiguration ?
-            zigZagCurves.zag :
-            zigZagCurves.zig
-    }
-    
     func animateToNextZigZagPhase() {
-        //print("Model.animateToNextZigZagPhase()")
+        print("Model.animateToNextZigZagPhase():: animateToZig == {\(animateToZigConfiguration)}")
         
         blobCurve = animateToZigConfiguration ?
+            
             zigZagCurves.zig :
             zigZagCurves.zag
         
         animateToZigConfiguration.toggle()
+    }
+    
+    func animateToCurrZigZagPhase() {
+        blobCurve = animateToZigConfiguration ?
+            
+            zigZagCurves.zag :
+            zigZagCurves.zig
     }
     
     //MARK: -
@@ -114,48 +123,32 @@ class Model: ObservableObject {
         blobCurve = baseCurve.vertices
     }
     
-    // these two curves define the two extremes our blob path animates between
+    // these define the two extreme paths our blob path animates between
     func calculateZigZagCurves(offsets: Offsets) -> ZigZagCurves {
 
-        let z = zip(baseCurve.vertices, baseCurve.normals)
-        
-        /*  on enumerating a zipped array pair of vertices &
-            their normals, a map{ } function sees this:
-                $0.0: index of the point
-                $0.1: the vertex/normal pair for the point. ie
-                    $0.1.0: the vertex
-                    @0.1.1: the normal (a CGVector) of/at the point
+        let z = zip(baseCurve.vertices, baseCurve.normals).enumerated()
+        /*
+         on enumerating a zipped array pair of vertices & their normals,
+         a map{} function sees this:
+         
+            $0.0: index of the point
+            $0.1: the vertex/normal pair for the point. ie
+                $0.1.0: the vertex
+                @0.1.1: the normal (a CGVector) of/at the point
          */
     
-        let zigCurve = z.enumerated().map {
-            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.in : offsets.out,
+        let zigCurve = z.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.out : offsets.in,
                             along: $0.1.1)
         }
-        let zagCurve = z.enumerated().map {
-            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.out : offsets.in,
+        let zagCurve = z.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.in : offsets.out,
                             along: $0.1.1)
         }
         return (zigCurve, zagCurve)
     }
     
-    // define an envelope within which our blob
-    // does it thing, ie zigs and zags.
-    
-//    func calculateBoundingCurves(offsets: Offsets) -> BoundingCurves {
-//        let z = zip(baseCurve.vertices, baseCurve.normals)
-//        return (inner: z.map{ $0.0.newPoint(at: offsets.in, along: $0.1) },
-//                outer: z.map{ $0.0.newPoint(at: offsets.out, along: $0.1) })
-//    }
-//
-//    func calculateNormalsPseudoCurve() -> [CGPoint] {
-//        var normals = [CGPoint]()
-//        for i in 0..<boundingCurves.inner.count {
-//            normals.append(boundingCurves.inner[i])
-//            normals.append(boundingCurves.outer[i])
-//        }
-//        return normals
-//    }
-    
+
     func calculateNormalsPseudoCurve() -> [CGPoint] {
         var normals = [CGPoint]()
         for i in 0..<boundingCurves.inner.count {
@@ -165,27 +158,31 @@ class Model: ObservableObject {
         return normals
     }
     
+    // define an envelope w/in which our blob blobs
+    
     func calculateBoundingCurves(offsets: Offsets) -> BoundingCurves {
         let z = zip(baseCurve.vertices, baseCurve.normals)
         return (inner: z.map{ $0.0.newPoint(at: offsets.in, along: $0.1) },
                 outer: z.map{ $0.0.newPoint(at: offsets.out, along: $0.1) })
     }
     
+    // the basis of everything else ...
     func calculateBaseCurvePlusNormals(for numPoints: Int,
                                        with axes: Axes) -> (vertices:[CGPoint],
                                                             normals: [CGVector])
     {
+        //TODO: TODO: look at trying ~ ([(vertex: CGPoint, normal: CGVector)]
+        //TODO: TODO:
         var baseCurve = (vertices: [CGPoint](), normals: [CGVector]())
         var i = 0
         for theta in stride(from: 0,
                             to: 2 * Double.pi,
-                            by: 2 * Double.pi/Double(numPoints))
-        {
+                            by: 2 * Double.pi/Double(numPoints)) {
             let cosT = cos(theta)
             var sinT = sin(theta)
 
             if sinT == 0 { sinT = Model.VANISHINGLY_SMALL_DOUBLE }
-            // else dX goes infinite at theta == 0 & we're forked. kludge?
+            // else dX goes infinite at theta == 0 & we're forked. kludgy?
             
             let inverseN = 2.0/n // not really named accurately, but whatever...
 
@@ -195,7 +192,7 @@ class Model: ObservableObject {
             let vertex = CGPoint(x: x, y: y)
             baseCurve.vertices += [vertex]
             
-            // and the orthogonal (ie normal) to it at that point
+            // the orthogonal (== normal) to the curve at this point
             let dX = axes.b * inverseN * pow(abs(sinT), (inverseN - 1)) * cosT
             let dY = axes.a * inverseN * pow(abs(cosT), (inverseN - 1)) * sinT
             
