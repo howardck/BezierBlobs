@@ -61,7 +61,7 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: true)
-                .stroke(Color.init(white: 0.25), lineWidth: 9)
+                .stroke(Color.init(white: 0.2), lineWidth: 15)
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,

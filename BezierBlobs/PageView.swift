@@ -197,7 +197,7 @@ struct PageView: View {
                         
                         // NB: padding might change w/ iPhone sizing ... (?)
                         
-                        let s = CGSize(width: 280, height: 580)
+                        let s = CGSize(width: 300, height: 580)
                         ZStack {
                             LayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
