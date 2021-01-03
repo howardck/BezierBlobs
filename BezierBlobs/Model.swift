@@ -13,15 +13,13 @@ typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 typealias BaseCurveType = (vertices: [CGPoint], normals: [CGVector])
 
-class Model: ObservableObject {
-    
-//  init() { print("Model.init()") }
+class Model: ObservableObject { // init() { print("Model.init()") }
     
     @Published var blobCurve = [CGPoint]()
     
-    // at vertex 0,
-    // zig configuration starts to the inside
-    // zag configuration starts to the outside
+    // at vertex 0:
+    // zig configuration starts to the outside
+    // zag configuration starts to the inside
     
     // go to the outside (== ZIG) first
     var animateToZigConfiguration = true

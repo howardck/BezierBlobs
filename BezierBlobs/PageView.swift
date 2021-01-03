@@ -35,6 +35,8 @@ struct PageView: View {
     
     var pageType: PageType
     
+    @State var randomizeNextZigZagRedraw = false
+    
     @State var layerSelectionListIsVisible = false
     @State var layerDrawingOptionsListIsVisible = false
     
