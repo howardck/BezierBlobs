@@ -83,7 +83,7 @@ struct PageView: View {
     //MARK: SuperEllipse Layers: SHOW IF FLAGGED: -
 
     // BLOB (ANIMATING)
-            //MARK: layer 1.  AnimatingBlob
+            //MARK: layer 1.  AnimatingBlob_Stroked
             if superEllipseLayers[LayerType.blob_stroke.rawValue].visible {
                 AnimatingBlob_Stroked(curve: model.blobCurve)
             }
