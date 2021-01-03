@@ -45,9 +45,14 @@ struct PageView: View {
     [
         // 'visible: true == setting for the layer's first appearance,
         // switchable thereafter via checkmark in the LayerSelectionList dlog
-        .init(type: .blob_filled, section: .animating, name: "blob (filled)"),
+        
+        // NOTA: changes to .init's ordering here need to be reflected
+        // by similar changes in enum LayerType case ordering ...
+        // (possibly could be obviated by better design ... ??)
+        
         .init(type: .blob_stroked, section: .animating, name: "blob (stroked)",
               visible: true),
+        .init(type: .blob_filled, section: .animating, name: "blob (filled)"),
         .init(type: .blob_vertex_0_Marker, section: .animating, name: "blob -- vertex 0 marker",
               visible: true),
         .init(type: .blob_markers, section: .animating, name: "blob -- all vertex markers",
