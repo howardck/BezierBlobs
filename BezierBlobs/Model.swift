@@ -24,7 +24,10 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     // go to the outside (== ZIG) first
     var animateToZigConfiguration = true
     
-    static let DEBUG_PRINT = false
+    static let DEBUG_PRINT_COORDS = false
+    static let DEBUG_TRACK_ZIGZAG_PHASING = false
+    static let DEBUG_PRINT_OFFSET_CALCS = true
+    
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001  // kludge ahoy?
     
     var axes : Axes = (1, 1)
@@ -47,7 +50,9 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     //MARK: -
     func animateToNextZigZagPhase() {
-        print("Model.animateToNextZigZagPhase():: animateToZig == {\(animateToZigConfiguration)}")
+        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.animateToNextZigZagPhase():: animateToZig == {\(animateToZigConfiguration)}")
+        }
         
         blobCurve = animateToZigConfiguration ?
             
@@ -89,12 +94,17 @@ class Model: ObservableObject { // init() { print("Model.init()") }
 
         self.baseCurve = calculateBaseCurvePlusNormals(for: numPoints,
                                                        with: self.axes)
-        if Model.DEBUG_PRINT {
-            print("\nModel.calculateSuperEllipseCurves")
-            print("(pageId: [\(pageType)] numPoints: {\(numPoints)} ...)")
-            print("axes: a: {\((self.axes.a).format(fspec: "6.2"))}, " +
-                    "b: {\((self.axes.b).format(fspec: "6.2"))}")
+        if Self.DEBUG_PRINT_OFFSET_CALCS {
+            print("\nModel.calculateSuperEllipseCurves(PageType.\(pageType.rawValue))")
+            //print("-------------------------------------")
+            print("numPoints: {\(numPoints)} ")
+            print("axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
+                    "b: {\((self.axes.b).format(fspec: "6.2"))})")
+            print("offsets: (inner: \(offsets.in.format(fspec: "6.2")), outer: \(offsets.out.format(fspec: "6.2")))")
         }
+        
+        let innerRandomizingRatios = (-0.5, 1.0) // the inner offset can go 50% further in & 100% further out
+        let outerRandomizingRatios = (-1.0, 0.5) // the outer offset can go 100% further in & 50% further out
         
         boundingCurves = calculateBoundingCurves(offsets: self.offsets)
         zigZagCurves = calculateZigZagCurves(offsets: self.offsets)
@@ -109,14 +119,29 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
     }
     
+    func randomizeZigZagCurve(zigOrZag: [CGPoint], usingRandomizingRatio: (Double, Double)) -> [CGPoint]
+    {
+        
+        return [CGPoint]()
+    }
+    
+    func randomBounds(in: Range<Double> ) {
+        
+        
+    }
+    
     func setInitialBlobCurve() {
-        print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
+        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
+        }
         
         blobCurve = baseCurve.vertices
     }
     
     func returnToInitialConfiguration() {
-        print("Model.returnToInitialConfiguration(PageType.\(pageType!.rawValue))" )
+        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.returnToInitialConfiguration(PageType.\(pageType!.rawValue))" )
+        }
         
         blobCurve = baseCurve.vertices
     }
@@ -200,7 +225,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             let normal = CGVector(dx: dX/hypotenuse, dy: dY/hypotenuse)
             baseCurve.normals += [normal]
             
-            if Model.DEBUG_PRINT {
+            if Model.DEBUG_PRINT_COORDS {
                 debugPrint(i: i, theta: theta, vertex: vertex, normal: normal)
                 i += 1
             }
