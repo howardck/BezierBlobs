@@ -26,7 +26,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     static let DEBUG_PRINT_COORDS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
-    static let DEBUG_PRINT_OFFSET_CALCS = true
+    static let DEBUG_PRINT_BASIC_SE_PARAMS = true
     
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001  // kludge ahoy?
     
@@ -67,30 +67,52 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             zigZagCurves.zig
     }
     
+    //MARK:-
     func randomlyPermuted(zzCurve: [CGPoint]) -> [CGPoint]
     {
-        // (1) build a list of in & out deltas for each vertex
-        // (2) apply each delta along the normal at each vertex
-            // to produce a new curve
-        let permutations = randomizedPermutations(for: zzCurve)
-        return applyList(of: permutations, to: zzCurve)
+        // (1) build a list of semi-random .inner & .outer deltas for each vertex
+        // (2) apply each delta at its offset along the normal at each vertex to produce a new curve
+        
+        let permutationDeltas = generatePerturbationDeltas(for: zzCurve,
+                                                           using: (-30, 30))
+        return applyList(of: permutationDeltas, to: zzCurve)
     }
     
-    func randomizedPermutations(for zzCurve: [CGPoint]) -> [CGFloat]
+    func generatePerturbationDeltas(for zigZagCurve: [CGPoint],
+                                    using deltaLimits: (CGFloat, CGFloat)) -> [CGFloat]
     {
-        // INITIALLY just start with 0's
-        return Array(repeating: 0.0, count: zzCurve.count)
+        let perturbationDeltas = Array<CGFloat>(repeating: 0, count: zigZagCurve.count).map { _ in
+            CGFloat.random(in: deltaLimits.0...deltaLimits.1)
+        }
+        print()
+        print("envelope offsets: { (inner: \(offsets.inner), outer: \(offsets.outer)) }")
+        print("maxPerturbationDeltas: { (min: \(deltaLimits.0), max: \(deltaLimits.1) }")
+        print("deltas:" )
+        for index in 0..<perturbationDeltas.count {
+            print("delta \([index]): { \((perturbationDeltas[index]).format(fspec: "7.4")) }")
+        }
+        print("")
+        
+        return perturbationDeltas
+        
+//        let permuted = Array<CGFloat>(repeating: 0, count: zzCurve.count)
+//        return permuted.map { _ in CGFloat.random(in: -20...20) }
     }
     
-    func applyList(of randomPermuations: [CGFloat], to zzCurve: [CGPoint]) -> [CGPoint] {
-        // startin out with an unperturbed (ie original) curve
-        zzCurve
+    func applyList(of perturbationDeltas: [CGFloat], to zzCurve: [CGPoint]) -> [CGPoint] {
+        
+        
+        // starting out with an unperturbed (ie original) curve
+        return zzCurve
     }
-    
-    //MARK: -
+       
+    //MARK:-
     
     var pageType: PageType?
     
+    //MARK: - calculateSuperEllipseCurves()
+    //MARK:-
+
     func calculateSuperEllipseCurves(for pageType: PageType,
                                      pageDescription: PageDescription,
                                      axes: Axes) {
@@ -106,11 +128,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         offsets = (inner: radius * pageDescription.offsets.in,
                    outer: radius * pageDescription.offsets.out)
         n = pageDescription.n
-        
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//        offsets.inner = -30
-//        offsets.outer = 30
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         self.axes = axes
         if pageDescription.forceEqualAxes {
@@ -120,17 +137,20 @@ class Model: ObservableObject { // init() { print("Model.init()") }
 
         self.baseCurve = calculateBaseCurvePlusNormals(for: numPoints,
                                                        with: self.axes)
-        if Self.DEBUG_PRINT_OFFSET_CALCS {
+        if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
             print("\nModel.calculateSuperEllipseCurves(PageType.\(pageType.rawValue))")
             //print("-------------------------------------")
             print("numPoints: {\(numPoints)} ")
             print("axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((self.axes.b).format(fspec: "6.2"))})")
             print("offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+            
+            
+    //      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            offsets.inner = -4
+            offsets.outer = 120
+    //      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         }
-        
-        let innerRandomLimits = (-0.5, 1.0) // the inner offset can go 50% further in & 100% further out
-        let outerRandomLimits = (-1.0, 0.5) // the outer offset can go 100% further in & 50% further out
         
         boundingCurves = calculateBoundingCurves(using: self.offsets)
         zigZagCurves = calculateZigZagCurves(using: self.offsets)
@@ -145,11 +165,12 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
     }
     
-    func randomizeZigZagCurve(zigOrZag: [CGPoint], usingRandomizingRatio: (Double, Double)) -> [CGPoint]
-    {
-        
-        return [CGPoint]()
-    }
+    // gone a different route ...
+//    func randomizeZigZagCurve(zigOrZag: [CGPoint], usingRandomizingRatio: (Double, Double)) -> [CGPoint]
+//    {
+//
+//        return [CGPoint]()
+//    }
         
     func setInitialBlobCurve() {
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
@@ -167,6 +188,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         blobCurve = baseCurve.vertices
     }
     
+    //MARK:- calculateZigZagCurves()
     // these define the two path extremes our
     // generated blob path animates between.
     func calculateZigZagCurves(using offsets: Offsets) -> ZigZagCurves {
@@ -174,8 +196,8 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         //TODO: TODO: EXPLORE USING ARRAY OF TUPLES FOR baseCurve
 
         /*  instead of baseCurve being defined as ([CGPoint], [CGVector]),
-            it could easily be instantiated as [(CGPoint, CGVector)], which
-            has several advantages:
+            it could easily be instantiated as [(CGPoint, CGVector)].
+            this has several advantages:
             (1) they're in zipped form from the start; we don't need to zip here.
             (2) they're already in array form, so we don't need to do enumerated().
         */
