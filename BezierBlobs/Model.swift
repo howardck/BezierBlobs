@@ -26,7 +26,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     static let DEBUG_PRINT_COORDS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
-    static let DEBUG_PRINT_BASIC_SE_PARAMS = true
+    static let DEBUG_PRINT_BASIC_SE_PARAMS = false
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = true
     
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001  // kludge ahoy?
@@ -68,21 +68,27 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             zigZagCurves.zig
     }
     
-    //MARK:- RANDOMLY PERMUTING FOR THE NEXT GEN .ZIG OR .ZAG
+    //MARK:- RANDOMLY PERMUTING FOR THE NEXT-GEN ZIG OR ZAG
     func randomlyPermuted(zzCurve: [CGPoint]) -> [CGPoint]
     {
-        // (1) build a list of semi-random .inner & .outer deltas for each vertex
-        // (2) apply each delta at its offset along the normal at each vertex to produce a new curve
+        // (1) build a list of semi-random deltas for each vertex, built against maximum
+        //      in and out limits for pts on the inner boundary and separately for pts on
+        //      the outer one
+        // (2) iterate along each zig-zag, applying the delta at each point to produce a
+        //      a new point inwardly or outwardly from the original along its normal
+        //      that becomes part of the new 'randomized' zig-zag
         
         let deltas = generatePerturbationDeltas(for: zzCurve,
-                                                using: (-30, 30))
+                                                using: (-100, 100))
+        
         return applyList(of: deltas, to: zzCurve)
     }
     
     func generatePerturbationDeltas(for zigZagCurve: [CGPoint],
                                     using deltaLimits: (inward: CGFloat, outward: CGFloat)) -> [CGFloat]
     {
-        let perturbationDeltas = Array<CGFloat>(repeating: 0, count: zigZagCurve.count).map { _ in
+        let perturbationDeltas = Array<CGFloat>(repeating: 0,
+                                                count: zigZagCurve.count).map { _ in
             CGFloat.random(in: deltaLimits.inward...deltaLimits.outward)
         }
         
@@ -99,19 +105,21 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
     
     func applyList(of perturbationDeltas: [CGFloat], to zzCurve: [CGPoint]) -> [CGPoint] {
-        if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
         
+        if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
             // for ix in 0..<perturbationDeltas.count {
             //      print("delta \([ix]): {\((peturbationDeltas[ix]).format(fspec: "7.4"))}")
+            _ = perturbationDeltas.enumerated().map { print("delta \([$0]): {\(($1).format(fspec: "7.4"))}") }
+        }
 
-            _ = perturbationDeltas.enumerated().map {
-                print("delta \([$0]): {\(($1).format(fspec: "7.4"))}")
-            }
-            print("")
+        // create a new zigZag by iterating along the current .zig or .zag curve and moving
+        // in or out along the normal at each pt the disance perturbationDeltas[ix].
+        
+        let perturbedZigZag = zzCurve.enumerated().map {
+            $0.1.newPoint(at: perturbationDeltas[ $0.0 ], along: baseCurve.normals[ $0.0 ])
         }
         
-        // starting out with an unperturbed (ie original) .zig or .zag curve
-        return zzCurve
+        return perturbedZigZag
     }
        
     //MARK:-
@@ -155,7 +163,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             
             
     //      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            offsets.inner = -4
+            offsets.inner = -40
             offsets.outer = 120
     //      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         }
@@ -190,8 +198,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
     
     //MARK:- calculateZigZagCurves()
-    // these define the two path extremes our
-    // generated blob path animates between.
+    // these define the two path extremes our generated blob path animates between.
     func calculateZigZagCurves(using offsets: Offsets) -> ZigZagCurves {
 
         //TODO: TODO: EXPLORE USING ARRAY OF TUPLES FOR baseCurve
@@ -200,7 +207,8 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             it could easily be instantiated as [(CGPoint, CGVector)].
             this has several advantages:
             (1) they're in zipped form from the start; we don't need to zip here.
-            (2) they're already in array form, so we don't need to do enumerated().
+            (2) they're already in array form so we don't need to do enumerated()
+                to get an index
         */
         
         let zipped = zip(baseCurve.vertices, baseCurve.normals).enumerated()
@@ -208,25 +216,18 @@ class Model: ObservableObject { // init() { print("Model.init()") }
          on enumerating a zipped array pair of vertices & their normals,
          a map{} function sees this:
          
-            $0.0: index of the point
-            $0.1: the vertex/normal pair for the point. ie
-                $0.1.0: the vertex
-                @0.1.1: the normal (a CGVector) at the point
+            {$0.0}: index of the point; {$0.1}: the vertex/normal pair for the point. ie
+                                        {$0.1.0}: the vertex
+                                        {@0.1.1}: the normal (a CGVector) at the point
          */
-        // .zig curve starts to the outside at vertex 0 (ie bezier path origin)
-        // (red in the current styling)
+        // .zig curve starts to the outside at vertex 0 (red in the current styling)
         let zigCurve = zipped.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
-                                    offsets.outer :
-                                    offsets.inner,
+            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.outer : offsets.inner,
                             along: $0.1.1)
         }
-        // .zag does just the opposite
-        // (yellow likewise ...)
+        // .zag does just the opposite (yellow ditto ...)
         let zagCurve = zipped.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
-                                    offsets.inner :
-                                    offsets.outer,
+            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.inner : offsets.outer,
                             along: $0.1.1)
         }
         return (zigCurve, zagCurve)
@@ -307,7 +308,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
                 "dX: \((normal.dx).format(fspec: "5.3")), " +
                 "dY: \((normal.dy).format(fspec: "5.3"))}")
         
-//        alternatively 
+//        alternatively:
 //        let i_s = "\((i).format(fspec: "2"))"
 //        let theta_s = "\((theta).format(fspec: "5.3"))"
 //        let x_s = "\((vertex.x).format(fspec:" 7.2"))"
