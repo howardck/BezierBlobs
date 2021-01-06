@@ -27,6 +27,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     static let DEBUG_PRINT_COORDS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
     static let DEBUG_PRINT_BASIC_SE_PARAMS = true
+    static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = true
     
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001  // kludge ahoy?
     
@@ -67,31 +68,29 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             zigZagCurves.zig
     }
     
-    //MARK:-
+    //MARK:- RANDOMLY PERMUTING FOR THE NEXT GEN .ZIG OR .ZAG
     func randomlyPermuted(zzCurve: [CGPoint]) -> [CGPoint]
     {
         // (1) build a list of semi-random .inner & .outer deltas for each vertex
         // (2) apply each delta at its offset along the normal at each vertex to produce a new curve
         
-        let permutationDeltas = generatePerturbationDeltas(for: zzCurve,
-                                                           using: (-30, 30))
-        return applyList(of: permutationDeltas, to: zzCurve)
+        let deltas = generatePerturbationDeltas(for: zzCurve,
+                                                using: (-30, 30))
+        return applyList(of: deltas, to: zzCurve)
     }
     
     func generatePerturbationDeltas(for zigZagCurve: [CGPoint],
-                                    using deltaLimits: (CGFloat, CGFloat)) -> [CGFloat]
+                                    using deltaLimits: (inward: CGFloat, outward: CGFloat)) -> [CGFloat]
     {
         let perturbationDeltas = Array<CGFloat>(repeating: 0, count: zigZagCurve.count).map { _ in
-            CGFloat.random(in: deltaLimits.0...deltaLimits.1)
+            CGFloat.random(in: deltaLimits.inward...deltaLimits.outward)
         }
-        print()
-        print("envelope offsets: { (inner: \(offsets.inner), outer: \(offsets.outer)) }")
-        print("maxPerturbationDeltas: { (min: \(deltaLimits.0), max: \(deltaLimits.1) }")
-        print("deltas:" )
-        for index in 0..<perturbationDeltas.count {
-            print("delta \([index]): { \((perturbationDeltas[index]).format(fspec: "7.4")) }")
+        
+        if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
+            print("envelope offsets: { (inner: \(offsets.inner), outer: \(offsets.outer)) }")
+            print("maxPerturbationDeltas: { (inward: \(deltaLimits.inward), outward: \(deltaLimits.outward) }")
+            print("randomized perturbation deltas:" )
         }
-        print("")
         
         return perturbationDeltas
         
@@ -100,9 +99,18 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
     
     func applyList(of perturbationDeltas: [CGFloat], to zzCurve: [CGPoint]) -> [CGPoint] {
+        if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
         
+            // for ix in 0..<perturbationDeltas.count {
+            //      print("delta \([ix]): {\((peturbationDeltas[ix]).format(fspec: "7.4"))}")
+
+            _ = perturbationDeltas.enumerated().map {
+                print("delta \([$0]): {\(($1).format(fspec: "7.4"))}")
+            }
+            print("")
+        }
         
-        // starting out with an unperturbed (ie original) curve
+        // starting out with an unperturbed (ie original) .zig or .zag curve
         return zzCurve
     }
        
@@ -164,13 +172,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             animateToCurrZigZagPhase()
         }
     }
-    
-    // gone a different route ...
-//    func randomizeZigZagCurve(zigOrZag: [CGPoint], usingRandomizingRatio: (Double, Double)) -> [CGPoint]
-//    {
-//
-//        return [CGPoint]()
-//    }
         
     func setInitialBlobCurve() {
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
@@ -210,36 +211,25 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             $0.0: index of the point
             $0.1: the vertex/normal pair for the point. ie
                 $0.1.0: the vertex
-                @0.1.1: the normal (a CGVector) of/at the point
+                @0.1.1: the normal (a CGVector) at the point
          */
-    
-        // zip curve starts to the outside at vertex 0 (ie origin)
+        // .zig curve starts to the outside at vertex 0 (ie bezier path origin)
+        // (red in the current styling)
         let zigCurve = zipped.map {
-            $0.1.0.newPoint(at: randomizedOffset(offset: $0.0.isEven() ?
-                                                    offsets.outer :
-                                                    offsets.inner),
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                    offsets.outer :
+                                    offsets.inner,
                             along: $0.1.1)
         }
+        // .zag does just the opposite
+        // (yellow likewise ...)
         let zagCurve = zipped.map {
-            $0.1.0.newPoint(at: randomizedOffset(offset: $0.0.isEven() ?
-                                                    offsets.inner :
-                                                    offsets.outer),
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                    offsets.inner :
+                                    offsets.outer,
                             along: $0.1.1)
         }
         return (zigCurve, zagCurve)
-    }
-    
-    func randomizedOffset(offset: CGFloat) -> CGFloat {
-        offset
-//        if offset <= 0 {
-//            // offset is on the inside;
-//            let r = ((offset * 0.1)...(offset * 0.4))
-//            return offset - CGFloat.random(in: r)
-//        }
-//        else {
-//            let r = (offset * 0.1...offset * 0.4)
-//            return offset + CGFloat.random(in: r)
-//        }
     }
     
     func calculateNormalsPseudoCurve() -> [CGPoint] {
