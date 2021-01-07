@@ -40,15 +40,29 @@ struct PageView: View {
     @State var layerSelectionListIsVisible = false
     @State var layerDrawingOptionsListIsVisible = false
     
+    struct SELayers {
+
+        @State var superEllipseLayers : [LayerType : SuperEllipseLayer] =
+        [
+            LayerType.blob_stroked:
+                .init(type: .blob_stroked, section: .animating, name: "blob (stroked)", visible: true),
+            LayerType.blob_filled:
+                .init(type: .blob_filled, section: .animating, name: "blob (filled)", visible: true),
+        ]
+
+        func isVisible(layerType: LayerType) -> Bool {
+            return superEllipseLayers[layerType]!.visible
+        }
+    }
+    
     //MARK:- [SuperEllipseLayers] array initialization
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
-        // 'visible: true == setting for the layer's first appearance,
+        // 'visible: true' set here determines initial appearance;
         // switchable thereafter via checkmark in the LayerSelectionList dlog
         
-        // NOTA: changes to .init's ordering here need to be reflected
-        // by similar changes in enum LayerType case ordering ...
-        // (could be obviated by better design perhaps ... ??)
+        // NOTA: changes to .init's ordering here need to be reflected by similar
+        // changes in enum LayerType case ordering -- obviated by better design perhaps?
         
         .init(type: .blob_stroked, section: .animating, name: "blob (stroked)",
               visible: true),
@@ -97,15 +111,28 @@ struct PageView: View {
 
     // BLOB (ANIMATING -- FILLED)
             //MARK: layer 1.  AnimatingBlob_Filled
-            if superEllipseLayers[LayerType.blob_filled.rawValue].visible {
-                AnimatingBlob_Filled(curve: model.blobCurve)
-            }
             
+//                if superEllipseLayers[LayerType.blob_filled.rawValue].visible {
+//                    AnimatingBlob_Filled(curve: model.blobCurve)
+//                }
+//
+        // TESTING NEW NESTED STRUCTURE TO CONTAIN [SuperEllipseLayers]
+                if SELayers().isVisible(layerType: .blob_filled) {
+                    AnimatingBlob_Filled(curve: model.blobCurve)
+                }
+            
+        /*
+         THESE SYNTAXES ALSO WORK:
+         
+            if self.SELayers().isVisible(layerType: .blob_filled) { }
+            if PageView.SELayers().isVisible(layerType: .blob_filled) { }
+        */
+                                
     // BLOB (ANIMATING -- STROKED)
-            //MARK: layer 2.  AnimatingBlob_Stroked
-            if superEllipseLayers[LayerType.blob_stroked.rawValue].visible {
-                AnimatingBlob_Stroked(curve: model.blobCurve)
-            }
+                //MARK: layer 2.  AnimatingBlob_Stroked
+                if superEllipseLayers[LayerType.blob_stroked.rawValue].visible {
+                    AnimatingBlob_Stroked(curve: model.blobCurve)
+                }
             
     // ZIG-ZAGS -- CURVES
             //MARK: layer 3. ZigZags
