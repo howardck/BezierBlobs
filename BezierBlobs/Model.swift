@@ -15,6 +15,11 @@ typealias BaseCurveType = (vertices: [CGPoint], normals: [CGVector])
 
 class Model: ObservableObject { // init() { print("Model.init()") }
     
+    static let DEBUG_PRINT_COORDS = false
+    static let DEBUG_TRACK_ZIGZAG_PHASING = false
+    static let DEBUG_PRINT_BASIC_SE_PARAMS = false
+    static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = true
+    
     @Published var blobCurve = [CGPoint]()
     
     // at vertex 0:
@@ -23,11 +28,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     // go to the outside (== ZIG) first
     var animateToZigPhase = true
-    
-    static let DEBUG_PRINT_COORDS = false
-    static let DEBUG_TRACK_ZIGZAG_PHASING = false
-    static let DEBUG_PRINT_BASIC_SE_PARAMS = false
-    static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = true
     
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001  // kludge ahoy?
     
@@ -79,8 +79,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         //      that becomes part of the new 'randomized' zig-zag
         
         let deltas = generatePerturbationDeltas(for: zzCurve,
-                                                using: (-100, 100))
-        
+                                                using: (0, 140))
         return applyList(of: deltas, to: zzCurve)
     }
     
@@ -107,9 +106,9 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     func applyList(of perturbationDeltas: [CGFloat], to zzCurve: [CGPoint]) -> [CGPoint] {
         
         if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
-            // for ix in 0..<perturbationDeltas.count {
-            //      print("delta \([ix]): {\((peturbationDeltas[ix]).format(fspec: "7.4"))}")
-            _ = perturbationDeltas.enumerated().map { print("delta \([$0]): {\(($1).format(fspec: "7.4"))}") }
+            _ = perturbationDeltas.enumerated().map {
+                print("delta \([$0]): {\(($1).format(fspec: "7.4"))}")
+            }
         }
 
         // create a new zigZag by iterating along the current .zig or .zag curve and moving
