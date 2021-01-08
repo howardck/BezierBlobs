@@ -56,11 +56,11 @@ struct LayerSelectionList: View {
         List () {
             
             Section() {
-                ForEach(1..<2) { _ in
+                // ForEach(1..<2) { _ in
                     Text("Experimenting w/ a List Header...")
                         .background(Color.orange)
                         .frame(height: 35)
-                }
+              //  }
             }
             .textCase(.lowercase)
             
