@@ -40,6 +40,16 @@ struct PageView: View {
     @State var layerSelectionListIsVisible = false
     @State var layerDrawingOptionsListIsVisible = false
     
+    // 8jan21
+    // this structure and usage saved in branch
+    // PARTIAL_TEST_REWRITE_USING_LAYERS_DICT_NOT_ARRAY in exploration of calling
+    /*
+        if SELayers().isVisible(layerType: .blob_filled) {
+            AnimatingBlob_Filled(curve: model.blobCurve)
+        }
+    */
+    // but need conversion on LayerSelectionList end from array use to dict use
+    
     struct SELayers {
 
         @State var superEllipseLayers : [LayerType : SuperEllipseLayer] =
@@ -47,7 +57,7 @@ struct PageView: View {
             LayerType.blob_stroked:
                 .init(type: .blob_stroked, section: .animating, name: "blob (stroked)", visible: true),
             LayerType.blob_filled:
-                .init(type: .blob_filled, section: .animating, name: "blob (filled)", visible: true),
+                .init(type: .blob_filled, section: .animating, name: "blob (filled)", visible: false),
         ]
 
         func isVisible(layerType: LayerType) -> Bool {
@@ -112,14 +122,15 @@ struct PageView: View {
     // BLOB (ANIMATING -- FILLED)
             //MARK: layer 1.  AnimatingBlob_Filled
             
-//                if superEllipseLayers[LayerType.blob_filled.rawValue].visible {
-//                    AnimatingBlob_Filled(curve: model.blobCurve)
-//                }
-//
-        // TESTING NEW NESTED STRUCTURE TO CONTAIN [SuperEllipseLayers]
-                if SELayers().isVisible(layerType: .blob_filled) {
+                if superEllipseLayers[LayerType.blob_filled.rawValue].visible {
                     AnimatingBlob_Filled(curve: model.blobCurve)
                 }
+
+        // TESTING NEW NESTED STRUCTURE TO CONTAIN [SuperEllipseLayers]
+        // see note above on br. PARTIAL_TEST_REWRITE_USING_LAYEWRS_DICT_NOT_ARRAY
+//                if SELayers().isVisible(layerType: .blob_filled) {
+//                    AnimatingBlob_Filled(curve: model.blobCurve)
+//                }
             
         /*
          THESE SYNTAXES ALSO WORK:
@@ -234,6 +245,9 @@ struct PageView: View {
                         
                         let s = CGSize(width: 300, height: 580)
                         ZStack {
+                            // NOTA! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                            // see above note on PARTIAL_TEST_REWRITE_USING_LAYERS_DICT_NOT_ARRAY
+                            //LayerSelectionList(listItems: SELayers().$superEllipseLayers)
                             LayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
                                 .padding(75)
