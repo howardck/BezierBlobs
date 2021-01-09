@@ -16,16 +16,22 @@ enum PageType : String {
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              offsets: (in: CGFloat, out: CGFloat),
+                             perturbLimits: (inner: (inward: CGFloat, outward: CGFloat),
+                                             outer: (inward: CGFloat, outward: CGFloat)),
                              forceEqualAxes: Bool)
 
 struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            (numPoints: 8, n: 2, offsets: (in: -0.35, out: 0.35), forceEqualAxes: true),
-            (numPoints: 22, n: 4.0, offsets: (in: -0.2, out: 0.35), false),
-            (numPoints: 6, n: 3, offsets: (in: -0.55, out: 0.35), false),
-            (numPoints: 24, n: 1.0, offsets: (in: 0.1, out: 0.5), false)
+            (numPoints: 8, n: 2, offsets: (in: -0.35, out: 0.35),
+                perturbLimits: (inner: (inward: 0.2, outward: 0.2), outer: (inward: 0.2, outward: 0.2)), forceEqualAxes: true),
+            (numPoints: 22, n: 4.0, offsets: (in: -0.2, out: 0.35),
+                perturbLimits: (inner: (inward: 0.2, outward: 0.2), outer: (inward: 0.2, outward: 0.2)), false),
+            (numPoints: 6, n: 3, offsets: (in: -0.55, out: 0.35),
+                perturbLimits: (inner: (inward: 0.2, outward: 0.2), outer: (inward: 0.2, outward: 0.2)), false),
+            (numPoints: 24, n: 1.0, offsets: (in: 0.1, out: 0.5),
+                perturbLimits: (inner: (inward: 0.0, outward: 0.2), outer: (inward: 0.2, outward: 0.2)), false)
         ]
     
     @ObservedObject var model = Model()
@@ -49,6 +55,7 @@ struct PageView: View {
         }
     */
     // but need conversion on LayerSelectionList end from array use to dict use
+    // (and i'm not even sure i'll be able to do that there ...)
     
     struct SELayers {
 

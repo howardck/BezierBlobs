@@ -56,7 +56,6 @@ struct LayerSelectionList: View {
         List () {
             
             Section() {
-                // ForEach(1..<2) { _ in
                     Text("Experimenting w/ a List Header...")
                         .background(Color.orange)
                         .frame(height: 35)
@@ -78,7 +77,7 @@ struct LayerSelectionList: View {
     // STATIC SUPPORT LAYERS
             Section(header: sectionHeader_support.padding(8)) {
                 let section : SectionType = .support
-                let itemsInSection = listItems.filter{ $0.section == section}
+                let itemsInSection = listItems.filter{ $0.section == section }
                 
                 ForEach(itemsInSection, id: \.type ) { item in
                     handleCheckmarksForTapped(item: item, in: section)
@@ -105,7 +104,7 @@ struct LayerSelectionList: View {
         LayerItemRow(layerItem: item)
             .onTapGesture {
                 if let tappedItem = listItems.firstIndex (
-                    where: { $0.type.rawValue == item.type.rawValue }) {
+                    where: { $0.type == item.type }) {
                     
                     switch section {
                     case .control :
@@ -116,7 +115,7 @@ struct LayerSelectionList: View {
                             listItems[LayerType.hideAll.rawValue].visible = true
                         }
                         // if we're showing all, show EVERYTHING
-                        // then turn 'hide all' back off
+                        // then turn 'hide all' off
                         else if item.type == .showAll {
                             showHideAllLayers(show: true)
                             listItems[LayerType.hideAll.rawValue].visible = false

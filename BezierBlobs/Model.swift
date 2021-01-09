@@ -140,6 +140,10 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         let radius = CGFloat((axes.a + axes.b)/2.0)
         
         let numPoints = pageDescription.numPoints
+        
+        // NOTA: offsets here are CGFloats based on pageDescription
+        // offsets, which are percentages of the screen height & width
+        
         offsets = (inner: radius * pageDescription.offsets.in,
                    outer: radius * pageDescription.offsets.out)
         n = pageDescription.n
