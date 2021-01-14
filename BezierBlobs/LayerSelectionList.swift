@@ -48,20 +48,19 @@ struct LayerSelectionList: View {
     @Binding var listItems : [SuperEllipseLayer]
     
     let sectionHeader_animation = Text("animating layers")
-    let sectionHeader_support = Text("static support layers")
-    let sectionHeader_control = Text("at a fell swoop ...")
+    let sectionHeader_support = Text("static layers")
+    let sectionHeader_control = Text("convenience functions")
     
     var body: some View
     {
         List () {
             
-            Section() {
-                    Text("Experimenting w/ a List Header...")
-                        .background(Color.orange)
-                        .frame(height: 35)
-              //  }
-            }
-            .textCase(.lowercase)
+//            Section() {
+//                    Text("Experimenting w/ a List Header...")
+//                        .background(Color.orange)
+//                        .frame(height: 35)
+//            }
+//            .textCase(.lowercase)
             
     // ANIMATED LAYERS
             Section(header: sectionHeader_animation.padding(8)) {

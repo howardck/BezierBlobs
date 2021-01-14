@@ -16,22 +16,30 @@ enum PageType : String {
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              offsets: (in: CGFloat, out: CGFloat),
-                             perturbLimits: (inner: (inward: CGFloat, outward: CGFloat),
-                                             outer: (inward: CGFloat, outward: CGFloat)),
+                             perturbLimits:
+                                    (inner: (inward: CGFloat, outward: CGFloat),
+                                    outer: (inward: CGFloat, outward: CGFloat)),
                              forceEqualAxes: Bool)
-
 struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
             (numPoints: 8, n: 2, offsets: (in: -0.35, out: 0.35),
-                perturbLimits: (inner: (inward: 0.2, outward: 0.2), outer: (inward: 0.2, outward: 0.2)), forceEqualAxes: true),
+                perturbLimits: (
+                    inner: (inward: 0.2, outward: 0.2),
+                    outer: (inward: 0.2, outward: 0.2)), forceEqualAxes: true),
             (numPoints: 22, n: 4.0, offsets: (in: -0.2, out: 0.35),
-                perturbLimits: (inner: (inward: 0.2, outward: 0.2), outer: (inward: 0.2, outward: 0.2)), false),
+                perturbLimits: (
+                    inner: (inward: 0.2, outward: 0.2),
+                    outer: (inward: 0.2, outward: 0.2)), false),
             (numPoints: 6, n: 3, offsets: (in: -0.55, out: 0.35),
-                perturbLimits: (inner: (inward: 0.2, outward: 0.2), outer: (inward: 0.2, outward: 0.2)), false),
+                perturbLimits: (
+                    inner: (inward: 0.2, outward: 0.2),
+                    outer: (inward: 0.2, outward: 0.2)), false),
             (numPoints: 24, n: 1.0, offsets: (in: 0.1, out: 0.5),
-                perturbLimits: (inner: (inward: 0.0, outward: 0.2), outer: (inward: 0.2, outward: 0.2)), false)
+                perturbLimits: (
+                    inner: (inward: 0.0, outward: 0.2),
+                    outer: (inward: 0.2, outward: 0.2)), false)
         ]
     
     @ObservedObject var model = Model()
@@ -43,7 +51,7 @@ struct PageView: View {
     
     @State var randomizeNextZigZagRedraw = false
     
-    @State var layerSelectionListIsVisible = false
+    @State var layerSelectionListIsVisible = true
     @State var layerDrawingOptionsListIsVisible = false
     
     // 8jan21
@@ -59,6 +67,7 @@ struct PageView: View {
     
     struct SELayers {
 
+        // bit of play with a dictionary of layers rather than an array
         @State var superEllipseLayers : [LayerType : SuperEllipseLayer] =
         [
             LayerType.blob_stroked:
@@ -240,6 +249,7 @@ struct PageView: View {
         
         .overlay(displaySuperEllipseMetrics())
         .displayScreenSizeMetrics(frontColor: .black, backColor: Color.init(white: 0.6))
+        .border(Color.red, width: 4)
         
         // push both Screen Buttons down to lower-left corner
         .overlay(
@@ -250,11 +260,13 @@ struct PageView: View {
                         
                         // NB: padding might change w/ iPhone sizing ... (?)
                         
-                        let s = CGSize(width: 300, height: 580)
+                        let s = CGSize(width: 300, height: 625)
                         ZStack {
                             // NOTA! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                             // see above note on PARTIAL_TEST_REWRITE_USING_LAYERS_DICT_NOT_ARRAY
+                            
                             //LayerSelectionList(listItems: SELayers().$superEllipseLayers)
+                            
                             LayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
                                 .padding(75)
