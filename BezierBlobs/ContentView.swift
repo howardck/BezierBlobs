@@ -53,29 +53,29 @@ struct ContentView: View {
                         Text("\(PageType.circle.rawValue)")
                     }
 
-                PageView(pageType: PageType.superEllipse,
-                         description: PageView.descriptions[1],
-                         size: gr.size)
-                    .tabItem {
-                        Image(systemName: "2.circle.fill")
-                        Text("\(PageType.superEllipse.rawValue)" )
-                    }
-                
-                PageView(pageType: PageType.deltaWing,
-                         description: PageView.descriptions[2],
-                         size: gr.size)
-                    .tabItem {
-                        Image(systemName: "3.circle.fill")
-                        Text("\(PageType.deltaWing.rawValue)" )
-                }
-
-                PageView(pageType: PageType.killerMoth,
-                         description: PageView.descriptions[3],
-                         size: gr.size)
-                    .tabItem {
-                        Image(systemName: "4.circle.fill");
-                        Text("\(PageType.killerMoth.rawValue)" )
-                    }
+//                PageView(pageType: PageType.superEllipse,
+//                         description: PageView.descriptions[1],
+//                         size: gr.size)
+//                    .tabItem {
+//                        Image(systemName: "2.circle.fill")
+//                        Text("\(PageType.superEllipse.rawValue)" )
+//                    }
+//                
+//                PageView(pageType: PageType.deltaWing,
+//                         description: PageView.descriptions[2],
+//                         size: gr.size)
+//                    .tabItem {
+//                        Image(systemName: "3.circle.fill")
+//                        Text("\(PageType.deltaWing.rawValue)" )
+//                }
+//
+//                PageView(pageType: PageType.killerMoth,
+//                         description: PageView.descriptions[3],
+//                         size: gr.size)
+//                    .tabItem {
+//                        Image(systemName: "4.circle.fill");
+//                        Text("\(PageType.killerMoth.rawValue)" )
+//                    }
             }
         }
     }

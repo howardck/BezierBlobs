@@ -12,13 +12,17 @@ typealias Offsets = (inner: CGFloat, outer: CGFloat)
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 typealias BaseCurveType = (vertices: [CGPoint], normals: [CGVector])
-
+typealias PerturbationLimits =  (
+                                    inner: (inward: CGFloat, outward: CGFloat),
+                                    outer: (inward: CGFloat, outward: CGFloat)
+                                )
 class Model: ObservableObject { // init() { print("Model.init()") }
     
     static let DEBUG_PRINT_COORDS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
-    static let DEBUG_PRINT_BASIC_SE_PARAMS = false
+    static let DEBUG_PRINT_BASIC_SE_PARAMS = true
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = true
+    static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
     
     @Published var blobCurve = [CGPoint]()
     
@@ -46,18 +50,20 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     //MARK:-
     //TODO: TODO: OFFSETS SHOULD BE A PLATFORM-SPECIFIC SCREEN RATIO
     
-    var offsets : Offsets = (inner: 0, outer: 0)
     var n: Double = 0.0
+    var offsets : Offsets = (inner: 0, outer: 0)
+    var perturbationLimits : PerturbationLimits = (inner: (inward: 0, outward: 0),
+                                                   outer: (inward: 0, outward: 0))
     
-    //MARK: -
+    //MARK: - ZIG-ZAGS
     func animateToNextZigZagPhase() {
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
             print("Model.animateToNextZigZagPhase():: animateToZig == {\(animateToZigPhase)}")
         }
         
         blobCurve = animateToZigPhase ?
-            randomlyPermuted(zzCurve: zigZagCurves.zig) :
-            randomlyPermuted(zzCurve: zigZagCurves.zag)
+            perturbRandomly(zzCurve: zigZagCurves.zig) :
+            perturbRandomly(zzCurve: zigZagCurves.zag)
         
         animateToZigPhase.toggle()
     }
@@ -68,18 +74,19 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             zigZagCurves.zig
     }
     
-    //MARK:- RANDOMLY PERMUTING FOR THE NEXT-GEN ZIG OR ZAG
-    func randomlyPermuted(zzCurve: [CGPoint]) -> [CGPoint]
+    //MARK:-
+
+    func perturbRandomly(zzCurve: [CGPoint]) -> [CGPoint]
     {
-        // (1) build a list of semi-random deltas for each vertex, built against maximum
-        //      in and out limits for pts on the inner boundary and separately for pts on
-        //      the outer one
+        // (1) build a list of semi-random deltas for each vertex, built
+        //     against maximum inward and outward limits for pts on the
+        //     inner boundary and separately for pts on the outer one
         // (2) iterate along each zig-zag, applying the delta at each point to produce a
         //      a new point inwardly or outwardly from the original along its normal
         //      that becomes part of the new 'randomized' zig-zag
         
         let deltas = generatePerturbationDeltas(for: zzCurve,
-                                                using: (0, 140))
+                                                using: self.perturbationLimits.inner)
         return applyList(of: deltas, to: zzCurve)
     }
     
@@ -96,7 +103,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             print("maxPerturbationDeltas: { (inward: \(deltaLimits.inward), outward: \(deltaLimits.outward) }")
             print("randomized perturbation deltas:" )
         }
-        
         return perturbationDeltas
         
 //        let permuted = Array<CGFloat>(repeating: 0, count: zzCurve.count)
@@ -125,141 +131,13 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     var pageType: PageType?
     
-    //MARK: - calculateSuperEllipseCurves()
-    //MARK:-
-
-    func calculateSuperEllipseCurves(for pageType: PageType,
-                                     pageDescription: PageDescription,
-                                     axes: Axes) {
-        
-        self.pageType = pageType // for debugging reference
-        
-        print("Model.calculateSuperEllipseCurves(): axes {a: \(axes.a), b: \(axes.b)}")
-        
-        // NOT SURE IF THIS IS THE BEST APPROACH HERE ...
-        let radius = CGFloat((axes.a + axes.b)/2.0)
-        
-        let numPoints = pageDescription.numPoints
-        
-        // NOTA: offsets here are CGFloats based on pageDescription
-        // offsets, which are percentages of the screen height & width
-        
-        offsets = (inner: radius * pageDescription.offsets.in,
-                   outer: radius * pageDescription.offsets.out)
-        n = pageDescription.n
-
-        self.axes = axes
-        if pageDescription.forceEqualAxes {
-            let minab = min(axes.a, axes.b)
-            self.axes = (a: minab, b: minab)
-        }
-
-        self.baseCurve = calculateBaseCurvePlusNormals(for: numPoints,
-                                                       with: self.axes)
-        if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
-            print("\nModel.calculateSuperEllipseCurves(PageType.\(pageType.rawValue))")
-            //print("-------------------------------------")
-            print("numPoints: {\(numPoints)} ")
-            print("axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
-                    "b: {\((self.axes.b).format(fspec: "6.2"))})")
-            print("offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
-            
-            
-    //      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            offsets.inner = -40
-            offsets.outer = 120
-    //      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        }
-        
-        boundingCurves = calculateBoundingCurves(using: self.offsets)
-        zigZagCurves = calculateZigZagCurves(using: self.offsets)
-        normalsCurve = calculateNormalsPseudoCurve()
-        
-        if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
-            setInitialBlobCurve()
-            ContentView.StatusTracker.markInited(pageType: pageType)
-        }
-        else {
-            animateToCurrZigZagPhase()
-        }
-    }
-        
-    func setInitialBlobCurve() {
-        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
-        }
-        
-        blobCurve = baseCurve.vertices
-    }
-    
-    func returnToInitialConfiguration() {
-        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.returnToInitialConfiguration(PageType.\(pageType!.rawValue))" )
-        }
-        
-        blobCurve = baseCurve.vertices
-    }
-    
-    //MARK:- calculateZigZagCurves()
-    // these define the two path extremes our generated blob path animates between.
-    func calculateZigZagCurves(using offsets: Offsets) -> ZigZagCurves {
-
-        //TODO: TODO: EXPLORE USING ARRAY OF TUPLES FOR baseCurve
-
-        /*  instead of baseCurve being defined as ([CGPoint], [CGVector]),
-            it could easily be instantiated as [(CGPoint, CGVector)].
-            this has several advantages:
-            (1) they're in zipped form from the start; we don't need to zip here.
-            (2) they're already in array form so we don't need to do enumerated()
-                to get an index
-        */
-        
-        let zipped = zip(baseCurve.vertices, baseCurve.normals).enumerated()
-        /*
-         on enumerating a zipped array pair of vertices & their normals,
-         a map{} function sees this:
-         
-            {$0.0}: index of the point; {$0.1}: the vertex/normal pair for the point. ie
-                                        {$0.1.0}: the vertex
-                                        {@0.1.1}: the normal (a CGVector) at the point
-         */
-        // .zig curve starts to the outside at vertex 0 (red in the current styling)
-        let zigCurve = zipped.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.outer : offsets.inner,
-                            along: $0.1.1)
-        }
-        // .zag does just the opposite (yellow ditto ...)
-        let zagCurve = zipped.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.inner : offsets.outer,
-                            along: $0.1.1)
-        }
-        return (zigCurve, zagCurve)
-    }
-    
-    func calculateNormalsPseudoCurve() -> [CGPoint] {
-        var normals = [CGPoint]()
-        for i in 0..<boundingCurves.inner.count {
-            normals.append(boundingCurves.inner[i])
-            normals.append(boundingCurves.outer[i])
-        }
-        return normals
-    }
-    
-    // define an envelope w/in which our blob blobs
-    
-    func calculateBoundingCurves(using offsets: Offsets) -> BoundingCurves {
-        let z = zip(baseCurve.vertices, baseCurve.normals)
-        return (inner: z.map{ $0.0.newPoint(at: offsets.inner, along: $0.1) },
-                outer: z.map{ $0.0.newPoint(at: offsets.outer, along: $0.1) })
-    }
-    
     // the basis of everything else ...
-    func calculateBaseCurvePlusNormals(for numPoints: Int,
-                                       with axes: Axes) -> (vertices:[CGPoint],
-                                                            normals: [CGVector])
+    //MARK:- calculate the main baseCurve: vertices plus normals
+    func calculateSuperEllipse(for numPoints: Int,
+                               with axes: Axes) -> (vertices:[CGPoint],
+                                                    normals: [CGVector])
     {
-        //TODO: TODO: look at trying ~ ([(vertex: CGPoint, normal: CGVector)]
-        //TODO: TODO:
+        // TO DO: look at trying ~ ([(vertex: CGPoint, normal: CGVector)]
         var baseCurve = (vertices: [CGPoint](), normals: [CGVector]())
         var i = 0
         for theta in stride(from: 0,
@@ -319,5 +197,166 @@ class Model: ObservableObject { // init() { print("Model.init()") }
 //        let dx_s = "\((normal.dx).format(fspec: "5.3"))"
 //        let dy_s = "\((normal.dy).format(fspec: "5.3"))"
 //        print( "[\(i_s)] theta: {\(theta_s)} | {x: \(x_s), y: \(y_s)} | {dx: \(dx_s), dy: \(dy_s)}" )
+    }
+
+    //MARK:-
+    func calculateSuperEllipseSupportCurves(for pageType: PageType,
+                                            pageDescription: PageDescription,
+                                            axes: Axes) {
+        
+        self.pageType = pageType // debugging
+        self.perturbationLimits = pageDescription.perturbLimits
+        
+//        print("Model.calculateSuperEllipseCurves(): axes {a: \(axes.a), b: \(axes.b)}  {PageType.\(pageType.rawValue)}")
+        
+        // NOT SURE IF THIS IS THE BEST APPROACH HERE ...
+        let radius = CGFloat((axes.a + axes.b)/2.0)
+        
+        let numPoints = pageDescription.numPoints
+        
+        n = pageDescription.n
+        
+        // NOTA: offsets here are CGFloats based on pageDescription
+        // offsets, which are percentages of the screen height & width
+        
+        offsets = (inner: radius * pageDescription.offsets.in,
+                   outer: radius * pageDescription.offsets.out)
+        
+        // DEBUG DEBUG @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        offsets.inner = -80
+        offsets.outer = 100
+        // DEBUG DEBUG @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        
+        self.axes = axes
+        if pageDescription.forceEqualAxes {
+            let minab = min(axes.a, axes.b)
+            self.axes = (a: minab, b: minab)
+        }
+
+        self.baseCurve = calculateSuperEllipse(for: numPoints,
+                                               with: self.axes)
+        
+        if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
+            print("Model.calculateSuperEllipseCurves(PageType.\(pageType.rawValue))")
+            //print("-------------------------------------")
+            print("  numPoints: {\(numPoints)} ")
+            print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
+                    "b: {\((self.axes.b).format(fspec: "6.2"))})")
+            print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+        }
+        
+        self.perturbationLimits = adjust(perturbationLimits: self.perturbationLimits, to: offsets)
+        
+        boundingCurves = calculateBoundingCurves(using: self.offsets)
+        zigZagCurves = calculateZigZagCurves(using: self.offsets)
+        normalsCurve = calculateNormalsPseudoCurve()
+        
+        if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
+            setInitialBlobCurve()
+            ContentView.StatusTracker.markInited(pageType: pageType)
+        }
+        else {
+            animateToCurrZigZagPhase()
+        }
+    }
+    
+    func adjust(perturbationLimits: PerturbationLimits,
+                to offsets: Offsets) -> PerturbationLimits
+    {
+        if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
+            print("Model.adjust(perturbationLimits)")
+            print("offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+            print("perturbationLimits BEFORE adjustment: " +
+                "\n   inner.inward: {\(perturbationLimits.inner.inward)} " +
+                "inner.outward: {\(perturbationLimits.inner.outward)} " +
+                "\n   outer.inward: {\(perturbationLimits.outer.inward)} " +
+                "outer.outward: {\(perturbationLimits.outer.inward)} "
+            )
+        }
+        var perturbLimits : PerturbationLimits
+        perturbLimits.inner = (inward: offsets.inner + (perturbationLimits.inner.inward * offsets.inner),
+                               outward: offsets.inner - (perturbationLimits.inner.outward * offsets.inner))
+        perturbLimits.outer = (inward: perturbationLimits.outer.inward * offsets.outer,
+                               outward: perturbationLimits.outer.outward * offsets.outer)
+        
+        if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
+            print("perturbationLimits AFTER adjustment: " +
+                    "\n   inner.inward: {\(perturbLimits.inner.inward)} " +
+                    "inner.outward: {\(perturbLimits.inner.outward)} " +
+                    "\n   outer.inward: {\(perturbLimits.outer.inward)} " +
+                    "outer.outward: {\(perturbLimits.outer.inward)} "
+                  )
+        }
+        return perturbLimits
+    }
+
+    func setInitialBlobCurve() {
+        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
+        }
+        
+        blobCurve = baseCurve.vertices
+    }
+    
+    func returnToInitialConfiguration() {
+        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.returnToInitialConfiguration(PageType.\(pageType!.rawValue))" )
+        }
+        
+        blobCurve = baseCurve.vertices
+    }
+    
+    //MARK: - Support Curves
+
+    // these define the two path extremes our generated blob path animates between.
+    func calculateZigZagCurves(using offsets: Offsets) -> ZigZagCurves {
+
+        // TO-DO: EXPLORE USING ARRAY OF TUPLES FOR baseCurve
+
+        /*  instead of baseCurve being defined as ([CGPoint], [CGVector]),
+            it could easily be instantiated as [(CGPoint, CGVector)].
+            this has several advantages:
+            (1) they're in zipped form from the start; we don't need to zip here.
+            (2) they're already in array form so we don't need to do enumerated()
+                to get an index
+        */
+        
+        let zipped = zip(baseCurve.vertices, baseCurve.normals).enumerated()
+        /*
+         on enumerating a zipped array pair of vertices & their normals,
+         a map{} function sees this:
+         
+            {$0.0}: index of the point; {$0.1}: the vertex/normal pair for the point. ie
+                                        {$0.1.0}: the vertex
+                                        {@0.1.1}: the normal (a CGVector) at the point
+         */
+        // .zig curve starts to the outside at vertex 0 (red in the current styling)
+        let zigCurve = zipped.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.outer : offsets.inner,
+                            along: $0.1.1)
+        }
+        // .zag does just the opposite (yellow ditto ...)
+        let zagCurve = zipped.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.inner : offsets.outer,
+                            along: $0.1.1)
+        }
+        return (zigCurve, zagCurve)
+    }
+    
+    // define an envelope w/in which our blob blobs
+    
+    func calculateBoundingCurves(using offsets: Offsets) -> BoundingCurves {
+        let z = zip(baseCurve.vertices, baseCurve.normals)
+        return (inner: z.map{ $0.0.newPoint(at: offsets.inner, along: $0.1) },
+                outer: z.map{ $0.0.newPoint(at: offsets.outer, along: $0.1) })
+    }
+    
+    func calculateNormalsPseudoCurve() -> [CGPoint] {
+        var normals = [CGPoint]()
+        for i in 0..<boundingCurves.inner.count {
+            normals.append(boundingCurves.inner[i])
+            normals.append(boundingCurves.outer[i])
+        }
+        return normals
     }
 }

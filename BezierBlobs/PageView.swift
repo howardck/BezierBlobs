@@ -16,30 +16,25 @@ enum PageType : String {
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              offsets: (in: CGFloat, out: CGFloat),
-                             perturbLimits:
-                                    (inner: (inward: CGFloat, outward: CGFloat),
-                                    outer: (inward: CGFloat, outward: CGFloat)),
+                             perturbLimits: PerturbationLimits,
                              forceEqualAxes: Bool)
 struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            (numPoints: 8, n: 2, offsets: (in: -0.35, out: 0.35),
-                perturbLimits: (
-                    inner: (inward: 0.2, outward: 0.2),
-                    outer: (inward: 0.2, outward: 0.2)), forceEqualAxes: true),
+            (numPoints: 8, n: 2, offsets: (in: -0.25, out: 0.35),
+             perturbLimits: (inner: (inward: 0.1, outward: 0.2),
+                             outer: (inward: 0, outward: 0.0)), forceEqualAxes: true),
+            
             (numPoints: 22, n: 4.0, offsets: (in: -0.2, out: 0.35),
-                perturbLimits: (
-                    inner: (inward: 0.2, outward: 0.2),
-                    outer: (inward: 0.2, outward: 0.2)), false),
+                perturbLimits: (inner: (inward: 0.2, outward: 0.2),
+                                outer: (inward: 0.2, outward: 0.2)), false),
             (numPoints: 6, n: 3, offsets: (in: -0.55, out: 0.35),
-                perturbLimits: (
-                    inner: (inward: 0.2, outward: 0.2),
-                    outer: (inward: 0.2, outward: 0.2)), false),
+                perturbLimits: (inner: (inward: 0.2, outward: 0.2),
+                                outer: (inward: 0.2, outward: 0.2)), false),
             (numPoints: 24, n: 1.0, offsets: (in: 0.1, out: 0.5),
-                perturbLimits: (
-                    inner: (inward: 0.0, outward: 0.2),
-                    outer: (inward: 0.2, outward: 0.2)), false)
+                perturbLimits: (inner: (inward: 0.0, outward: 0.2),
+                                outer: (inward: 0.2, outward: 0.2)), false)
         ]
     
     @ObservedObject var model = Model()
@@ -103,7 +98,8 @@ struct PageView: View {
         .init(type: .baseCurve_markers, section : .support, name: "base curve -- markers",
               visible: true),
         .init(type: .normals, section : .support, name: "normals"),
-        .init(type: .envelopeBounds, section: .support,  name: "envelope bounds"),
+        .init(type: .envelopeBounds, section: .support,  name: "envelope bounds",
+              visible: true),
         .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags and markers"),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
@@ -118,7 +114,7 @@ struct PageView: View {
         self.size = CGSize(width: size.width * PlatformSpecifics.IPAD.w,
                            height: size.height * PlatformSpecifics.IPAD.h)
         
-        model.calculateSuperEllipseCurves(for: pageType,
+        model.calculateSuperEllipseSupportCurves(for: pageType,
                                           pageDescription: description,
                                           axes: (a: Double(self.size.width/2),
                                                  b: Double(self.size.height/2)))
@@ -221,7 +217,7 @@ struct PageView: View {
         }
         .onAppear()
         {
-            print("\nPageView.onAppear(PageType.\(pageType.rawValue))" )
+            print("PageView.onAppear(PageType.\(pageType.rawValue))" )
         }
         // NOTA: check for 2 taps BEFORE checking for 1 tap.
         // this slows down the start of the animation slightly
