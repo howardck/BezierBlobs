@@ -41,6 +41,11 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     // TODO: SEE NOTE in baseCurvePlusNormals() on possibly recasting as:
     // TODO: var baseCurve: ([(vertex: CGPoint, normal: CGVector)]
     
+    enum ZigZagType {
+        case zig
+        case zag
+    }
+    
     // MARK:-
     var baseCurve : BaseCurveType = (vertices: [CGPoint](), normals: [CGVector]())
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
@@ -62,8 +67,8 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
         
         blobCurve = animateToZigPhase ?
-            perturbRandomly(zzCurve: zigZagCurves.zig) :
-            perturbRandomly(zzCurve: zigZagCurves.zag)
+            perturbRandomly(zigZagType: .zig) :
+            perturbRandomly(zigZagType: .zag)
         
         animateToZigPhase.toggle()
     }
@@ -74,9 +79,9 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             zigZagCurves.zig
     }
     
-    //MARK:-
+    //MARK:- PERTURB ZIG-ZAG CURVE W/IN PERTURB LIMITS
 
-    func perturbRandomly(zzCurve: [CGPoint]) -> [CGPoint]
+    func perturbRandomly(zigZagType: ZigZagType) -> [CGPoint]
     {
         // (1) build a list of semi-random deltas for each vertex, built
         //     against maximum inward and outward limits for pts on the
@@ -85,28 +90,30 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         //      a new point inwardly or outwardly from the original along its normal
         //      that becomes part of the new 'randomized' zig-zag
         
-        let deltas = generatePerturbationDeltas(for: zzCurve,
+        let curve = zigZagType == .zig ? zigZagCurves.zig : zigZagCurves.zag
+        
+        let deltas = generatePerturbationDeltas(for: zigZagType,
                                                 using: self.perturbationLimits.inner)
-        return applyList(of: deltas, to: zzCurve)
+        
+        return applyList(of: deltas, to: curve)
     }
     
-    func generatePerturbationDeltas(for zigZagCurve: [CGPoint],
+    func generatePerturbationDeltas(for zigZagType: ZigZagType,
                                     using deltaLimits: (inward: CGFloat, outward: CGFloat)) -> [CGFloat]
     {
         let perturbationDeltas = Array<CGFloat>(repeating: 0,
-                                                count: zigZagCurve.count).map { _ in
+                                                count: self.zigZagCurves.zig.count).map { _ in
             CGFloat.random(in: deltaLimits.inward...deltaLimits.outward)
         }
         
         if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
+            print("\ngeneratePerturbationDeltas() ................")
+
             print("envelope offsets: { (inner: \(offsets.inner), outer: \(offsets.outer)) }")
             print("maxPerturbationDeltas: { (inward: \(deltaLimits.inward), outward: \(deltaLimits.outward) }")
             print("randomized perturbation deltas:" )
         }
         return perturbationDeltas
-        
-//        let permuted = Array<CGFloat>(repeating: 0, count: zzCurve.count)
-//        return permuted.map { _ in CGFloat.random(in: -20...20) }
     }
     
     func applyList(of perturbationDeltas: [CGFloat], to zzCurve: [CGPoint]) -> [CGPoint] {
@@ -204,16 +211,14 @@ class Model: ObservableObject { // init() { print("Model.init()") }
                                             pageDescription: PageDescription,
                                             axes: Axes) {
         
-        self.pageType = pageType // debugging
+        self.pageType = pageType
         self.perturbationLimits = pageDescription.perturbLimits
         
 //        print("Model.calculateSuperEllipseCurves(): axes {a: \(axes.a), b: \(axes.b)}  {PageType.\(pageType.rawValue)}")
         
         // NOT SURE IF THIS IS THE BEST APPROACH HERE ...
         let radius = CGFloat((axes.a + axes.b)/2.0)
-        
         let numPoints = pageDescription.numPoints
-        
         n = pageDescription.n
         
         // NOTA: offsets here are CGFloats based on pageDescription
@@ -222,10 +227,10 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         offsets = (inner: radius * pageDescription.offsets.in,
                    outer: radius * pageDescription.offsets.out)
         
-        // DEBUG DEBUG @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        // DEBUG DEBUG @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         offsets.inner = -80
         offsets.outer = 100
-        // DEBUG DEBUG @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        // DEBUG DEBUG @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         
         self.axes = axes
         if pageDescription.forceEqualAxes {
