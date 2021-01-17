@@ -12,10 +12,9 @@ typealias Offsets = (inner: CGFloat, outer: CGFloat)
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 typealias BaseCurveType = (vertices: [CGPoint], normals: [CGVector])
-typealias PerturbationLimits =  (
-                                    inner: (inward: CGFloat, outward: CGFloat),
-                                    outer: (inward: CGFloat, outward: CGFloat)
-                                )
+
+typealias PerturbationLimits =  (inner: CGFloat, outer: CGFloat)
+
 class Model: ObservableObject { // init() { print("Model.init()") }
     
     static let DEBUG_PRINT_COORDS = false
@@ -58,8 +57,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     var n: Double = 0.0
     var numPoints: Int = 0
     var offsets : Offsets = (inner: 0, outer: 0)
-    var perturbationLimits : PerturbationLimits = (inner: (inward: 0, outward: 0),
-                                                   outer: (inward: 0, outward: 0))
+    var perturbationLimits : PerturbationLimits = (inner: 0, outer: 0)
     
     //MARK: - ANIMATE TO ZIG-ZAGS
     func animateToNextZigZagPhase() {
@@ -110,16 +108,16 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         let curve = zigZagType == .zig ? zigZagCurves.zig : zigZagCurves.zag
         
         let deltas = generatePerturbationDeltas(for: zigZagType,
-                                                using: self.perturbationLimits.inner)
+                                                using: self.perturbationLimits)
         return applyList(of: deltas, to: curve)
     }
     
     func generatePerturbationDeltas(for zigZagType: ZigZagType,
-                                    using deltaLimits: (inward: CGFloat, outward: CGFloat)) -> [CGFloat]
+                                    using deltaLimits: (inner: CGFloat, outer: CGFloat)) -> [CGFloat]
     {
         let perturbationDeltas = Array<CGFloat>(repeating: 0,
                                                 count: self.numPoints).map { _ in
-            CGFloat.random(in: deltaLimits.inward...deltaLimits.outward)
+            CGFloat.random(in: deltaLimits.inner...deltaLimits.outer)
         }
         
         if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
