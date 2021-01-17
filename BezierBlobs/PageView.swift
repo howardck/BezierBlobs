@@ -22,8 +22,8 @@ struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            (numPoints: 12, n: 2, offsets: (in: -0.25, out: 0.35),
-             perturbLimits: (inner: (inward: 0.1, outward: 0.2),
+            (numPoints: 12, n: 2, offsets: (in: 0.25, out: 0.35),
+             perturbLimits: (inner: (inward: 0.3, outward: 0.4),
                              outer: (inward: 0, outward: 0.0)), forceEqualAxes: true),
             
             (numPoints: 22, n: 4.0, offsets: (in: -0.2, out: 0.35),
@@ -114,7 +114,7 @@ struct PageView: View {
         self.size = CGSize(width: size.width * PlatformSpecifics.IPAD.w,
                            height: size.height * PlatformSpecifics.IPAD.h)
         
-        model.calculateSuperEllipseSupportCurves(for: pageType,
+        model.calculateSuperEllipseCurves(for: pageType,
                                           pageDescription: description,
                                           axes: (a: Double(self.size.width/2),
                                                  b: Double(self.size.height/2)))
