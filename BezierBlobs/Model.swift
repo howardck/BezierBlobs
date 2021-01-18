@@ -62,10 +62,10 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     //MARK: - ANIMATE TO ZIG-ZAGS
     func animateToNextZigZagPhase() {
+        
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
             print("Model.animateToNextZigZagPhase():: animateToZig == {\(animateToZigPhase)}")
         }
-        
         zigZagCurves = calculateZigZagCurves(using: self.offsets)
         
         blobCurve = animateToZigPhase ?
@@ -87,6 +87,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
         animateToZigPhase = true
         
+        // recalculate these with 0 perturbations
         zigZagCurves = calculateZigZagCurves(using: self.offsets,
                                              with: (inner: 0, outer: 0))
         blobCurve = baseCurve.vertices
@@ -101,50 +102,11 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         blobCurve = baseCurve.vertices
     }
     
-    //MARK:- PERTURB ZIG-ZAG CURVE W/IN PERTURBATION LIMITS
-
-//    func perturbRandomly(zigZagType: ZigZagType) -> [CGPoint]
-//    {
-//        // (1) build a list of semi-random deltas for each vertex, built
-//        //     against maximum inward and outward limits for pts on the
-//        //     inner boundary and separately for pts on the outer one
-//        // (2) iterate along each zig-zag, applying the delta at each point to produce a
-//        //      a new point inwardly or outwardly from the original along its normal
-//        //      that becomes part of the new 'randomized' zig-zag
-//
-//        let curve = zigZagType == .zig ? zigZagCurves.zig : zigZagCurves.zag
-//
-//        let deltas = generatePerturbationDeltas(for: zigZagType,
-//                                                using: self.perturbationLimits)
-//        return applyList(of: deltas, to: curve)
-//    }
-//
-//    func generatePerturbationDeltas(for zigZagType: ZigZagType,
-//                                    using deltaLimits: (inner: CGFloat, outer: CGFloat)) -> [CGFloat]
-//    {
-//        let perturbationDeltas = Array<CGFloat>(repeating: 0,
-//                                                count: self.numPoints).map { _ in
-//            CGFloat.random(in: deltaLimits.inner...deltaLimits.outer)
-//        }
-//
-//        if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
-//            print("\ngeneratePerturbationDeltas() ................")
-//
-//            print("envelope offsets: { (inner: \(offsets.inner), outer: \(offsets.outer)) }")
-//            print("maxPerturbationDeltas: { (inward: \(deltaLimits.inward), outward: \(deltaLimits.outward) }")
-//            print("randomized perturbation deltas:" )
-//        }
-//        return perturbationDeltas
-//    }
-    
     func applyList(of perturbationDeltas: [CGFloat], to zzCurve: [CGPoint]) -> [CGPoint] {
-        
-        if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
-            _ = perturbationDeltas.enumerated().map {
-                print("delta \([$0]): {\(($1).format(fspec: "7.4"))}")
-            }
-        }
 
+        // ANOTHER WAY OF GENERATING A NEW ZIG-ZAG CURVE, BY AMENDING THE ORIGINAL ONE
+        // (THO NOT QUITE RIGHT ...)
+        
         // create a new zigZag by iterating along the current .zig or .zag curve and moving
         // in or out along the normal at each pt the disance perturbationDeltas[ix].
         
