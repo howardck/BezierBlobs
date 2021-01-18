@@ -22,8 +22,8 @@ struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            (numPoints: 12, n: 2,
-             offsets: (in: 0.25, out: 0.35), perturbLimits: (inner: 0.3, outer: 0.4), forceEqualAxes: true),
+            (numPoints: 6, n: 2,
+             offsets: (in: 0.25, out: 0.35), perturbLimits: (inner: 0.5, outer: 0.9), forceEqualAxes: true),
             
             (numPoints: 22, n: 4.0,
              offsets: (in: -0.2, out: 0.35), perturbLimits: (inner: 0.2, outer: 0.2), false),
@@ -98,7 +98,8 @@ struct PageView: View {
         .init(type: .normals, section : .support, name: "normals"),
         .init(type: .envelopeBounds, section: .support,  name: "envelope bounds",
               visible: true),
-        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags and markers"),
+        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags and markers",
+              visible: true),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
         .init(type: .hideAll, section: .control, name: "hide all layers")

@@ -18,7 +18,7 @@ typealias PerturbationLimits =  (inner: CGFloat, outer: CGFloat)
 class Model: ObservableObject { // init() { print("Model.init()") }
     
     static let DEBUG_PRINT_COORDS = false
-    static let DEBUG_TRACK_ZIGZAG_PHASING = false
+    static let DEBUG_TRACK_ZIGZAG_PHASING = true
     static let DEBUG_PRINT_BASIC_SE_PARAMS = true
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = true
     static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
@@ -57,6 +57,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     var n: Double = 0.0
     var numPoints: Int = 0
     var offsets : Offsets = (inner: 0, outer: 0)
+    
     var perturbationLimits : PerturbationLimits = (inner: 0, outer: 0)
     
     //MARK: - ANIMATE TO ZIG-ZAGS
@@ -65,9 +66,11 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             print("Model.animateToNextZigZagPhase():: animateToZig == {\(animateToZigPhase)}")
         }
         
+        zigZagCurves = calculateZigZagCurves(using: self.offsets)
+        
         blobCurve = animateToZigPhase ?
-            perturbRandomly(zigZagType: .zig) :
-            perturbRandomly(zigZagType: .zag)
+            zigZagCurves.zig :
+            zigZagCurves.zag
         
         animateToZigPhase.toggle()
     }
@@ -76,6 +79,17 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         blobCurve = animateToZigPhase ?
             zigZagCurves.zag :
             zigZagCurves.zig
+    }
+    
+    func returnToInitialConfiguration() {
+        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.returnToInitialConfiguration(PageType.\(pageType!.rawValue))" )
+        }
+        animateToZigPhase = true
+        
+        zigZagCurves = calculateZigZagCurves(using: self.offsets,
+                                             with: (inner: 0, outer: 0))
+        blobCurve = baseCurve.vertices
     }
     
     //MARK:-
@@ -87,48 +101,41 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         blobCurve = baseCurve.vertices
     }
     
-    func returnToInitialConfiguration() {
-        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.returnToInitialConfiguration(PageType.\(pageType!.rawValue))" )
-        }
-        blobCurve = baseCurve.vertices
-    }
-    
     //MARK:- PERTURB ZIG-ZAG CURVE W/IN PERTURBATION LIMITS
 
-    func perturbRandomly(zigZagType: ZigZagType) -> [CGPoint]
-    {
-        // (1) build a list of semi-random deltas for each vertex, built
-        //     against maximum inward and outward limits for pts on the
-        //     inner boundary and separately for pts on the outer one
-        // (2) iterate along each zig-zag, applying the delta at each point to produce a
-        //      a new point inwardly or outwardly from the original along its normal
-        //      that becomes part of the new 'randomized' zig-zag
-        
-        let curve = zigZagType == .zig ? zigZagCurves.zig : zigZagCurves.zag
-        
-        let deltas = generatePerturbationDeltas(for: zigZagType,
-                                                using: self.perturbationLimits)
-        return applyList(of: deltas, to: curve)
-    }
-    
-    func generatePerturbationDeltas(for zigZagType: ZigZagType,
-                                    using deltaLimits: (inner: CGFloat, outer: CGFloat)) -> [CGFloat]
-    {
-        let perturbationDeltas = Array<CGFloat>(repeating: 0,
-                                                count: self.numPoints).map { _ in
-            CGFloat.random(in: deltaLimits.inner...deltaLimits.outer)
-        }
-        
-        if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
-            print("\ngeneratePerturbationDeltas() ................")
-
-            print("envelope offsets: { (inner: \(offsets.inner), outer: \(offsets.outer)) }")
-            print("maxPerturbationDeltas: { (inward: \(deltaLimits.inward), outward: \(deltaLimits.outward) }")
-            print("randomized perturbation deltas:" )
-        }
-        return perturbationDeltas
-    }
+//    func perturbRandomly(zigZagType: ZigZagType) -> [CGPoint]
+//    {
+//        // (1) build a list of semi-random deltas for each vertex, built
+//        //     against maximum inward and outward limits for pts on the
+//        //     inner boundary and separately for pts on the outer one
+//        // (2) iterate along each zig-zag, applying the delta at each point to produce a
+//        //      a new point inwardly or outwardly from the original along its normal
+//        //      that becomes part of the new 'randomized' zig-zag
+//
+//        let curve = zigZagType == .zig ? zigZagCurves.zig : zigZagCurves.zag
+//
+//        let deltas = generatePerturbationDeltas(for: zigZagType,
+//                                                using: self.perturbationLimits)
+//        return applyList(of: deltas, to: curve)
+//    }
+//
+//    func generatePerturbationDeltas(for zigZagType: ZigZagType,
+//                                    using deltaLimits: (inner: CGFloat, outer: CGFloat)) -> [CGFloat]
+//    {
+//        let perturbationDeltas = Array<CGFloat>(repeating: 0,
+//                                                count: self.numPoints).map { _ in
+//            CGFloat.random(in: deltaLimits.inner...deltaLimits.outer)
+//        }
+//
+//        if Self.DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS {
+//            print("\ngeneratePerturbationDeltas() ................")
+//
+//            print("envelope offsets: { (inner: \(offsets.inner), outer: \(offsets.outer)) }")
+//            print("maxPerturbationDeltas: { (inward: \(deltaLimits.inward), outward: \(deltaLimits.outward) }")
+//            print("randomized perturbation deltas:" )
+//        }
+//        return perturbationDeltas
+//    }
     
     func applyList(of perturbationDeltas: [CGFloat], to zzCurve: [CGPoint]) -> [CGPoint] {
         
@@ -266,11 +273,12 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
         }
         
-        self.perturbationLimits = establish(perturbationLimits: self.perturbationLimits, for: offsets)
+        self.perturbationLimits = match(perturbationLimits: self.perturbationLimits, to: offsets)
         
         boundingCurves = calculateBoundingCurves(using: self.offsets)
-        zigZagCurves = calculateZigZagCurves(using: self.offsets)
         normalsCurve = calculateNormalsPseudoCurve()
+        zigZagCurves = calculateZigZagCurves(using: self.offsets,
+                                             with: (inner: 0, outer: 0))
         
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
             setInitialBlobCurve()
@@ -281,41 +289,26 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
     }
     
-    func establish(perturbationLimits: PerturbationLimits,
-                   for offsets: Offsets) -> PerturbationLimits
+    func match(perturbationLimits: PerturbationLimits,
+               to offsets: Offsets) -> PerturbationLimits
     {
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("Model.adjust(perturbationLimits)")
             print("offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
             print("perturbationLimits BEFORE adjustment: " +
-                "\n   inner.inward: {\(perturbationLimits.inner.inward)} " +
-                "inner.outward: {\(perturbationLimits.inner.outward)} " +
-                "\n   outer.inward: {\(perturbationLimits.outer.inward)} " +
-                "outer.outward: {\(perturbationLimits.outer.inward)} "
-            )
+                    "\n   (inner: {\(perturbationLimits.inner)},  " +
+                    "outer: {\(perturbationLimits.outer)} ) "
+                  )
         }
         var perturbLimits : PerturbationLimits
-//        perturbLimits.inner = (inward: offsets.inner + (perturbationLimits.inner.inward * offsets.inner),
-//                               outward: offsets.inner - (perturbationLimits.inner.outward * offsets.inner))
-//        perturbLimits.outer = (inward: perturbationLimits.outer.inward * offsets.outer,
-//                               outward: perturbationLimits.outer.outward * offsets.outer)
-        
-//        perturbLimits.inner = (inward: (perturbationLimits.inner.inward * offsets.inner),
-//                               outward: (perturbationLimits.inner.outward * offsets.inner))
-//        perturbLimits.outer = (inward: perturbationLimits.outer.inward * offsets.outer,
-//                               outward: perturbationLimits.outer.outward * offsets.outer)
-//
-        perturbLimits.inner = (inward: -abs(perturbationLimits.inner.inward * offsets.inner),
-                               outward: abs(perturbationLimits.inner.outward * offsets.inner))
-        perturbLimits.outer = (inward: 0,
-                               outward: 0)
+
+        perturbLimits = (inner: perturbationLimits.inner * offsets.inner,
+                         outer: perturbationLimits.outer * offsets.outer)
         
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("perturbationLimits AFTER adjustment: " +
-                    "\n   inner.inward: {\(perturbLimits.inner.inward)} " +
-                    "inner.outward: {\(perturbLimits.inner.outward)} " +
-                    "\n   outer.inward: {\(perturbLimits.outer.inward)} " +
-                    "outer.outward: {\(perturbLimits.outer.inward)} "
+                    "\n   (inner: {\(perturbLimits.inner)},  " +
+                    "outer: {\(perturbLimits.outer)} ) "
                   )
         }
         return perturbLimits
@@ -324,6 +317,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     //MARK: - Support Curves
 
     // these define the two path extremes our generated blob path animates between.
+    
     func calculateZigZagCurves(using offsets: Offsets) -> ZigZagCurves {
 
         // TO-DO: EXPLORE USING ARRAY OF TUPLES FOR baseCurve
@@ -338,24 +332,47 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         
         let zipped = zip(baseCurve.vertices, baseCurve.normals).enumerated()
         /*
-         on enumerating a zipped array pair of vertices & their normals,
-         a map{} function sees this:
-         
-            {$0.0}: index of the point; {$0.1}: the vertex/normal pair for the point. ie
-                                        {$0.1.0}: the vertex
-                                        {@0.1.1}: the normal (a CGVector) at the point
+            type(zipped) == [(vertex, normal)]. map sees:
+            {$0.0}: index of the point
+            {$0.1}: the vertex/normal pair for the point, ie
+                    {$0.1.0}: the vertex
+                    {@0.1.1}: the normal (a CGVector) at the point
          */
         // .zig curve starts to the outside at vertex 0 (red in the current styling)
         let zigCurve = zipped.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.outer : offsets.inner,
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.outer + CGFloat.random(in: -perturbationLimits.outer...perturbationLimits.outer) :
+                                offsets.inner + CGFloat.random(in: -abs(perturbationLimits.inner)...perturbationLimits.inner),
                             along: $0.1.1)
         }
-        // .zag does just the opposite (yellow ditto ...)
+        // .zag does the opposite (yellow styling ...)
         let zagCurve = zipped.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.inner : offsets.outer,
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.inner + CGFloat.random(in: -abs(perturbationLimits.inner)...perturbationLimits.inner) :
+                                offsets.outer + CGFloat.random(in: -perturbationLimits.outer...perturbationLimits.outer),
                             along: $0.1.1)
         }
         return (zigCurve, zagCurve)
+    }
+    
+    func calculateZigZagCurves(using offsets: Offsets, with perturbRanges: PerturbationLimits) -> ZigZagCurves {
+
+        let z = zip(baseCurve.vertices, baseCurve.normals).enumerated()
+
+        let zig = z.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.outer + CGFloat.random(in: -perturbRanges.outer...perturbRanges.outer) :
+                                offsets.inner + CGFloat.random(in: -abs(perturbRanges.inner)...perturbRanges.inner),
+                            along: $0.1.1)
+        }
+ 
+        let zag = z.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.inner + CGFloat.random(in: -abs(perturbRanges.inner)...perturbRanges.inner) :
+                                offsets.outer + CGFloat.random(in: -perturbRanges.outer...perturbRanges.outer),
+                            along: $0.1.1)
+        }
+        return (zig: zig, zag: zag)
     }
     
     // define an envelope w/in which our blob blobs
