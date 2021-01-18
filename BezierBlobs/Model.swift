@@ -12,6 +12,7 @@ typealias Offsets = (inner: CGFloat, outer: CGFloat)
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 typealias BaseCurveType = (vertices: [CGPoint], normals: [CGVector])
+typealias Tuples = [(vertex: CGPoint, normal: CGVector)]
 
 typealias PerturbationLimits =  (inner: CGFloat, outer: CGFloat)
 
@@ -125,11 +126,12 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     // the basis of everything else ...
     //MARK:- calculate the main baseCurve: vertices plus normals
     func calculateSuperEllipse(for numPoints: Int,
-                               with axes: Axes) -> (vertices:[CGPoint],
-                                                    normals: [CGVector])
+                               with axes: Axes) -> (baseCurve:(vertices:[CGPoint], normals: [CGVector]),
+                                                    tuples: [(CGPoint, CGVector)])
     {
         // TO DO: look at trying ~ ([(vertex: CGPoint, normal: CGVector)]
         var baseCurve = (vertices: [CGPoint](), normals: [CGVector]())
+        var tuples : Tuples = [(vertex: CGPoint, normal: CGVector)]()
         
         var i = 0
         for theta in stride(from: 0,
@@ -147,6 +149,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             let y = axes.b * pow(abs(sinT), inverseN) * sign(sinT)
             
             let vertex = CGPoint(x: x, y: y)
+            
             baseCurve.vertices += [vertex]
             
             // the orthogonal (== normal) to the curve at this point
@@ -159,12 +162,16 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             let normal = CGVector(dx: dX/hypotenuse, dy: dY/hypotenuse)
             baseCurve.normals += [normal]
             
+            // @@@@@@@@ NEW NEW NEW NEW NEW NEW NEW NEW NEW
+            tuples += [(vertex: vertex, normal: normal)]
+            // @@@@@@@@ NEW NEW NEW NEW NEW NEW NEW NEW NEW
+            
             if Model.DEBUG_PRINT_COORDS {
                 debugPrint(i: i, theta: theta, vertex: vertex, normal: normal)
                 i += 1
             }
         }
-        return baseCurve
+        return (baseCurve: baseCurve, tuples: tuples)
     }
     
     func sign(_ number: Double) -> Double {
@@ -195,7 +202,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     func calculateSuperEllipseCurves(for pageType: PageType,
                                      pageDescription: PageDescription,
                                      axes: Axes) {
-        
         self.pageType = pageType
         self.perturbationLimits = pageDescription.perturbLimits
         
@@ -214,8 +220,8 @@ class Model: ObservableObject { // init() { print("Model.init()") }
                    outer: radius * pageDescription.offsets.out)
         
         // DEBUG DEBUG @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        offsets.inner = -80
-        offsets.outer = 100
+        //offsets.inner = -80
+        //offsets.outer = 100
         // DEBUG DEBUG @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         
         self.axes = axes
@@ -224,8 +230,11 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             self.axes = (a: minab, b: minab)
         }
 
-        self.baseCurve = calculateSuperEllipse(for: self.numPoints,
-                                               with: self.axes)
+        let baseCurveListPlusTuples = calculateSuperEllipse(for: self.numPoints,
+                                                            with: self.axes)
+        self.baseCurve = baseCurveListPlusTuples.baseCurve
+        let tuples = baseCurveListPlusTuples.tuples
+        
         
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
             print("Model.calculateSuperEllipseCurves(PageType.\(pageType.rawValue))")
@@ -236,7 +245,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
         }
         
-        self.perturbationLimits = match(perturbationLimits: self.perturbationLimits, to: offsets)
+        self.perturbationLimits = match(perturbLimits: self.perturbationLimits, to: offsets)
         
         boundingCurves = calculateBoundingCurves(using: self.offsets)
         normalsCurve = calculateNormalsPseudoCurve()
@@ -251,29 +260,25 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
     }
     
-    func match(perturbationLimits: PerturbationLimits,
+    func match(perturbLimits: PerturbationLimits,
                to offsets: Offsets) -> PerturbationLimits
     {
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("Model.adjust(perturbationLimits)")
             print("offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
             print("perturbationLimits BEFORE adjustment: " +
-                    "\n   (inner: {\(perturbationLimits.inner)},  " +
-                    "outer: {\(perturbationLimits.outer)} ) "
-                  )
-        }
-        var perturbLimits : PerturbationLimits
-
-        perturbLimits = (inner: perturbationLimits.inner * offsets.inner,
-                         outer: perturbationLimits.outer * offsets.outer)
-        
-        if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
-            print("perturbationLimits AFTER adjustment: " +
                     "\n   (inner: {\(perturbLimits.inner)},  " +
                     "outer: {\(perturbLimits.outer)} ) "
                   )
         }
-        return perturbLimits
+        let pLimits = (inner: perturbLimits.inner * offsets.inner,
+                       outer: perturbLimits.outer * offsets.outer)
+        
+        if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
+            print("perturbationLimits AFTER adjustment: \n   " +
+                  "(inner: {\(pLimits.inner)}, outer: {\(pLimits.outer)} ) ")
+        }
+        return pLimits
     }
     
     //MARK: - Support Curves
@@ -331,11 +336,11 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             $0.1.0.newPoint(at: $0.0.isEven() ?  offsets.inner : offsets.outer,
                             along: $0.1.1)
         }
-        return (zig: zig, zag: zag)
+        return (zig, zag)
     }
     
     // define an envelope w/in which our blob blobs
-    
+    // self.offsets is a tuple
     func calculateBoundingCurves(using offsets: Offsets) -> BoundingCurves {
         let z = zip(baseCurve.vertices, baseCurve.normals)
         return (inner: z.map{ $0.0.newPoint(at: offsets.inner, along: $0.1) },
@@ -344,7 +349,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     func calculateNormalsPseudoCurve() -> [CGPoint] {
         var normals = [CGPoint]()
-        for i in 0..<boundingCurves.inner.count {
+        for i in 0..<numPoints {
             normals.append(boundingCurves.inner[i])
             normals.append(boundingCurves.outer[i])
         }
