@@ -244,7 +244,6 @@ struct PageView: View {
         
         .overlay(displaySuperEllipseMetrics())
         .displayScreenSizeMetrics(frontColor: .black, backColor: Color.init(white: 0.6))
-        .border(Color.red, width: 4)
         
         // push both Screen Buttons down to lower-left corner
         .overlay(

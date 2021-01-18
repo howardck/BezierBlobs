@@ -319,6 +319,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
     }
 
+    // plain-jane initial unperturbed variety
     func calculateZigZagCurves(using offsets: Offsets) -> ZigZagCurves {
 
         let z = zip(baseCurve.vertices, baseCurve.normals).enumerated()
