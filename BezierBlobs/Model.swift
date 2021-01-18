@@ -281,8 +281,8 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     func random(maxPerturbation: CGFloat) -> CGFloat {//}, debugIsEven: Bool) -> CGFloat {
         
         let rVal = CGFloat.random(in: -abs(maxPerturbation)...abs(maxPerturbation))
-        print("random(maxPerturbation: {\(maxPerturbation)}, "
-                + "randValue: {\(rVal.format(fspec: "6.4"))} ")
+//        print("random(maxPerturbation: {\(maxPerturbation)}, "
+//                + "randValue: {\(rVal.format(fspec: "6.4"))} ")
         return rVal
     }
 
@@ -291,59 +291,41 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     func calculateRandomlyPerturbedZigZagCurves(doZig: Bool,
                                                 using offsets: Offsets) -> ZigZagCurves {
         
-        let zipped = zip(baseCurve.vertices, baseCurve.normals).enumerated()
-        /*
-            zipped.map{} =>
-            {$0.0}: index of the point
-            {$0.1}: the vertex/normal pair for the point, ie
-                    {$0.1.0}: the vertex
-                    {@0.1.1}: the normal (a CGVector) at the point
-         */
-        
-        var zigCurve = zigZagCurves.zig
-        var zagCurve = zigZagCurves.zag
-        
-        // .zig curve starts to the outside at vertex 0 (red in the current styling)
-        if doZig {
-            zigCurve = zipped.map {
-                $0.1.0.newPoint(at: $0.0.isEven() ?
-                                    offsets.outer + random(maxPerturbation: perturbationLimits.outer/*, debugIsEven: $0.0.isEven()*/) :
-                                    offsets.inner + random(maxPerturbation: perturbationLimits.inner/*, debugIsEven: $0.0.isEven()*/),
-                                along: $0.1.1)
-            }
-        }
-        // .zag does the opposite (yellow ...)
-        if !doZig {
-            zagCurve = zipped.map {
-                $0.1.0.newPoint(at: $0.0.isEven() ?
-                                    offsets.inner + random(maxPerturbation: perturbationLimits.inner) :
-                                    offsets.outer + random(maxPerturbation: perturbationLimits.outer),
-                                along: $0.1.1)
-            }
-        }
+        let zipped = zip(baseCurve.vertices, baseCurve.normals)
+
+        let zigCurve = doZig ? randomlyPermuteZigCurve(vertexNormalTuples: zipped) : zigZagCurves.zig
+        let zagCurve = !doZig ? randomlyPermuteZagCurve(vertexNormalTuples: zipped) : zigZagCurves.zag
+
         return (zigCurve, zagCurve)
     }
     
-    func randomlyPermuteZigCurve() -> [CGPoint] {
+    func randomlyPermuteZigCurve(vertexNormalTuples: Zip2Sequence<[CGPoint], [CGVector]>) -> [CGPoint] {
         
-        [CGPoint]()
+        vertexNormalTuples.enumerated().map {
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.outer + random(maxPerturbation: perturbationLimits.outer) :
+                                offsets.inner + random(maxPerturbation: perturbationLimits.inner),
+                            along: $0.1.1)
+        }
     }
     
-    func randomlyPermuteZagCurve() -> [CGPoint] {
+    func randomlyPermuteZagCurve(vertexNormalTuples: Zip2Sequence<[CGPoint], [CGVector]>) -> [CGPoint] {
         
-        [CGPoint]()
+        return vertexNormalTuples.enumerated().map {
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.inner + random(maxPerturbation: perturbationLimits.inner) :
+                                offsets.outer + random(maxPerturbation: perturbationLimits.outer),
+                            along: $0.1.1)
+        }
     }
-    
-    
+
     func calculateZigZagCurves(using offsets: Offsets) -> ZigZagCurves {
 
         let z = zip(baseCurve.vertices, baseCurve.normals).enumerated()
-
         let zig = z.map {
             $0.1.0.newPoint(at: $0.0.isEven() ? offsets.outer : offsets.inner,
                             along: $0.1.1)
         }
- 
         let zag = z.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?  offsets.inner : offsets.outer,
                             along: $0.1.1)
