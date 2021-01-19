@@ -48,7 +48,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     // MARK:-
     var baseCurve : BaseCurveType = (vertices: [CGPoint](), normals: [CGVector]())
-    var tuples : [(CGPoint, CGVector)] = [(CGPoint, CGVector)]()
+    var tuples : Tuples = [(CGPoint, CGVector)]()
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
     var normalsCurve : [CGPoint] = [CGPoint]()
@@ -84,40 +84,26 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             zigZagCurves.zig
     }
     
+    //MARK:-
+    func setInitialBlobCurve() {
+        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
+        }
+        blobCurve = tuples.map{ $0.vertex }
+    }
+    
     func returnToInitialConfiguration() {
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
             print("Model.returnToInitialConfiguration(PageType.\(pageType!.rawValue))" )
         }
         animateToZigPhase = true
         
-        // recalculate these with 0 perturbations
-        zigZagCurves = calculateZigZagCurves(using: self.offsets)
-
-        blobCurve = baseCurve.vertices
-    }
-    
-    //MARK:-
-    func setInitialBlobCurve() {
-        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
-        }
+        // recalculate with 0 perturbations
+        zigZagCurves = calculateZigZagCurves_2(using: self.offsets)
+        blobCurve = tuples.map{ $0.vertex }
         
-        blobCurve = baseCurve.vertices
-    }
-    
-    func applyList(of perturbationDeltas: [CGFloat], to zzCurve: [CGPoint]) -> [CGPoint] {
-
-        // ANOTHER WAY OF GENERATING A NEW ZIG-ZAG CURVE, BY AMENDING THE ORIGINAL ONE
-        // (THO NOT QUITE RIGHT ...)
-        
-        // create a new zigZag by iterating along the current .zig or .zag curve and moving
-        // in or out along the normal at each pt the disance perturbationDeltas[ix].
-        
-        let perturbedZigZag = zzCurve.enumerated().map {
-            $0.1.newPoint(at: perturbationDeltas[ $0.0 ], along: baseCurve.normals[ $0.0 ])
-        }
-        
-        return perturbedZigZag
+        // WHY BUG NO $0.vertex field ???
+        // blobCurve = tuples.map{ $0.vertex }
     }
        
     //MARK:-
@@ -236,7 +222,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         self.baseCurve = baseCurveListPlusTuples.baseCurve
         self.tuples = baseCurveListPlusTuples.tuples
         
-        
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
             print("Model.calculateSuperEllipseCurves(PageType.\(pageType.rawValue))")
             //print("-------------------------------------")
@@ -248,9 +233,9 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         
         self.perturbationLimits = match(perturbLimits: self.perturbationLimits, to: offsets)
         
-        boundingCurves = calculateBoundingCurves_2(using: self.offsets)
+        boundingCurves = calculateBoundingCurves(using: self.offsets)
         normalsCurve = calculateNormalsPseudoCurve()
-        zigZagCurves = calculateZigZagCurves(using: self.offsets)
+        zigZagCurves = calculateZigZagCurves_2(using: self.offsets)
         
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
             setInitialBlobCurve()
@@ -286,23 +271,47 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     func random(maxPerturbation: CGFloat) -> CGFloat {//}, debugIsEven: Bool) -> CGFloat {
         
-        let rVal = CGFloat.random(in: -abs(maxPerturbation)...abs(maxPerturbation))
-//        print("random(maxPerturbation: {\(maxPerturbation)}, "
-//                + "randValue: {\(rVal.format(fspec: "6.4"))} ")
-        return rVal
+        let val = CGFloat.random(in: -abs(maxPerturbation)...abs(maxPerturbation))
+//        print("random(maxPerturbation: {\(maxPerturbation)}, val: {\(rVal.format(fspec: "6.4"))} ")
+        return val
     }
-
-    // TO-DO: EXPLORE USING ARRAY OF TUPLES for baseCurve
 
     func calculateRandomlyPerturbedZigZagCurves(doZig: Bool,
                                                 using offsets: Offsets) -> ZigZagCurves {
-        
+
         let zipped = zip(baseCurve.vertices, baseCurve.normals)
 
         let zigCurve = doZig ? randomlyPermuteZigCurve(vertexNormalTuples: zipped) : zigZagCurves.zig
         let zagCurve = !doZig ? randomlyPermuteZagCurve(vertexNormalTuples: zipped) : zigZagCurves.zag
 
         return (zigCurve, zagCurve)
+    }
+    
+    func calculateRandomlyPerturbedZigZagCurves_2(using offsets: Offsets) -> ZigZagCurves {
+        let z = tuples.enumerated()
+        
+        let zig = randomlyPermuteZigCurve_2(tuples: z, using: offsets)
+        let zag = randomlyPermuteZigCurve_2(tuples: z, using: offsets)
+        
+        return (zig, zag)
+    }
+    
+    func randomlyPermuteZigCurve_2(tuples: EnumeratedSequence<Array<(vertex: CGPoint, normal: CGVector)>>, using offsets: Offsets) -> [CGPoint] {
+        tuples.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.outer + random(maxPerturbation: perturbationLimits.outer) :
+                                offsets.inner + random(maxPerturbation: perturbationLimits.inner),
+                            along: $0.1.1)
+        }
+    }
+
+    func randomlyPermuteZagCurve_2(tuples: EnumeratedSequence<[(vertex: CGPoint, normal: CGVector)]>, using offsets: Offsets) -> [CGPoint] {
+        tuples.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.inner + random(maxPerturbation: perturbationLimits.inner) :
+                                offsets.outer + random(maxPerturbation: perturbationLimits.outer),
+                            along: $0.1.1)
+        }
     }
     
     func randomlyPermuteZigCurve(vertexNormalTuples: Zip2Sequence<[CGPoint], [CGVector]>) -> [CGPoint] {
@@ -325,10 +334,24 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
     }
 
-    // plain-jane initial unperturbed variety
-    func calculateZigZagCurves(using offsets: Offsets) -> ZigZagCurves {
+//    func calculateZigZagCurves(using offsets: Offsets) -> ZigZagCurves {
+//
+//        let z = zip(baseCurve.vertices, baseCurve.normals).enumerated()
+//        let zig = z.map {
+//            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.outer : offsets.inner,
+//                            along: $0.1.1)
+//        }
+//        let zag = z.map {
+//            $0.1.0.newPoint(at: $0.0.isEven() ?  offsets.inner : offsets.outer,
+//                            along: $0.1.1)
+//        }
+//        return (zig, zag)
+//    }
+    
+    // initial plain-jane unperturbed variety
+    func calculateZigZagCurves_2(using offsets: Offsets) -> ZigZagCurves {
 
-        let z = zip(baseCurve.vertices, baseCurve.normals).enumerated()
+        let z = tuples.enumerated()
         let zig = z.map {
             $0.1.0.newPoint(at: $0.0.isEven() ? offsets.outer : offsets.inner,
                             along: $0.1.1)
@@ -340,16 +363,8 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         return (zig, zag)
     }
     
-    // define an envelope w/in which our blob blobs
-    // self.offsets is a tuple
     func calculateBoundingCurves(using offsets: Offsets) -> BoundingCurves {
-        let z = zip(baseCurve.vertices, baseCurve.normals)
-        return (inner: z.map{ $0.0.newPoint(at: offsets.inner, along: $0.1) },
-                outer: z.map{ $0.0.newPoint(at: offsets.outer, along: $0.1) })
-    }
-    
-    func calculateBoundingCurves_2(using offsets: Offsets) -> BoundingCurves {
-
+        
          (inner: tuples.map{ $0.newPoint(at: offsets.inner, along: $1)},
           outer: tuples.map{ $0.newPoint(at: offsets.outer, along: $1)})
     }
