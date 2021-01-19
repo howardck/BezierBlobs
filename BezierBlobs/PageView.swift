@@ -58,6 +58,8 @@ struct PageView: View {
     // but need conversion on LayerSelectionList end from array use to dict use
     // (and i'm not even sure i'll be able to do that there ...)
     
+    // EXPERIMENTAL unfinished
+    
     struct SELayers {
 
         // bit of play with a dictionary of layers rather than an array
@@ -83,22 +85,22 @@ struct PageView: View {
         // NOTA: changes to .init's ordering here need to be reflected by similar
         // changes in enum LayerType case ordering -- obviated by better design perhaps?
         
-        .init(type: .blob_stroked, section: .animating, name: "blob (stroked)",
+        .init(type: .blob_stroked, section: .animating, name: "blob stroked",
               visible: true),
-        .init(type: .blob_filled, section: .animating, name: "blob (filled)"),
-        .init(type: .blob_vertex_0_Marker, section: .animating, name: "blob -- vertex 0 marker",
+        .init(type: .blob_filled, section: .animating, name: "blob filled"),
+        .init(type: .blob_vertex_0_Marker, section: .animating, name: "blob / vertex 0 marker",
               visible: true),
-        .init(type: .blob_markers, section: .animating, name: "blob -- all vertex markers",
+        .init(type: .blob_markers, section: .animating, name: "blob / all vertex markers",
               visible: true),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .baseCurve, section: .support, name: "base curve",
               visible: true),
-        .init(type: .baseCurve_markers, section : .support, name: "base curve -- markers",
+        .init(type: .baseCurve_markers, section : .support, name: "base curve markers",
               visible: true),
         .init(type: .normals, section : .support, name: "normals"),
-        .init(type: .envelopeBounds, section: .support,  name: "envelope bounds",
+        .init(type: .envelopeBounds, section: .support,  name: "offset curves",
               visible: true),
-        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags and markers",
+        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags + markers",
               visible: true),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
