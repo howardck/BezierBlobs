@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum PageType : String {
-    case circle = "CIRCLE"
+    case circle = "ALMOST CIRCLE"
     case superEllipse = "SUPER-ELLIPSE BLOB"
     case deltaWing = "DELTA WING"
     case killerMoth = "MUTANT MOTH"
@@ -22,17 +22,18 @@ struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            (numPoints: 4, n: 2,
-             offsets: (in: -0.25, out: 0.35), perturbLimits: (inner: 0.5, outer: 0.6), forceEqualAxes: true),
+            (numPoints: 12, n: 2.5,
+             offsets: (in: -0.25, out: 0.2), perturbLimits: (inner: 0.7, outer: 0.7), forceEqualAxes: true),
+//             offsets: (in: -0.25, out: 0.35), perturbLimits: (inner: 0.5, outer: 0.6), forceEqualAxes: true),
             
-            (numPoints: 22, n: 4.0,
-             offsets: (in: -0.2, out: 0.35), perturbLimits: (inner: 0.2, outer: 0.2), false),
+            (numPoints: 22, n: 3.5,
+             offsets: (in: -0.2, out: 0.35), perturbLimits: (inner: 0.5, outer: 0.5), false),
             
             (numPoints: 6, n: 3,
-             offsets: (in: -0.55, out: 0.35), perturbLimits: (inner: 0.2, outer: 0.2), false),
+             offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.6, outer: 0.6), false),
             
             (numPoints: 24, n: 1.0,
-             offsets: (in: 0.1, out: 0.5), perturbLimits: (inner: 0.0, outer: 0.2), false)
+             offsets: (in: 0.1, out: 0.5), perturbLimits: (inner: 0.5, outer: 0.5), false)
         ]
     
     @ObservedObject var model = Model()
