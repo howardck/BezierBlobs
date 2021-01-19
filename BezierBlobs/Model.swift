@@ -48,6 +48,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     // MARK:-
     var baseCurve : BaseCurveType = (vertices: [CGPoint](), normals: [CGVector]())
+    var tuples : [(CGPoint, CGVector)] = [(CGPoint, CGVector)]()
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
     var normalsCurve : [CGPoint] = [CGPoint]()
@@ -233,7 +234,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         let baseCurveListPlusTuples = calculateSuperEllipse(for: self.numPoints,
                                                             with: self.axes)
         self.baseCurve = baseCurveListPlusTuples.baseCurve
-        let tuples = baseCurveListPlusTuples.tuples
+        self.tuples = baseCurveListPlusTuples.tuples
         
         
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
@@ -247,7 +248,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         
         self.perturbationLimits = match(perturbLimits: self.perturbationLimits, to: offsets)
         
-        boundingCurves = calculateBoundingCurves(using: self.offsets)
+        boundingCurves = calculateBoundingCurves_2(using: self.offsets)
         normalsCurve = calculateNormalsPseudoCurve()
         zigZagCurves = calculateZigZagCurves(using: self.offsets)
         
@@ -345,6 +346,12 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         let z = zip(baseCurve.vertices, baseCurve.normals)
         return (inner: z.map{ $0.0.newPoint(at: offsets.inner, along: $0.1) },
                 outer: z.map{ $0.0.newPoint(at: offsets.outer, along: $0.1) })
+    }
+    
+    func calculateBoundingCurves_2(using offsets: Offsets) -> BoundingCurves {
+
+         (inner: tuples.map{ $0.newPoint(at: offsets.inner, along: $1)},
+          outer: tuples.map{ $0.newPoint(at: offsets.outer, along: $1)})
     }
     
     func calculateNormalsPseudoCurve() -> [CGPoint] {
