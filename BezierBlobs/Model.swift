@@ -200,12 +200,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         
         offsets = (inner: radius * pageDescription.offsets.in,
                    outer: radius * pageDescription.offsets.out)
-        
-        // DEBUG DEBUG @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //offsets.inner = -80
-        //offsets.outer = 100
-        // DEBUG DEBUG @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        
+
         self.axes = axes
         if pageDescription.forceEqualAxes {
             let minab = min(axes.a, axes.b)
@@ -270,26 +265,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
 //        print("random(maxPerturbation: {\(maxPerturbation)}, val: {\(rVal.format(fspec: "6.4"))} ")
         return val
     }
-
-//    func calculateRandomlyPerturbedZigZagCurves(doZig: Bool,
-//                                                using offsets: Offsets) -> ZigZagCurves {
-//
-//        let zipped = zip(baseCurve.vertices, baseCurve.normals)
-//
-//        let zigCurve = doZig ? randomlyPermuteZigCurve(vertexNormalTuples: zipped) : zigZagCurves.zig
-//        let zagCurve = !doZig ? randomlyPermuteZagCurve(vertexNormalTuples: zipped) : zigZagCurves.zag
-//
-//        return (zigCurve, zagCurve)
-//    }
-    
-//    func calculateRandomlyPerturbedZigZags_2(using offsets: Offsets) -> ZigZagCurves {
-//
-//        let z = tuples.enumerated()
-//        let zig = randomlyPermuteZigCurve_2(tuples: z, using: offsets)
-//        let zag = randomlyPermuteZagCurve_2(tuples: z, using: offsets)
-//
-//        return (zig, zag)
-//    }
     
     // only zig or zag is changing, but still need to rebuild (zig, zag) using both
     func calculateRandomlyPerturbedZigZags(doZig: Bool) -> ZigZagCurves {
@@ -301,7 +276,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
     
     func randomlyPermutedZigCurve(eTuples: EnumeratedSequence<[(vertex: CGPoint, normal: CGVector)]>) -> [CGPoint] {
-        print("randomlyPermutedZigCurve()")
         return eTuples.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
                                 offsets.outer + random(maxPerturbation: perturbationLimits.outer) :
@@ -320,41 +294,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
                             along: $0.1.1)
         }
     }
-    
-//    func randomlyPermuteZigCurve(vertexNormalTuples: Zip2Sequence<[CGPoint], [CGVector]>) -> [CGPoint] {
-//
-//        vertexNormalTuples.enumerated().map {
-//            $0.1.0.newPoint(at: $0.0.isEven() ?
-//                                offsets.outer + random(maxPerturbation: perturbationLimits.outer) :
-//                                offsets.inner + random(maxPerturbation: perturbationLimits.inner),
-//                            along: $0.1.1)
-//        }
-//    }
-//
-//    func randomlyPermuteZagCurve(vertexNormalTuples: Zip2Sequence<[CGPoint], [CGVector]>) -> [CGPoint] {
-//
-//        return vertexNormalTuples.enumerated().map {
-//            $0.1.0.newPoint(at: $0.0.isEven() ?
-//                                offsets.inner + random(maxPerturbation: perturbationLimits.inner) :
-//                                offsets.outer + random(maxPerturbation: perturbationLimits.outer),
-//                            along: $0.1.1)
-//        }
-//    }
 
-//    func calculateZigZagCurves(using offsets: Offsets) -> ZigZagCurves {
-//
-//        let z = zip(baseCurve.vertices, baseCurve.normals).enumerated()
-//        let zig = z.map {
-//            $0.1.0.newPoint(at: $0.0.isEven() ? offsets.outer : offsets.inner,
-//                            along: $0.1.1)
-//        }
-//        let zag = z.map {
-//            $0.1.0.newPoint(at: $0.0.isEven() ?  offsets.inner : offsets.outer,
-//                            along: $0.1.1)
-//        }
-//        return (zig, zag)
-//    }
-    
     // initial plain-jane unperturbed variety
     func calculateZigZagCurves_2(using offsets: Offsets) -> ZigZagCurves {
 
