@@ -62,20 +62,16 @@ struct PageView: View {
     @State var randomizeNextZigZagRedraw = false
     @State var layerSelectionListIsVisible = true
     @State var layerDrawingOptionsListIsVisible = false
-    
-    // 8jan21
-    // this structure and usage saved in branch
-    // PARTIAL_TEST_REWRITE_USING_LAYERS_DICT_NOT_ARRAY in exploration of calling
+
     /*
+     EXPERIMENTAL
+     unfinished exploration of using a dictionary for superEllipseLayers
+     in order to call (eg)
+    
         if SELayers().isVisible(layerType: .blob_filled) {
             AnimatingBlob_Filled(curve: model.blobCurve)
         }
     */
-    // but need conversion on LayerSelectionList end from array use to dict use
-    // (and i'm not even sure i'll be able to do that there ...)
-    
-    // EXPERIMENTAL unfinished
-    
     struct SELayers {
 
         // bit of play with a dictionary of layers rather than an array
@@ -151,20 +147,7 @@ struct PageView: View {
                 if superEllipseLayers[LayerType.blob_filled.rawValue].visible {
                     AnimatingBlob_Filled(curve: model.blobCurve)
                 }
-
-        // TESTING NEW NESTED STRUCTURE TO CONTAIN [SuperEllipseLayers]
-        // see note above on br. PARTIAL_TEST_REWRITE_USING_LAYEWRS_DICT_NOT_ARRAY
-//                if SELayers().isVisible(layerType: .blob_filled) {
-//                    AnimatingBlob_Filled(curve: model.blobCurve)
-//                }
-            
-        /*
-         THESE SYNTAXES ALSO WORK:
-         
-            if self.SELayers().isVisible(layerType: .blob_filled) { }
-            if PageView.SELayers().isVisible(layerType: .blob_filled) { }
-        */
-                                
+                
     // BLOB (ANIMATING -- STROKED)
                 //MARK: layer 2.  AnimatingBlob_Stroked
                 if superEllipseLayers[LayerType.blob_stroked.rawValue].visible {
