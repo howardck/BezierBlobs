@@ -18,11 +18,11 @@ typealias PerturbationLimits =  (inner: CGFloat, outer: CGFloat)
 
 class Model: ObservableObject { // init() { print("Model.init()") }
     
-    static let DEBUG_PRINT_COORDS = false
+    static let DEBUG_PRINT_BASIC_SE_PARAMS = false
+    static let DEBUG_PRINT_VERTEX_NORMALS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
-    static let DEBUG_PRINT_BASIC_SE_PARAMS = true
-    static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = true
-    static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
+    static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = false
+    static let DEBUG_ADJUST_PERTURBATION_LIMITS = false
     
     @Published var blobCurve = [CGPoint]()
     
@@ -36,10 +36,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001  // kludge ahoy?
     
     var axes : Axes = (1, 1)
-
-    // MARK:-
-    // TODO: SEE NOTE in baseCurvePlusNormals() on possibly recasting as:
-    // TODO: var baseCurve: ([(vertex: CGPoint, normal: CGVector)]
     
     enum ZigZagType {
         case zig
@@ -152,7 +148,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             tuples += [(vertex: vertex, normal: normal)]
             // @@@@@@@@ NEW NEW NEW NEW NEW NEW NEW NEW NEW
             
-            if Model.DEBUG_PRINT_COORDS {
+            if Model.DEBUG_PRINT_VERTEX_NORMALS {
                 debugPrint(i: i, theta: theta, vertex: vertex, normal: normal)
                 i += 1
             }
