@@ -219,13 +219,14 @@ struct ZigZags : View {
     
     var body: some View {
         ZStack {
-            let lineSegStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+            
     // ZIG
             SuperEllipse(curve: curves.zig,
                          bezierType: .lineSegments)
-                .stroke(Color.red, style: lineSegStyle)
+                .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0, dash: [4,3]))
 
-            if ZigZags.SHOW_SMOOTHED_CURVES_TOO {
+            if ZigZags.SHOW_SMOOTHED_CURVES_TOO
+            {
                 SuperEllipse(curve: curves.zig,
                              bezierType: .lineSegments,
                              smoothed: true)
@@ -239,9 +240,10 @@ struct ZigZags : View {
     // ZAG
             SuperEllipse(curve: curves.zag,
                          bezierType: .lineSegments)
-                .stroke(Color.yellow, style: lineSegStyle)
+                .stroke(Color.yellow, style: StrokeStyle(lineWidth: 1.5, dash: [4,3]))
             
-            if ZigZags.SHOW_SMOOTHED_CURVES_TOO {
+            if ZigZags.SHOW_SMOOTHED_CURVES_TOO
+            {
                 SuperEllipse(curve: curves.zag,
                              bezierType: .lineSegments,
                              smoothed: true)

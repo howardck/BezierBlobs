@@ -68,12 +68,12 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
             print("Model.animateToNextZigZagPhase():: animateToZig == {\(animateToZigPhase)}")
         }
-        
         zigZagCurves = calculateRandomlyPerturbedZigZags(doZig: animateToZigPhase)
+
         blobCurve = animateToZigPhase ?
             zigZagCurves.zig :
             zigZagCurves.zag
-        
+
         animateToZigPhase.toggle()
     }
     

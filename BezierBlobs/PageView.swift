@@ -7,12 +7,28 @@
 
 import SwiftUI
 
+
+enum LayerType : Int {
+    case blob_stroked
+    case blob_filled
+    case blob_vertex_0_Marker
+    case blob_markers
+    case zigZagsPlusMarkers
+    case baseCurve
+    case baseCurve_markers
+    case normals
+    case envelopeBounds
+    case showAll
+    case hideAll
+}
+
 enum PageType : String {
     case circle = "ALMOST CIRCLE"
     case superEllipse = "SUPER-ELLIPSE BLOB"
     case deltaWing = "DELTA WING"
     case killerMoth = "MUTANT MOTH"
 }
+
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              offsets: (in: CGFloat, out: CGFloat),
@@ -30,7 +46,7 @@ struct PageView: View {
              offsets: (in: -0.2, out: 0.35), perturbLimits: (inner: 0.5, outer: 0.5), false),
             
             (numPoints: 6, n: 3,
-             offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.6, outer: 0.6), false),
+             offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.0, outer: 0.0), false),
             
             (numPoints: 24, n: 1.0,
              offsets: (in: 0.1, out: 0.5), perturbLimits: (inner: 0.5, outer: 0.5), false)
@@ -86,23 +102,20 @@ struct PageView: View {
         // NOTA: changes to .init's ordering here need to be reflected by similar
         // changes in enum LayerType case ordering -- obviated by better design perhaps?
         
-        .init(type: .blob_stroked, section: .animating, name: "blob stroked",
-              visible: true),
+        .init(type: .blob_stroked, section: .animating, name: "blob stroked"),
         .init(type: .blob_filled, section: .animating, name: "blob filled"),
-        .init(type: .blob_vertex_0_Marker, section: .animating, name: "blob / vertex 0 marker",
-              visible: true),
-        .init(type: .blob_markers, section: .animating, name: "blob / all vertex markers",
-              visible: true),
+        .init(type: .blob_vertex_0_Marker, section: .animating, name: "blob - vertex 0 marker",
+    visible: true),
+        .init(type: .blob_markers, section: .animating, name: "blob - all markers"),
+        .init(type: .zigZagsPlusMarkers, section : .animating, name: "zig-zags + markers"),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .baseCurve, section: .support, name: "base curve",
-              visible: true),
+    visible: true),
         .init(type: .baseCurve_markers, section : .support, name: "base curve markers",
-              visible: true),
+    visible: true),
         .init(type: .normals, section : .support, name: "normals"),
         .init(type: .envelopeBounds, section: .support,  name: "offset curves",
-              visible: true),
-        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags + markers",
-              visible: true),
+    visible: true),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
         .init(type: .hideAll, section: .control, name: "hide all layers")
@@ -234,6 +247,7 @@ struct PageView: View {
         {
             withAnimation(Animation.easeInOut(duration: 1.6))
             {
+               // model.animateBlobCurveToNextPhase()
                 model.animateToNextZigZagPhase()
             }
             

@@ -7,20 +7,6 @@
 
 import SwiftUI
 
-enum LayerType : Int {
-    case blob_stroked
-    case blob_filled
-    case blob_vertex_0_Marker
-    case blob_markers
-    case baseCurve
-    case baseCurve_markers
-    case normals
-    case envelopeBounds
-    case zigZagsPlusMarkers
-    case showAll
-    case hideAll
-}
-
 enum SectionType {
     case animating
     case support
