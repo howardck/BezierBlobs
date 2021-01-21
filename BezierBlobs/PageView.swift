@@ -60,7 +60,7 @@ struct PageView: View {
     var pageType: PageType
     
     @State var randomizeNextZigZagRedraw = false
-    @State var layerSelectionListIsVisible = false
+    @State var layerSelectionListIsVisible = true
     @State var layerDrawingOptionsListIsVisible = false
 
     /*
@@ -256,17 +256,17 @@ struct PageView: View {
                 
                 HStack { // so that lower Spacer() can push to left
                     
-                    
                     if layerSelectionListIsVisible {
                         ZStack
                         {
                             let s = CGSize(width: 300, height: 625)
-//                            LayerSelectionList(listItems: $superEllipseLayers)
-//                                .frame(width: s.width, height: s.height)
-//                                .padding(75)
-                            Text("I'm a list!")
+                            LayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
                                 .padding(75)
+                            
+//                            Text("I'm a list!")
+//                                .frame(width: s.width, height: s.height)
+//                                .padding(75)
                             
                             bezelFrame(color: .orange, size: s)
                         }
