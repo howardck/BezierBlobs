@@ -292,6 +292,19 @@ struct ZigZag_Markers : View {
     }
 }
 
+struct TestZigZagFills : View {
+    let curves: ZigZagCurves
+    var body: some View {
+        SuperEllipse(curve: curves.zig, bezierType: .lineSegments,
+                     smoothed: false)
+            //.fill(Color.init(white: 0.3))
+            .fill(Color.yellow)
+        SuperEllipse(curve: curves.zag, bezierType: .lineSegments)
+            //.fill(Color.init(white: 0.7))
+            .fill(Color.red)
+    }
+}
+
 //struct SuperEllipseStacks_Previews: PreviewProvider {
 //    static var previews: some View {
 //        AnimatingBlobLines(curve: )

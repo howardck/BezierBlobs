@@ -140,7 +140,6 @@ struct PageView: View {
     //MARK: show these SuperEllipse layer stacks if flagged.
     //MARK: higher-numbered stacks occlude lower ones
     //MARK:-
-
     // BLOB (ANIMATING -- FILLED)
             //MARK: layer 1.  AnimatingBlob_Filled
             
@@ -210,6 +209,8 @@ struct PageView: View {
                     AnimatingBlob_VertexOriginMarker(animatingCurve: model.blobCurve,
                                                      markerStyle: markerStyles[.vertexOrigin]!)
                 }
+                
+                TestZigZagFills(curves: model.zigZagCurves)
             }
         }
 //        .onAppear
