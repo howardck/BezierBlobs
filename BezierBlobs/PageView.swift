@@ -60,7 +60,7 @@ struct PageView: View {
     var pageType: PageType
     
     @State var randomizeNextZigZagRedraw = false
-    @State var layerSelectionListIsVisible = true
+    @State var layerSelectionListIsVisible = false
     @State var layerDrawingOptionsListIsVisible = false
 
     /*
@@ -256,6 +256,7 @@ struct PageView: View {
                 
                 HStack { // so that lower Spacer() can push to left
                     
+                    
                     if layerSelectionListIsVisible {
                         ZStack
                         {
@@ -269,15 +270,19 @@ struct PageView: View {
                             
                             bezelFrame(color: .orange, size: s)
                         }
+                        .border(Color.red)
                     }
                     else {
                         DrawingAndLayeringButtons(
                             drawingOptionsListVisible: $layerDrawingOptionsListIsVisible,
-                            layerSelectionListVisible: $layerSelectionListIsVisible)
+                            layerSelectionListVisible: $layerSelectionListIsVisible
+                        )
+                        .border(Color.white)
                     }
                     
                     Spacer() // pushes to the left in HStack
                 }
+                .border(Color.green)
             }
         )
     }
