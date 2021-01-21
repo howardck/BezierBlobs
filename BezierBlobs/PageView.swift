@@ -60,7 +60,7 @@ struct PageView: View {
     var pageType: PageType
     
     @State var randomizeNextZigZagRedraw = false
-    @State var layerSelectionListIsVisible = false
+    @State var layerSelectionListIsVisible = true
     @State var layerDrawingOptionsListIsVisible = false
 
     /*
@@ -253,48 +253,26 @@ struct PageView: View {
         .overlay(
             VStack {
                 Spacer()
+                
                 HStack {
                     if layerSelectionListIsVisible {
-                        
-                        // NB: padding might change w/ iPhone sizing ... (?)
-                        
-                        let s = CGSize(width: 300, height: 625)
-                        ZStack {
-                            // NOTA! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                            // see above note on PARTIAL_TEST_REWRITE_USING_LAYERS_DICT_NOT_ARRAY
-                            
-                            //LayerSelectionList(listItems: SELayers().$superEllipseLayers)
-                            
-                            LayerSelectionList(listItems: $superEllipseLayers)
+                        ZStack
+                        {
+                            let s = CGSize(width: 300, height: 625)
+//                            LayerSelectionList(listItems: $superEllipseLayers)
+//                                .frame(width: s.width, height: s.height)
+//                                .padding(75)
+                            Text("I'm a list!")
                                 .frame(width: s.width, height: s.height)
                                 .padding(75)
+                            
                             bezelFrame(color: .orange, size: s)
                         }
                     }
                     else {
-                        HStack {
-                            LayerDrawingOptionsButton(name: pencilInSquare,
-                                                      faceColor: .blue,
-                                                      edgeColor: .orange)
-                                .onTapGesture {
-                                    print("LayerDrawingOptionsButton tapped")
-                                    layerDrawingOptionsListIsVisible.toggle()
-                                }
-                            
-                            Spacer()
-                                .frame(width: 20, height: 1)
-                            
-                            LayerSelectionListButton(faceColor: .blue,
-                                                     edgeColor: .orange)
-                                .onTapGesture {
-                                    print("LayerSelectionListButton tapped")
-                                    layerSelectionListIsVisible.toggle()
-                                }
-                        }
-                        .border(Color.orange)
-                        .scaleEffect(1.4)
-                        .border(Color.red)
-                        .padding(75)
+                        DrawingAndLayeringButtons(
+                            drawingOptionsListVisible: $layerDrawingOptionsListIsVisible,
+                            layerSelectionListVisible: $layerSelectionListIsVisible)
                     }
                     Spacer() // pushes to the left in HStack
                 }
@@ -302,7 +280,36 @@ struct PageView: View {
         )
     }
     
-    // a little bit of eye candy
+    struct DrawingAndLayeringButtons : View {
+        @Binding var drawingOptionsListVisible : Bool
+        @Binding var layerSelectionListVisible : Bool
+        var body: some View {
+            HStack {
+                LayerDrawingOptionsButton(name: pencilInSquare,
+                                          faceColor: .blue,
+                                          edgeColor: .orange)
+                    .onTapGesture {
+                        print("LayerDrawingOptionsButton tapped")
+                        drawingOptionsListVisible.toggle()
+                    }
+                
+                Spacer()
+                    .frame(width: 20, height: 1)
+                
+                LayerSelectionListButton(faceColor: .blue,
+                                         edgeColor: .orange)
+                    .onTapGesture {
+                        print("LayerSelectionListButton tapped")
+                        layerSelectionListVisible.toggle()
+                    }
+            }
+            .scaleEffect(1.4)
+            .padding(75)
+
+        }
+    }
+    
+    // a bit of eye candy
     //MARK:-
     private func bezelFrame(color: Color, size: CGSize) -> some View {
         ZStack {
