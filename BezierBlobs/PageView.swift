@@ -212,10 +212,15 @@ struct PageView: View {
                 }
             }
         }
-        .onAppear()
-        {
-            print("PageView.onAppear(PageType.\(pageType.rawValue))" )
-        }
+//        .onAppear
+//        {
+//            print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
+//        }
+//        .onDisappear
+//        {
+//            print("PageView.onDisappear( PageType.\(pageType.rawValue) )")
+//        }
+
         // NOTA: check for 2 taps BEFORE checking for 1 tap.
         // this slows down the start of the animation slightly
         

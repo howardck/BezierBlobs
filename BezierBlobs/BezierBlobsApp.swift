@@ -12,6 +12,7 @@ struct BezierBlobsApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+//            TabViewTest()
         }
     }
 }

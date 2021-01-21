@@ -223,10 +223,12 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         
         self.perturbationLimits = match(perturbLimits: self.perturbationLimits, to: offsets)
         
+        // ---------------------------------------------------------
         boundingCurves = calculateBoundingCurves(using: self.offsets)
         normalsCurve = calculateNormalsPseudoCurve()
         zigZagCurves = calculateZigZagCurves_2(using: self.offsets)
-        
+        // ---------------------------------------------------------
+
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
             setInitialBlobCurve()
             ContentView.StatusTracker.markInited(pageType: pageType)
@@ -276,7 +278,8 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
     
     func randomlyPermutedZigCurve(eTuples: EnumeratedSequence<[(vertex: CGPoint, normal: CGVector)]>) -> [CGPoint] {
-        return eTuples.map {
+        
+        eTuples.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
                                 offsets.outer + random(maxPerturbation: perturbationLimits.outer) :
                                 offsets.inner + random(maxPerturbation: perturbationLimits.inner),
@@ -285,9 +288,8 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
 
     func randomlyPermutedZagCurve(eTuples: EnumeratedSequence<[(vertex: CGPoint, normal: CGVector)]>) -> [CGPoint] {
-        print("randomlyPermutedZagCurve()")
 
-        return eTuples.map {
+        eTuples.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
                                 offsets.inner + random(maxPerturbation: perturbationLimits.inner) :
                                 offsets.outer + random(maxPerturbation: perturbationLimits.outer),
