@@ -41,13 +41,13 @@ struct PageView: View {
             (numPoints: 12, n: 2.5,
              offsets: (in: -0.25, out: 0.2), perturbLimits: (inner: 0.7, outer: 0.7), forceEqualAxes: true),
 //             offsets: (in: -0.25, out: 0.35), perturbLimits: (inner: 0.5, outer: 0.6), forceEqualAxes: true),
-            
+
             (numPoints: 22, n: 3.5,
              offsets: (in: -0.2, out: 0.35), perturbLimits: (inner: 0.5, outer: 0.5), false),
-            
+
             (numPoints: 6, n: 3,
              offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.0, outer: 0.0), false),
-            
+
             (numPoints: 24, n: 1.0,
              offsets: (in: 0.1, out: 0.5), perturbLimits: (inner: 0.5, outer: 0.5), false)
         ]
@@ -60,7 +60,7 @@ struct PageView: View {
     var pageType: PageType
     
     @State var randomizeNextZigZagRedraw = false
-    @State var layerSelectionListIsVisible = true
+    @State var layerSelectionListIsVisible = false
     @State var layerDrawingOptionsListIsVisible = false
 
     /*
@@ -105,12 +105,12 @@ struct PageView: View {
         .init(type: .zigZagsPlusMarkers, section : .animating, name: "zig-zags + markers"),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .baseCurve, section: .support, name: "base curve",
-    visible: true),
+    visible: false),
         .init(type: .baseCurve_markers, section : .support, name: "base curve markers",
-    visible: true),
+    visible: false),
         .init(type: .normals, section : .support, name: "normals"),
         .init(type: .envelopeBounds, section: .support,  name: "offset curves",
-    visible: true),
+    visible: false),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
         .init(type: .hideAll, section: .control, name: "hide all layers")
