@@ -254,7 +254,8 @@ struct PageView: View {
             VStack {
                 Spacer()
                 
-                HStack {
+                HStack { // so that lower Spacer() can push to left
+                    
                     if layerSelectionListIsVisible {
                         ZStack
                         {
@@ -274,6 +275,7 @@ struct PageView: View {
                             drawingOptionsListVisible: $layerDrawingOptionsListIsVisible,
                             layerSelectionListVisible: $layerSelectionListIsVisible)
                     }
+                    
                     Spacer() // pushes to the left in HStack
                 }
             }
