@@ -54,7 +54,7 @@ struct PencilSymbol: View {
     }
 }
 
-struct LayerDrawingOptionsButton : View {
+struct DrawingOptionsButton : View {
     let name: String
     var faceColor: Color
     var edgeColor: Color
@@ -109,19 +109,19 @@ struct ScreenButtons_Previews: PreviewProvider {
         ZStack {
             Color.init(white: 0.4)
             VStack {
-                LayerDrawingOptionsButton(name: pencil,
+                DrawingOptionsButton(name: pencil,
                                           faceColor: .blue,
                                           edgeColor: .pink)
                     .border(Color.pink, width: 0.5)
-                LayerDrawingOptionsButton(name: pencilInSquare,
+                DrawingOptionsButton(name: pencilInSquare,
                                           faceColor: .blue,
                                           edgeColor: .pink)
                     .border(Color.pink, width: 0.5)
-                LayerDrawingOptionsButton(name: pencilWithEllipsis,
+                DrawingOptionsButton(name: pencilWithEllipsis,
                                           faceColor: .blue,
                                           edgeColor: .orange)
                     .border(Color.pink, width: 0.5)
-                LayerDrawingOptionsButton(name: pencilInsideSquiggle,
+                DrawingOptionsButton(name: pencilInsideSquiggle,
                                           faceColor: .blue,
                                           edgeColor: .orange)
                     .border(Color.pink, width: 0.5)

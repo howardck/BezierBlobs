@@ -275,7 +275,7 @@ struct PageView: View {
                         .padding(75)
                     }
                     
-                    Spacer() // pushes to the left in HStack
+                    Spacer() // pushes to the left
                 }
             }
         )
@@ -287,11 +287,11 @@ struct PageView: View {
         
         var body: some View {
             HStack {
-                LayerDrawingOptionsButton(name: pencilInSquare,
+                DrawingOptionsButton(name: pencilInSquare,
                                           faceColor: .blue,
                                           edgeColor: .orange)
                     .onTapGesture {
-                        print("LayerDrawingOptionsButton tapped")
+                        print("DrawingOptions Button tapped")
                         showDrawingOptionsList.toggle()
                     }
                 
@@ -301,7 +301,7 @@ struct PageView: View {
                 LayerSelectionListButton(faceColor: .blue,
                                          edgeColor: .orange)
                     .onTapGesture {
-                        print("LayerSelectionListButton tapped")
+                        print("LayerSelectionList Button tapped")
                         showLayerSelectionList.toggle()
                     }
             }
@@ -323,7 +323,9 @@ struct PageView: View {
     }
 
     private func pageGradientBackground() -> some View {
-        let colors : [Color] = [.init(white: 0.65), .init(white: 0.3)]
+//        let colors : [Color] = [.init(white: 0.65), .init(white: 0.3)]
+        let colors : [Color] = [.init(white: 0.7), .init(white: 0.25)]
+
         return LinearGradient(gradient: Gradient(colors: colors),
                               startPoint: .topLeading,
                               endPoint: .bottom)

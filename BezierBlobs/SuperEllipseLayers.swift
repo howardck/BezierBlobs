@@ -22,8 +22,8 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .blue, radius: r + 2),
-    .vertexOrigin :     (color: .green, radius : r + 2),
+    .blob :             (color: .green, radius: r + 2),
+    .vertexOrigin :     (color: .yellow, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r + 2),
     .zig :              (color: .red, radius : r - 3),
@@ -44,6 +44,12 @@ struct AnimatingBlob_Filled: View {
                          bezierType: .lineSegments,
                          smoothed: true)
                 .fill(gradient)
+            
+            // subtle touch; makes the edge just a bit more 'crisp'
+            SuperEllipse(curve: curve,
+                         bezierType: .lineSegments,
+                         smoothed: true)
+                .stroke(Color.init(white: 0.35), lineWidth: 1)
         }
     }
 }
@@ -61,8 +67,9 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: true)
-                .stroke(Color.init(white: 0.1), lineWidth: 15)
-//                .stroke(Color.green, lineWidth: 15)
+               // .stroke(Color.init(white: 0.2), lineWidth: 15)
+                .stroke(Color.blue, lineWidth: 12)
+//                .stroke(Color.green, lineWidth: 10)
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
@@ -177,6 +184,7 @@ struct BaseCurve_Markers : View {
 }
 
 //MARK:-
+// AKA Curve Offsets
 struct EnvelopeBounds : View {
     var curves: BoundingCurves
     var style : MarkerStyle
@@ -213,8 +221,9 @@ struct EnvelopeBounds : View {
 struct ZigZags : View {
     var curves: ZigZagCurves
     
-    // IMO too busy if we show smoothed variants as well
-    // however just in case you think it's worth a look ...
+    // an interesting effect that IMO makes things just a bit too
+    // busy looking; it's here just in case you think it's worth a look.
+    
     static let SHOW_SMOOTHED_CURVES_TOO = false
     
     var body: some View {
