@@ -270,19 +270,16 @@ struct PageView: View {
                             
                             bezelFrame(color: .orange, size: s)
                         }
-                        .border(Color.red)
                     }
                     else {
                         DrawingAndLayeringButtons(
                             drawingOptionsListVisible: $layerDrawingOptionsListIsVisible,
                             layerSelectionListVisible: $layerSelectionListIsVisible
                         )
-                        .border(Color.white)
                     }
                     
                     Spacer() // pushes to the left in HStack
                 }
-                .border(Color.green)
             }
         )
     }
