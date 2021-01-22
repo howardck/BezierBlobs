@@ -14,7 +14,7 @@ struct MainScreenLayoutTest: View {
     
     var body: some View {
         
-        Text("Hello, World! Now is the time to vote. Like me, love my dog!")
+        Text("Hello, World! Now is the time to vote. I'm pretending to be a List!")
             .font(.title2)
             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .foregroundColor(.black)
@@ -25,21 +25,21 @@ struct MainScreenLayoutTest: View {
             }
             
             .overlay(
-                showListOrTwoButtons(showList: showList, bottomLeftPadding: 60)
+                showListOrTwoButtons(showList: showList, padding: 60)
             )
     }
     
-    func showListOrTwoButtons(showList: Bool, bottomLeftPadding: CGFloat) -> some View {
+    func showListOrTwoButtons(showList: Bool, padding: CGFloat) -> some View {
         VStack {
-            Spacer() // push either object downward
+            Spacer() // push the choosen object downward
             HStack {
                 if showList {
-                    ListThingie(size: size).padding(bottomLeftPadding)
+                    ListThingie(size: size).padding(padding)
                 }
                 else {
-                    TwoButtons(size: size).padding(bottomLeftPadding)
+                    TwoButtons(size: size).padding(padding)
                 }
-                Spacer() // push either object to the left
+                Spacer() // push the choosen object to the left
             }
         }
     }

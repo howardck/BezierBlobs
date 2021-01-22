@@ -60,8 +60,8 @@ struct PageView: View {
     var pageType: PageType
     
     @State var randomizeNextZigZagRedraw = false
-    @State var layerSelectionListIsVisible = true
-    @State var layerDrawingOptionsListIsVisible = false
+    @State var showLayerSelectionList = true
+    @State var showDrawingOptionsPanel = false
 
     /*
      EXPERIMENTAL
@@ -91,8 +91,8 @@ struct PageView: View {
     //MARK:- [SuperEllipseLayers] array initialization
     @State var superEllipseLayers : [SuperEllipseLayer] =
     [
-        // 'visible: true' set here determines initial appearance;
-        // switchable thereafter via checkmark in the LayerSelectionList dlog
+        // 'visible = true' here determines the initial appearance or lack thereof.
+        // this is switchable thereafter via selection in the LayerSelectionList dlog
         
         // NOTA: changes to .init's ordering here need to be reflected by similar
         // changes in enum LayerType case ordering -- obviated by better design perhaps?
@@ -105,12 +105,12 @@ struct PageView: View {
         .init(type: .zigZagsPlusMarkers, section : .animating, name: "zig-zags + markers"),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .baseCurve, section: .support, name: "base curve",
-    visible: false),
+    visible: true),
         .init(type: .baseCurve_markers, section : .support, name: "base curve markers",
-    visible: false),
+    visible: true),
         .init(type: .normals, section : .support, name: "normals"),
-        .init(type: .envelopeBounds, section: .support,  name: "offset curves",
-    visible: false),
+        .init(type: .envelopeBounds, section: .support,  name: "offsets",
+    visible: true),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
         .init(type: .hideAll, section: .control, name: "hide all layers")
@@ -238,8 +238,8 @@ struct PageView: View {
                 model.animateToNextZigZagPhase()
             }
             
-            if layerSelectionListIsVisible {
-                layerSelectionListIsVisible.toggle()
+            if showLayerSelectionList {
+                showLayerSelectionList.toggle()
             }
         }
             
@@ -249,33 +249,30 @@ struct PageView: View {
         .overlay(displaySuperEllipseMetrics())
         .displayScreenSizeMetrics(frontColor: .black, backColor: Color.init(white: 0.6))
         
-        // push both Screen Buttons down to lower-left corner
+        // push LayerSelectionList & TwoButtonPanel into the
+        // lower-left corner. only one of them is visible at a time.
+        
         .overlay(
             VStack {
                 Spacer()
-                
-                HStack { // so that lower Spacer() can push to left
+                HStack {
+                    let s = CGSize(width: 250, height: 625)
                     
-                    if layerSelectionListIsVisible {
-                        ZStack
-                        {
-                            let s = CGSize(width: 300, height: 625)
+                    if showLayerSelectionList {
+                        ZStack {
                             LayerSelectionList(listItems: $superEllipseLayers)
                                 .frame(width: s.width, height: s.height)
-                                .padding(75)
-                            
-//                            Text("I'm a list!")
-//                                .frame(width: s.width, height: s.height)
-//                                .padding(75)
                             
                             bezelFrame(color: .orange, size: s)
                         }
+                        .padding(75)
                     }
                     else {
                         DrawingAndLayeringButtons(
-                            drawingOptionsListVisible: $layerDrawingOptionsListIsVisible,
-                            layerSelectionListVisible: $layerSelectionListIsVisible
+                            showDrawingOptionsList: $showDrawingOptionsPanel,
+                            showLayerSelectionList: $showLayerSelectionList
                         )
+                        .padding(75)
                     }
                     
                     Spacer() // pushes to the left in HStack
@@ -285,8 +282,9 @@ struct PageView: View {
     }
     
     struct DrawingAndLayeringButtons : View {
-        @Binding var drawingOptionsListVisible : Bool
-        @Binding var layerSelectionListVisible : Bool
+        @Binding var showDrawingOptionsList : Bool
+        @Binding var showLayerSelectionList : Bool
+        
         var body: some View {
             HStack {
                 LayerDrawingOptionsButton(name: pencilInSquare,
@@ -294,22 +292,20 @@ struct PageView: View {
                                           edgeColor: .orange)
                     .onTapGesture {
                         print("LayerDrawingOptionsButton tapped")
-                        drawingOptionsListVisible.toggle()
+                        showDrawingOptionsList.toggle()
                     }
                 
                 Spacer()
-                    .frame(width: 20, height: 1)
+                    .frame(width: 60, height: 1)
                 
                 LayerSelectionListButton(faceColor: .blue,
                                          edgeColor: .orange)
                     .onTapGesture {
                         print("LayerSelectionListButton tapped")
-                        layerSelectionListVisible.toggle()
+                        showLayerSelectionList.toggle()
                     }
             }
             .scaleEffect(1.4)
-            .padding(75)
-
         }
     }
     
