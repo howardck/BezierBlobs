@@ -61,12 +61,12 @@ struct PageView: View {
     
     @State var randomizeNextZigZagRedraw = false
     @State var showLayerSelectionList = true
-    @State var showDrawingOptionsPanel = false
+    @State var showDrawingOptionsList = false
 
     /*
      EXPERIMENTAL
      unfinished exploration of using a dictionary for superEllipseLayers
-     in order to call (eg)
+     with bindings working in order to so something like ...
     
         if SELayers().isVisible(layerType: .blob_filled) {
             AnimatingBlob_Filled(curve: model.blobCurve)
@@ -99,7 +99,7 @@ struct PageView: View {
         
         .init(type: .blob_stroked, section: .animating, name: "blob stroked"),
         .init(type: .blob_filled, section: .animating, name: "blob filled"),
-        .init(type: .blob_vertex_0_Marker, section: .animating, name: "blob - vertex 0 marker",
+        .init(type: .blob_vertex_0_Marker, section: .animating, name: "blob - vertex [0] marker",
     visible: true),
         .init(type: .blob_markers, section: .animating, name: "blob - all markers"),
         .init(type: .zigZagsPlusMarkers, section : .animating, name: "zig-zags + markers"),
@@ -256,7 +256,7 @@ struct PageView: View {
             VStack {
                 Spacer()
                 HStack {
-                    let s = CGSize(width: 250, height: 625)
+                    let s = CGSize(width: 270, height: 625)
                     
                     if showLayerSelectionList {
                         ZStack {
@@ -269,7 +269,7 @@ struct PageView: View {
                     }
                     else {
                         DrawingAndLayeringButtons(
-                            showDrawingOptionsList: $showDrawingOptionsPanel,
+                            showDrawingOptionsList: $showDrawingOptionsList,
                             showLayerSelectionList: $showLayerSelectionList
                         )
                         .padding(75)
