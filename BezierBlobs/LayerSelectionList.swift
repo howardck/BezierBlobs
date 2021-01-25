@@ -39,7 +39,7 @@ struct LayerSelectionList: View {
     
     var body: some View
     {
-        List () {
+        List {
             
 //            Section() {
 //                    Text("Experimenting w/ a List Header...")
@@ -50,33 +50,33 @@ struct LayerSelectionList: View {
             
     // ANIMATED LAYERS
             Section(header: sectionHeader_animation.padding(8)) {
-                let section : SectionType = .animating
-                let itemsInSection = listItems.filter{ $0.section == section }
+                let s = SectionType.animating
+                let items = listItems.filter{ $0.section == s }
                 
-                ForEach( itemsInSection, id: \.type ) { item in
-                    handleCheckmarksForTapped(item: item, in: section)
+                ForEach(items, id: \.type ) { item in
+                    handleCheckmarksForTapped(item: item, in: s)
                 }
             }
             .textCase(.lowercase)
             
     // STATIC SUPPORT LAYERS
             Section(header: sectionHeader_support.padding(8)) {
-                let section : SectionType = .support
-                let itemsInSection = listItems.filter{ $0.section == section }
+                let s = SectionType.support
+                let items = listItems.filter{ $0.section == s }
                 
-                ForEach(itemsInSection, id: \.type ) { item in
-                    handleCheckmarksForTapped(item: item, in: section)
+                ForEach(items, id: \.type ) { item in
+                    handleCheckmarksForTapped(item: item, in: s)
                 }
             }
             .textCase(.lowercase)
             
     // SHOW ALL/HIDE ALL CONTROLS
             Section(header: sectionHeader_control.padding(8)) {
-                let section : SectionType = .control
-                let itemsInSection = listItems.filter{ $0.section == section }
+                let s = SectionType.control
+                let items = listItems.filter{ $0.section == s }
                 
-                ForEach( itemsInSection, id: \.type ) { item in
-                    handleCheckmarksForTapped(item: item, in: section)
+                ForEach(items, id: \.type ) { item in
+                    handleCheckmarksForTapped(item: item, in: s)
                 }
             }
             .textCase(.lowercase)

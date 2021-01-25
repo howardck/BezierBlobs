@@ -212,14 +212,14 @@ struct PageView: View {
                 }
             }
         }
-//        .onAppear
-//        {
-//            print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
-//        }
-//        .onDisappear
-//        {
-//            print("PageView.onDisappear( PageType.\(pageType.rawValue) )")
-//        }
+        .onAppear
+        {
+            print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
+        }
+        .onDisappear
+        {
+            print("PageView.onDisappear( PageType.\(pageType.rawValue) )")
+        }
 
         // NOTA: check for 2 taps BEFORE checking for 1 tap.
         // this slows down the start of the animation slightly
@@ -258,10 +258,23 @@ struct PageView: View {
                 HStack {
                     let s = CGSize(width: 270, height: 625)
                     
+                    let range123 = 1..<4
+                    let range456 = 4..<7
+
                     if showLayerSelectionList {
                         ZStack {
-                            LayerSelectionList(listItems: $superEllipseLayers)
-                                .frame(width: s.width, height: s.height)
+                            //LayerSelectionList(listItems: $superEllipseLayers)
+                                             
+                            List {
+//                                Section(header: Text("range 123")) {
+//                                    ForEach( range123 ) { i in Text("\(i)") }
+//                                }
+//
+//                                Section(header: Text("range 456")) {
+//                                    ForEach( range456 ) { j in Text("\(j)") }
+//                                }
+                            }
+                            .frame(width: s.width, height: s.height)
                             
                             bezelFrame(color: .orange, size: s)
                         }
