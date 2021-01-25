@@ -253,39 +253,31 @@ struct PageView: View {
         // lower-left corner. only one of them is visible at a time.
         
         .overlay(
+            
             VStack {
-                Spacer()
-                HStack {
-                    let s = CGSize(width: 270, height: 625)
-                    
-                    let range123 = 1..<4
-                    let range456 = 4..<7
+                let s = CGSize(width: 270, height: 625)
 
+                Spacer()
+                
+                HStack {
                     if showLayerSelectionList {
                         ZStack {
-                            //LayerSelectionList(listItems: $superEllipseLayers)
-                                             
-                            List {
-                                Section(header: Text("range 123")) {
-                                    ForEach( range123 ) { i in Text("\(i)") }
-                                }
-
-                                Section(header: Text("range 456")) {
-                                    ForEach( range456 ) { j in Text("\(j)") }
-                                }
-                            }
+                            LayerSelectionList(listItems: $superEllipseLayers)
                             .frame(width: s.width, height: s.height)
-                            
                             bezelFrame(color: .orange, size: s)
                         }
-                        .padding(75)
+                        .padding(60)
                     }
                     else {
-                        DrawingAndLayeringButtons(
-                            showDrawingOptionsList: $showDrawingOptionsList,
-                            showLayerSelectionList: $showLayerSelectionList
-                        )
-                        .padding(75)
+                        
+                        LayerSelectionListButton(faceColor: .blue,
+                                                 edgeColor: .orange)
+                            .onTapGesture {
+                                print("LayerSelectionList Button tapped")
+                                showLayerSelectionList.toggle()
+                            }
+                            .scaleEffect(1.4)
+                            .padding(EdgeInsets(top: 0, leading: 120, bottom: 80, trailing: 0))
                     }
                     
                     Spacer() // pushes to the left
