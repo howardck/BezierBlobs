@@ -266,13 +266,13 @@ struct PageView: View {
                             //LayerSelectionList(listItems: $superEllipseLayers)
                                              
                             List {
-//                                Section(header: Text("range 123")) {
-//                                    ForEach( range123 ) { i in Text("\(i)") }
-//                                }
-//
-//                                Section(header: Text("range 456")) {
-//                                    ForEach( range456 ) { j in Text("\(j)") }
-//                                }
+                                Section(header: Text("range 123")) {
+                                    ForEach( range123 ) { i in Text("\(i)") }
+                                }
+
+                                Section(header: Text("range 456")) {
+                                    ForEach( range456 ) { j in Text("\(j)") }
+                                }
                             }
                             .frame(width: s.width, height: s.height)
                             
