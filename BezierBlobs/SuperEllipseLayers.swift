@@ -22,20 +22,22 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .green, radius: r + 2),
-    .vertexOrigin :     (color: .red, radius : r + 2),
+    .blob :             (color: .blue, radius: r + 2),
+    .vertexOrigin :     (color: .green, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r + 2),
     .zig :              (color: .red, radius : r - 3),
     .zag :              (color: .yellow, radius: r - 3)
 ]
 
-let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
+//let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
+let blueGradient = Gradient(colors: [.blue, .init(white: 0.75)])
 let redGradient = Gradient(colors: [.red, .yellow])
+let orangeNonGradient = Gradient(colors: [.orange, .orange])
 
 struct AnimatingBlob_Filled: View {
     var curve: [CGPoint]
-    let gradient = LinearGradient(gradient: redGradient,
+    let gradient = LinearGradient(gradient: blueGradient,
                                  startPoint: .topLeading,
                                  endPoint: .bottomTrailing)
     var body : some View {
@@ -67,8 +69,8 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: true)
-               // .stroke(Color.init(white: 0.2), lineWidth: 15)
-                .stroke(Color.blue, lineWidth: 12)
+                .stroke(Color.init(white: 0.15), lineWidth: 12)
+//                .stroke(Color.blue, lineWidth: 12)
 //                .stroke(Color.green, lineWidth: 10)
             
             SuperEllipse(curve: curve,

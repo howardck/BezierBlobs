@@ -38,12 +38,11 @@ struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            (numPoints: 12, n: 2.5,
-             offsets: (in: -0.25, out: 0.2), perturbLimits: (inner: 0.7, outer: 0.7), forceEqualAxes: true),
-//             offsets: (in: -0.25, out: 0.35), perturbLimits: (inner: 0.5, outer: 0.6), forceEqualAxes: true),
+            (numPoints: 12, n: 1.75,
+             offsets: (in: -0.25, out: 0.2), perturbLimits: (inner: 0.7, outer: 1.2), forceEqualAxes: true),
 
-            (numPoints: 22, n: 3.5,
-             offsets: (in: -0.2, out: 0.35), perturbLimits: (inner: 0.5, outer: 0.5), false),
+            (numPoints: 20, n: 3.5,
+             offsets: (in: -0.2, out: 0.3), perturbLimits: (inner: 0.6, outer: 0.8), false),
 
             (numPoints: 6, n: 3,
              offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.0, outer: 0.0), false),
@@ -97,7 +96,8 @@ struct PageView: View {
         // NOTA: changes to .init's ordering here need to be reflected by similar
         // changes in enum LayerType case ordering -- obviated by better design perhaps?
         
-        .init(type: .blob_stroked, section: .animating, name: "blob stroked"),
+        .init(type: .blob_stroked, section: .animating, name: "blob stroked",
+    visible: true),
         .init(type: .blob_filled, section: .animating, name: "blob filled"),
         .init(type: .blob_vertex_0_Marker, section: .animating, name: "blob - vertex [0] marker",
     visible: true),
@@ -109,7 +109,7 @@ struct PageView: View {
         .init(type: .baseCurve_markers, section : .support, name: "base curve markers",
     visible: true),
         .init(type: .normals, section : .support, name: "normals"),
-        .init(type: .envelopeBounds, section: .support,  name: "offsets",
+        .init(type: .envelopeBounds, section: .support,  name: "offset curves",
     visible: true),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
@@ -144,14 +144,14 @@ struct PageView: View {
     // BLOB (ANIMATING -- FILLED)
             //MARK: layer 1.  AnimatingBlob_Filled
             
-                if superEllipseLayers[LayerType.blob_filled.rawValue].visible {
-                    AnimatingBlob_Filled(curve: model.blobCurve)
-                }
-                
-    // BLOB (ANIMATING -- STROKED)
-                //MARK: layer 2.  AnimatingBlob_Stroked
-                if superEllipseLayers[LayerType.blob_stroked.rawValue].visible {
-                    AnimatingBlob_Stroked(curve: model.blobCurve)
+            if superEllipseLayers[LayerType.blob_filled.rawValue].visible {
+                AnimatingBlob_Filled(curve: model.blobCurve)
+            }
+            
+            // BLOB (ANIMATING -- STROKED)
+            //MARK: layer 2.  AnimatingBlob_Stroked
+            if superEllipseLayers[LayerType.blob_stroked.rawValue].visible {
+                AnimatingBlob_Stroked(curve: model.blobCurve)
                 }
             
     // ZIG-ZAGS -- CURVES
@@ -329,7 +329,7 @@ struct PageView: View {
 
     private func pageGradientBackground() -> some View {
 //        let colors : [Color] = [.init(white: 0.65), .init(white: 0.3)]
-        let colors : [Color] = [.init(white: 0.7), .init(white: 0.25)]
+        let colors : [Color] = [.init(white: 0.7), .init(white: 0.3)]
 
         return LinearGradient(gradient: Gradient(colors: colors),
                               startPoint: .topLeading,
