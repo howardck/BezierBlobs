@@ -273,7 +273,7 @@ struct PageView: View {
                         LayerSelectionListButton(faceColor: .blue,
                                                  edgeColor: .orange)
                             .onTapGesture {
-                                print("LayerSelectionList Button tapped")
+                                //print("LayerSelectionList Button tapped")
                                 showLayerSelectionList.toggle()
                             }
                             .scaleEffect(1.4)
