@@ -57,6 +57,7 @@ struct PageView: View {
     let size: CGSize
     
     var pageType: PageType
+    @State var isAnimating = false
     
     @State var randomizeNextZigZagRedraw = false
     @State var showLayerSelectionList = true
@@ -263,8 +264,10 @@ struct PageView: View {
                     if showLayerSelectionList {
                         ZStack {
                             LayerSelectionList(listItems: $superEllipseLayers)
-                            .frame(width: s.width, height: s.height)
-                            bezelFrame(color: .orange, size: s)
+                                .frame(width: s.width, height: s.height)
+                                .overlay(
+                                    BezelFrame(color: .orange, size: s)
+                                )
                         }
                         .padding(60)
                     }
@@ -311,6 +314,22 @@ struct PageView: View {
                     }
             }
             .scaleEffect(1.4)
+        }
+    }
+    
+    struct BezelFrame : View {
+        let color: Color
+        let size: CGSize
+        
+        var body: some View {
+            ZStack {
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(color, lineWidth: 8)
+                    .frame(width: size.width, height: size.height)
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(Color.white, lineWidth: 1.25)
+                    .frame(width: size.width, height: size.height)
+            }
         }
     }
     

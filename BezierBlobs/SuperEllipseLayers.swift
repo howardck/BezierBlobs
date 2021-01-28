@@ -23,7 +23,7 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 2),
-    .vertexOrigin :     (color: .green, radius : r + 2),
+    .vertexOrigin :     (color: .red, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r + 2),
     .zig :              (color: .red, radius : r - 3),
