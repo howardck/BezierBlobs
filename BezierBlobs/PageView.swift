@@ -8,20 +8,6 @@
 import SwiftUI
 
 
-enum LayerType : Int {
-    case blob_stroked
-    case blob_filled
-    case blob_vertex_0_Marker
-    case blob_markers
-    case zigZagsPlusMarkers
-    case baseCurve
-    case baseCurve_markers
-    case normals
-    case envelopeBounds
-    case showAll
-    case hideAll
-}
-
 enum PageType : String {
     case circle = "ALMOST CIRCLE"
     case superEllipse = "SUPER-ELLIPSE BLOB"

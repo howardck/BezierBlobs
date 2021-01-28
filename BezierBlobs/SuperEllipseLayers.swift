@@ -6,8 +6,20 @@
 //
 
 import SwiftUI
-                           
-let orangeish = Gradient(colors: [.yellow, .red])
+
+enum LayerType : Int {
+    case blob_stroked
+    case blob_filled
+    case blob_vertex_0_Marker
+    case blob_markers
+    case zigZagsPlusMarkers
+    case baseCurve
+    case baseCurve_markers
+    case normals
+    case envelopeBounds
+    case showAll
+    case hideAll
+}
 
 enum MarkerType : CaseIterable {
     case blob
@@ -31,13 +43,14 @@ let markerStyles : [MarkerType : MarkerStyle] = [
 ]
 
 //let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
+let orangeish = Gradient(colors: [.red, .orange, .white])
 let blueGradient = Gradient(colors: [.blue, .init(white: 0.45)])
 let redGradient = Gradient(colors: [.red, .yellow])
 let orangeNonGradient = Gradient(colors: [.orange, .orange])
 
 struct AnimatingBlob_Filled: View {
     var curve: [CGPoint]
-    let gradient = LinearGradient(gradient: blueGradient,
+    let gradient = LinearGradient(gradient: orangeish,
                                  startPoint: .topLeading,
                                  endPoint: .bottomTrailing)
     var body : some View {
