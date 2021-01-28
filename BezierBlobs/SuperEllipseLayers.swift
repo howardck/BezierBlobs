@@ -43,7 +43,7 @@ let markerStyles : [MarkerType : MarkerStyle] = [
 ]
 
 //let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
-let orangeish = Gradient(colors: [.red, .orange, .white])
+let orangeish = Gradient(colors: [.red, .orange, .black])
 let blueGradient = Gradient(colors: [.blue, .init(white: 0.45)])
 let redGradient = Gradient(colors: [.red, .yellow])
 let orangeNonGradient = Gradient(colors: [.orange, .orange])
