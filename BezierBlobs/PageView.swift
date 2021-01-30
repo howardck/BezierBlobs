@@ -9,8 +9,8 @@ import SwiftUI
 
 
 enum PageType : String {
-    case circle = "ALMOST CIRCLE"
-    case superEllipse = "SUPER-ELLIPSE BLOB"
+    case circle = "CIRCLE"
+    case superEllipse = "SUPERELLIPSE"
     case deltaWing = "DELTA WING"
     case killerMoth = "MUTANT MOTH"
 }
@@ -24,11 +24,11 @@ struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            (numPoints: 12, n: 1.75,
+            (numPoints: 12, n: 2.0,
              offsets: (in: -0.25, out: 0.2), perturbLimits: (inner: 0.7, outer: 1.2), forceEqualAxes: true),
 
-            (numPoints: 20, n: 3.5,
-             offsets: (in: -0.2, out: 0.3), perturbLimits: (inner: 0.6, outer: 0.8), false),
+            (numPoints: 20, n: 3.8,
+             offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
 
             (numPoints: 6, n: 3,
              offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.0, outer: 0.0), false),
@@ -46,18 +46,10 @@ struct PageView: View {
     @State var isAnimating = false
     
     @State var randomizeNextZigZagRedraw = false
-    @State var showLayerSelectionList = true
+    @State var showLayerSelectionList = false
     @State var showDrawingOptionsList = false
 
-    /*
-     EXPERIMENTAL
-     unfinished exploration of using a dictionary for superEllipseLayers
-     with bindings working in order to so something like ...
-    
-        if SELayers().isVisible(layerType: .blob_filled) {
-            AnimatingBlob_Filled(curve: model.blobCurve)
-        }
-    */
+
     struct SELayers {
 
         // bit of play with a dictionary of layers rather than an array
@@ -83,21 +75,21 @@ struct PageView: View {
         // NOTA: changes to .init's ordering here need to be reflected by similar
         // changes in enum LayerType case ordering -- obviated by better design perhaps?
         
-        .init(type: .blob_stroked, section: .animating, name: "blob stroked",
+        .init(type: .blob_stroked, section: .animating, name: "stroked",
     visible: true),
-        .init(type: .blob_filled, section: .animating, name: "blob filled"),
-        .init(type: .blob_vertex_0_Marker, section: .animating, name: "blob - vertex [0] marker",
+        .init(type: .blob_filled, section: .animating, name: "filled", visible: true),
+        .init(type: .blob_vertex_0_Marker, section: .animating, name: "vertex [0] marker",
     visible: true),
-        .init(type: .blob_markers, section: .animating, name: "blob - all markers"),
-        .init(type: .zigZagsPlusMarkers, section : .animating, name: "zig-zags + markers"),
+        .init(type: .blob_markers, section: .animating, name: "all markers", visible: false),
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .baseCurve, section: .support, name: "base curve",
-    visible: true),
+    visible: false),
         .init(type: .baseCurve_markers, section : .support, name: "base curve markers",
-    visible: true),
+    visible: false),
         .init(type: .normals, section : .support, name: "normals"),
-        .init(type: .envelopeBounds, section: .support,  name: "offset curves",
-    visible: true),
+        .init(type: .envelopeBounds, section: .support,  name: "envelope (offset curves)"),
+        .init(type: .zigZagsPlusMarkers, section : .support, name: "zig-zags + markers"),
+
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         .init(type: .showAll, section: .control, name: "show all layers"),
         .init(type: .hideAll, section: .control, name: "hide all layers")
@@ -255,7 +247,7 @@ struct PageView: View {
                                     BezelFrame(color: .orange, size: s)
                                 )
                         }
-                        .padding(60)
+                        .padding(50)
                     }
                     else {
                         
@@ -266,7 +258,7 @@ struct PageView: View {
                                 showLayerSelectionList.toggle()
                             }
                             .scaleEffect(1.4)
-                            .padding(EdgeInsets(top: 0, leading: 120, bottom: 80, trailing: 0))
+                            .padding(EdgeInsets(top: 0, leading: 80, bottom: 80, trailing: 0))
                     }
                     
                     Spacer() // pushes to the left

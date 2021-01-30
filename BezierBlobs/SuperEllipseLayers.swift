@@ -12,11 +12,11 @@ enum LayerType : Int {
     case blob_filled
     case blob_vertex_0_Marker
     case blob_markers
-    case zigZagsPlusMarkers
     case baseCurve
     case baseCurve_markers
     case normals
     case envelopeBounds
+    case zigZagsPlusMarkers
     case showAll
     case hideAll
 }
@@ -35,7 +35,7 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 2),
-    .vertexOrigin :     (color: .red, radius : r + 2),
+    .vertexOrigin :     (color: .green, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: 8),
     .baseCurve :        (color: .white, radius: r + 2),
     .zig :              (color: .red, radius : r - 3),
@@ -46,11 +46,13 @@ let markerStyles : [MarkerType : MarkerStyle] = [
 let orangeish = Gradient(colors: [.red, .orange, .black])
 let blueGradient = Gradient(colors: [.blue, .init(white: 0.45)])
 let redGradient = Gradient(colors: [.red, .yellow])
-let orangeNonGradient = Gradient(colors: [.orange, .orange])
+
+//let someG = Gradient(colors: [.blue, .white, .blue])
+let someG = Gradient(colors: [.black, .red, .black])
 
 struct AnimatingBlob_Filled: View {
     var curve: [CGPoint]
-    let gradient = LinearGradient(gradient: orangeish,
+    let gradient = LinearGradient(gradient: someG,
                                  startPoint: .topLeading,
                                  endPoint: .bottomTrailing)
     var body : some View {
@@ -148,7 +150,7 @@ struct NormalsPlusMarkers : View {
         ZStack {
             // NORMALS
             SuperEllipse(curve: normals,
-                         bezierType: .normals_lineSegs)
+                         bezierType: .normals)
                 .stroke(Color.init(white: 0.85),
                         style: StrokeStyle(lineWidth: 5, dash: [0.75,4]))
             

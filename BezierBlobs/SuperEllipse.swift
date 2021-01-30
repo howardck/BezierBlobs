@@ -11,7 +11,7 @@ enum BezierType : Equatable {
     case lineSegments
     case markers(radius: CGFloat)
     case singleMarker(index: Int, radius: CGFloat)
-    case normals_lineSegs
+    case normals
 }
 
 struct SuperEllipse : Shape {
@@ -30,8 +30,7 @@ struct SuperEllipse : Shape {
     func path(in rect: CGRect) -> Path {
         
         var path = Path()
-        let points = curve.enumerated()
-        for (i, point) in points {
+        for (i, point) in curve.enumerated() {
             switch(bezierType) {
             
             case .lineSegments :
@@ -48,11 +47,11 @@ struct SuperEllipse : Shape {
                     path.move(to: point)
                     path.addMarker(of: radius)
                 }
-            /*  normals are "specially encoded" -- even-numbered points
-                are on the inner envelope boundary; we line from there
-                to their counterparts on the outer envelope boundary.
+            /*  normals are specially "encoded" -- even-numbered points
+                are on the inner envelope boundary; we line from each
+                to its counterpart on the outer envelope boundary.
              */
-            case .normals_lineSegs :
+            case .normals :
                 if i.isEven() && i < curve.count {
                     path.move(to: point)
                     path.addLine(to: curve[i + 1])
@@ -63,7 +62,7 @@ struct SuperEllipse : Shape {
             path = path.smoothed(numInterpolated: SuperEllipse.NUM_INTERPOLATED)
         }
         
-        // NOTA BUG: This produces a heavier dashed line for
+        // NOTA BUG: This produces an oddly heavier dashed line for
         // the last normal drawn if we DO close the path. but if
         // we don't closeSubpath(), no other paths get closed.
         

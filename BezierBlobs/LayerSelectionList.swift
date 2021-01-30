@@ -33,9 +33,9 @@ struct ExampleView: View {
 struct LayerSelectionList: View {
     @Binding var listItems : [SuperEllipseLayer]
     
-    let sectionHeader_animation = Text("animating layers")
-    let sectionHeader_support = Text("static layers")
-    let sectionHeader_control = Text("convenience functions")
+    let sectionHeader_animation = Text("animating blob layers")
+    let sectionHeader_support = Text("static support layers")
+    let sectionHeader_control = Text("commands")
     
     var body: some View
     {
