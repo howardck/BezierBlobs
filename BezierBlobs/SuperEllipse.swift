@@ -19,7 +19,7 @@ struct SuperEllipse : Shape {
     static let NUM_INTERPOLATED = 16
     
     var curve: [CGPoint]
-    var bezierType: BezierType
+    var bezierType: BezierType = .lineSegments
     var smoothed = false
     
     var animatableData: CGPointVector {

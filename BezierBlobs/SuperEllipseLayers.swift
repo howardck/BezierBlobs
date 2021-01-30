@@ -7,20 +7,6 @@
 
 import SwiftUI
 
-enum LayerType : Int {
-    case blob_stroked
-    case blob_filled
-    case blob_vertex_0_Marker
-    case blob_markers
-    case baseCurve
-    case baseCurve_markers
-    case normals
-    case envelopeBounds
-    case zigZagsPlusMarkers
-    case showAll
-    case hideAll
-}
-
 enum MarkerType : CaseIterable {
     case blob
     case vertexOrigin
@@ -58,13 +44,10 @@ struct AnimatingBlob_Filled: View {
     var body : some View {
         ZStack {
             SuperEllipse(curve: curve,
-                         bezierType: .lineSegments,
                          smoothed: true)
                 .fill(gradient)
             
-            // subtle touch; makes the edge just a bit more 'crisp'
             SuperEllipse(curve: curve,
-                         bezierType: .lineSegments,
                          smoothed: true)
                 .stroke(Color.init(white: 0.35), lineWidth: 1)
         }
@@ -82,7 +65,6 @@ struct AnimatingBlob_Stroked: View {
         
         ZStack {
             SuperEllipse(curve: curve,
-                         bezierType: .lineSegments,
                          smoothed: true)
                 .stroke(Color.init(white: 0.15), lineWidth: 12)
 //                .stroke(Color.blue, lineWidth: 12)
@@ -172,8 +154,7 @@ struct BaseCurve : View {
     let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
     
     var body: some View {
-        SuperEllipse(curve: vertices,
-                     bezierType: .lineSegments)
+        SuperEllipse(curve: vertices)
         .stroke(Color.white, style: strokeStyle)
     }
 }
@@ -212,12 +193,10 @@ struct EnvelopeBounds : View {
     var body: some View {
         
         ZStack {
-            SuperEllipse(curve: curves.inner,
-                         bezierType: .lineSegments)
+            SuperEllipse(curve: curves.inner)
                 .stroke(color, style: strokeStyle)
             
-            SuperEllipse(curve: curves.outer,
-                         bezierType: .lineSegments)
+            SuperEllipse(curve: curves.outer)
                 .stroke(color, style: strokeStyle)
             
             // MARKERS AT THE INNER-CURVE AND
@@ -247,36 +226,30 @@ struct ZigZags : View {
         ZStack {
             
     // ZIG
-            SuperEllipse(curve: curves.zig,
-                         bezierType: .lineSegments)
+            SuperEllipse(curve: curves.zig)
                 .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0, dash: [4,3]))
 
             if ZigZags.SHOW_SMOOTHED_CURVES_TOO
             {
                 SuperEllipse(curve: curves.zig,
-                             bezierType: .lineSegments,
                              smoothed: true)
                     .stroke(Color.init(white: 0.6), style: StrokeStyle(lineWidth: 8, dash: [4,2]))
                 
                 SuperEllipse(curve: curves.zig,
-                             bezierType: .lineSegments,
                              smoothed: true)
                     .stroke(Color.red, style: StrokeStyle(lineWidth: 1.5))
             }
     // ZAG
-            SuperEllipse(curve: curves.zag,
-                         bezierType: .lineSegments)
+            SuperEllipse(curve: curves.zag)
                 .stroke(Color.yellow, style: StrokeStyle(lineWidth: 1.5, dash: [4,3]))
             
             if ZigZags.SHOW_SMOOTHED_CURVES_TOO
             {
                 SuperEllipse(curve: curves.zag,
-                             bezierType: .lineSegments,
                              smoothed: true)
                     .stroke(Color.init(white: 0.6), style: StrokeStyle(lineWidth: 8, dash: [4,2]))
                 
                 SuperEllipse(curve: curves.zag,
-                             bezierType: .lineSegments,
                              smoothed: true)
                     .stroke(Color.yellow, style: StrokeStyle(lineWidth: 1.5))
             }

@@ -8,10 +8,69 @@
 import SwiftUI
 
 enum SectionType {
-    case animating
-    case support
-    case control
+    case animatingBlobCurves
+    case staticSupportCurves
+    case commands
 }
+
+struct Layer {
+    var type : LayerType_NEW
+    var section: SectionType
+    var visible = false
+}
+
+class LayerVisibilityModel : ObservableObject {
+    
+    @Published var layers : [Layer] = [
+        .init(type: .blob_stroked, section: .animatingBlobCurves, visible: true),
+        .init(type: .blob_filled, section: .animatingBlobCurves),
+        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
+        .init(type: .blob_markers, section: .animatingBlobCurves),
+        .init(type: .zigZags_with_markers, section: .animatingBlobCurves),
+        
+        .init(type: .baseCurve, section: .staticSupportCurves, visible: true),
+        .init(type: .baseCurve_markers, section: .staticSupportCurves, visible: true),
+        .init(type: .normals, section: .staticSupportCurves),
+        .init(type: .envelopeBounds, section: .staticSupportCurves, visible: true),
+        
+        .init(type: .showAll, section: .commands, visible: false),
+        .init(type: .hideAll, section: .commands, visible: false)
+    ]
+    
+    func isVisible(layerWithType: LayerType_NEW) -> Bool {
+        layers.filter{ $0.type == layerWithType && $0.visible }.count == 1
+    }
+}
+
+enum LayerType_NEW : Int {
+    case blob_stroked
+    case blob_filled
+    case blob_vertex_0_marker
+    case blob_markers
+    case baseCurve
+    case baseCurve_markers
+    case normals
+    case envelopeBounds
+    case zigZags_with_markers
+    case showAll
+    case hideAll
+}
+
+
+enum LayerType : Int {
+    case blob_stroked
+    case blob_filled
+    case blob_vertex_0_marker
+    case blob_markers
+    case baseCurve
+    case baseCurve_markers
+    case normals
+    case envelopeBounds
+    case zigZags_with_markers
+    case showAll
+    case hideAll
+}
+
 
 struct SuperEllipseLayer {
     var type : LayerType
@@ -20,17 +79,7 @@ struct SuperEllipseLayer {
     var visible = false
 }
 
-struct ExampleView: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Button("New Message") { print("new message")}
-            Text("Reply").background(Color.gray)// { print("reply") }
-            Text("Forward") //{ print("forward")}
-        }
-    }
-}
-
-struct LayerSelectionList: View {
+struct LayerVisibilitySelectionList: View {
     @Binding var listItems : [SuperEllipseLayer]
     
     let sectionHeader_animation = Text("animating blob layers")
@@ -50,7 +99,7 @@ struct LayerSelectionList: View {
             
     // ANIMATED LAYERS
             Section(header: sectionHeader_animation.padding(8)) {
-                let s = SectionType.animating
+                let s = SectionType.animatingBlobCurves
                 let items = listItems.filter{ $0.section == s }
                 
                 ForEach(items, id: \.type ) { item in
@@ -61,7 +110,7 @@ struct LayerSelectionList: View {
             
     // STATIC SUPPORT LAYERS
             Section(header: sectionHeader_support.padding(8)) {
-                let s = SectionType.support
+                let s = SectionType.staticSupportCurves
                 let items = listItems.filter{ $0.section == s }
                 
                 ForEach(items, id: \.type ) { item in
@@ -72,7 +121,7 @@ struct LayerSelectionList: View {
             
     // SHOW ALL/HIDE ALL CONTROLS
             Section(header: sectionHeader_control.padding(8)) {
-                let s = SectionType.control
+                let s = SectionType.commands
                 let items = listItems.filter{ $0.section == s }
                 
                 ForEach(items, id: \.type ) { item in
@@ -92,7 +141,7 @@ struct LayerSelectionList: View {
                     where: { $0.type == item.type }) {
                     
                     switch section {
-                    case .control :
+                    case .commands :
                         // if we're hiding all, hide EVERYTHING
                         // then turn 'hide all' back on
                         if item.type == .hideAll {
@@ -106,7 +155,7 @@ struct LayerSelectionList: View {
                             listItems[LayerType.hideAll.rawValue].visible = false
                         }
                         break
-                    case .animating, .support:
+                    case .animatingBlobCurves, .staticSupportCurves:
                         
                         listItems[LayerType.showAll.rawValue].visible = false
                         listItems[LayerType.hideAll.rawValue].visible = false
