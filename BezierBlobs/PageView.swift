@@ -38,6 +38,8 @@ struct PageView: View {
         ]
     
     @ObservedObject var model = Model()
+    @ObservedObject var visibilityModel = LayerVisibilityModel()
+
  
     let description: PageDescription
     let size: CGSize
@@ -48,52 +50,35 @@ struct PageView: View {
     @State var randomizeNextZigZagRedraw = false
     @State var showLayerSelectionList = false
     @State var showDrawingOptionsList = false
-
-
-//    struct SELayers {
-//
-//        // bit of play with a dictionary of layers rather than an array
-//        @State var superEllipseLayers : [LayerType : SuperEllipseLayer] =
-//        [
-//            LayerType.blob_stroked:
-//                .init(type: .blob_stroked, section: .animatingBlobCurves, name: "blob (stroked)", visible: true),
-//            LayerType.blob_filled:
-//                .init(type: .blob_filled, section: .animatingBlobCurves, name: "blob (filled)", visible: false),
-//        ]
-//
-//        func isVisible(layerType: LayerType) -> Bool {
-//            return superEllipseLayers[layerType]!.visible
-//        }
-//    }
     
     //MARK:- [SuperEllipseLayers] array initialization
-    @State var superEllipseLayers : [SuperEllipseLayer] =
-    [
-        // 'visible = true' here determines the initial appearance or lack thereof.
-        // this is switchable thereafter via selection in the LayerSelectionList dlog
-        
-        // NOTA: changes to .init's ordering here need to be reflected by similar
-        // changes in enum LayerType case ordering -- obviated by better design perhaps?
-        
-        .init(type: .blob_stroked, section: .animatingBlobCurves, name: "stroked",
-    visible: true),
-        .init(type: .blob_filled, section: .animatingBlobCurves, name: "filled", visible: true),
-        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves, name: "vertex [0] marker",
-    visible: true),
-        .init(type: .blob_markers, section: .animatingBlobCurves, name: "all markers", visible: false),
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        .init(type: .baseCurve, section: .staticSupportCurves, name: "base curve",
-    visible: false),
-        .init(type: .baseCurve_markers, section : .staticSupportCurves, name: "base curve markers",
-    visible: false),
-        .init(type: .normals, section : .staticSupportCurves, name: "normals"),
-        .init(type: .envelopeBounds, section: .staticSupportCurves,  name: "envelope (offset curves)"),
-        .init(type: .zigZags_with_markers, section : .staticSupportCurves, name: "zig-zags + markers"),
-
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        .init(type: .showAll, section: .commands, name: "show all layers"),
-        .init(type: .hideAll, section: .commands, name: "hide all layers")
-    ]
+//    @State var superEllipseLayers : [SuperEllipseLayer] =
+//    [
+//        // 'visible = true' here determines the initial appearance or lack thereof.
+//        // this is switchable thereafter via selection in the LayerSelectionList dlog
+//        
+//        // NOTA: changes to .init's ordering here need to be reflected by similar
+//        // changes in enum LayerType case ordering -- obviated by better design perhaps?
+//        
+//        .init(type: .blob_stroked, section: .animatingBlobCurves, name: "stroked",
+//    visible: true),
+//        .init(type: .blob_filled, section: .animatingBlobCurves, name: "filled", visible: true),
+//        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves, name: "vertex [0] marker",
+//    visible: true),
+//        .init(type: .blob_markers, section: .animatingBlobCurves, name: "all markers", visible: false),
+//        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//        .init(type: .baseCurve, section: .staticSupportCurves, name: "base curve",
+//    visible: false),
+//        .init(type: .baseCurve_markers, section : .staticSupportCurves, name: "base curve markers",
+//    visible: false),
+//        .init(type: .normals, section : .staticSupportCurves, name: "normals"),
+//        .init(type: .envelopeBounds, section: .staticSupportCurves,  name: "envelope (offset curves)"),
+//        .init(type: .zigZags_with_markers, section : .staticSupportCurves, name: "zig-zags + markers"),
+//
+//        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//        .init(type: .showAll, section: .commands, name: "show all layers"),
+//        .init(type: .hideAll, section: .commands, name: "hide all layers")
+//    ]
     
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
@@ -123,33 +108,39 @@ struct PageView: View {
     // BLOB (ANIMATING -- FILLED)
             //MARK: layer 1.  AnimatingBlob_Filled
             
-            if superEllipseLayers[LayerType.blob_filled.rawValue].visible {
+            if visibilityModel.isVisible(layerWithType: .blob_filled) {
+//            if superEllipseLayers[LayerType.blob_filled.rawValue].visible {
                 AnimatingBlob_Filled(curve: model.blobCurve)
             }
             
             // BLOB (ANIMATING -- STROKED)
             //MARK: layer 2.  AnimatingBlob_Stroked
-            if superEllipseLayers[LayerType.blob_stroked.rawValue].visible {
+            if visibilityModel.isVisible(layerWithType: .blob_stroked) {
                 AnimatingBlob_Stroked(curve: model.blobCurve)
-                }
+            }
             
     // ZIG-ZAGS -- CURVES
             //MARK: layer 3. ZigZags
-            if superEllipseLayers[LayerType.zigZags_with_markers.rawValue].visible {
+            
+            if visibilityModel.isVisible(layerWithType: .zigZags_with_markers) {
                 ZigZags(curves: model.zigZagCurves)
             }
             
             // combine lines and markers to avoid the 10-view limit
     // NORMALS + MARKERS
             //MARK: layer 4.  NormalsPlusMarkers
-            if superEllipseLayers[LayerType.normals.rawValue].visible {
+            if visibilityModel.isVisible(layerWithType: .normals) {
+
+          //  if superEllipseLayers[LayerType.normals.rawValue].visible {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
     // BASE CURVE
             //MARK: layer 5.  BaseCurve
-            if superEllipseLayers[LayerType.baseCurve.rawValue].visible {
+            if visibilityModel.isVisible(layerWithType: .baseCurve) {
+
+          //  if superEllipseLayers[LayerType.baseCurve.rawValue].visible {
                 BaseCurve(vertices: model.baseCurve.vertices)
             }
             
@@ -157,13 +148,15 @@ struct PageView: View {
             // & outer markers, priorly the remit of NormalsPlusMarkers
     // ENVELOPE BOUNDS
             //MARK: layer 6.  EnvelopeBounds
-            if superEllipseLayers[LayerType.envelopeBounds.rawValue].visible {
+            if visibilityModel.isVisible(layerWithType: .envelopeBounds) {
+      //      if superEllipseLayers[LayerType.envelopeBounds.rawValue].visible {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
     // ZIG-ZAG -- MARKERS
             //MARK: layer 7. ZigZag_Markers
-            if superEllipseLayers[LayerType.zigZags_with_markers.rawValue].visible {
+            if visibilityModel.isVisible(layerWithType: .zigZags_with_markers) {
+       //     if superEllipseLayers[LayerType.zigZags_with_markers.rawValue].visible {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
@@ -173,19 +166,24 @@ struct PageView: View {
             Group {
                 // BASE CURVE MARKERS
                 //MARK: layer 8. BaseCurve_Markers
-                if superEllipseLayers[LayerType.baseCurve_markers.rawValue].visible {
+                if visibilityModel.isVisible(layerWithType: .baseCurve_markers) {
+             //   if superEllipseLayers[LayerType.baseCurve_markers.rawValue].visible {
                     BaseCurve_Markers(curve: model.baseCurve.vertices,
                                       style: markerStyles[.baseCurve]!)
                 }
                 // BLOB MARKERS (ANIMATING)
                 //MARK: layer 9.  AnimatingBlob_Markers
-                if superEllipseLayers[LayerType.blob_markers.rawValue].visible {
+                if visibilityModel.isVisible(layerWithType: .blob_markers) {
+
+               // if superEllipseLayers[LayerType.blob_markers.rawValue].visible {
                     AnimatingBlob_Markers(curve: model.blobCurve,
                                           style: markerStyles[.blob]!)
                 }
                 // VERTEX[0] MARKER (ANIMATING)
                 //MARK: layer 10. AnimatingBlob_VertexOriginMarker
-                if superEllipseLayers[LayerType.blob_vertex_0_marker.rawValue].visible {
+                if visibilityModel.isVisible(layerWithType: .blob_vertex_0_marker) {
+
+             //   if superEllipseLayers[LayerType.blob_vertex_0_marker.rawValue].visible {
                     AnimatingBlob_VertexOriginMarker(animatingCurve: model.blobCurve,
                                                      markerStyle: markerStyles[.vertexOrigin]!)
                 }
@@ -241,7 +239,7 @@ struct PageView: View {
                 HStack {
                     if showLayerSelectionList {
                         ZStack {
-                            LayerVisibilitySelectionList(listItems: $superEllipseLayers)
+                            LayerVisibilitySelectionList(layers: $visibilityModel.layers)
                                 .frame(width: s.width, height: s.height)
                                 .overlay(
                                     BezelFrame(color: .orange, size: s)
