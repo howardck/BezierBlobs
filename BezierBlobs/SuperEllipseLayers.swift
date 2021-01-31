@@ -36,6 +36,7 @@ let redGradient = Gradient(colors: [.red, .yellow])
 //let someG = Gradient(colors: [.blue, .white, .blue])
 let someG = Gradient(colors: [.black, .red, .black])
 
+
 struct AnimatingBlob_Filled: View {
     var curve: [CGPoint]
     let gradient = LinearGradient(gradient: someG,
@@ -98,7 +99,7 @@ struct AnimatingBlob_Markers : View {
     }
 }
 
-struct AnimatingBlob_VertexOriginMarker: View {
+struct AnimatingBlob_VertexZeroMarker: View {
     var animatingCurve: [CGPoint]
     var markerStyle : MarkerStyle
 
@@ -199,8 +200,8 @@ struct EnvelopeBounds : View {
             SuperEllipse(curve: curves.outer)
                 .stroke(color, style: strokeStyle)
             
-            // MARKERS AT THE INNER-CURVE AND
-            // OUTER-CURVE ENDS OF THE NORMALS
+            // markers at the inner and outer ends of our normals.
+            // NOTE these are duplicated in the struct NormalsPlusMarkers{ }
             SuperEllipse(curve: curves.inner,
                          bezierType: .markers(radius: style.radius))
                 .fill(Color.black)

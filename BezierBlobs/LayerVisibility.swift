@@ -13,8 +13,8 @@ enum LayerType : String {
     case blob_vertex_0_marker = "vertex[0] marker"
     case blob_markers = "all vertex markers"
     
-    case baseCurve = "baseCurve"
-    case baseCurve_markers = "baseCurve markers"
+    case baseCurve = "base Curve"
+    case baseCurve_markers = "base Curve markers"
     case normals = "normals"
     case envelopeBounds = "envelope Bounds"
     case zigZags_with_markers = "zigZags + markers"
@@ -42,13 +42,13 @@ class LayerVisibilityModel : ObservableObject {
         .init(type: .blob_filled, section: .animatingBlobCurves, visible: true),
         .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
         .init(type: .blob_markers, section: .animatingBlobCurves),
-    // -------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------
         .init(type: .baseCurve, section: .staticSupportCurves),
         .init(type: .baseCurve_markers, section: .staticSupportCurves),
         .init(type: .normals, section: .staticSupportCurves),
         .init(type: .envelopeBounds, section: .staticSupportCurves),
         .init(type: .zigZags_with_markers, section: .staticSupportCurves),
-    // -------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------
         .init(type: .showAll, section: .commands),
         .init(type: .hideAll, section: .commands)
     ]
@@ -62,66 +62,47 @@ class LayerVisibilityModel : ObservableObject {
     }
 }
 
-
-//enum LayerType : Int {
-//    case blob_stroked
-//    case blob_filled
-//    case blob_vertex_0_marker
-//    case blob_markers
-//    case baseCurve
-//    case baseCurve_markers
-//    case normals
-//    case envelopeBounds
-//    case zigZags_with_markers
-//    case showAll
-//    case hideAll
-//}
-
-//struct SuperEllipseLayer {
-//    var type : LayerType
-//    var section: SectionType
-//    var name : String
-//    var visible = false
-//}
-
 struct LayerVisibilitySelectionList: View {
     
     @Binding var layers : [Layer]
-    //@Binding var listItems : [SuperEllipseLayer]
+
+    let sectionHeaderColoring = Color.green
     
     var body: some View
     {
         List {
             
             Section(header: Text("Animating Blob Layers")
-                        .foregroundColor(.blue)
+                        .foregroundColor(sectionHeaderColoring)
                         .font(.headline)
                         .padding(8)) {
                 
-                rows(in: .animatingBlobCurves)
+                rowsInSection(for: .animatingBlobCurves)
             }
             .textCase(.lowercase)
             
             Section(header: Text("Static Support Layers")
+                        .foregroundColor(sectionHeaderColoring)
                         .font(.headline)
                         .padding(8)) {
                 
-                rows(in: .staticSupportCurves)
+                rowsInSection(for: .staticSupportCurves)
             }
             .textCase(.lowercase)
             
             Section(header: Text("commands")
+                        .foregroundColor(sectionHeaderColoring)
                         .font(.headline)
                         .padding(8)) {
 
-                    rows(in: .commands)
+                rowsInSection(for: .commands)
             }
             .textCase(.lowercase)
         }
         .environment(\.defaultMinListRowHeight, 46) // 0 == as tight as possible
     }
     
-    func rows(in section: SectionType) -> some View {
+    func rowsInSection(for section: SectionType) -> some View {
         let items = layers.filter { $0.section == section }
         return ForEach(items, id: \.type) { layer in
             
@@ -163,48 +144,6 @@ struct LayerVisibilitySelectionList: View {
             layers[ix].visible = show ? true : false
         }
     }
-    
-    func handleCheckmarksForTapped(item: Layer,
-                                   in section: SectionType) -> some View {
-        LayerItemRow(layerItem: item)
-            .onTapGesture {
-                if let tappedItem = layers.firstIndex (
-                    where: { $0.type == item.type }) {
-                    
-                    print("\(item.type.rawValue)")
-                    
-//                    switch section {
-//                    case .commands :
-//                        // if we're hiding all, hide EVERYTHING
-//                        // then turn 'hide all' back on
-//                        if item.type == .hideAll {
-//                            showHideAllLayers(show: false)
-//                            layers[.hideAll.rawValue].visible = true
-//                        }
-//                        // if we're showing all, show EVERYTHING then turn 'hide all' off
-//                        else if item.type == .showAll {
-//                            showHideAllLayers(show: true)
-//                            layers[LayerType.hideAll.rawValue].visible = false
-//                        }
-//                        break
-//                    case .animatingBlobCurves, .staticSupportCurves:
-//
-//                        layer(for type: .showAll)!.visible = false
-//                        layers[LayerType.showAll.rawValue].visible = false
-//                        layers[LayerType.hideAll.rawValue].visible = false
-//                        layers[tappedItem].visible.toggle()
-//                    }
-                    
-                    
-                }
-            }
-    }
-    
-//    func showHideAllLayers(show: Bool) {
-//        for ix in 0..<layers.count {
-//            layers[ix].visible = show ? true : false
-//        }
-//    }
 }
 
 struct LayerItemRow : View {
