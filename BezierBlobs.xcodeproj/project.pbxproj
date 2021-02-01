@@ -12,6 +12,7 @@
 		3B686E032590091C00466BF5 /* LayerVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* LayerVisibility.swift */; };
 		3B779D262587CD5C00C5BC85 /* SuperEllipseLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */; };
 		3B859FEF25BB3B470033DB7A /* MainScreenLayoutTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */; };
+		3B9A048B25C7C94D0097ECC6 /* TimerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* ScreenButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
 		5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */; };
@@ -32,6 +33,7 @@
 		3B686E022590091C00466BF5 /* LayerVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerVisibility.swift; sourceTree = "<group>"; };
 		3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseLayers.swift; sourceTree = "<group>"; };
 		3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenLayoutTest.swift; sourceTree = "<group>"; };
+		3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTest.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenButtons.swift; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierBlobsApp.swift; sourceTree = "<group>"; };
@@ -59,6 +61,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B9A048E25C8642D0097ECC6 /* appLevelTests */ = {
+			isa = PBXGroup;
+			children = (
+				3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */,
+				3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */,
+				3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */,
+			);
+			path = appLevelTests;
+			sourceTree = "<group>";
+		};
 		5E57D2A3256D5AD900D6B1C0 = {
 			isa = PBXGroup;
 			children = (
@@ -88,8 +100,7 @@
 				3B686E022590091C00466BF5 /* LayerVisibility.swift */,
 				3B3052D3259B66B3009E5707 /* DrawTypeSelectionList.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
-				3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */,
-				3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */,
+				3B9A048E25C8642D0097ECC6 /* appLevelTests */,
 				5E57D2E6256D5CF900D6B1C0 /* extensions */,
 				5E57D2B3256D5ADD00D6B1C0 /* Assets.xcassets */,
 				5E57D2B8256D5ADD00D6B1C0 /* Info.plist */,
@@ -192,6 +203,7 @@
 				5E57D2EB256D5D1200D6B1C0 /* Path+Points.swift in Sources */,
 				5E57D2E3256D5CDB00D6B1C0 /* Model.swift in Sources */,
 				3B5A4BD425B90BB800CC5C26 /* TabViewTest.swift in Sources */,
+				3B9A048B25C7C94D0097ECC6 /* TimerTest.swift in Sources */,
 				5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */,
 				3BB48CC22581A2CD005DEBB8 /* ScreenButtons.swift in Sources */,
 				3B859FEF25BB3B470033DB7A /* MainScreenLayoutTest.swift in Sources */,

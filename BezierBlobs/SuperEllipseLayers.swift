@@ -34,7 +34,8 @@ let blueGradient = Gradient(colors: [.blue, .init(white: 0.45)])
 let redGradient = Gradient(colors: [.red, .yellow])
 
 //let someG = Gradient(colors: [.blue, .white, .blue])
-let someG = Gradient(colors: [.black, .red, .black])
+let someG = Gradient(colors: [.black, .red, .black
+])
 
 
 struct AnimatingBlob_Filled: View {

@@ -17,7 +17,6 @@ extension View {
                 .foregroundColor(backColor)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .offset(x: 1, y: 1)
-            
             Text("w: \(Int(gr.size.width)) x h: \(Int(gr.size.height))")
                 .font(.caption)
                 .fontWeight(.regular)

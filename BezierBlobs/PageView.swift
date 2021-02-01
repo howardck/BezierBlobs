@@ -37,8 +37,11 @@ struct PageView: View {
              offsets: (in: -0.05, out: 0.4), perturbLimits: (inner: 2.4, outer: 0.2), false)
         ]
     
+    static var timeIncrement : Double = 2.0
+    
     @ObservedObject var model = Model()
     @ObservedObject var visibilityModel = LayerVisibilityModel()
+    @State var timer = Timer.publish(every: PageView.timeIncrement, on: .main, in: .common)
 
     @State var isAnimating = false
     @State var showLayerSelectionList = false
@@ -76,6 +79,11 @@ struct PageView: View {
     
         ZStack {
             
+            // NOTA: we CAN'T put this inside a .background() modifier.
+            // if the user turns off visibility on ALL layers we
+            // won't have any subview left, and this view disappears!
+            
+            PageGradientBackground()
                         
     //MARK:-
     //MARK: show the following SuperEllipse layer stacks if flagged
@@ -140,17 +148,14 @@ struct PageView: View {
                 }
             }
         }
-        .background( PageGradientBackground())
-
+      //  .background(PageGradientBackground())
+        
         .onAppear {
             print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
         }
         .onDisappear {
             print("PageView.onDisappear( PageType.\(pageType.rawValue) )")
         }
-
-        // NOTA: check for 2 taps BEFORE checking for 1 tap.
-        // this slows down the start of the animation slightly
         
         .onTapGesture(count: 2) {
             withAnimation(Animation.easeInOut(duration: 0.6))
@@ -158,16 +163,23 @@ struct PageView: View {
                 model.returnToInitialConfiguration()
             }
         }
+        
+//        .onReceive($timer) {
+//
+//            $timer.upstream.connect().cancel()
+//        }
+
         .onTapGesture(count: 1)
         {
-            withAnimation(Animation.easeInOut(duration: 1.6))
-            {
-               // model.animateBlobCurveToNextPhase()
-                model.animateToNextZigZagPhase()
-            }
-            
             if showLayerSelectionList {
-                showLayerSelectionList.toggle()
+                showLayerSelectionList = false
+            }
+            else {
+                timer.connect()
+                withAnimation(Animation.easeInOut(duration: 1.8))
+                {
+                    model.animateToNextZigZagPhase()
+                }
             }
         }
             

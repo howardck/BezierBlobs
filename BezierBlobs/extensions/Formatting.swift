@@ -10,7 +10,7 @@ import SwiftUI
  *  print(String(format: "%6.2f", 123.45678))
  *  -> "123.46"
  *  becomes:
- *  print("\(123.45678).format:fspec:"6.2"))")
+ *  print("\(123.45678).format(fspec:"6.2"))")
  */
 extension CGFloat {
     func format(fspec: String) -> String {
