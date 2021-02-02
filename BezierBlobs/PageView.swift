@@ -40,16 +40,19 @@ struct PageView: View {
     @ObservedObject var model = Model()
     @ObservedObject var visibilityModel = LayerVisibilityModel()
     
-    static var animationTimeIncrement : Double = 3.2
-    static var timerTimeIncrement : Double = 3.6
+    static var animationTimeIncrement : Double = 2.7
+    static var timerTimeIncrement : Double = 3.0
+    
     @State var timer: Timer.TimerPublisher = Timer.publish(every: PageView.timerTimeIncrement, on: .main, in: .common)
 
-    @State var isAnimating = false
     @State var showLayerSelectionList = false
     
     let description: PageDescription
     let size: CGSize
     
+    @State var isAnimating = false
+    @State var isFirstTappedCycle = true
+        
     var pageType: PageType
     
     //MARK:-
@@ -91,7 +94,7 @@ struct PageView: View {
             if visibilityModel.isVisible(layerWithType: .blob_filled) {
                 AnimatingBlob_Filled(curve: model.blobCurve)
             }
-            
+
             if visibilityModel.isVisible(layerWithType: .blob_stroked) {
                 AnimatingBlob_Stroked(curve: model.blobCurve)
             }
@@ -137,43 +140,76 @@ struct PageView: View {
                 }
             }
         }
+        // see note at top of ZStack why we can't do this
       //  .background(PageGradientBackground())
         
         .onAppear {
             print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
-            
-            
         }
         .onDisappear {
             print("PageView.onDisappear( PageType.\(pageType.rawValue) )")
-        }
-        
-        
-        .onReceive(timer) { _ in
-
-            print("Timer: new {\(pageType.rawValue)} animation cycle ...")
             
-            withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
-            {
-                model.animateToNextZigZagPhase()
-            }
+            isAnimating = false
+            timer.connect().cancel()
         }
         
         .onTapGesture(count: 2) {
             withAnimation(Animation.easeInOut(duration: 0.6))
             {
+                isAnimating = false
+                timer.connect().cancel()
+                
                 model.returnToInitialConfiguration()
+            }
+        }
+        
+        .onReceive(timer) { _ in
+
+            print("Timer: {\(pageType.rawValue)} animateToNextZigZagPhase()")
+            
+            if isFirstTappedCycle {
+                isFirstTappedCycle = false
+                
+                // this was a VERY fast cycling timer, so the user wouldn't have to wait.
+                // now slow it down to its normal cycle
+                
+                timer.connect().cancel()
+                timer = Timer.publish(every: PageView.timerTimeIncrement, on: .main, in: .common)
+                timer.connect()
+            }
+            
+            withAnimation(Animation.easeInOut(duration: PageView.animationTimeIncrement))
+            {
+                model.animateToNextZigZagPhase()
             }
         }
         
         .onTapGesture(count: 1)
         {
+            // the layer selection list is up; click anywhere else == close it
             if showLayerSelectionList {
                 showLayerSelectionList = false
             }
             else {
-                self.timer.connect()
-
+                if !isAnimating {
+                    isAnimating = true
+                    
+                    // the first tap cycle needs a short duration, since we don't see anything
+                    // happening until 'every:' happens for the first time. set the time interval
+                    // to it normal slower self on our first receive().
+                    
+                    // NOTE there are some animation-startup stutter effects happening
+                    // that need to be looked at.
+                    
+                    isFirstTappedCycle = true
+                    timer = Timer.publish(every: 0.4, on: .main, in: .common)
+                    timer.connect()
+                }
+                else { // isAnimating == true; turn it off
+                    
+                    isAnimating = false
+                    timer.connect().cancel()
+                }
             }
         }
             
