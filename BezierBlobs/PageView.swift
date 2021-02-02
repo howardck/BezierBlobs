@@ -25,7 +25,7 @@ struct PageView: View {
      static let descriptions : [PageDescription] =
         [
             (numPoints: 12, n: 2.0,
-             offsets: (in: -0.25, out: 0.2), perturbLimits: (inner: 0.7, outer: 1.2), forceEqualAxes: true),
+             offsets: (in: -0.2, out: 0.35), perturbLimits: (inner: 0.7, outer: 1.2), forceEqualAxes: true),
 
             (numPoints: 20, n: 3.8,
              offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
@@ -36,12 +36,13 @@ struct PageView: View {
             (numPoints: 24, n: 1,
              offsets: (in: -0.05, out: 0.4), perturbLimits: (inner: 2.4, outer: 0.2), false)
         ]
-    
-    static var timeIncrement : Double = 2.0
-    
+        
     @ObservedObject var model = Model()
     @ObservedObject var visibilityModel = LayerVisibilityModel()
-    @State var timer = Timer.publish(every: PageView.timeIncrement, on: .main, in: .common)
+    
+    static var animationTimeIncrement : Double = 3.2
+    static var timerTimeIncrement : Double = 3.6
+    @State var timer: Timer.TimerPublisher = Timer.publish(every: PageView.timerTimeIncrement, on: .main, in: .common)
 
     @State var isAnimating = false
     @State var showLayerSelectionList = false
@@ -79,9 +80,8 @@ struct PageView: View {
     
         ZStack {
             
-            // NOTA: we CAN'T put this inside a .background() modifier.
-            // if the user turns off visibility on ALL layers we
-            // won't have any subview left, and this view disappears!
+        // NOTA: we can't put this inside a .background() modifier b/c if the user turns off
+        // visibility on ALL layers, we won't have any subviews left and this view disappears!
             
             PageGradientBackground()
                         
@@ -89,40 +89,32 @@ struct PageView: View {
     //MARK: show the following SuperEllipse layer stacks if flagged
 
             if visibilityModel.isVisible(layerWithType: .blob_filled) {
-                
                 AnimatingBlob_Filled(curve: model.blobCurve)
             }
             
             if visibilityModel.isVisible(layerWithType: .blob_stroked) {
-                
                 AnimatingBlob_Stroked(curve: model.blobCurve)
             }
             
             if visibilityModel.isVisible(layerWithType: .zigZags_with_markers) {
-                
                 ZigZags(curves: model.zigZagCurves)
             }
             
             if visibilityModel.isVisible(layerWithType: .normals) {
-
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
-
             if visibilityModel.isVisible(layerWithType: .baseCurve) {
-
                 BaseCurve(vertices: model.baseCurve.vertices)
             }
             
             if visibilityModel.isVisible(layerWithType: .envelopeBounds) {
-
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
 
             if visibilityModel.isVisible(layerWithType: .zigZags_with_markers) {
-                
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
@@ -130,19 +122,16 @@ struct PageView: View {
 
             Group {
                 if visibilityModel.isVisible(layerWithType: .baseCurve_markers) {
-                    
                     BaseCurve_Markers(curve: model.baseCurve.vertices,
                                       style: markerStyles[.baseCurve]!)
                 }
 
                 if visibilityModel.isVisible(layerWithType: .blob_markers) {
-
                     AnimatingBlob_Markers(curve: model.blobCurve,
                                           style: markerStyles[.blob]!)
                 }
 
                 if visibilityModel.isVisible(layerWithType: .blob_vertex_0_marker) {
-
                     AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
                                                    markerStyle: markerStyles[.vertexOrigin]!)
                 }
@@ -152,9 +141,22 @@ struct PageView: View {
         
         .onAppear {
             print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
+            
+            
         }
         .onDisappear {
             print("PageView.onDisappear( PageType.\(pageType.rawValue) )")
+        }
+        
+        
+        .onReceive(timer) { _ in
+
+            print("Timer: new {\(pageType.rawValue)} animation cycle ...")
+            
+            withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
+            {
+                model.animateToNextZigZagPhase()
+            }
         }
         
         .onTapGesture(count: 2) {
@@ -164,22 +166,14 @@ struct PageView: View {
             }
         }
         
-//        .onReceive($timer) {
-//
-//            $timer.upstream.connect().cancel()
-//        }
-
         .onTapGesture(count: 1)
         {
             if showLayerSelectionList {
                 showLayerSelectionList = false
             }
             else {
-                timer.connect()
-                withAnimation(Animation.easeInOut(duration: 1.8))
-                {
-                    model.animateToNextZigZagPhase()
-                }
+                self.timer.connect()
+
             }
         }
             

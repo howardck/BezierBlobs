@@ -11,8 +11,8 @@ import SwiftUI
 struct BezierBlobsApp: App {
     var body: some Scene {
         WindowGroup {
-            //ContentView()
-            TimerTest()
+            ContentView()
+            //TimerTest()
             //TabViewTest()
             //MainScreenLayoutTest()
         }
