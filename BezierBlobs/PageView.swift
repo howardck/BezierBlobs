@@ -178,7 +178,7 @@ struct PageView: View {
                 timer.connect()
             }
             
-            withAnimation(Animation.easeInOut(duration: PageView.animationTimeIncrement))
+            withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
             {
                 model.animateToNextZigZagPhase()
             }
