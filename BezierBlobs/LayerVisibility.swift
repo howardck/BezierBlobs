@@ -36,7 +36,7 @@ struct Layer {
 }
 
 class LayerVisibilityModel : ObservableObject {
-    
+        
     @Published var layers : [Layer] = [
         .init(type: .blob_stroked, section: .animatingBlobCurves, visible: true),
         .init(type: .blob_filled, section: .animatingBlobCurves, visible: true),
@@ -64,6 +64,8 @@ class LayerVisibilityModel : ObservableObject {
 
 struct LayerVisibilitySelectionList: View {
     
+    static let DEBUG_PRINT_LAYER_LIST_TAPPING = false
+
     @Binding var layers : [Layer]
 
     let sectionHeaderColoring = Color.green
@@ -112,7 +114,9 @@ struct LayerVisibilitySelectionList: View {
                     if let tappedItemIndex = layers.firstIndex(where: {
                         $0.type == layer.type
                     }) {
-                        print("layerItem tapped: {\(layer.type)} section: {\(section)} index: {\(tappedItemIndex)}")
+                        if Self.DEBUG_PRINT_LAYER_LIST_TAPPING {
+                            print("layerItem tapped: {\(layer.type)} section: {\(section)} index: {\(tappedItemIndex)}")
+                        }
                                                 
                         if layer.type == .hideAll {
                             showHideAllLayers(show: false)

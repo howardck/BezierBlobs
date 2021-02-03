@@ -57,6 +57,8 @@ struct PageView: View {
     
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
+        
+        print("PageView.init(for pageType {\(pageType)})")
 
         self.pageType = pageType
         self.description = description
@@ -82,10 +84,7 @@ struct PageView: View {
     var body: some View {
     
         ZStack {
-            
-        // NOTA: we can't put this inside a .background() modifier b/c if the user turns off
-        // visibility on ALL layers, we won't have any subviews left and this view disappears!
-            
+
             PageGradientBackground()
                         
     //MARK:-
@@ -140,7 +139,8 @@ struct PageView: View {
                 }
             }
         }
-        // see note at top of ZStack why we can't do this
+        // can't do this because all layers might be turned off,
+        // in which case the view disappears!
       //  .background(PageGradientBackground())
         
         .onAppear {
@@ -165,7 +165,7 @@ struct PageView: View {
         
         .onReceive(timer) { _ in
 
-            print("Timer: {\(pageType.rawValue)} animateToNextZigZagPhase()")
+            print("PageView.onReceive(timer) for: {\(pageType.rawValue)}")
             
             if isFirstTappedCycle {
                 isFirstTappedCycle = false
@@ -256,34 +256,6 @@ struct PageView: View {
                 }
             }
         )
-    }
-    
-    struct DrawingAndLayeringButtons : View {
-        @Binding var showDrawingOptionsList : Bool
-        @Binding var showLayerSelectionList : Bool
-        
-        var body: some View {
-            HStack {
-                DrawingOptionsButton(name: pencilInSquare,
-                                          faceColor: .blue,
-                                          edgeColor: .orange)
-                    .onTapGesture {
-                        print("DrawingOptions Button tapped")
-                        showDrawingOptionsList.toggle()
-                    }
-                
-                Spacer()
-                    .frame(width: 60, height: 1)
-                
-                LayerSelectionListButton(faceColor: .blue,
-                                         edgeColor: .orange)
-                    .onTapGesture {
-                        print("LayerSelectionList Button tapped")
-                        showLayerSelectionList.toggle()
-                    }
-            }
-            .scaleEffect(1.4)
-        }
     }
     
     struct BezelFrame : View {
