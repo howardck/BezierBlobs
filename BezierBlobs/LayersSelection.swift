@@ -1,24 +1,22 @@
 //
-//  SELayersSelection.swift
-//  BezierBlobs
-//
-//  Created by Howard Katz on 2020-12-20.
-//
+//  LayersSelection.swift -- BezierBlobs
+//  Created by Howard Katz on 2020-12-20
+
 
 import SwiftUI
 
 struct LayersSelectionList: View {
     
-    static let DEBUG_PRINT_SHOW_LAYER_VISIBILITY_FLAGS = true
-    static let DEBUG_PRINT_LAYER_LIST_TAPPING = false
+    static let DEBUG_PRINT_SHOW_LAYER_VISIBILITY = false
+    static let DEBUG_PRINT_LAYER_LIST_TAPPING = true
 
     @Binding var layers : [Layer]
 
-    let sectionHeaderColoring = Color.green
+    let sectionHeaderColoring = Color.init(white: 0.2)
     
     func printLayerVisibilityFlags() {
         _ = self.layers.map { layer in
-            print("layer: {\(layer.type.rawValue)} visibility: {\(layer.visible)}")
+            print("layer [.\(layer.type.rawValue)] visible: {\(layer.visible)}")
         }
     }
     
@@ -34,13 +32,6 @@ struct LayersSelectionList: View {
                 rowsInSection(for: .animatingBlobCurves)
             }
             .textCase(.lowercase)
-            
-            .onAppear() {
-                if Self.DEBUG_PRINT_SHOW_LAYER_VISIBILITY_FLAGS {
-                    print("LayersSelectionList.onAppear{}:")
-                    printLayerVisibilityFlags()
-                }
-            }
             
             Section(header: Text("Support Layers")
                         .foregroundColor(sectionHeaderColoring)
@@ -60,7 +51,13 @@ struct LayersSelectionList: View {
             }
             .textCase(.lowercase)
         }
-        .environment(\.defaultMinListRowHeight, 46) // 0 == as tight as possible
+        .onAppear() {
+            if Self.DEBUG_PRINT_SHOW_LAYER_VISIBILITY {
+                print("LayersSelectionList.onAppear{} ........")
+                printLayerVisibilityFlags()
+            }
+        }
+        .environment(\.defaultMinListRowHeight, 42) // 0 == as tight as possible
     }
     
     func rowsInSection(for section: SectionType) -> some View {
@@ -74,7 +71,7 @@ struct LayersSelectionList: View {
                         $0.type == layer.type
                     }) {
                         if Self.DEBUG_PRINT_LAYER_LIST_TAPPING {
-                            print("layerItem tapped: {\(layer.type)} section: {\(section)} index: {\(tappedItemIndex)}")
+                            print("tapped LayerItem: {.\(layer.type)} Section: {.\(section)} index: [\(tappedItemIndex)]")
                         }
                                                 
                         if layer.type == .hideAll {
@@ -117,7 +114,7 @@ struct LayerItemRow : View {
             CheckBox(checked: layerItem.visible)
             Spacer()
             Text(layerItem.type.rawValue)
-                .frame(width: 310, height: 30, alignment: .leading)
+                .frame(width: 314, height: 10, alignment: .leading)
         }
     }
 }
@@ -133,7 +130,7 @@ struct CheckBox : View {
                 .font(.title3).foregroundColor(.gray)
             if checked {
                 Image(systemName: "checkmark.rectangle.portrait.fill")
-                    .font(.title3) .foregroundColor(.green)
+                    .font(.headline) .foregroundColor(.green)
             }
         }
     }

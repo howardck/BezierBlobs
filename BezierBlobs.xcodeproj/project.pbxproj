@@ -10,7 +10,7 @@
 		3B11D73925CC73450080F72F /* LayersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B11D73825CC73450080F72F /* LayersModel.swift */; };
 		3B3052D4259B66B3009E5707 /* DrawTypeSelectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3052D3259B66B3009E5707 /* DrawTypeSelectionList.swift */; };
 		3B5A4BD425B90BB800CC5C26 /* TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */; };
-		3B686E032590091C00466BF5 /* LayerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* LayerSelection.swift */; };
+		3B686E032590091C00466BF5 /* LayersSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* LayersSelection.swift */; };
 		3B779D262587CD5C00C5BC85 /* SuperEllipseLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */; };
 		3B859FEF25BB3B470033DB7A /* MainScreenLayoutTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */; };
 		3B9A048B25C7C94D0097ECC6 /* TimerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */; };
@@ -32,7 +32,7 @@
 		3B11D73825CC73450080F72F /* LayersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayersModel.swift; sourceTree = "<group>"; };
 		3B3052D3259B66B3009E5707 /* DrawTypeSelectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTypeSelectionList.swift; sourceTree = "<group>"; };
 		3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewTest.swift; sourceTree = "<group>"; };
-		3B686E022590091C00466BF5 /* LayerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerSelection.swift; sourceTree = "<group>"; };
+		3B686E022590091C00466BF5 /* LayersSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayersSelection.swift; sourceTree = "<group>"; };
 		3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseLayers.swift; sourceTree = "<group>"; };
 		3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenLayoutTest.swift; sourceTree = "<group>"; };
 		3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTest.swift; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 				3B11D73825CC73450080F72F /* LayersModel.swift */,
 				5E57D2E1256D5CDB00D6B1C0 /* SuperEllipse.swift */,
 				3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */,
-				3B686E022590091C00466BF5 /* LayerSelection.swift */,
+				3B686E022590091C00466BF5 /* LayersSelection.swift */,
 				3B3052D3259B66B3009E5707 /* DrawTypeSelectionList.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
 				3B9A048E25C8642D0097ECC6 /* appLevelTests */,
@@ -203,7 +203,7 @@
 				5E57D2E4256D5CDB00D6B1C0 /* SuperEllipse.swift in Sources */,
 				3B3052D4259B66B3009E5707 /* DrawTypeSelectionList.swift in Sources */,
 				5E57D2EC256D5D1200D6B1C0 /* CGPointVector.swift in Sources */,
-				3B686E032590091C00466BF5 /* LayerSelection.swift in Sources */,
+				3B686E032590091C00466BF5 /* LayersSelection.swift in Sources */,
 				5E57D2EB256D5D1200D6B1C0 /* Path+Points.swift in Sources */,
 				5E57D2E3256D5CDB00D6B1C0 /* Model.swift in Sources */,
 				3B5A4BD425B90BB800CC5C26 /* TabViewTest.swift in Sources */,

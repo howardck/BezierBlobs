@@ -58,7 +58,7 @@ struct PageView: View {
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
         
-        print("PageView.init(for pageType {\(pageType)})")
+        print("PageView.init( PageType.\(pageType.rawValue) )")
 
         self.pageType = pageType
         self.description = description
@@ -224,7 +224,7 @@ struct PageView: View {
         .overlay(
             
             VStack {
-                let s = CGSize(width: 270, height: 625)
+                let s = CGSize(width: 260, height: 600)
 
                 Spacer()
                 HStack {
@@ -234,7 +234,7 @@ struct PageView: View {
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }
-                        .padding(40)
+                        .padding(30)
                     }
                     else {
                         LayerSelectionListButton(faceColor: .blue,
@@ -244,7 +244,7 @@ struct PageView: View {
                                 showLayerSelectionList.toggle()
                             }
                             .scaleEffect(1.4)
-                            .padding(EdgeInsets(top: 0, leading: 80, bottom: 80, trailing: 0))
+                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 50, trailing: 0))
                     }
                     Spacer() // pushes to the left <--
                 }

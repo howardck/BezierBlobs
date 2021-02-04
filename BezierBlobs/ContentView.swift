@@ -20,7 +20,7 @@ struct ContentView: View {
     @Environment(\.horizontalSizeClass) var hClass
     
     init() {
-        print("ContentView.init() -----------------------------------")
+        print("ContentView.init() -----------")
     }
     
     struct StatusTracker {
