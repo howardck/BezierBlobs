@@ -7,68 +7,20 @@
 
 import SwiftUI
 
-enum LayerType : String {
-    case blob_stroked = "stroked"
-    case blob_filled = "filled"
-    case blob_vertex_0_marker = "vertex[0] marker"
-    case blob_markers = "all vertex markers"
+struct LayersSelectionList: View {
     
-    case baseCurve = "base Curve"
-    case baseCurve_markers = "base Curve markers"
-    case normals = "normals"
-    case envelopeBounds = "envelope Bounds"
-    case zigZags_with_markers = "zigZags + markers"
-    
-    case showAll = "show All"
-    case hideAll = "hide All"
-}
-
-enum SectionType {
-    case animatingBlobCurves
-    case staticSupportCurves
-    case commands
-}
-
-struct Layer {
-    var type : LayerType
-    var section: SectionType
-    var visible = false
-}
-
-class LayerVisibilityModel : ObservableObject {
-        
-    @Published var layers : [Layer] = [
-        .init(type: .blob_stroked, section: .animatingBlobCurves, visible: true),
-        .init(type: .blob_filled, section: .animatingBlobCurves, visible: true),
-        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
-        .init(type: .blob_markers, section: .animatingBlobCurves),
-    // ----------------------------------------------------------------------------
-        .init(type: .baseCurve, section: .staticSupportCurves),
-        .init(type: .baseCurve_markers, section: .staticSupportCurves),
-        .init(type: .normals, section: .staticSupportCurves),
-        .init(type: .envelopeBounds, section: .staticSupportCurves),
-        .init(type: .zigZags_with_markers, section: .staticSupportCurves),
-    // ----------------------------------------------------------------------------
-        .init(type: .showAll, section: .commands),
-        .init(type: .hideAll, section: .commands)
-    ]
-    
-    func isVisible(layerWithType: LayerType) -> Bool {
-        layers.filter{ $0.type == layerWithType && $0.visible }.count == 1
-    }
-    
-    func index(of layerWithType: LayerType) -> Int {
-        layers.firstIndex ( where: { $0.type == layerWithType })!
-    }
-}
-
-struct LayerVisibilitySelectionList: View {
-    
+    static let DEBUG_PRINT_SHOW_LAYER_VISIBILITY_FLAGS = true
     static let DEBUG_PRINT_LAYER_LIST_TAPPING = false
 
     @Binding var layers : [Layer]
 
     let sectionHeaderColoring = Color.green
+    
+    func printLayerVisibilityFlags() {
+        _ = self.layers.map { layer in
+            print("layer: {\(layer.type.rawValue)} visibility: {\(layer.visible)}")
+        }
+    }
     
     var body: some View
     {
@@ -83,7 +35,14 @@ struct LayerVisibilitySelectionList: View {
             }
             .textCase(.lowercase)
             
-            Section(header: Text("Static Support Layers")
+            .onAppear() {
+                if Self.DEBUG_PRINT_SHOW_LAYER_VISIBILITY_FLAGS {
+                    print("LayersSelectionList.onAppear{}:")
+                    printLayerVisibilityFlags()
+                }
+            }
+            
+            Section(header: Text("Support Layers")
                         .foregroundColor(sectionHeaderColoring)
                         .font(.headline)
                         .padding(8)) {
@@ -92,7 +51,7 @@ struct LayerVisibilitySelectionList: View {
             }
             .textCase(.lowercase)
             
-            Section(header: Text("commands")
+            Section(header: Text("Shortcuts")
                         .foregroundColor(sectionHeaderColoring)
                         .font(.headline)
                         .padding(8)) {

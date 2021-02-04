@@ -13,13 +13,13 @@ extension View {
             
             Text("w: \(Int(gr.size.width)) x h: \(Int(gr.size.height))")
                 .font(.caption)
-                .fontWeight(.regular)
+                .fontWeight(.semibold)
                 .foregroundColor(backColor)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .offset(x: 1, y: 1)
             Text("w: \(Int(gr.size.width)) x h: \(Int(gr.size.height))")
                 .font(.caption)
-                .fontWeight(.regular)
+                .fontWeight(.semibold)
                 .foregroundColor(frontColor)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         })
@@ -34,8 +34,6 @@ extension View {
                 .foregroundColor(.white)
             Circle().frame(width: r - 1, height: r - 1)
                 .foregroundColor(color)
-//            Circle().frame(width: 2.5, height: 2.5)
-//                .foregroundColor(.white)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

@@ -25,7 +25,7 @@ struct PageView: View {
      static let descriptions : [PageDescription] =
         [
             (numPoints: 12, n: 2.0,
-             offsets: (in: -0.2, out: 0.35), perturbLimits: (inner: 0.7, outer: 1.2), forceEqualAxes: true),
+             offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.7, outer: 1.1), forceEqualAxes: true),
 
             (numPoints: 20, n: 3.8,
              offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
@@ -38,10 +38,10 @@ struct PageView: View {
         ]
         
     @ObservedObject var model = Model()
-    @ObservedObject var visibilityModel = LayerVisibilityModel()
+    @ObservedObject var layersModel = LayersModel()
     
-    static var animationTimeIncrement : Double = 2.7
-    static var timerTimeIncrement : Double = 3.0
+    static var animationTimeIncrement : Double = 2.8
+    static var timerTimeIncrement : Double = 3.1
     
     @State var timer: Timer.TimerPublisher = Timer.publish(every: PageView.timerTimeIncrement, on: .main, in: .common)
 
@@ -88,59 +88,59 @@ struct PageView: View {
             PageGradientBackground()
                         
     //MARK:-
-    //MARK: show the following SuperEllipse layer stacks if flagged
+    //MARK: show the following SuperEllipse layer stacks if so flagged
 
-            if visibilityModel.isVisible(layerWithType: .blob_filled) {
+            if layersModel.isVisible(layerWithType: .blob_filled) {
                 AnimatingBlob_Filled(curve: model.blobCurve)
             }
 
-            if visibilityModel.isVisible(layerWithType: .blob_stroked) {
+            if layersModel.isVisible(layerWithType: .blob_stroked) {
                 AnimatingBlob_Stroked(curve: model.blobCurve)
             }
             
-            if visibilityModel.isVisible(layerWithType: .zigZags_with_markers) {
+            if layersModel.isVisible(layerWithType: .zigZags_with_markers) {
                 ZigZags(curves: model.zigZagCurves)
             }
             
-            if visibilityModel.isVisible(layerWithType: .normals) {
+            if layersModel.isVisible(layerWithType: .normals) {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
-            if visibilityModel.isVisible(layerWithType: .baseCurve) {
+            if layersModel.isVisible(layerWithType: .baseCurve) {
                 BaseCurve(vertices: model.baseCurve.vertices)
             }
             
-            if visibilityModel.isVisible(layerWithType: .envelopeBounds) {
+            if layersModel.isVisible(layerWithType: .envelopeBounds) {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
 
-            if visibilityModel.isVisible(layerWithType: .zigZags_with_markers) {
+            if layersModel.isVisible(layerWithType: .zigZags_with_markers) {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
             }
 
             Group {
-                if visibilityModel.isVisible(layerWithType: .baseCurve_markers) {
+                if layersModel.isVisible(layerWithType: .baseCurve_markers) {
                     BaseCurve_Markers(curve: model.baseCurve.vertices,
                                       style: markerStyles[.baseCurve]!)
                 }
 
-                if visibilityModel.isVisible(layerWithType: .blob_markers) {
+                if layersModel.isVisible(layerWithType: .blob_markers) {
                     AnimatingBlob_Markers(curve: model.blobCurve,
                                           style: markerStyles[.blob]!)
                 }
 
-                if visibilityModel.isVisible(layerWithType: .blob_vertex_0_marker) {
+                if layersModel.isVisible(layerWithType: .blob_vertex_0_marker) {
                     AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
                                                    markerStyle: markerStyles[.vertexOrigin]!)
                 }
             }
         }
         // can't do this because all layers might be turned off,
-        // in which case the view disappears!
+        // in which case the view disappears on us!
       //  .background(PageGradientBackground())
         
         .onAppear {
@@ -152,8 +152,8 @@ struct PageView: View {
             isAnimating = false
             timer.connect().cancel()
         }
-        
         .onTapGesture(count: 2) {
+            
             withAnimation(Animation.easeInOut(duration: 0.6))
             {
                 isAnimating = false
@@ -162,15 +162,14 @@ struct PageView: View {
                 model.returnToInitialConfiguration()
             }
         }
-        
         .onReceive(timer) { _ in
 
-            print("PageView.onReceive(timer) for: {\(pageType.rawValue)}")
+            //print("PageView.onReceive(timer) for: {\(pageType.rawValue)}")
             
             if isFirstTappedCycle {
                 isFirstTappedCycle = false
                 
-                // this was a VERY fast cycling timer, so the user wouldn't have to wait.
+                // initially a VERY fast cycling timer so the user wouldn't have to wait.
                 // now slow it down to its normal cycle
                 
                 timer.connect().cancel()
@@ -217,7 +216,7 @@ struct PageView: View {
         // .overlay(bullseye(color: .green))
         
         .overlay(displaySuperEllipseMetrics())
-        .displayScreenSizeMetrics(frontColor: .black, backColor: Color.init(white: 0.6))
+        .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
         
         // push LayerSelectionList & TwoButtonPanel into the
         // lower-left corner. only one of them is visible at a time.
@@ -228,31 +227,26 @@ struct PageView: View {
                 let s = CGSize(width: 270, height: 625)
 
                 Spacer()
-                
                 HStack {
                     if showLayerSelectionList {
                         ZStack {
-                            LayerVisibilitySelectionList(layers: $visibilityModel.layers)
+                            LayersSelectionList(layers: $layersModel.layers)
                                 .frame(width: s.width, height: s.height)
-                                .overlay(
-                                    BezelFrame(color: .orange, size: s)
-                                )
+                            BezelFrame(color: .orange, size: s)
                         }
-                        .padding(50)
+                        .padding(40)
                     }
                     else {
-                        
                         LayerSelectionListButton(faceColor: .blue,
                                                  edgeColor: .orange)
-                            .onTapGesture {
-                                
+                            .onTapGesture
+                            {
                                 showLayerSelectionList.toggle()
                             }
                             .scaleEffect(1.4)
                             .padding(EdgeInsets(top: 0, leading: 80, bottom: 80, trailing: 0))
                     }
-                    
-                    Spacer() // pushes to the left
+                    Spacer() // pushes to the left <--
                 }
             }
         )

@@ -14,8 +14,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    //@ObservedObject var visModel = LayersModel()
+
     @Environment(\.verticalSizeClass) var vClass
     @Environment(\.horizontalSizeClass) var hClass
+    
+    init() {
+        print("ContentView.init() -----------------------------------")
+    }
     
     struct StatusTracker {
         static var isInitialized : [PageType : Bool] = [
@@ -31,12 +37,9 @@ struct ContentView: View {
             ContentView.StatusTracker.isInitialized[pageType] = true
         }
     }
-    
-    init() {
-        print("ContentView.init()")
-    }
-    
+        
     var body: some View {
+        
         GeometryReader { gr in
             
             let _ = PlatformSpecifics.forSizeClasses(
@@ -54,7 +57,7 @@ struct ContentView: View {
                         Image(systemName: "1.circle.fill")
                         Text("\(PageType.circle.rawValue)")
                     }
-
+            /*
                 PageView(pageType: PageType.superEllipse,
                          description: PageView.descriptions[1],
                          size: gr.size)
@@ -84,6 +87,7 @@ struct ContentView: View {
                         Image(systemName: "4.circle.fill");
                         Text("\(PageType.killerMoth.rawValue)" )
                     }
+                */
             }
         }
     }
