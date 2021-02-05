@@ -38,7 +38,9 @@ struct PageView: View {
         ]
         
     @ObservedObject var model = Model()
-    @ObservedObject var layersModel = LayersModel()
+//    @ObservedObject var layersModel = LayersModel()
+    @EnvironmentObject var layersModel : LayersModel
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
     static var animationTimeIncrement : Double = 2.8
     static var timerTimeIncrement : Double = 3.1
@@ -91,9 +93,10 @@ struct PageView: View {
     //MARK:-
     //MARK: show the following SuperEllipse layer stacks if so flagged
 
-            if layersModel.isVisible(layerWithType: .blob_filled) {
-                AnimatingBlob_Filled(curve: model.blobCurve)
-            }
+       //     if layersModel.isVisible(layerWithType: .blob_filled) {
+            AnimatingBlob_Filled(curve: model.blobCurve, layerType: .blob_filled)
+       //     }
+            // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             if layersModel.isVisible(layerWithType: .blob_stroked) {
                 AnimatingBlob_Stroked(curve: model.blobCurve)

@@ -39,19 +39,26 @@ let someG = Gradient(colors: [.black, .red, .black
 
 
 struct AnimatingBlob_Filled: View {
+    
+    @EnvironmentObject var layersModel: LayersModel
+
     var curve: [CGPoint]
+    var layerType : LayerType
+    
     let gradient = LinearGradient(gradient: someG,
                                  startPoint: .topLeading,
                                  endPoint: .bottomTrailing)
     var body : some View {
-        ZStack {
-            SuperEllipse(curve: curve,
-                         smoothed: true)
-                .fill(gradient)
-            
-            SuperEllipse(curve: curve,
-                         smoothed: true)
-                .stroke(Color.init(white: 0.35), lineWidth: 1)
+        if layersModel.isVisible(layerWithType: .blob_filled) {
+            ZStack {
+                SuperEllipse(curve: curve,
+                             smoothed: true)
+                    .fill(gradient)
+                
+                SuperEllipse(curve: curve,
+                             smoothed: true)
+                    .stroke(Color.init(white: 0.35), lineWidth: 1)
+            }
         }
     }
 }
