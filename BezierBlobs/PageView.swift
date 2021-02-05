@@ -42,6 +42,7 @@ struct PageView: View {
     
     static var animationTimeIncrement : Double = 2.8
     static var timerTimeIncrement : Double = 3.1
+    static var timerInitialQuickStartupTime : Double = 0.3
     
     @State var timer: Timer.TimerPublisher = Timer.publish(every: PageView.timerTimeIncrement, on: .main, in: .common)
 
@@ -150,6 +151,8 @@ struct PageView: View {
             print("PageView.onDisappear( PageType.\(pageType.rawValue) )")
             
             isAnimating = false
+            
+            // Animator.stopTimer()
             timer.connect().cancel()
         }
         .onTapGesture(count: 2) {
@@ -157,6 +160,8 @@ struct PageView: View {
             withAnimation(Animation.easeInOut(duration: 0.6))
             {
                 isAnimating = false
+                
+                // Animator.stopTimer()
                 timer.connect().cancel()
                 
                 model.returnToInitialConfiguration()
@@ -167,10 +172,15 @@ struct PageView: View {
             //print("PageView.onReceive(timer) for: {\(pageType.rawValue)}")
             
             if isFirstTappedCycle {
-                isFirstTappedCycle = false
                 
-                // initially a VERY fast cycling timer so the user wouldn't have to wait.
-                // now slow it down to its normal cycle
+                // Animator.restartTimer()
+                isFirstTappedCycle.toggle()
+                
+                // we started initially w/ a VERY fast timer so the user wouldn't
+                // have to wait too long. now slow it down to its normal frequency
+                
+                // MAYBE ABSTRACT THIS AT:
+                //Animator.restartTimer()
                 
                 timer.connect().cancel()
                 timer = Timer.publish(every: PageView.timerTimeIncrement, on: .main, in: .common)
@@ -182,7 +192,6 @@ struct PageView: View {
                 model.animateToNextZigZagPhase()
             }
         }
-        
         .onTapGesture(count: 1)
         {
             // the layer selection list is up; click anywhere else == close it
@@ -201,12 +210,16 @@ struct PageView: View {
                     // that need to be looked at.
                     
                     isFirstTappedCycle = true
-                    timer = Timer.publish(every: 0.4, on: .main, in: .common)
+                    
+                    // Animator.startTimer()
+                    timer = Timer.publish(every: PageView.timerInitialQuickStartupTime,
+                                          on: .main, in: .common)
                     timer.connect()
                 }
                 else { // isAnimating == true; turn it off
                     
                     isAnimating = false
+                    // Animator.stopTimer()
                     timer.connect().cancel()
                 }
             }
@@ -226,7 +239,8 @@ struct PageView: View {
             VStack {
                 let s = CGSize(width: 260, height: 600)
 
-                Spacer()
+                Spacer()    // pushes down from the top  |
+                            //                           V
                 HStack {
                     if showLayerSelectionList {
                         ZStack {
