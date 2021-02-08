@@ -25,10 +25,12 @@ class LayersModel : ObservableObject {
         
     @Published var layers : [Layer] = [
         .init(type: .blob_stroked, section: .animatingBlobCurves, visible: true),
-        .init(type: .blob_filled, section: .animatingBlobCurves),
+        .init(type: .blob_filled, section: .animatingBlobCurves, visible: true),
         .init(type: .blob_markers, section: .animatingBlobCurves),
         .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
-    // -------------------------------------------------------------------
+        
+        .init(type: .singleTentacle, section: .animatingBlobCurves, visible: true),
+    // ---------------------------------------------------------------------------
         
         .init(type: .baseCurve, section: .staticSupportCurves),
         .init(type: .baseCurve_markers, section: .staticSupportCurves),
@@ -55,6 +57,8 @@ enum LayerType : String {
     case blob_filled = "filled"
     case blob_markers = "vertex markers"
     case blob_vertex_0_marker = "vertex[0] marker"
+    
+    case singleTentacle = "single tentacle"
     
     case baseCurve = "base Curve"
     case baseCurve_markers = "base Curve markers"

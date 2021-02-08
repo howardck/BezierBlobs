@@ -38,16 +38,15 @@ struct PageView: View {
         ]
         
     @ObservedObject var model = Model()
-//    @ObservedObject var layersModel = LayersModel()
     @EnvironmentObject var layersModel : LayersModel
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
     static var animationTimeIncrement : Double = 2.8
     static var timerTimeIncrement : Double = 3.1
     static var timerInitialQuickStartupTime : Double = 0.3
     
-    @State var timer: Timer.TimerPublisher = Timer.publish(every: PageView.timerTimeIncrement, on: .main, in: .common)
-
+    @State var timer: Timer.TimerPublisher = Timer.publish(every: PageView.timerTimeIncrement,
+                                                           on: .main, in: .common)
     @State var showLayerSelectionList = false
     
     let description: PageDescription
@@ -93,19 +92,17 @@ struct PageView: View {
     //MARK:-
     //MARK: show the following SuperEllipse layer stacks if so flagged
 
-       //     if layersModel.isVisible(layerWithType: .blob_filled) {
+            // comparing testing for visibility here vs inside the
+            // called SuperEllipse stack itself via @EnvironmentObject.
+            // (think I like testing for it here. maybe ...)
             AnimatingBlob_Filled(curve: model.blobCurve, layerType: .blob_filled)
-       //     }
-            // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
             if layersModel.isVisible(layerWithType: .blob_stroked) {
                 AnimatingBlob_Stroked(curve: model.blobCurve)
             }
-            
             if layersModel.isVisible(layerWithType: .zigZags_with_markers) {
                 ZigZags(curves: model.zigZagCurves)
             }
-            
             if layersModel.isVisible(layerWithType: .normals) {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
@@ -114,12 +111,11 @@ struct PageView: View {
             if layersModel.isVisible(layerWithType: .baseCurve) {
                 BaseCurve(vertices: model.baseCurve.vertices)
             }
-            
             if layersModel.isVisible(layerWithType: .envelopeBounds) {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
-
+            
             if layersModel.isVisible(layerWithType: .zigZags_with_markers) {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
@@ -131,12 +127,10 @@ struct PageView: View {
                     BaseCurve_Markers(curve: model.baseCurve.vertices,
                                       style: markerStyles[.baseCurve]!)
                 }
-
                 if layersModel.isVisible(layerWithType: .blob_markers) {
                     AnimatingBlob_Markers(curve: model.blobCurve,
                                           style: markerStyles[.blob]!)
                 }
-
                 if layersModel.isVisible(layerWithType: .blob_vertex_0_marker) {
                     AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
                                                    markerStyle: markerStyles[.vertexOrigin]!)
@@ -145,7 +139,7 @@ struct PageView: View {
         }
         // can't do this because all layers might be turned off,
         // in which case the view disappears on us!
-      //  .background(PageGradientBackground())
+        //  .background(PageGradientBackground())
         
         .onAppear {
             print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
