@@ -108,11 +108,11 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     // the basis of everything else ...
     //MARK:- calculate the main baseCurve: vertices plus normals
     func calculateSuperEllipse(for numPoints: Int,
-                               with axes: Axes) -> (baseCurve:(vertices:[CGPoint], normals: [CGVector]),
-                                                    tuples: [(CGPoint, CGVector)])
+                               with axes: Axes) -> (//baseCurve:(vertices:[CGPoint], normals: [CGVector]),
+                                                    [(CGPoint, CGVector)])
     {
         // TO DO: look at trying ~ ([(vertex: CGPoint, normal: CGVector)]
-        var baseCurve = (vertices: [CGPoint](), normals: [CGVector]())
+        //var baseCurve = (vertices: [CGPoint](), normals: [CGVector]())
         var tuples : Tuples = [(vertex: CGPoint, normal: CGVector)]()
         
         var i = 0
@@ -132,7 +132,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             
             let vertex = CGPoint(x: x, y: y)
             
-            baseCurve.vertices += [vertex]
+           //baseCurve.vertices += [vertex]
             
             // the orthogonal (== normal) to the curve at this point
             let dX = axes.b * inverseN * pow(abs(sinT), (inverseN - 1)) * cosT
@@ -142,7 +142,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             // 10th-grade geometry, euclid, and similar triangles
             let hypotenuse = hypot(dX, dY)
             let normal = CGVector(dx: dX/hypotenuse, dy: dY/hypotenuse)
-            baseCurve.normals += [normal]
+            //baseCurve.normals += [normal]
             
             // @@@@@@@@ NEW NEW NEW NEW NEW NEW NEW NEW NEW
             tuples += [(vertex: vertex, normal: normal)]
@@ -153,7 +153,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
                 i += 1
             }
         }
-        return (baseCurve: baseCurve, tuples: tuples)
+        return (tuples)
     }
     
     func sign(_ number: Double) -> Double {
@@ -207,10 +207,10 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             self.axes = (a: minab, b: minab)
         }
 
-        let baseCurveListPlusTuples = calculateSuperEllipse(for: self.numPoints,
+        self.tuples = calculateSuperEllipse(for: self.numPoints,
                                                             with: self.axes)
-        self.baseCurve = baseCurveListPlusTuples.baseCurve
-        self.tuples = baseCurveListPlusTuples.tuples
+        //self.baseCurve = baseCurveListPlusTuples.baseCurve
+        //self.tuples = baseCurveListPlusTuples
         
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
             print("Model.calculateSuperEllipseCurves(PageType.\(pageType.rawValue))")
