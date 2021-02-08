@@ -38,7 +38,7 @@ struct PageView: View {
         ]
         
     @ObservedObject var model = Model()
-    @EnvironmentObject var layersModel : LayersModel
+    @EnvironmentObject var layers : Layers
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
     static var animationTimeIncrement : Double = 2.8
@@ -97,41 +97,43 @@ struct PageView: View {
             // (think I like testing for it here. maybe ...)
             AnimatingBlob_Filled(curve: model.blobCurve, layerType: .blob_filled)
 
-            if layersModel.isVisible(layerWithType: .blob_stroked) {
+            if layers.isVisible(layerWithType: .blob_stroked) {
                 AnimatingBlob_Stroked(curve: model.blobCurve)
             }
-            if layersModel.isVisible(layerWithType: .zigZags_with_markers) {
+            
+            if layers.isVisible(layerWithType: .zigZags_with_markers) {
                 ZigZags(curves: model.zigZagCurves)
             }
-            if layersModel.isVisible(layerWithType: .normals) {
+            if layers.isVisible(layerWithType: .normals) {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
-            if layersModel.isVisible(layerWithType: .baseCurve) {
-                BaseCurve(vertices: model.baseCurve.vertices)
+ 
+            if layers.isVisible(layerWithType: .baseCurve) {
+                BaseCurve(vertices: model.tuples.map{$0.vertex})
             }
-            if layersModel.isVisible(layerWithType: .envelopeBounds) {
+            if layers.isVisible(layerWithType: .envelopeBounds) {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
             
-            if layersModel.isVisible(layerWithType: .zigZags_with_markers) {
+            if layers.isVisible(layerWithType: .zigZags_with_markers) {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
             }
 
             Group {
-                if layersModel.isVisible(layerWithType: .baseCurve_markers) {
-                    BaseCurve_Markers(curve: model.baseCurve.vertices,
+                if layers.isVisible(layerWithType: .baseCurve_markers) {
+                    BaseCurve_Markers(curve: model.tuples.map{$0.vertex} ,
                                       style: markerStyles[.baseCurve]!)
                 }
-                if layersModel.isVisible(layerWithType: .blob_markers) {
+                if layers.isVisible(layerWithType: .blob_markers) {
                     AnimatingBlob_Markers(curve: model.blobCurve,
                                           style: markerStyles[.blob]!)
                 }
-                if layersModel.isVisible(layerWithType: .blob_vertex_0_marker) {
+                if layers.isVisible(layerWithType: .blob_vertex_0_marker) {
                     AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
                                                    markerStyle: markerStyles[.vertexOrigin]!)
                 }
@@ -241,7 +243,7 @@ struct PageView: View {
                 HStack {
                     if showLayerSelectionList {
                         ZStack {
-                            LayersSelectionList(layers: $layersModel.layers)
+                            LayersSelectionList(layers: $layers.layers)
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }

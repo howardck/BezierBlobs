@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B11D73925CC73450080F72F /* LayersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B11D73825CC73450080F72F /* LayersModel.swift */; };
+		3B11D73925CC73450080F72F /* Layers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B11D73825CC73450080F72F /* Layers.swift */; };
 		3B3052D4259B66B3009E5707 /* DrawTypeSelectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3052D3259B66B3009E5707 /* DrawTypeSelectionList.swift */; };
 		3B5A4BD425B90BB800CC5C26 /* TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */; };
 		3B686E032590091C00466BF5 /* LayersSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* LayersSelection.swift */; };
@@ -29,7 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3B11D73825CC73450080F72F /* LayersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayersModel.swift; sourceTree = "<group>"; };
+		3B11D73825CC73450080F72F /* Layers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layers.swift; sourceTree = "<group>"; };
 		3B3052D3259B66B3009E5707 /* DrawTypeSelectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTypeSelectionList.swift; sourceTree = "<group>"; };
 		3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewTest.swift; sourceTree = "<group>"; };
 		3B686E022590091C00466BF5 /* LayersSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayersSelection.swift; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 				3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */,
 				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				5E57D2E0256D5CDB00D6B1C0 /* Model.swift */,
-				3B11D73825CC73450080F72F /* LayersModel.swift */,
+				3B11D73825CC73450080F72F /* Layers.swift */,
 				5E57D2E1256D5CDB00D6B1C0 /* SuperEllipse.swift */,
 				3B779D252587CD5C00C5BC85 /* SuperEllipseLayers.swift */,
 				3B686E022590091C00466BF5 /* LayersSelection.swift */,
@@ -199,7 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B11D73925CC73450080F72F /* LayersModel.swift in Sources */,
+				3B11D73925CC73450080F72F /* Layers.swift in Sources */,
 				5E57D2E4256D5CDB00D6B1C0 /* SuperEllipse.swift in Sources */,
 				3B3052D4259B66B3009E5707 /* DrawTypeSelectionList.swift in Sources */,
 				5E57D2EC256D5D1200D6B1C0 /* CGPointVector.swift in Sources */,

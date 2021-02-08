@@ -40,7 +40,7 @@ let someG = Gradient(colors: [.black, .red, .black
 
 struct AnimatingBlob_Filled: View {
     
-    @EnvironmentObject var layersModel: LayersModel
+    @EnvironmentObject var layersModel: Layers
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     var curve: [CGPoint]

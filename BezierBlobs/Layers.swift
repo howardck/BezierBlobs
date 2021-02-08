@@ -10,12 +10,12 @@ struct Layer {
     var visible = false
 }
 
-class LayersModel : ObservableObject {
+class Layers : ObservableObject {
       
     static let DEBUG_PRINT_LAYERS = false
     
     init() {
-        if LayersModel.DEBUG_PRINT_LAYERS {
+        if Layers.DEBUG_PRINT_LAYERS {
             print("initializing LayersModel(): layers.count = {\(layers.count)}")
             
             for (ix, layer) in layers.enumerated() {

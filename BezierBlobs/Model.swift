@@ -43,7 +43,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
     
     // MARK:-
-    var baseCurve : BaseCurveType = (vertices: [CGPoint](), normals: [CGVector]())
+    //var baseCurve : BaseCurveType = (vertices: [CGPoint](), normals: [CGVector]())
     var tuples : Tuples = [(CGPoint, CGVector)]()
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
@@ -96,9 +96,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         // recalculate with 0 perturbations
         zigZagCurves = calculateZigZagCurves()
         blobCurve = tuples.map{ $0.vertex }
-        
-        // WHY BUG NO $0.vertex field ???
-        // blobCurve = tuples.map{ $0.vertex }
     }
        
     //MARK:-
@@ -208,7 +205,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
 
         self.tuples = calculateSuperEllipse(for: self.numPoints,
-                                                            with: self.axes)
+                                            with: self.axes)
         //self.baseCurve = baseCurveListPlusTuples.baseCurve
         //self.tuples = baseCurveListPlusTuples
         
