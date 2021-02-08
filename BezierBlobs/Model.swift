@@ -94,7 +94,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         animateToZigPhase = true
         
         // recalculate with 0 perturbations
-        zigZagCurves = calculateZigZagCurves_2(using: self.offsets)
+        zigZagCurves = calculateZigZagCurves()
         blobCurve = tuples.map{ $0.vertex }
         
         // WHY BUG NO $0.vertex field ???
@@ -226,7 +226,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         // ---------------------------------------------------------
         boundingCurves = calculateBoundingCurves(using: self.offsets)
         normalsCurve = calculateNormalsPseudoCurve()
-        zigZagCurves = calculateZigZagCurves_2(using: self.offsets)
+        zigZagCurves = calculateZigZagCurves()
         // ---------------------------------------------------------
 
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
@@ -298,7 +298,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
 
     // initial plain-jane unperturbed variety
-    func calculateZigZagCurves_2(using offsets: Offsets) -> ZigZagCurves {
+    func calculateZigZagCurves() -> ZigZagCurves {
 
         let z = tuples.enumerated()
         let zig = z.map {
