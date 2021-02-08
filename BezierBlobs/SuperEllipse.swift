@@ -9,7 +9,6 @@ import SwiftUI
 
 enum BezierType : Equatable {
     case lineSegments
-    case singleTentacle
     case markers(radius: CGFloat)
     case singleMarker(index: Int, radius: CGFloat)
     case normals
@@ -34,7 +33,7 @@ struct SuperEllipse : Shape {
         for (i, point) in curve.enumerated() {
             switch(bezierType) {
             
-            case .lineSegments, .singleTentacle :
+            case .lineSegments :
                 i == 0 ?
                     path.move(to: point) :
                     path.addLine(to: point)
