@@ -34,7 +34,7 @@ struct TimerTest: View {
     
     func startTimer() {
         instantiateTimer()
-        timer.connect()
+        _ = timer.connect()
     }
 
     func cancelTimer() {
