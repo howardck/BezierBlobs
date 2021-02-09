@@ -25,7 +25,9 @@ struct PageView: View {
      static let descriptions : [PageDescription] =
         [
             (numPoints: 12, n: 2.0,
-             offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.7, outer: 1.1), forceEqualAxes: true),
+             //     (numPoints: 12, n: 2.0,
+              offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.7, outer: 1.1), forceEqualAxes: true),
+//             offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.05, outer: 1.0), forceEqualAxes: true),
 
             (numPoints: 20, n: 3.8,
              offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
@@ -183,7 +185,7 @@ struct PageView: View {
                 
                 timer.connect().cancel()
                 timer = Timer.publish(every: PageView.timerTimeIncrement, on: .main, in: .common)
-                timer.connect()
+                _ = timer.connect()
             }
             
             withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
@@ -213,7 +215,7 @@ struct PageView: View {
                     // Animator.startTimer()
                     timer = Timer.publish(every: PageView.timerInitialQuickStartupTime,
                                           on: .main, in: .common)
-                    timer.connect()
+                    _ = timer.connect()
                 }
                 else { // isAnimating == true; turn it off
                     
@@ -236,27 +238,27 @@ struct PageView: View {
         .overlay(
             
             VStack {
-                let s = CGSize(width: 260, height: 600)
-
                 Spacer()    // pushes down from the top  |
                             //                           V
                 HStack {
                     if showLayerSelectionList {
+                        let size = CGSize(width: 260, height: 600)
+
                         ZStack {
                             LayersSelectionList(layers: $layers.layers)
-                                .frame(width: s.width, height: s.height)
-                            BezelFrame(color: .orange, size: s)
+                                .frame(width: size.width, height: size.height)
+                            
+                            BezelFrame(color: .orange, size: size)
                         }
                         .padding(30)
                     }
                     else {
                         LayerSelectionListButton(faceColor: .blue,
                                                  edgeColor: .orange)
-                            .onTapGesture
-                            {
+                            .onTapGesture {
                                 showLayerSelectionList.toggle()
                             }
-                            .scaleEffect(1.4)
+                            .scaleEffect(1.3)
                             .padding(EdgeInsets(top: 0, leading: 40, bottom: 50, trailing: 0))
                     }
                     Spacer() // pushes to the left <--
