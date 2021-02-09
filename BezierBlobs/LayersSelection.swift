@@ -5,6 +5,14 @@
 
 import SwiftUI
 
+
+struct Layer {
+    var type : LayerType
+    var section: SectionType
+    var visible = false
+}
+
+
 struct LayersSelectionList: View {
     
     static let DEBUG_PRINT_SHOW_LAYER_VISIBILITY = false
@@ -24,21 +32,21 @@ struct LayersSelectionList: View {
     {
         List {
             
-            Section(header: Text("Animating Blob Layers")
-                        .foregroundColor(sectionHeaderColoring)
-                        .font(.headline)
-                        .padding(8)) {
-                
-                rowsInSection(for: .animatingBlobCurves)
-            }
-            .textCase(.lowercase)
-            
             Section(header: Text("Support Layers")
                         .foregroundColor(sectionHeaderColoring)
                         .font(.headline)
                         .padding(8)) {
                 
                 rowsInSection(for: .staticSupportCurves)
+            }
+            .textCase(.lowercase)
+            
+            Section(header: Text("Animating Blob Layers")
+                        .foregroundColor(sectionHeaderColoring)
+                        .font(.headline)
+                        .padding(8)) {
+                
+                rowsInSection(for: .animatingBlobCurves)
             }
             .textCase(.lowercase)
             
@@ -71,7 +79,7 @@ struct LayersSelectionList: View {
                         $0.type == layer.type
                     }) {
                         if Self.DEBUG_PRINT_LAYER_LIST_TAPPING {
-                            print("tapped LayerItem: {.\(layer.type)} Section: {.\(section)} index: [\(tappedItemIndex)]")
+                            print("tapped layerItem: {.\(layer.type)} Section: {.\(section)} index: [\(tappedItemIndex)]")
                         }
                                                 
                         if layer.type == .hideAll {
