@@ -1,5 +1,5 @@
 /*
- adapted from
+ helped out by:
  https://stackoverflow.com/questions/59241293/swiftui-how-do-you-restart-a-timer-after-cancelling-it
  */
 

@@ -63,14 +63,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3B9A048E25C8642D0097ECC6 /* appLevelTests */ = {
+		3B9A048E25C8642D0097ECC6 /* App-level tests */ = {
 			isa = PBXGroup;
 			children = (
 				3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */,
 				3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */,
 				3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */,
 			);
-			path = appLevelTests;
+			path = "App-level tests";
 			sourceTree = "<group>";
 		};
 		5E57D2A3256D5AD900D6B1C0 = {
@@ -103,7 +103,7 @@
 				3B686E022590091C00466BF5 /* LayersSelection.swift */,
 				3B3052D3259B66B3009E5707 /* DrawTypeSelectionList.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
-				3B9A048E25C8642D0097ECC6 /* appLevelTests */,
+				3B9A048E25C8642D0097ECC6 /* App-level tests */,
 				5E57D2E6256D5CF900D6B1C0 /* extensions */,
 				5E57D2B3256D5ADD00D6B1C0 /* Assets.xcassets */,
 				5E57D2B8256D5ADD00D6B1C0 /* Info.plist */,
