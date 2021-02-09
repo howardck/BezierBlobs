@@ -34,23 +34,26 @@ let blueGradient = Gradient(colors: [.blue, .init(white: 0.45)])
 let redGradient = Gradient(colors: [.red, .yellow])
 
 //let someG = Gradient(colors: [.blue, .white, .blue])
-let someG = Gradient(colors: [.black, .red, .black
+let highlitRed = Gradient(colors: [.black, .red, .black
 ])
 
 
 struct AnimatingBlob_Filled: View {
     
+    // @@@@@@@@@@  EXPERIMENTAL @@@@@@@@@@@@@@
     @EnvironmentObject var layersModel: Layers
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     var curve: [CGPoint]
     var layerType : LayerType
     
-    let gradient = LinearGradient(gradient: someG,
-                                 startPoint: .topLeading,
-                                 endPoint: .bottomTrailing)
+    let gradient = LinearGradient(gradient: highlitRed,
+                                  startPoint: .topLeading,
+                                  endPoint: .bottomTrailing)
     var body : some View {
+        
         if layersModel.isVisible(layerWithType: .blob_filled) {
+            
             ZStack {
                 SuperEllipse(curve: curve,
                              smoothed: true)

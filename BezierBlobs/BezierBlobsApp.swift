@@ -11,13 +11,12 @@ import SwiftUI
 struct BezierBlobsApp: App {
     
     let layers = Layers()
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(layers)
-            
+            // or ...
             //TimerTest()
             //TabViewTest()
             //MainScreenLayoutTest()

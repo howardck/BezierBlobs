@@ -26,8 +26,8 @@ struct PageView: View {
         [
             (numPoints: 12, n: 2.0,
              //     (numPoints: 12, n: 2.0,
-              offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.7, outer: 1.1), forceEqualAxes: true),
-//             offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.05, outer: 1.0), forceEqualAxes: true),
+//              offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.7, outer: 1.1), forceEqualAxes: true),
+             offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.05, outer: 1.0), forceEqualAxes: true),
 
             (numPoints: 20, n: 3.8,
              offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
@@ -41,7 +41,7 @@ struct PageView: View {
         
     @ObservedObject var model = Model()
     @EnvironmentObject var layers : Layers
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
     static var animationTimeIncrement : Double = 2.8
     static var timerTimeIncrement : Double = 3.1
