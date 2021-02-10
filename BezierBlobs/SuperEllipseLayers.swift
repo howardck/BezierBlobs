@@ -40,12 +40,13 @@ let highlitRed = Gradient(colors: [.black, .red, .black
 
 struct AnimatingBlob_Filled: View {
     
-    // @@@@@@@@@@  EXPERIMENTAL @@@@@@@@@@@@@@
+    // @@@@@@@@@@@@  EXPLORING  @@@@@@@@@@@@@@
     @EnvironmentObject var layersModel: Layers
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     var curve: [CGPoint]
     var layerType : LayerType
+    @Binding var smoothed : Bool
     
     let gradient = LinearGradient(gradient: highlitRed,
                                   startPoint: .topLeading,
@@ -56,11 +57,11 @@ struct AnimatingBlob_Filled: View {
             
             ZStack {
                 SuperEllipse(curve: curve,
-                             smoothed: true)
+                             smoothed: smoothed)
                     .fill(gradient)
                 
                 SuperEllipse(curve: curve,
-                             smoothed: true)
+                             smoothed: smoothed)
                     .stroke(Color.init(white: 0.35), lineWidth: 1)
             }
         }
@@ -71,21 +72,23 @@ struct AnimatingBlob_Filled: View {
 struct AnimatingBlob_Stroked: View {
     var curve: [CGPoint]
     
+    @Binding var smoothed : Bool
+    
     let gradient = LinearGradient(gradient: blueGradient,
                                  startPoint: .topLeading,
                                  endPoint: .bottomTrailing)
     var body : some View {
-        
+        //let smoothed = false
         ZStack {
             SuperEllipse(curve: curve,
-                         smoothed: true)
-                .stroke(Color.init(white: 0.15), lineWidth: 12)
-//                .stroke(Color.blue, lineWidth: 12)
+                         smoothed: smoothed)
+               .stroke(Color.init(white: 0.15), lineWidth: 11)
+//                .stroke(Color.blue, lineWidth: 10)
 //                .stroke(Color.green, lineWidth: 10)
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
-                         smoothed: true)
+                         smoothed: smoothed)
                 .stroke(Color.white, lineWidth: 0.75)
         }
     }

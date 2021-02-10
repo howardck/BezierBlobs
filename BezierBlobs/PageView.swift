@@ -24,10 +24,10 @@ struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            (numPoints: 8, n: 2.0,
-             //     (numPoints: 12, n: 2.0,
-//              offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.7, outer: 1.1), forceEqualAxes: true),
-             offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.05, outer: 1.0), forceEqualAxes: true),
+            //(numPoints: 10, n: 2.0,
+                  (numPoints: 12, n: 2.0,
+              offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.7, outer: 1.1), forceEqualAxes: true),
+//             offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.9, outer: 1.0), forceEqualAxes: true),
 
             (numPoints: 20, n: 3.8,
              offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
@@ -45,11 +45,12 @@ struct PageView: View {
     
     static var animationTimeIncrement : Double = 2.8
     static var timerTimeIncrement : Double = 3.1
-    static var timerInitialQuickStartupTime : Double = 0.3
+    static var timerInitialQuickStartupTime : Double = 0.1
     
     @State var timer: Timer.TimerPublisher = Timer.publish(every: PageView.timerTimeIncrement,
                                                            on: .main, in: .common)
     @State var showLayerSelectionList = false
+    @State var smoothed = false
     
     let description: PageDescription
     let size: CGSize
@@ -97,10 +98,14 @@ struct PageView: View {
             // comparing testing for visibility here vs inside the
             // called SuperEllipse stack itself via @EnvironmentObject.
             // (think I like testing for it here. maybe ...)
-            AnimatingBlob_Filled(curve: model.blobCurve, layerType: .blob_filled)
+            AnimatingBlob_Filled(curve: model.blobCurve,
+                                 layerType: .blob_filled,
+                                 smoothed: $smoothed
+                                 )
 
             if layers.isVisible(layerWithType: .blob_stroked) {
-                AnimatingBlob_Stroked(curve: model.blobCurve)
+                AnimatingBlob_Stroked(curve: model.blobCurve,
+                                      smoothed: $smoothed)
             }
             
             if layers.isVisible(layerWithType: .zigZags_with_markers) {
@@ -170,7 +175,10 @@ struct PageView: View {
         }
         .onReceive(timer) { _ in
 
-            //print("PageView.onReceive(timer) for: {\(pageType.rawValue)}")
+            withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
+            {
+                model.animateToNextZigZagPhase()
+            }
             
             if isFirstTappedCycle {
                 
@@ -188,10 +196,10 @@ struct PageView: View {
                 _ = timer.connect()
             }
             
-            withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
-            {
-                model.animateToNextZigZagPhase()
-            }
+//            withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
+//            {
+//                model.animateToNextZigZagPhase()
+//            }
         }
         .onTapGesture(count: 1)
         {
