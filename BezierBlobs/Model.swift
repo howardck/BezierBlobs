@@ -68,11 +68,11 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             print("Model.animateToNextZigZagPhase():: animateToZig == {\(animateToZigPhase)}")
         }
         
-        let zigZagDeltas : ([CGFloat], [CGFloat]) = randomDeltasForZigZagPerturbations()
-        zigZagCurves = calculateNewZigZags(deltas: zigZagDeltas)
+//        let deltas : [CGFloat] = randomPerturbationDeltas(animateToZigPhase: self.animateToZigPhase)
+//        zigZagCurves = calculateNewZigZags(animateToZigPhase: self.animateToZigPhase, using: deltas)
 
-        // CURRENT WAY OF DOING THINGS. BYZANTINE!
-        //zigZagCurves = calculateRandomlyPerturbedZigZags(doZig: animateToZigPhase)
+        // PRIOR WAY OF DOING THINGS -- BYZANTINE!
+        zigZagCurves = calculateRandomlyPerturbedZigZags(doZig: animateToZigPhase)
         
         blobCurve = animateToZigPhase ?
             zigZagCurves.zig :
@@ -81,7 +81,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         animateToZigPhase.toggle()
     }
 
-    
     func animateToCurrZigZagPhase() {
         blobCurve = animateToZigPhase ?
             zigZagCurves.zag :
@@ -272,39 +271,87 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         return CGFloat.random(in: -abs(limits)...abs(limits))
     }
     
-    func randomDeltasForZigZagPerturbations() -> (zigDeltas: [CGFloat], zagDeltas: [CGFloat])
-    {
-        let zigDeltas = tuples.enumerated().map {
-            $0.0.isEven() ?
-                randomPerturbation(within: perturbationLimits.outer) :
-                randomPerturbation(within: perturbationLimits.inner)
+    func randomPerturbationDeltas(animateToZigPhase: Bool) -> [CGFloat] {
+
+        let enumerated = tuples.enumerated()
+        if animateToZigPhase {
+            // return deltas for zig phase
+            return enumerated.map {
+                $0.0.isEven() ?
+                    randomPerturbation(within: perturbationLimits.outer) :
+                    randomPerturbation(within: perturbationLimits.inner)
+            }
         }
-        let zagDeltas = tuples.enumerated().map {
+        // return deltas for zag phase
+        return enumerated.map {
             $0.0.isEven() ?
                 randomPerturbation(within: perturbationLimits.inner) :
                 randomPerturbation(within: perturbationLimits.outer)
         }
-        
-        return (zigDeltas: zigDeltas, zagDeltas: zagDeltas)
     }
     
-    func calculateNewZigZags(deltas: (zig: [CGFloat], zag: [CGFloat])) -> ZigZagCurves {
-        
+    func calculateNewZig(using deltas: [CGFloat]) -> [CGPoint] {
         let enumerated = self.tuples.enumerated()
         let zig = enumerated.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
-                                offsets.outer + deltas.zig[$0.0] :
-                                offsets.inner + deltas.zig[$0.0],
+                                offsets.outer + deltas[$0.0] :
+                                offsets.inner + deltas[$0.0],
                             along: $0.1.1)
         }
+         return zig
+    }
+    
+    func calculateNewZag(using deltas: [CGFloat]) -> [CGPoint] {
+        let enumerated = self.tuples.enumerated()
         let zag = enumerated.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
-                                offsets.inner + deltas.zag[$0.0]:
-                                offsets.outer + deltas.zag[$0.0],
+                                offsets.inner + deltas[$0.0]:
+                                offsets.outer + deltas[$0.0],
                             along: $0.1.1)
         }
-        return (zig, zag)
+        return zag
     }
+    
+    func calculateNewZigZags(animateToZigPhase: Bool, using deltas: [CGFloat]) -> ZigZagCurves {
+        return animateToZigPhase ?
+            (zig: calculateNewZig(using: deltas), zag: zigZagCurves.zag) :
+            (zig: zigZagCurves.zig, zag: calculateNewZag(using: deltas))
+    }
+    
+    // GOING GOING GONE ...
+//    func randomDeltasForZigZagPerturbations() -> (zigDeltas: [CGFloat], zagDeltas: [CGFloat])
+//    {
+//        let zigDeltas = tuples.enumerated().map {
+//            $0.0.isEven() ?
+//                randomPerturbation(within: perturbationLimits.outer) :
+//                randomPerturbation(within: perturbationLimits.inner)
+//        }
+//        let zagDeltas = tuples.enumerated().map {
+//            $0.0.isEven() ?
+//                randomPerturbation(within: perturbationLimits.inner) :
+//                randomPerturbation(within: perturbationLimits.outer)
+//        }
+//
+//        return (zigDeltas: zigDeltas, zagDeltas: zagDeltas)
+//    }
+    
+//    func calculateNewZigZags(deltas: (zig: [CGFloat], zag: [CGFloat])) -> ZigZagCurves {
+//
+//        let enumerated = self.tuples.enumerated()
+//        let zig = enumerated.map {
+//            $0.1.0.newPoint(at: $0.0.isEven() ?
+//                                offsets.outer + deltas.zig[$0.0] :
+//                                offsets.inner + deltas.zig[$0.0],
+//                            along: $0.1.1)
+//        }
+//        let zag = enumerated.map {
+//            $0.1.0.newPoint(at: $0.0.isEven() ?
+//                                offsets.inner + deltas.zag[$0.0]:
+//                                offsets.outer + deltas.zag[$0.0],
+//                            along: $0.1.1)
+//        }
+//        return (zig, zag)
+//    }
     
     // ===========  BELOW: THE MORE COMPLICATED WAY I'VE BEEN DOING IT TO DATE  ===========
     

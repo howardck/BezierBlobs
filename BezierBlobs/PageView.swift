@@ -24,7 +24,7 @@ struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            (numPoints: 12, n: 2.0,
+            (numPoints: 8, n: 2.0,
              //     (numPoints: 12, n: 2.0,
 //              offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.7, outer: 1.1), forceEqualAxes: true),
              offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.05, outer: 1.0), forceEqualAxes: true),

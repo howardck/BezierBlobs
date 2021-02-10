@@ -5,24 +5,22 @@
 
 import SwiftUI
 
-
 struct Layer {
     var type : LayerType
     var section: SectionType
     var visible = false
 }
 
-
 struct LayersSelectionList: View {
     
     static let DEBUG_PRINT_SHOW_LAYER_VISIBILITY = false
-    static let DEBUG_PRINT_LAYER_LIST_TAPPING = true
+    static let DEBUG_PRINT_LAYER_LIST_TAPPING = false
 
     @Binding var layers : [Layer]
 
     let sectionHeaderColoring = Color.init(white: 0.2)
     
-    func printLayerVisibilityFlags() {
+    func DEBUG_printLayerVisibilityFlags() {
         _ = self.layers.map { layer in
             print("layer [.\(layer.type.rawValue)] visible: {\(layer.visible)}")
         }
@@ -62,7 +60,7 @@ struct LayersSelectionList: View {
         .onAppear() {
             if Self.DEBUG_PRINT_SHOW_LAYER_VISIBILITY {
                 print("LayersSelectionList.onAppear{} ........")
-                printLayerVisibilityFlags()
+                DEBUG_printLayerVisibilityFlags()
             }
         }
         .environment(\.defaultMinListRowHeight, 42) // 0 == as tight as possible
@@ -79,9 +77,8 @@ struct LayersSelectionList: View {
                         $0.type == layer.type
                     }) {
                         if Self.DEBUG_PRINT_LAYER_LIST_TAPPING {
-                            print("tapped layerItem: {.\(layer.type)} Section: {.\(section)} index: [\(tappedItemIndex)]")
+                            print("tapped layerItem [\(tappedItemIndex)]: {LayerType.\(layer.type)} {Section.\(section)}")
                         }
-                                                
                         if layer.type == .hideAll {
                             showHideAllLayers(show: false)
                             layers[index(of: .hideAll)].visible = true
@@ -102,8 +99,7 @@ struct LayersSelectionList: View {
     }
     
     func index(of type: LayerType) -> Int {
-        let index = layers.firstIndex(
-            where: {$0.type == type} )
+        let index = layers.firstIndex(where: { $0.type == type })
         return index!
     }
     
