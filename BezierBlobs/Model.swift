@@ -69,7 +69,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
         
         let zigZagDeltas : ([CGFloat], [CGFloat]) = randomDeltasForZigZagPerturbations()
-        zigZagCurves = calcNewZigZags(deltas: zigZagDeltas)
+        zigZagCurves = calculateNewZigZags(deltas: zigZagDeltas)
 
         // CURRENT WAY OF DOING THINGS. BYZANTINE!
         //zigZagCurves = calculateRandomlyPerturbedZigZags(doZig: animateToZigPhase)
@@ -80,24 +80,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
 
         animateToZigPhase.toggle()
     }
-    
-    func calcNewZigZags(deltas: (zig: [CGFloat], zag: [CGFloat])) -> ZigZagCurves {
-        
-        let z = self.tuples.enumerated()
-        let zig = z.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
-                                offsets.outer + deltas.zig[$0.0] :
-                                offsets.inner + deltas.zig[$0.0],
-                            along: $0.1.1)
-        }
-        let zag = z.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
-                                offsets.inner + deltas.zag[$0.0]:
-                                offsets.outer + deltas.zag[$0.0],
-                            along: $0.1.1)
-        }
-        return (zig, zag)
-    }
+
     
     func animateToCurrZigZagPhase() {
         blobCurve = animateToZigPhase ?
@@ -284,28 +267,46 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     //MARK: - Support Curves
     
-    func randomPerturbation(within limits: CGFloat) -> CGFloat {//}, debugIsEven: Bool) -> CGFloat {
+    func randomPerturbation(within limits: CGFloat) -> CGFloat {
         
-        let val = CGFloat.random(in: -abs(limits)...abs(limits))
-//        print("random(maxPerturbation: {\(maxPerturbation)}, val: {\(rVal.format(fspec: "6.4"))} ")
-        return val
+        return CGFloat.random(in: -abs(limits)...abs(limits))
     }
     
     func randomDeltasForZigZagPerturbations() -> (zigDeltas: [CGFloat], zagDeltas: [CGFloat])
     {
-        let zigDs = tuples.enumerated().map {
+        let zigDeltas = tuples.enumerated().map {
             $0.0.isEven() ?
                 randomPerturbation(within: perturbationLimits.outer) :
                 randomPerturbation(within: perturbationLimits.inner)
         }
-        let zagDs = tuples.enumerated().map {
+        let zagDeltas = tuples.enumerated().map {
             $0.0.isEven() ?
                 randomPerturbation(within: perturbationLimits.inner) :
                 randomPerturbation(within: perturbationLimits.outer)
         }
         
-        return (zigDeltas: zigDs, zagDeltas: zagDs)
+        return (zigDeltas: zigDeltas, zagDeltas: zagDeltas)
     }
+    
+    func calculateNewZigZags(deltas: (zig: [CGFloat], zag: [CGFloat])) -> ZigZagCurves {
+        
+        let enumerated = self.tuples.enumerated()
+        let zig = enumerated.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.outer + deltas.zig[$0.0] :
+                                offsets.inner + deltas.zig[$0.0],
+                            along: $0.1.1)
+        }
+        let zag = enumerated.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.inner + deltas.zag[$0.0]:
+                                offsets.outer + deltas.zag[$0.0],
+                            along: $0.1.1)
+        }
+        return (zig, zag)
+    }
+    
+    // ===========  BELOW: THE MORE COMPLICATED WAY I'VE BEEN DOING IT TO DATE  ===========
     
     // only zig or zag is changing, but still need to rebuild (zig, zag) using both
     func calculateRandomlyPerturbedZigZags(doZig: Bool) -> ZigZagCurves {
@@ -343,14 +344,14 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         let z = tuples.enumerated()
         let zig = z.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
-                                        offsets.outer :
-                                        offsets.inner,
+                                offsets.outer :
+                                offsets.inner,
                             along: $0.1.1)
         }
         let zag = z.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
-                                        offsets.inner :
-                                        offsets.outer,
+                                offsets.inner :
+                                offsets.outer,
                             along: $0.1.1)
         }
         return (zig, zag)
