@@ -5,12 +5,6 @@
 
 import SwiftUI
 
-struct Layer {
-    var type : LayerType
-    var section: SectionType
-    var visible = false
-}
-
 struct LayersSelectionList: View {
     
     static let DEBUG_PRINT_SHOW_LAYER_VISIBILITY = false
@@ -29,7 +23,7 @@ struct LayersSelectionList: View {
     var body: some View
     {
         List {
-            
+
             Section(header: Text("Support Layers")
                         .foregroundColor(sectionHeaderColoring)
                         .font(.headline)
@@ -53,7 +47,7 @@ struct LayersSelectionList: View {
                         .font(.headline)
                         .padding(8)) {
 
-                rowsInSection(for: .commands)
+                rowsInSection(for: .shortcuts)
             }
             .textCase(.lowercase)
         }
