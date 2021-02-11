@@ -1,5 +1,5 @@
 //
-//  LayersSelection.swift -- BezierBlobs
+//  LayersSelectionList.swift -- BezierBlobs
 //  Created by Howard Katz on 2020-12-20
 
 

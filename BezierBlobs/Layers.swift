@@ -4,10 +4,16 @@
 
 import Combine
 
+struct Layer {
+    var type : LayerType
+    var section: SectionType
+    var visible = false
+}
+
 class Layers : ObservableObject {
       
     static let DEBUG_PRINT_LAYERS = false
-
+    
     @Published var layers : [Layer] = [
         
         .init(type: .baseCurve, section: .staticSupportCurves),
@@ -16,21 +22,18 @@ class Layers : ObservableObject {
         .init(type: .envelopeBounds, section: .staticSupportCurves),
         .init(type: .zigZags_with_markers, section: .staticSupportCurves),
     // -------------------------------------------------------------------
-        
         .init(type: .blob_stroked, section: .animatingBlobCurves, visible: true),
         .init(type: .blob_filled, section: .animatingBlobCurves, visible: true),
         .init(type: .blob_markers, section: .animatingBlobCurves),
         .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
-    // ---------------------------------------------------------------------------
-        
-        .init(type: .showAll, section: .commands),
-        .init(type: .hideAll, section: .commands)
+    // ---------------------------------------------------------------------------------
+        .init(type: .showAll, section: .shortcuts),
+        .init(type: .hideAll, section: .shortcuts)
     ]
     
     init() {
         if Layers.DEBUG_PRINT_LAYERS {
-            print("initializing LayersModel(): layers.count = {\(layers.count)}")
-            
+            print("initializing class Layers(): layers.count = {\(layers.count)}")
             for (ix, layer) in layers.enumerated() {
                 print("layer[\(ix)] visible = {\(layer.visible)}")
         }}
@@ -41,7 +44,7 @@ class Layers : ObservableObject {
     }
     
     func index(of layerWithType: LayerType) -> Int {
-        layers.firstIndex ( where: { $0.type == layerWithType } )!
+        layers.firstIndex( where: { $0.type == layerWithType } )!
     }
 }
 
@@ -64,5 +67,5 @@ enum LayerType : String {
 enum SectionType {
     case animatingBlobCurves
     case staticSupportCurves
-    case commands
+    case shortcuts
 }

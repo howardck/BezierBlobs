@@ -24,10 +24,9 @@ struct PageView: View {
         
      static let descriptions : [PageDescription] =
         [
-            //(numPoints: 10, n: 2.0,
-                  (numPoints: 12, n: 2.0,
-              offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.7, outer: 1.1), forceEqualAxes: true),
-//             offsets: (in: -0.3, out: 0.3), perturbLimits: (inner: 0.9, outer: 1.0), forceEqualAxes: true),
+            (numPoints: 12, n: 2.0,
+             offsets: (in: -0.25, out: 0.3), perturbLimits: (inner: 0.5, outer: 1.0),
+             forceEqualAxes: true),
 
             (numPoints: 20, n: 3.8,
              offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
@@ -39,18 +38,19 @@ struct PageView: View {
              offsets: (in: -0.05, out: 0.4), perturbLimits: (inner: 2.4, outer: 0.2), false)
         ]
         
+    @State var smoothed = true
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    
     @ObservedObject var model = Model()
     @EnvironmentObject var layers : Layers
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
     static var animationTimeIncrement : Double = 2.8
     static var timerTimeIncrement : Double = 3.1
-    static var timerInitialQuickStartupTime : Double = 0.1
+    static var timerInitialTimeIncrement : Double = 0.0
     
     @State var timer: Timer.TimerPublisher = Timer.publish(every: PageView.timerTimeIncrement,
                                                            on: .main, in: .common)
     @State var showLayerSelectionList = false
-    @State var smoothed = false
     
     let description: PageDescription
     let size: CGSize
@@ -181,98 +181,87 @@ struct PageView: View {
             }
             
             if isFirstTappedCycle {
-                
-                // Animator.restartTimer()
                 isFirstTappedCycle.toggle()
-                
-                // we started initially w/ a VERY fast timer so the user wouldn't
-                // have to wait too long. now slow it down to its normal frequency
-                
-                // MAYBE ABSTRACT THIS AT:
-                //Animator.restartTimer()
                 
                 timer.connect().cancel()
                 timer = Timer.publish(every: PageView.timerTimeIncrement, on: .main, in: .common)
                 _ = timer.connect()
             }
-            
-//            withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
-//            {
-//                model.animateToNextZigZagPhase()
-//            }
         }
         .onTapGesture(count: 1)
         {
-            // the layer selection list is up; click anywhere else == close it
             if showLayerSelectionList {
                 showLayerSelectionList = false
             }
             else {
                 if !isAnimating {
                     isAnimating = true
-                    
-                    // the first tap cycle needs a short duration, since we don't see anything
-                    // happening until 'every:' happens for the first time. set the time interval
-                    // to it normal slower self on our first receive().
-                    
-                    // NOTE there are some animation-startup stutter effects happening
-                    // that need to be looked at.
-                    
+            
                     isFirstTappedCycle = true
-                    
-                    // Animator.startTimer()
-                    timer = Timer.publish(every: PageView.timerInitialQuickStartupTime,
-                                          on: .main, in: .common)
+                    timer = Timer.publish(every: 0, on: .main, in: .common)
                     _ = timer.connect()
                 }
-                else { // isAnimating == true; turn it off
-                    
+                else {
                     isAnimating = false
-                    // Animator.stopTimer()
                     timer.connect().cancel()
                 }
             }
         }
-            
-        // a nice thought, but makes center of shape quite busy
-        // .overlay(bullseye(color: .green))
-        
         .overlay(displaySuperEllipseMetrics())
         .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
         
-        // push LayerSelectionList & TwoButtonPanel into the
-        // lower-left corner. only one of them is visible at a time.
+        // push LayerSelectionList & its invoking button into the lowerleft
+        // corner of the screen. only one of them is visible at a time.
         
         .overlay(
-            
             VStack {
-                Spacer()    // pushes down from the top  |
-                            //                           V
+                Spacer() // pushes toward the bottom
                 HStack {
-                    if showLayerSelectionList {
-                        let size = CGSize(width: 260, height: 600)
-
-                        ZStack {
-                            LayersSelectionList(layers: $layers.layers)
-                                .frame(width: size.width, height: size.height)
-                            
-                            BezelFrame(color: .orange, size: size)
-                        }
-                        .padding(30)
-                    }
-                    else {
-                        LayerSelectionListButton(faceColor: .blue,
-                                                 edgeColor: .orange)
-                            .onTapGesture {
-                                showLayerSelectionList.toggle()
-                            }
-                            .scaleEffect(1.3)
-                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 50, trailing: 0))
-                    }
-                    Spacer() // pushes to the left <--
+                    LayerSelectionButtonAndList(showLayerList: $showLayerSelectionList)
+                    Spacer() // pushes to the left
                 }
             }
         )
+        
+        .overlay(
+            VStack {
+                Spacer() // pushes toward the bottom
+                HStack {
+                    Spacer() // pushes to the right
+                    Text("I am!")
+                        .font(.title)
+                        .foregroundColor(.yellow)
+                        .padding(40)
+                }
+            }
+        )
+    }
+    
+    struct LayerSelectionButtonAndList : View {
+        @Binding var showLayerList : Bool
+        @EnvironmentObject var layers: Layers
+        
+        var body: some View {
+            if showLayerList {
+                let size = CGSize(width: 260, height: 600)
+                ZStack {
+                    LayersSelectionList(layers: $layers.layers)
+                        .frame(width: size.width, height: size.height)
+                    
+                    BezelFrame(color: .orange, size: size)
+                }
+                .padding(30)
+            }
+            else {
+                LayerSelectionListButton(faceColor: .blue,
+                                         edgeColor: .orange)
+                    .onTapGesture {
+                        showLayerList.toggle()
+                    }
+                    .scaleEffect(1.3)
+                    .padding(EdgeInsets(top: 0, leading: 40, bottom: 50, trailing: 0))
+            }
+        }
     }
     
     struct BezelFrame : View {

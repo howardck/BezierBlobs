@@ -40,7 +40,7 @@ let highlitRed = Gradient(colors: [.black, .red, .black
 
 struct AnimatingBlob_Filled: View {
     
-    // @@@@@@@@@@@@  EXPLORING  @@@@@@@@@@@@@@
+    // @@@@@@@@@@@@  EXPLORING @@@@@@@@@@@@@@
     @EnvironmentObject var layersModel: Layers
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -82,14 +82,18 @@ struct AnimatingBlob_Stroked: View {
         ZStack {
             SuperEllipse(curve: curve,
                          smoothed: smoothed)
-               .stroke(Color.init(white: 0.15), lineWidth: 11)
+                .stroke(Color.blue,
+               // .stroke(Color.init(white: 0.15),
+                        style: StrokeStyle(lineWidth: 12, lineJoin: .round))
+            
 //                .stroke(Color.blue, lineWidth: 10)
 //                .stroke(Color.green, lineWidth: 10)
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: smoothed)
-                .stroke(Color.white, lineWidth: 0.75)
+                .stroke(Color.white, style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
+               // .stroke(Color.white, lineWidth: 0.75)
         }
     }
 }
