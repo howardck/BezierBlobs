@@ -1,5 +1,5 @@
 //
-//  LayersModel.swift (BezierBlobs)
+//  Layers.swift (BezierBlobs)
 //  Created by Howard Katz on 2021-02-04.
 
 import Combine
@@ -16,17 +16,22 @@ class Layers : ObservableObject {
     
     @Published var layers : [Layer] = [
         
-        .init(type: .baseCurve, section: .staticSupportCurves),
-        .init(type: .baseCurve_markers, section: .staticSupportCurves),
+        .init(type: .baseCurve, section: .staticSupportCurves,
+              visible: true),
+        .init(type: .baseCurve_markers, section: .staticSupportCurves,
+              visible: true),
         .init(type: .normals, section: .staticSupportCurves),
         .init(type: .envelopeBounds, section: .staticSupportCurves),
         .init(type: .zigZags_with_markers, section: .staticSupportCurves),
     // -------------------------------------------------------------------
-        .init(type: .blob_stroked, section: .animatingBlobCurves, visible: true),
-        .init(type: .blob_filled, section: .animatingBlobCurves, visible: true),
+        .init(type: .blob_stroked, section: .animatingBlobCurves,
+              visible: true),
+        .init(type: .blob_filled, section: .animatingBlobCurves,
+              visible: true),
         .init(type: .blob_markers, section: .animatingBlobCurves),
-        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
-    // ---------------------------------------------------------------------------------
+        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
+              visible: true),
+    // --------------------------------------------------=---------------
         .init(type: .showAll, section: .shortcuts),
         .init(type: .hideAll, section: .shortcuts)
     ]
@@ -53,7 +58,7 @@ enum LayerType : String {
     case baseCurve_markers = "base Curve markers"
     case normals = "normals"
     case envelopeBounds = "envelope Bounds"
-    case zigZags_with_markers = "zigZags + markers"
+    case zigZags_with_markers = "zig-zags (animating)"
     
     case blob_stroked = "stroked"
     case blob_filled = "filled"

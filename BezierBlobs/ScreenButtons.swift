@@ -79,7 +79,7 @@ struct LayerStackSymbol: View {
     }
 }
 
-struct LayerSelectionListButton : View {
+struct ShowSelectionListsButton : View {
     var faceColor: Color
     var edgeColor: Color
     let s = CGSize(width: 70, height: 50)

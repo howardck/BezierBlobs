@@ -9,55 +9,46 @@ struct LayersSelectionList: View {
     
     static let DEBUG_PRINT_SHOW_LAYER_VISIBILITY = false
     static let DEBUG_PRINT_LAYER_LIST_TAPPING = false
-
-    @Binding var layers : [Layer]
-
-    let sectionHeaderColoring = Color.init(white: 0.2)
     
     func DEBUG_printLayerVisibilityFlags() {
         _ = self.layers.map { layer in
             print("layer [.\(layer.type.rawValue)] visible: {\(layer.visible)}")
         }
     }
+ 
+    @Binding var layers : [Layer]
+    let sectionHeaderTextColor = Color.init(white: 0.1)
     
     var body: some View
     {
         List {
 
-            Section(header: Text("Support Layers")
-                        .foregroundColor(sectionHeaderColoring)
-                        .font(.headline)
-                        .padding(8)) {
-                
+            Section(header: Text("Support Layers").textCase(.uppercase)) {
+                        //.foregroundColor(sectionHeaderTextColor)) {
                 rowsInSection(for: .staticSupportCurves)
             }
             .textCase(.lowercase)
             
-            Section(header: Text("Animating Blob Layers")
-                        .foregroundColor(sectionHeaderColoring)
-                        .font(.headline)
-                        .padding(8)) {
-                
+            Section(header: Text("Animating Blob Layers").textCase(.uppercase)) {
+                        //.foregroundColor(sectionHeaderTextColor)) {
                 rowsInSection(for: .animatingBlobCurves)
             }
             .textCase(.lowercase)
             
-            Section(header: Text("Shortcuts")
-                        .foregroundColor(sectionHeaderColoring)
-                        .font(.headline)
-                        .padding(8)) {
-
+            Section(header: Text("Shortcuts").textCase(.uppercase)) {
+                        //.foregroundColor(sectionHeaderTextColor)) {
                 rowsInSection(for: .shortcuts)
             }
             .textCase(.lowercase)
         }
+        .listStyle(InsetGroupedListStyle())
         .onAppear() {
             if Self.DEBUG_PRINT_SHOW_LAYER_VISIBILITY {
                 print("LayersSelectionList.onAppear{} ........")
                 DEBUG_printLayerVisibilityFlags()
             }
         }
-        .environment(\.defaultMinListRowHeight, 42) // 0 == as tight as possible
+        .environment(\.defaultMinListRowHeight, 42) // 0 == tight as possible
     }
     
     func rowsInSection(for section: SectionType) -> some View {

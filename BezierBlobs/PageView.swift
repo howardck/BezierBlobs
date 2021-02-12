@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-
 enum PageType : String {
     case circle = "CIRCLE"
-    case superEllipse = "SUPERELLIPSE"
+    case superEllipse = "CLASSIC"
     case deltaWing = "DELTA WING"
     case killerMoth = "RORSCHACH"
 }
@@ -22,39 +21,41 @@ typealias PageDescription = (numPoints: Int,
                              forceEqualAxes: Bool)
 struct PageView: View {
         
-     static let descriptions : [PageDescription] =
-        [
-            (numPoints: 12, n: 2.0,
-             offsets: (in: -0.25, out: 0.3), perturbLimits: (inner: 0.5, outer: 1.0),
-             forceEqualAxes: true),
-
-            (numPoints: 20, n: 3.8,
-             offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
-
-            (numPoints: 6, n: 3,
-             offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.0, outer: 0.0), false),
-
-            (numPoints: 24, n: 1,
-             offsets: (in: -0.05, out: 0.4), perturbLimits: (inner: 2.4, outer: 0.2), false)
-        ]
+    let description: PageDescription
+    let size: CGSize
+    
+    static let descriptions : [PageDescription] =
+    [
+        (numPoints: 12, n: 2.0,
+         offsets: (in: -0.25, out: 0.3), perturbLimits: (inner: 0.5, outer: 1.0),
+         forceEqualAxes: true),
         
+        (numPoints: 20, n: 3.8,
+         offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
+        
+        (numPoints: 6, n: 3,
+         offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.0, outer: 0.0), false),
+        
+        (numPoints: 24, n: 1,
+         offsets: (in: -0.1, out: 0.4), perturbLimits: (inner: 4, outer: 0.4), false)
+    ]
+        
+    // @@@@@@@@@@@@@@@@@@@@@@@
     @State var smoothed = true
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // @@@@@@@@@@@@@@@@@@@@@@@
     
     @ObservedObject var model = Model()
     @EnvironmentObject var layers : Layers
+    @EnvironmentObject var options : Options
     
     static var animationTimeIncrement : Double = 2.8
     static var timerTimeIncrement : Double = 3.1
     static var timerInitialTimeIncrement : Double = 0.0
     
-    @State var timer: Timer.TimerPublisher = Timer.publish(every: PageView.timerTimeIncrement,
-                                                           on: .main, in: .common)
-    @State var showLayerSelectionList = false
-    
-    let description: PageDescription
-    let size: CGSize
-    
+    @State var showSelectionLists = false
+    @State var timer: Timer.TimerPublisher
+                            = Timer.publish(every: PageView.timerTimeIncrement,
+                                            on: .main, in: .common)
     @State var isAnimating = false
     @State var isFirstTappedCycle = true
         
@@ -174,7 +175,6 @@ struct PageView: View {
             }
         }
         .onReceive(timer) { _ in
-
             withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
             {
                 model.animateToNextZigZagPhase()
@@ -184,21 +184,23 @@ struct PageView: View {
                 isFirstTappedCycle.toggle()
                 
                 timer.connect().cancel()
-                timer = Timer.publish(every: PageView.timerTimeIncrement, on: .main, in: .common)
+                timer = Timer.publish(every: PageView.timerTimeIncrement,
+                                      on: .main, in: .common)
                 _ = timer.connect()
             }
         }
         .onTapGesture(count: 1)
         {
-            if showLayerSelectionList {
-                showLayerSelectionList = false
+            if showSelectionLists {
+                showSelectionLists = false
             }
             else {
                 if !isAnimating {
                     isAnimating = true
             
                     isFirstTappedCycle = true
-                    timer = Timer.publish(every: 0, on: .main, in: .common)
+                    timer = Timer.publish(every: PageView.timerInitialTimeIncrement,
+                                          on: .main, in: .common)
                     _ = timer.connect()
                 }
                 else {
@@ -210,53 +212,57 @@ struct PageView: View {
         .overlay(displaySuperEllipseMetrics())
         .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
         
-        // push LayerSelectionList & its invoking button into the lowerleft
-        // corner of the screen. only one of them is visible at a time.
-        
         .overlay(
             VStack {
                 Spacer() // pushes toward the bottom
                 HStack {
-                    LayerSelectionButtonAndList(showLayerList: $showLayerSelectionList)
+                    SelectionListsButtonPlusLayersList(showSelectionLists: $showSelectionLists)
                     Spacer() // pushes to the left
                 }
             }
         )
         
         .overlay(
+            // interesting that we can't place the if statement OUTSIDE
+            // the VStack -- the compiler and auto-reformatting go nuts
             VStack {
-                Spacer() // pushes toward the bottom
-                HStack {
-                    Spacer() // pushes to the right
-                    Text("I am!")
-                        .font(.title)
-                        .foregroundColor(.yellow)
-                        .padding(40)
+                if showSelectionLists {
+                    let s = CGSize(width: 280, height: 130)
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        ZStack {
+                            MiscOptionsChooserList(options: $options.options)
+                                .frame(width: s.width, height: s.height)
+                            BezelFrame(color: .orange, size: s)
+                        }
+                    }
+                    .padding(30)
                 }
             }
         )
     }
     
-    struct LayerSelectionButtonAndList : View {
-        @Binding var showLayerList : Bool
+    struct SelectionListsButtonPlusLayersList : View {
+        @Binding var showSelectionLists : Bool
         @EnvironmentObject var layers: Layers
         
         var body: some View {
-            if showLayerList {
-                let size = CGSize(width: 260, height: 600)
+            if showSelectionLists {
+                let s = CGSize(width: 270, height: 620)
                 ZStack {
                     LayersSelectionList(layers: $layers.layers)
-                        .frame(width: size.width, height: size.height)
+                        .frame(width: s.width, height: s.height)
                     
-                    BezelFrame(color: .orange, size: size)
+                    BezelFrame(color: .orange, size: s)
                 }
                 .padding(30)
             }
             else {
-                LayerSelectionListButton(faceColor: .blue,
+                ShowSelectionListsButton(faceColor: .blue,
                                          edgeColor: .orange)
                     .onTapGesture {
-                        showLayerList.toggle()
+                        showSelectionLists.toggle()
                     }
                     .scaleEffect(1.3)
                     .padding(EdgeInsets(top: 0, leading: 40, bottom: 50, trailing: 0))
