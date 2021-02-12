@@ -2,3 +2,7 @@
 iphone version respects dark mode, unless you've altered the color of a List:Section header text color.
 ipad version apparently doesn't respect dark mode
 
+two List dialogs (Layers & OtherMisc) invoked from single button --
+works great on iPad, but the two dialogs overlap each other on
+iPhone in a way hard to get full access to both --
+MAYBE back to the idea of separate invocation button on phone ????
