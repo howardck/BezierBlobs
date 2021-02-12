@@ -18,13 +18,15 @@ struct ContentView: View {
 //    let layersModel = LayersModel()
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+    var ps: PlatformSpecifics!
+    
     @Environment(\.verticalSizeClass) var vClass
     @Environment(\.horizontalSizeClass) var hClass
     
     init() {
         print("ContentView.init() -----------")
     }
-    
+        
     struct StatusTracker {
         static var isInitialized : [PageType : Bool] = [
             .circle: false,
@@ -42,17 +44,20 @@ struct ContentView: View {
         
     var body: some View {
         
+        let ps = PlatformSpecifics.forSizeClasses(
+            vSizeClass: vClass!,
+            hSizeClass: hClass!)
+        
         GeometryReader { gr in
-            
-            let _ = PlatformSpecifics.forSizeClasses(
-                vSizeClass: vClass!,
-                hSizeClass: hClass!)
             
             TabView {
                 
                 PageView(pageType: PageType.circle,
                          description: PageView.descriptions[0],
                          size: gr.size)
+                    
+                    .onAppear{ print("Platform: { \(ps.name) } =========")}
+                    
 //                    .onAppear{ print("TAB PAGE #1 appearing") }
 //                    .onDisappear{ print("TAB PAGE #1 disappearing") }
                     .tabItem {

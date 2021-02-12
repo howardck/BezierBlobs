@@ -7,13 +7,15 @@
 
 import SwiftUI
 
-typealias Specifics = (w: CGFloat, h: CGFloat,
+typealias Specifics = (name: String,
+                       w: CGFloat, h: CGFloat,
                        in: CGFloat, out: CGFloat,
                        numPoints: Int)
 
 struct PlatformSpecifics {
     static let IPHONE : Specifics = (
     // inset the baseCurve so that the outerCurve can fit onscreen
+        name: "phone",
         w: 0.65,
         h: 0.75,
         in: -0.3,
@@ -21,6 +23,7 @@ struct PlatformSpecifics {
         numPoints: 22
     )
     static let IPAD : Specifics = (
+        name: "pad",
         w: 0.70,
         h: 0.60,
         in: -0.3,

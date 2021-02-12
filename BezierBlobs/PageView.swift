@@ -11,7 +11,7 @@ enum PageType : String {
     case circle = "CIRCLE"
     case superEllipse = "CLASSIC"
     case deltaWing = "DELTA WING"
-    case killerMoth = "RORSCHACH"
+    case killerMoth = "MONSTER"
 }
 
 typealias PageDescription = (numPoints: Int,
