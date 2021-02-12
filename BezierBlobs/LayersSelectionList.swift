@@ -41,7 +41,10 @@ struct LayersSelectionList: View {
             }
             .textCase(.lowercase)
         }
-        .listStyle(InsetGroupedListStyle())
+        .listStyle(GroupedListStyle())
+        // lovely, but takes up too much space on iPhone
+//        .listStyle(InsetGroupedListStyle())
+
         .onAppear() {
             if Self.DEBUG_PRINT_SHOW_LAYER_VISIBILITY {
                 print("LayersSelectionList.onAppear{} ........")

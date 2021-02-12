@@ -59,7 +59,8 @@ struct MiscOptionsChooserList: View {
             }
             .textCase(.lowercase)
         }
-        .listStyle(InsetGroupedListStyle())
+        .listStyle(GroupedListStyle())
+       // .listStyle(InsetGroupedListStyle())
         .environment(\.defaultMinListRowHeight, 38)
     }
 }

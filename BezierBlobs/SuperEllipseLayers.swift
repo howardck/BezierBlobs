@@ -176,13 +176,20 @@ struct BaseCurve : View {
 }
 
 //MARK:-
-struct BaseCurve_Markers : View {
+struct BaseCurvePlusMarkers : View {
     var curve : [CGPoint]
     var style : MarkerStyle
     
+    let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+
     var body : some View {
         
         ZStack {
+            // the baseCurve (previously its own superStack
+            
+            SuperEllipse(curve: curve)
+            .stroke(Color.white, style: strokeStyle)
+            
             SuperEllipse(curve: curve,
                          bezierType: .markers(radius: style.radius + 1))
                 .fill(Color.black)

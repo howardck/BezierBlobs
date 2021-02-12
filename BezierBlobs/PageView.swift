@@ -118,9 +118,10 @@ struct PageView: View {
                                    style: markerStyles[.envelopeBounds]!)
             }
  
-            if layers.isVisible(layerWithType: .baseCurve) {
-                BaseCurve(vertices: model.tuples.map{$0.vertex})
-            }
+//            if layers.isVisible(layerWithType: .baseCurve) {
+//                BaseCurve(vertices: model.tuples.map{$0.vertex})
+//            }
+            
             if layers.isVisible(layerWithType: .envelopeBounds) {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
@@ -133,9 +134,9 @@ struct PageView: View {
             }
 
             Group {
-                if layers.isVisible(layerWithType: .baseCurve_markers) {
-                    BaseCurve_Markers(curve: model.tuples.map{$0.vertex} ,
-                                      style: markerStyles[.baseCurve]!)
+                if layers.isVisible(layerWithType: .baseCurve_with_markers) {
+                    BaseCurvePlusMarkers(curve: model.tuples.map{$0.vertex} ,
+                                         style: markerStyles[.baseCurve]!)
                 }
                 if layers.isVisible(layerWithType: .blob_markers) {
                     AnimatingBlob_Markers(curve: model.blobCurve,
