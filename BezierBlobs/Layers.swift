@@ -16,9 +16,9 @@ class Layers : ObservableObject {
     
     @Published var layers : [Layer] = [
         
-//        .init(type: .baseCurve, section: .staticSupportCurves,
-//              visible: true),
-        .init(type: .baseCurve_with_markers, section: .staticSupportCurves,
+        .init(type: .baseCurve, section: .staticSupportCurves,
+              visible: true),
+        .init(type: .baseCurve_markers, section: .staticSupportCurves,
               visible: true),
         .init(type: .normals, section: .staticSupportCurves),
         .init(type: .envelopeBounds, section: .staticSupportCurves),
@@ -54,8 +54,8 @@ class Layers : ObservableObject {
 }
 
 enum LayerType : String {
-//    case baseCurve = "base Curve"
-    case baseCurve_with_markers = "base Curve w/ markers"
+    case baseCurve = "base Curve"
+    case baseCurve_markers = "base Curve markers"
     case normals = "normals"
     case envelopeBounds = "envelope Bounds"
     case zigZags_with_markers = "zig-zags (animating)"

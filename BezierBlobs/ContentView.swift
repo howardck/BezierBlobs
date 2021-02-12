@@ -56,7 +56,7 @@ struct ContentView: View {
                          description: PageView.descriptions[0],
                          size: gr.size)
                     
-                    .onAppear{ print("Platform: { \(ps.name) } =========")}
+                    .onAppear{ print("Platform: { \(ps.name) git l} =========")}
                     
 //                    .onAppear{ print("TAB PAGE #1 appearing") }
 //                    .onDisappear{ print("TAB PAGE #1 disappearing") }
