@@ -15,6 +15,7 @@
 		3B859FEF25BB3B470033DB7A /* MainScreenLayoutTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */; };
 		3B9A048B25C7C94D0097ECC6 /* TimerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* ScreenButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */; };
+		3BD421C325D635650034CE7D /* NOTES.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BD421C225D635650034CE7D /* NOTES.txt */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
 		5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */; };
 		5E57D2B4256D5ADD00D6B1C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E57D2B3256D5ADD00D6B1C0 /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 		3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenLayoutTest.swift; sourceTree = "<group>"; };
 		3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTest.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenButtons.swift; sourceTree = "<group>"; };
+		3BD421C225D635650034CE7D /* NOTES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NOTES.txt; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierBlobsApp.swift; sourceTree = "<group>"; };
 		5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 		5E57D2AE256D5AD900D6B1C0 /* BezierBlobs */ = {
 			isa = PBXGroup;
 			children = (
+				3BD421C225D635650034CE7D /* NOTES.txt */,
 				5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */,
 				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
 				3BB48CC12581A2CD005DEBB8 /* ScreenButtons.swift */,
@@ -189,6 +192,7 @@
 			files = (
 				5E57D2B7256D5ADD00D6B1C0 /* Preview Assets.xcassets in Resources */,
 				5E57D2B4256D5ADD00D6B1C0 /* Assets.xcassets in Resources */,
+				3BD421C325D635650034CE7D /* NOTES.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

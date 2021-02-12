@@ -1,0 +1,4 @@
+11feb2021
+iphone version respects dark mode, unless you've altered the color of a List:Section header text color.
+ipad version apparently doesn't respect dark mode
+
