@@ -37,7 +37,8 @@ struct MainScreenLayoutTest: View {
                     ListThingie(size: size).padding(padding)
                 }
                 else {
-                    TwoButtons(size: size).padding(padding)
+                    let s = CGSize(width: size.width/2.0 - 20, height: size.height - 20)
+                    TwoButtons(size: s).padding(padding)
                 }
                 Spacer() // push the choosen object to the left
             }
@@ -53,7 +54,7 @@ struct ListThingie : View {
             .frame(width: size.width, height: size.height)
             .foregroundColor(.orange)
             .overlay(
-                Text("I'm an overlay!").font(.title2)
+                Text("I'm a List!").font(.title2)
                     .padding(6).background(Color.black).foregroundColor(.white))
     }
 }
@@ -62,7 +63,10 @@ struct TwoButtons : View {
     var size: CGSize
     
     var body: some View {
-        Color.blue.frame(width: size.width, height: 80)
+        HStack {
+            Color.blue.frame(width: size.width, height: 80)
+            Color.green.frame(width: size.width, height: 80)
+        }
     }
 }
 

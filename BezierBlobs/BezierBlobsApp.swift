@@ -15,14 +15,15 @@ struct BezierBlobsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(layers)
-                .environmentObject(options)
+            
+//            ContentView()
+//                .environmentObject(layers)
+//                .environmentObject(options)
             
             // or ...
             // TimerTest()
             // TabViewTest()
-            // MainScreenLayoutTest()
+             MainScreenLayoutTest()
         }
     }
 }
