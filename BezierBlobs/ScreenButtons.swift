@@ -52,7 +52,7 @@ struct PencilSymbol: View {
 }
 
 struct DrawingOptionsButton : View {
-    let name: String
+    var name: String
     var faceColor: Color
     var edgeColor: Color
     let s = CGSize(width: 70, height: 50)

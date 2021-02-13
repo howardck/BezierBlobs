@@ -53,6 +53,7 @@ struct PageView: View {
     static var timerInitialTimeIncrement : Double = 0.0
     
     @State var showSelectionLists = false
+    
     @State var timer: Timer.TimerPublisher
                             = Timer.publish(every: PageView.timerTimeIncrement,
                                             on: .main, in: .common)
@@ -214,17 +215,7 @@ struct PageView: View {
         .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
         
         .overlay(
-            VStack {
-                Spacer() // pushes toward the bottom
-                HStack {
-                    SelectionListsButtonPlusLayersList(showSelectionLists: $showSelectionLists)
-                    Spacer() // pushes to the left
-                }
-            }
-        )
-        
-        .overlay(
-            // interesting that we can't place the if statement OUTSIDE
+            // interesting we can't place the if statement OUTSIDE
             // the VStack -- the compiler and auto-reformatting go nuts
             VStack {
                 if showSelectionLists {
@@ -242,22 +233,54 @@ struct PageView: View {
                 }
             }
         )
+        
+        .overlay(
+            VStack {
+                let panelWidth : CGFloat = 200
+
+                Spacer() // pushes toward the bottom
+                HStack {
+                    TwoButtonPanel()
+                        .frame(width: panelWidth)
+                    Spacer() // <- pushes toward the left
+                }
+            }
+            // padding offsets keep us away from the left & bottom edges
+            .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 0))
+            .border(Color.green, width: 2)
+        )
+    }
+    
+    struct TwoButtonPanel : View {
+        
+        var body: some View {
+            HStack {
+                Spacer()
+                ShowSelectionListsButton(faceColor: .blue, edgeColor: .red)
+                Spacer()
+                DrawingOptionsButton(name: "pencil.and.outline",
+                                     faceColor: .blue, edgeColor: .red)
+                Spacer()
+            }
+            .border(Color.red, width: 1)
+        }
     }
     
     struct SelectionListsButtonPlusLayersList : View {
         @Binding var showSelectionLists : Bool
         @EnvironmentObject var layers: Layers
         
+        let s = CGSize(width: 270, height: 620)
+
         var body: some View {
             if showSelectionLists {
-                let s = CGSize(width: 270, height: 620)
                 ZStack {
                     LayersSelectionList(layers: $layers.layers)
                         .frame(width: s.width, height: s.height)
                     
                     BezelFrame(color: .orange, size: s)
                 }
-                .padding(30)
+               // .padding(100)
             }
             else {
                 ShowSelectionListsButton(faceColor: .blue,
@@ -270,6 +293,7 @@ struct PageView: View {
             }
         }
     }
+
     
     struct BezelFrame : View {
         let color: Color
