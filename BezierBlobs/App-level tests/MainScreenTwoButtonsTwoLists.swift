@@ -82,9 +82,9 @@ struct DrawingAndLayeringButtons : View {
         
         var body: some View {
             HStack {
-                DrawingOptionsButton(name: pencilInSquare,
-                                          faceColor: .blue,
-                                          edgeColor: .orange)
+                OtherOptionsListButton(iconName: PencilSymbol.PENCIL,
+                                       faceColor: .blue,
+                                       edgeColor: .orange)
                     .onTapGesture {
                         print("DrawingOptions Button tapped")
                         showDrawingOptionsList.toggle()

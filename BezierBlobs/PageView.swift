@@ -246,7 +246,7 @@ struct PageView: View {
                 }
             }
             // padding offsets keep us away from the left & bottom edges
-            .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 0))
+            .padding(EdgeInsets(top: 0, leading: 40, bottom: 40, trailing: 0))
             .border(Color.green, width: 2)
         )
     }
@@ -256,13 +256,14 @@ struct PageView: View {
         var body: some View {
             HStack {
                 Spacer()
-                ShowSelectionListsButton(faceColor: .blue, edgeColor: .red)
+                
+                LayersSelectionListButton(faceColor: .blue, edgeColor: .red)
                 Spacer()
-                DrawingOptionsButton(name: "pencil.and.outline",
-                                     faceColor: .blue, edgeColor: .red)
+                OtherOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                                       faceColor: .blue, edgeColor: .orange)
                 Spacer()
             }
-            .border(Color.red, width: 1)
+            //.border(Color.red, width: 1)
         }
     }
     
@@ -283,8 +284,8 @@ struct PageView: View {
                // .padding(100)
             }
             else {
-                ShowSelectionListsButton(faceColor: .blue,
-                                         edgeColor: .orange)
+                LayersSelectionListButton(faceColor: .blue,
+                                          edgeColor: .orange)
                     .onTapGesture {
                         showSelectionLists.toggle()
                     }

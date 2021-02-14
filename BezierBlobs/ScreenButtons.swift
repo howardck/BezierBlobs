@@ -39,7 +39,7 @@ extension View {
     }
 }
 
-struct PencilSymbol: View {
+struct PencilSymbolView: View {
     let name : String
     var color: Color
     var size: CGSize
@@ -51,8 +51,9 @@ struct PencilSymbol: View {
     }
 }
 
-struct DrawingOptionsButton : View {
-    var name: String
+struct OtherOptionsListButton : View {
+    
+    var iconName: String
     var faceColor: Color
     var edgeColor: Color
     let s = CGSize(width: 70, height: 50)
@@ -60,10 +61,10 @@ struct DrawingOptionsButton : View {
     var body : some View {
         ZStack {
             // the highlight
-            PencilSymbol(name: name, color: edgeColor, size: s)
+            PencilSymbolView(name: iconName, color: edgeColor, size: s)
                 .offset(x: 1, y : 1)
             // and then the face
-            PencilSymbol(name: name, color: faceColor, size: s)
+            PencilSymbolView(name: iconName, color: faceColor, size: s)
         }
     }
 }
@@ -79,7 +80,7 @@ struct LayerStackSymbol: View {
     }
 }
 
-struct ShowSelectionListsButton : View {
+struct LayersSelectionListButton : View {
     var faceColor: Color
     var edgeColor: Color
     let s = CGSize(width: 70, height: 50)
@@ -95,10 +96,12 @@ struct ShowSelectionListsButton : View {
     }
 }
 
-let pencil = "pencil"
-let pencilInSquare = "square.and.pencil"
-let pencilWithEllipsis = "rectangle.and.pencil.and.ellipsis"
-let pencilInsideSquiggle = "pencil.and.outline"
+struct PencilSymbol {
+    static let PENCIL = "pencil"
+    static let PENCIL_AND_SQUARE = "square.and.pencil"
+    static let PENCIL_AND_ELLIPSIS = "rectangle.and.pencil.and.ellipsis"
+    static let PENCIL_AND_OUTLINE = "pencil.and.outline"
+}
 
 struct ScreenButtons_Previews: PreviewProvider {
     static var previews: some View {
@@ -106,19 +109,19 @@ struct ScreenButtons_Previews: PreviewProvider {
         ZStack {
             Color.init(white: 0.4)
             VStack {
-                DrawingOptionsButton(name: pencil,
+                OtherOptionsListButton(iconName: PencilSymbol.PENCIL,
                                           faceColor: .blue,
                                           edgeColor: .pink)
                     .border(Color.pink, width: 0.5)
-                DrawingOptionsButton(name: pencilInSquare,
+                OtherOptionsListButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
                                           faceColor: .blue,
                                           edgeColor: .pink)
                     .border(Color.pink, width: 0.5)
-                DrawingOptionsButton(name: pencilWithEllipsis,
+                OtherOptionsListButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
                                           faceColor: .blue,
                                           edgeColor: .orange)
                     .border(Color.pink, width: 0.5)
-                DrawingOptionsButton(name: pencilInsideSquiggle,
+                OtherOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                           faceColor: .blue,
                                           edgeColor: .orange)
                     .border(Color.pink, width: 0.5)
