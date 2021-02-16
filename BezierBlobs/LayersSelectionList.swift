@@ -41,7 +41,7 @@ struct LayersSelectionList: View {
             }
             .textCase(.lowercase)
         }
-        .listStyle(GroupedListStyle())
+        .listStyle(InsetGroupedListStyle())
         // lovely, but takes up too much space on iPhone
 //        .listStyle(InsetGroupedListStyle())
 

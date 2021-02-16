@@ -56,7 +56,7 @@ struct ContentView: View {
                          description: PageView.descriptions[0],
                          size: gr.size)
                     
-                    .onAppear{ print("Platform: { \(ps.name) } =========")}
+                    .onAppear{ print("PageView.onAppear(PageType.CIRCLE) Platform ======== { \(ps.name) } =========")}
                     
 //                    .onAppear{ print("TAB PAGE #1 appearing") }
 //                    .onDisappear{ print("TAB PAGE #1 disappearing") }
@@ -68,7 +68,9 @@ struct ContentView: View {
                 PageView(pageType: PageType.superEllipse,
                          description: PageView.descriptions[1],
                          size: gr.size)
-//                    .onAppear{ print("TAB PAGE #2 appearing") }
+                    
+                    .onAppear{ print("PageView.onAppear(PageType.CLASSIC) Platform ======== { \(ps.name) } =========")}
+
 //                    .onDisappear{ print("TAB PAGE #2 disappearing") }
                     .tabItem {
                         Image(systemName: "2.circle.fill")
@@ -97,6 +99,9 @@ struct ContentView: View {
                 
             }
         }
+//        .onAppear{
+//            print("horizontalSizeClass: \(vClass!)")
+//        }
         //.environmentObject(layersModel)
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     }

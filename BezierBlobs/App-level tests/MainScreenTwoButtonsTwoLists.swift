@@ -82,7 +82,7 @@ struct DrawingAndLayeringButtons : View {
         
         var body: some View {
             HStack {
-                OtherOptionsListButton(iconName: PencilSymbol.PENCIL,
+                MoreOptionsListButton(iconName: PencilSymbol.PENCIL,
                                        faceColor: .blue,
                                        edgeColor: .orange)
                     .onTapGesture {

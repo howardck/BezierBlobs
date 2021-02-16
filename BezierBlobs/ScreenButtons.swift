@@ -51,7 +51,7 @@ struct PencilSymbolView: View {
     }
 }
 
-struct OtherOptionsListButton : View {
+struct MoreOptionsListButton : View {
     
     var iconName: String
     var faceColor: Color
@@ -109,19 +109,19 @@ struct ScreenButtons_Previews: PreviewProvider {
         ZStack {
             Color.init(white: 0.4)
             VStack {
-                OtherOptionsListButton(iconName: PencilSymbol.PENCIL,
+                MoreOptionsListButton(iconName: PencilSymbol.PENCIL,
                                           faceColor: .blue,
                                           edgeColor: .pink)
                     .border(Color.pink, width: 0.5)
-                OtherOptionsListButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
+                MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
                                           faceColor: .blue,
                                           edgeColor: .pink)
                     .border(Color.pink, width: 0.5)
-                OtherOptionsListButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
+                MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
                                           faceColor: .blue,
                                           edgeColor: .orange)
                     .border(Color.pink, width: 0.5)
-                OtherOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                           faceColor: .blue,
                                           edgeColor: .orange)
                     .border(Color.pink, width: 0.5)

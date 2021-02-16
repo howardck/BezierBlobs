@@ -52,7 +52,8 @@ struct PageView: View {
     static var timerTimeIncrement : Double = 3.1
     static var timerInitialTimeIncrement : Double = 0.0
     
-    @State var showSelectionLists = false
+    @State var showLayersList = false
+    @State var showMoreOptionsList = false
     
     @State var timer: Timer.TimerPublisher
                             = Timer.publish(every: PageView.timerTimeIncrement,
@@ -65,7 +66,7 @@ struct PageView: View {
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
         
-        print("PageView.init( PageType.\(pageType.rawValue) )")
+        //print("PageView.init( PageType.\(pageType.rawValue) )")
 
         self.pageType = pageType
         self.description = description
@@ -153,9 +154,9 @@ struct PageView: View {
         // in which case the view disappears on us!
         //  .background(PageGradientBackground())
         
-        .onAppear {
-            print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
-        }
+//        .onAppear {
+//            print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
+//        }
         .onDisappear {
             print("PageView.onDisappear( PageType.\(pageType.rawValue) )")
             
@@ -193,8 +194,9 @@ struct PageView: View {
         }
         .onTapGesture(count: 1)
         {
-            if showSelectionLists {
-                showSelectionLists = false
+            if showLayersList || showMoreOptionsList {
+                showLayersList = false
+                showMoreOptionsList = false
             }
             else {
                 if !isAnimating {
@@ -215,58 +217,76 @@ struct PageView: View {
         .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
         
         .overlay(
-            // interesting we can't place the if statement OUTSIDE
-            // the VStack -- the compiler and auto-reformatting go nuts
             VStack {
-                if showSelectionLists {
-                    let s = CGSize(width: 280, height: 130)
-                    Spacer()
+                Spacer()
+                if showLayersList {
+                    let s = CGSize(width: 266, height: 620)
                     HStack {
-                        Spacer()
                         ZStack {
-                            MiscOptionsChooserList(options: $options.options)
+                            LayersSelectionList(layers: $layers.layers)
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }
+                        .padding(30)
+                        Spacer()
                     }
-                    .padding(30)
+                }
+                else if showMoreOptionsList {
+                    let s = CGSize(width: 266, height: 130)
+                    HStack {
+                        ZStack {
+                            MoreOptionsChooserList(options: $options.options)
+                                .frame(width: s.width, height: s.height)
+                            BezelFrame(color: .orange, size: s)
+                        }
+                        .padding(30)
+                        Spacer()
+                    }
+                }
+                else {
+                    let s = CGSize(width: 266, height: 130)
+                    HStack {
+                        TwoButtonPanel(showLayersList: $showLayersList,
+                                       showMoreOptionsList: $showMoreOptionsList)
+                            .frame(width: s.width)
+                            .padding(EdgeInsets(top: 0, leading: 30, bottom: 50, trailing: 0))
+                        Spacer()
+                    }
                 }
             }
-        )
-        
-        .overlay(
-            VStack {
-                let panelWidth : CGFloat = 200
-
-                Spacer() // pushes toward the bottom
-                HStack {
-                    TwoButtonPanel()
-                        .frame(width: panelWidth)
-                    Spacer() // <- pushes toward the left
-                }
-            }
-            // padding offsets keep us away from the left & bottom edges
-            .padding(EdgeInsets(top: 0, leading: 40, bottom: 40, trailing: 0))
-            .border(Color.green, width: 2)
         )
     }
     
     struct TwoButtonPanel : View {
         
+        @Binding var showLayersList : Bool
+        @Binding var showMoreOptionsList : Bool
+        
         var body: some View {
             HStack {
                 Spacer()
                 
-                LayersSelectionListButton(faceColor: .blue, edgeColor: .red)
+                LayersSelectionListButton(faceColor: .blue, edgeColor: .orange)
+                    .onTapGesture {
+                        showLayersList.toggle()
+                    }
                 Spacer()
-                OtherOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
-                                       faceColor: .blue, edgeColor: .orange)
+                
+                MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                                      faceColor: .blue, edgeColor: .orange)
+                    .onTapGesture {
+                        showMoreOptionsList.toggle()
+                    }
                 Spacer()
             }
-            //.border(Color.red, width: 1)
+            .scaleEffect(1.1)
         }
     }
     
+    //MARK:-
+ 
+    
+    //MARK:-
     struct SelectionListsButtonPlusLayersList : View {
         @Binding var showSelectionLists : Bool
         @EnvironmentObject var layers: Layers
@@ -295,7 +315,7 @@ struct PageView: View {
         }
     }
 
-    
+    //MARK:-
     struct BezelFrame : View {
         let color: Color
         let size: CGSize

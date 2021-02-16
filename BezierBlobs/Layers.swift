@@ -27,7 +27,7 @@ class Layers : ObservableObject {
         .init(type: .blob_stroked, section: .animatingBlobCurves,
               visible: true),
         .init(type: .blob_filled, section: .animatingBlobCurves,
-              visible: true),
+              visible: false),
         .init(type: .blob_markers, section: .animatingBlobCurves),
         .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
               visible: true),
@@ -58,7 +58,7 @@ enum LayerType : String {
     case baseCurve_markers = "base Curve markers"
     case normals = "normals"
     case envelopeBounds = "envelope Bounds"
-    case zigZags_with_markers = "zig-zags (animating)"
+    case zigZags_with_markers = "zig-zags (animated)"
     
     case blob_stroked = "stroked"
     case blob_filled = "filled"

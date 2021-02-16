@@ -39,7 +39,7 @@ struct OptionRow : View {
     }
 }
 
-struct MiscOptionsChooserList: View {
+struct MoreOptionsChooserList: View {
     
     @Binding var options : [Option]
     
@@ -47,7 +47,7 @@ struct MiscOptionsChooserList: View {
         let sectionHeaderTextColor = Color.init(white: 0.1)
         
         List {
-            Section(header: Text("other options").textCase(.uppercase)
+            Section(header: Text("more options").textCase(.uppercase)
                 .foregroundColor(sectionHeaderTextColor)) {
                 
                 ForEach(options, id: \.type) { option in
@@ -59,8 +59,8 @@ struct MiscOptionsChooserList: View {
             }
             .textCase(.lowercase)
         }
-        .listStyle(GroupedListStyle())
-       // .listStyle(InsetGroupedListStyle())
+//        .listStyle(GroupedListStyle())
+        .listStyle(InsetGroupedListStyle())
         .environment(\.defaultMinListRowHeight, 38)
     }
 }

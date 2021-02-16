@@ -20,6 +20,8 @@ struct BezierBlobsApp: App {
                 .environmentObject(layers)
                 .environmentObject(options)
             
+//            EmojiViewTest()
+            
             // or ...
             // TimerTest()
             // TabViewTest()
