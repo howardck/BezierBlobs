@@ -41,27 +41,27 @@ let highlitRed = Gradient(colors: [.black, .red, .black
 struct AnimatingBlob_Filled: View {
     
     // @@@@@@@@@@@@  EXPLORING @@@@@@@@@@@@@@
-    @EnvironmentObject var layersModel: Layers
+    @EnvironmentObject var layers: Layers
+    @EnvironmentObject var options: Options
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     var curve: [CGPoint]
     var layerType : LayerType
-    @Binding var smoothed : Bool
-    
+        
     let gradient = LinearGradient(gradient: highlitRed,
                                   startPoint: .topLeading,
                                   endPoint: .bottomTrailing)
     var body : some View {
         
-        if layersModel.isVisible(layerWithType: .blob_filled) {
+        if layers.isVisible(layerWithType: .blob_filled) {
             
             ZStack {
                 SuperEllipse(curve: curve,
-                             smoothed: smoothed)
+                             smoothed: options.isSelected(optionWithType: .smoothed))
                     .fill(gradient)
                 
                 SuperEllipse(curve: curve,
-                             smoothed: smoothed)
+                             smoothed: options.isSelected(optionWithType: .smoothed))
                     .stroke(Color.init(white: 0.35), lineWidth: 1)
             }
         }
@@ -72,24 +72,24 @@ struct AnimatingBlob_Filled: View {
 struct AnimatingBlob_Stroked: View {
     var curve: [CGPoint]
     
-    @Binding var smoothed : Bool
+    @EnvironmentObject var options: Options
     
     let gradient = LinearGradient(gradient: blueGradient,
                                  startPoint: .topLeading,
                                  endPoint: .bottomTrailing)
     var body : some View {
-        //let smoothed = false
         ZStack {
             SuperEllipse(curve: curve,
-                         smoothed: smoothed)
+                         smoothed: options.isSelected(optionWithType: .smoothed))
+                
                 .stroke(Color.init(white: 0.15),
                         style: StrokeStyle(lineWidth: 12, lineJoin: .round))
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
-                         smoothed: smoothed)
+                         smoothed: options.isSelected(optionWithType: .smoothed))
+                
                 .stroke(Color.white, style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
-               // .stroke(Color.white, lineWidth: 0.75)
         }
     }
 }

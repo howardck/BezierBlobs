@@ -41,7 +41,7 @@ struct PageView: View {
     ]
         
     // @@@@@@@@@@@@@@@@@@@@@@@
-    @State var smoothed = true
+    @State var smoothed = false
     // @@@@@@@@@@@@@@@@@@@@@@@
     
     @ObservedObject var model = Model()
@@ -102,13 +102,10 @@ struct PageView: View {
             // called SuperEllipse stack itself via @EnvironmentObject.
             // (think I like testing for it here. maybe ...)
             AnimatingBlob_Filled(curve: model.blobCurve,
-                                 layerType: .blob_filled,
-                                 smoothed: $smoothed
-                                 )
-
+                                 layerType: .blob_filled)
+            
             if layers.isVisible(layerWithType: .blob_stroked) {
-                AnimatingBlob_Stroked(curve: model.blobCurve,
-                                      smoothed: $smoothed)
+                AnimatingBlob_Stroked(curve: model.blobCurve)
             }
             
             if layers.isVisible(layerWithType: .zigZags_with_markers) {
@@ -136,6 +133,14 @@ struct PageView: View {
             }
 
             Group {
+                if options.isSelected(optionWithType: .smoothed) {
+                    Text("SELECTED")
+                        .font(.custom("courier", size: 42))
+                        .fontWeight(.heavy)
+                        .foregroundColor(.green)
+
+                }
+                
                 if layers.isVisible(layerWithType: .baseCurve_markers) {
                     BaseCurve_Markers(curve: model.tuples.map{$0.vertex} ,
                                       style: markerStyles[.baseCurve]!)
@@ -170,8 +175,6 @@ struct PageView: View {
             withAnimation(Animation.easeInOut(duration: 0.6))
             {
                 isAnimating = false
-                
-                // Animator.stopTimer()
                 timer.connect().cancel()
                 
                 model.returnToInitialConfiguration()
@@ -280,38 +283,6 @@ struct PageView: View {
                 Spacer()
             }
             .scaleEffect(1.1)
-        }
-    }
-    
-    //MARK:-
- 
-    
-    //MARK:-
-    struct SelectionListsButtonPlusLayersList : View {
-        @Binding var showSelectionLists : Bool
-        @EnvironmentObject var layers: Layers
-        
-        let s = CGSize(width: 270, height: 620)
-
-        var body: some View {
-            if showSelectionLists {
-                ZStack {
-                    LayersSelectionList(layers: $layers.layers)
-                        .frame(width: s.width, height: s.height)
-                    
-                    BezelFrame(color: .orange, size: s)
-                }
-               // .padding(100)
-            }
-            else {
-                LayersSelectionListButton(faceColor: .blue,
-                                          edgeColor: .orange)
-                    .onTapGesture {
-                        showSelectionLists.toggle()
-                    }
-                    .scaleEffect(1.3)
-                    .padding(EdgeInsets(top: 0, leading: 40, bottom: 50, trailing: 0))
-            }
         }
     }
 

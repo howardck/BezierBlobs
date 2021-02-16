@@ -25,6 +25,10 @@ class Options: ObservableObject {
         .init(type: .smoothed, isSelected: true),
         .init(type: .randomPerturbations, isSelected: false)
     ]
+    
+    func isSelected(optionWithType: OptionType) -> Bool {
+        options.filter{ $0.type == optionWithType && $0.isSelected }.count == 1
+    }
 }
 
 struct OptionRow : View {
@@ -53,7 +57,12 @@ struct MoreOptionsChooserList: View {
                 ForEach(options, id: \.type) { option in
                     OptionRow(option: option)
                         .onTapGesture {
-                            print("tapped option item!")
+                            
+                            if let tappedItem = options.firstIndex(
+                                where: {$0.type == option.type})
+                            {
+                                options[tappedItem].isSelected.toggle()
+                            }
                         }
                 }
             }

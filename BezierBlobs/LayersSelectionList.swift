@@ -42,8 +42,6 @@ struct LayersSelectionList: View {
             .textCase(.lowercase)
         }
         .listStyle(InsetGroupedListStyle())
-        // lovely, but takes up too much space on iPhone
-//        .listStyle(InsetGroupedListStyle())
 
         .onAppear() {
             if Self.DEBUG_PRINT_SHOW_LAYER_VISIBILITY {
@@ -61,9 +59,9 @@ struct LayersSelectionList: View {
             LayerItemRow(layerItem: layer)
                 .onTapGesture {
                    
-                    if let tappedItemIndex = layers.firstIndex(where: {
-                        $0.type == layer.type
-                    }) {
+                    if let tappedItemIndex = layers.firstIndex(
+                        where: { $0.type == layer.type })
+                    {
                         if Self.DEBUG_PRINT_LAYER_LIST_TAPPING {
                             print("tapped layerItem [\(tappedItemIndex)]: {LayerType.\(layer.type)} {Section.\(section)}")
                         }
