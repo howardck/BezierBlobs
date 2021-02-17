@@ -49,7 +49,7 @@ struct LayersSelectionList: View {
                 DEBUG_printLayerVisibilityFlags()
             }
         }
-        .environment(\.defaultMinListRowHeight, 42) // 0 == tight as possible
+        .environment(\.defaultMinListRowHeight, 40) // 0 == tight as possible
     }
     
     func rowsInSection(for section: SectionType) -> some View {

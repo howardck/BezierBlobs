@@ -47,10 +47,9 @@ struct SuperEllipse : Shape {
                     path.move(to: point)
                     path.addMarker(of: radius)
                 }
-            /*  normals are specially "encoded" -- even-numbered points
-                are on the inner envelope boundary; we line from each
-                to its counterpart on the outer envelope boundary.
-             */
+        /*  for normals, even-numbered points are on the inner envelope
+            boundary; the next point is its outermost counterpart.
+         */
             case .normals :
                 if i.isEven() && i < curve.count {
                     path.move(to: point)

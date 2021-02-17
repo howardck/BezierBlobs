@@ -1,5 +1,5 @@
 //
-//  MiscOptionsChooserList.swift
+//  MoreOptionsChooserList.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-02-11.
@@ -23,7 +23,7 @@ class Options: ObservableObject {
     @Published var options : [Option] = [
 
         .init(type: .smoothed, isSelected: true),
-        .init(type: .randomPerturbations, isSelected: false)
+        .init(type: .randomPerturbations, isSelected: true)
     ]
     
     func isSelected(optionWithType: OptionType) -> Bool {
@@ -68,14 +68,17 @@ struct MoreOptionsChooserList: View {
             }
             .textCase(.lowercase)
         }
-//        .listStyle(GroupedListStyle())
         .listStyle(InsetGroupedListStyle())
-        .environment(\.defaultMinListRowHeight, 38)
+        .environment(\.defaultMinListRowHeight, 40)
     }
 }
 
-//struct MiscOptionsSelectionList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MiscOptionsChooserList()
-//    }
-//}
+struct MoreOptionsChooserList_Previews: PreviewProvider {
+    static var previews: some View {
+
+        Text("SELECTED")
+            .font(.custom("courier", size: 42))
+            .fontWeight(.heavy)
+            .foregroundColor(.green)
+    }
+}

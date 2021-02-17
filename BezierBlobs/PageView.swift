@@ -52,7 +52,7 @@ struct PageView: View {
     static var timerTimeIncrement : Double = 3.1
     static var timerInitialTimeIncrement : Double = 0.0
     
-    @State var showLayersList = false
+    @State var showLayersList = true
     @State var showMoreOptionsList = false
     
     @State var timer: Timer.TimerPublisher
@@ -133,13 +133,12 @@ struct PageView: View {
             }
 
             Group {
-                if options.isSelected(optionWithType: .smoothed) {
-                    Text("SELECTED")
-                        .font(.custom("courier", size: 42))
-                        .fontWeight(.heavy)
-                        .foregroundColor(.green)
-
-                }
+//                if options.isSelected(optionWithType: .smoothed) {
+//                    Text("SELECTED")
+//                        .font(.custom("courier", size: 42))
+//                        .fontWeight(.heavy)
+//                        .foregroundColor(.green)
+//                }
                 
                 if layers.isVisible(layerWithType: .baseCurve_markers) {
                     BaseCurve_Markers(curve: model.tuples.map{$0.vertex} ,
@@ -223,7 +222,7 @@ struct PageView: View {
             VStack {
                 Spacer()
                 if showLayersList {
-                    let s = CGSize(width: 266, height: 620)
+                    let s = CGSize(width: 280, height: 600)
                     HStack {
                         ZStack {
                             LayersSelectionList(layers: $layers.layers)
@@ -235,7 +234,7 @@ struct PageView: View {
                     }
                 }
                 else if showMoreOptionsList {
-                    let s = CGSize(width: 266, height: 130)
+                    let s = CGSize(width: 290, height: 133)
                     HStack {
                         ZStack {
                             MoreOptionsChooserList(options: $options.options)

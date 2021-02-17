@@ -78,16 +78,19 @@ struct AnimatingBlob_Stroked: View {
                                  startPoint: .topLeading,
                                  endPoint: .bottomTrailing)
     var body : some View {
+        
+        let isSmoothed = options.isSelected(optionWithType: .smoothed)
+
         ZStack {
             SuperEllipse(curve: curve,
-                         smoothed: options.isSelected(optionWithType: .smoothed))
+                         smoothed: isSmoothed)
                 
                 .stroke(Color.init(white: 0.15),
                         style: StrokeStyle(lineWidth: 12, lineJoin: .round))
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
-                         smoothed: options.isSelected(optionWithType: .smoothed))
+                         smoothed: isSmoothed)
                 
                 .stroke(Color.white, style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
         }
