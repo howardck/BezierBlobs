@@ -26,8 +26,8 @@ struct PageView: View {
     
     static let descriptions : [PageDescription] =
     [
-        (numPoints: 12, n: 2.0,
-         offsets: (in: -0.25, out: 0.3), perturbLimits: (inner: 0.5, outer: 1.0),
+        (numPoints: 14, n: 2.0,
+         offsets: (in: -0.25, out: 0.25), perturbLimits: (inner: 0.5, outer: 1.0),
          forceEqualAxes: true),
         
         (numPoints: 20, n: 3.8,
@@ -39,19 +39,17 @@ struct PageView: View {
         (numPoints: 24, n: 1,
          offsets: (in: -0.1, out: 0.4), perturbLimits: (inner: 4, outer: 0.4), false)
     ]
-        
-    // @@@@@@@@@@@@@@@@@@@@@@@
-    @State var smoothed = false
-    // @@@@@@@@@@@@@@@@@@@@@@@
-    
+            
     @ObservedObject var model = Model()
     @EnvironmentObject var layers : Layers
     @EnvironmentObject var options : Options
     
-    static var animationTimeIncrement : Double = 2.8
-    static var timerTimeIncrement : Double = 3.1
-    static var timerInitialTimeIncrement : Double = 0.0
+    static let timerTimeIncrement : Double = 4.5
+    static let animationTimeIncrement : Double = 3.0
+    static let timerInitialTimeIncrement : Double = 0.0
     
+    @State var smoothed = false
+
     @State var showLayersList = true
     @State var showMoreOptionsList = false
     
