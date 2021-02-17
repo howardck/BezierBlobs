@@ -1,8 +1,22 @@
+17FEB
+
+    TO DO: greatly simplfiy Model handling of ZigZag curves :
+    
+        1) move to own file/struct
+        2) remove much code by using randomPerturbationDeltas
+            of [0.0, 0.0 ... etc] limits to remove plain-jane versions
+        3) and we can calc perturbLimits(inner: , outer: ) to simplify
+            their calculation
+
 11feb2021
 iphone version respects dark mode, unless you've altered the color of a List:Section header text color.
-ipad version apparently doesn't respect dark mode
+ipad version apparently doesn't
 
 two List dialogs (Layers & OtherMisc) invoked from single button --
 works great on iPad, but the two dialogs overlap each other on
 iPhone in a way hard to get full access to both --
 MAYBE back to the idea of separate invocation button on phone ????
+
+    -- DONE --
+
+
