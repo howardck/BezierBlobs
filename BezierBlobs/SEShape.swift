@@ -1,5 +1,5 @@
 //
-//  SuperEllipse.swift
+//  SuperEllipseShape.swift
 //  TabViews
 //
 //  Created by Howard Katz on 2020-10-31.
