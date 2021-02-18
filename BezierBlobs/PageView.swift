@@ -116,7 +116,7 @@ struct PageView: View {
             }
  
             if layers.isVisible(layerWithType: .baseCurve) {
-                BaseCurve(vertices: model.tuples.map{$0.vertex})
+                BaseCurve(vertices: model.baseCurve.map{$0.vertex})
             }
             
             if layers.isVisible(layerWithType: .envelopeBounds) {
@@ -139,7 +139,7 @@ struct PageView: View {
 //                }
                 
                 if layers.isVisible(layerWithType: .baseCurve_markers) {
-                    BaseCurve_Markers(curve: model.tuples.map{$0.vertex} ,
+                    BaseCurve_Markers(curve: model.baseCurve.map{$0.vertex} ,
                                       style: markerStyles[.baseCurve]!)
                 }
                 if layers.isVisible(layerWithType: .blob_markers) {

@@ -9,15 +9,11 @@ import SwiftUI
 
 typealias Axes = (a: Double, b: Double)
 typealias Offsets = (inner: CGFloat, outer: CGFloat)
-typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
-
-typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
-typealias ZigZagCurvesTest = (zigTest: [CGFloat], zagTest: CGFloat)
-
-typealias BaseCurveType = (vertices: [CGPoint], normals: [CGVector])
-typealias Tuples = [(vertex: CGPoint, normal: CGVector)]
-
 typealias PerturbationLimits =  (inner: CGFloat, outer: CGFloat)
+
+typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
+typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
+typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 
 class Model: ObservableObject { // init() { print("Model.init()") }
     
@@ -56,8 +52,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     var axes : Axes = (1, 1)
     
     // MARK:-
-    //var baseCurve : BaseCurveType = (vertices: [CGPoint](), normals: [CGVector]())
-    var tuples : Tuples = [(CGPoint, CGVector)]()
+    var baseCurve : BaseCurvePairs = [(CGPoint, CGVector)]()
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
     var normalsCurve : [CGPoint] = [CGPoint]()
@@ -99,7 +94,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
             print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
         }
-        blobCurve = tuples.map{ $0.vertex }
+        blobCurve = baseCurve.map{ $0.vertex }
     }
     
     func returnToInitialConfiguration() {
@@ -110,7 +105,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         
         // recalculate with 0 perturbations
         zigZagCurves = calculatePlainJaneZigZags()
-        blobCurve = tuples.map{ $0.vertex }
+        blobCurve = baseCurve.map{ $0.vertex }
     }
        
     //MARK:-
@@ -139,7 +134,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             self.axes = (a: minab, b: minab)
         }
 
-        self.tuples = calculateSuperEllipse(for: self.numPoints,
+        self.baseCurve = calculateSuperEllipse(for: self.numPoints,
                                             n: pageDescription.n,
                                             with: self.axes)
         
@@ -207,7 +202,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     func randomPerturbationDeltas() -> [CGFloat] {
 
-        let enumerated = tuples.enumerated()
+        let enumerated = baseCurve.enumerated()
         if zigIsNextPhase {
             
             // deltas for zig phase
@@ -227,7 +222,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
     
     func calculateNewZig(using deltas: [CGFloat]) -> [CGPoint] {
-        let enumerated = self.tuples.enumerated()
+        let enumerated = self.baseCurve.enumerated()
         let zig = enumerated.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
                                 offsets.outer + deltas[$0.0] :
@@ -238,7 +233,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
     
     func calculateNewZag(using deltas: [CGFloat]) -> [CGPoint] {
-        let enumerated = self.tuples.enumerated()
+        let enumerated = self.baseCurve.enumerated()
         let zag = enumerated.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
                                 offsets.inner + deltas[$0.0]:
@@ -251,7 +246,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     // initial plain-jane unperturbed variety
     func calculatePlainJaneZigZags() -> ZigZagCurves {
 
-        let z = tuples.enumerated()
+        let z = baseCurve.enumerated()
         let zig = z.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
                                 offsets.outer :
@@ -271,8 +266,8 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     func calculateBoundingCurves(using offsets: Offsets) -> BoundingCurves {
         
-         (inner: tuples.map{ $0.newPoint(at: offsets.inner, along: $1)},
-          outer: tuples.map{ $0.newPoint(at: offsets.outer, along: $1)})
+         (inner: baseCurve.map{ $0.newPoint(at: offsets.inner, along: $1)},
+          outer: baseCurve.map{ $0.newPoint(at: offsets.outer, along: $1)})
     }
     
     func calculateNormalsPseudoCurve() -> [CGPoint] {

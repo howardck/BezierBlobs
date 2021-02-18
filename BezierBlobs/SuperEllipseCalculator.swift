@@ -15,9 +15,9 @@ func sign(_ number: Double) -> Double {
 
 func calculateSuperEllipse(for numPoints: Int,
                            n: Double,
-                           with axes: Axes) -> Tuples
+                           with axes: Axes) -> BaseCurvePairs
 {
-    var tuples : Tuples = [(vertex: CGPoint, normal: CGVector)]()
+    var baseCurve : BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]()
     
     var i = 0
     for theta in stride(from: 0,
@@ -45,14 +45,14 @@ func calculateSuperEllipse(for numPoints: Int,
         let hypotenuse = hypot(dX, dY)
         let normal = CGVector(dx: dX/hypotenuse, dy: dY/hypotenuse)
         
-        tuples += [(vertex: vertex, normal: normal)]
+        baseCurve += [(vertex: vertex, normal: normal)]
         
         if Model.DEBUG_PRINT_VERTEX_NORMALS {
             debugPrint(i: i, theta: theta, vertex: vertex, normal: normal)
             i += 1
         }
     }
-    return tuples
+    return baseCurve
 }
 
 func debugPrint(i: Int, theta: Double, vertex: CGPoint, normal: CGVector) {

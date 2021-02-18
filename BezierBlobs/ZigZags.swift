@@ -10,12 +10,12 @@ import SwiftUI
 
 struct ZigZagManager {
     
-    let baseCurve : Tuples // [(vertex: CGPoint, normals: CGVector)]
+    let baseCurve : BaseCurvePairs // [(vertex: CGPoint, normals: CGVector)]
     let offsets : Offsets
     let zigZagCurves : ZigZagCurves
     let perturbationLimits : PerturbationLimits// = (inner: 0, outer: 0)
     
-    init(baseCurve: Tuples,
+    init(baseCurve: BaseCurvePairs,
          offsets: Offsets,
          zigZagCurves: ZigZagCurves,
          limits: PerturbationLimits) {
