@@ -1,5 +1,5 @@
 //
-//  ZigZags.swift
+//  ZigZagManager.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-02-17.
@@ -79,5 +79,24 @@ struct ZigZagManager {
                             along: $0.1.1)
         }
         return zag
+    }
+    
+    // initial plain-jane unperturbed variety
+    func calculatePlainJaneZigZags() -> ZigZagCurves {
+
+        let z = baseCurve.enumerated()
+        let zig = z.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.outer :
+                                offsets.inner,
+                            along: $0.1.1)
+        }
+        let zag = z.map {
+            $0.1.0.newPoint(at: $0.0.isEven() ?
+                                offsets.inner :
+                                offsets.outer,
+                            along: $0.1.1)
+        }
+        return (zig, zag)
     }
 }

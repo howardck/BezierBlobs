@@ -15,21 +15,8 @@ typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 
+
 class Model: ObservableObject { // init() { print("Model.init()") }
-    
-    enum ZigZagPhase {
-        case initial
-        case zig
-        case zag
-        
-        func nextPhase() -> ZigZagPhase {
-            switch self {
-            case .initial : return .zig
-            case .zig : return .zag
-            case .zag : return .zig
-            }
-        }
-    }
     
     static let DEBUG_PRINT_BASIC_SE_PARAMS = false
     static let DEBUG_PRINT_VERTEX_NORMALS = false
@@ -43,14 +30,12 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     // zig configuration moves to the outside
     // zag configuration moves to the inside
     
-    // go to the outside (== ZIG) first
+    // ZIG == vertex[0] moves to the outside first
+    // ZAG == vertex[0] moves to the inside first
     var zigIsNextPhase = true
-    var currPhase : ZigZagPhase = .initial
     
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001  // kludge ahoy?
-    
-    var axes : Axes = (1, 1)
-    
+        
     // MARK:-
     var baseCurve : BaseCurvePairs = [(CGPoint, CGVector)]()
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
@@ -58,9 +43,9 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     var normalsCurve : [CGPoint] = [CGPoint]()
     
     //MARK:-
-    //TODO: TODO: OFFSETS SHOULD BE A PLATFORM-SPECIFIC SCREEN RATIO
+    //TODO: TODO: (maybe) OFFSETS SHOULD BE A PLATFORM-SPECIFIC SCREEN RATIO
     
-    //var n: Double = 0.0
+    var axes : Axes = (1, 1)
     var numPoints: Int = 0
     var offsets : Offsets = (inner: 0, outer: 0)
     
@@ -73,7 +58,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             print("Model.animateToNextZigZagPhase():: animateToZig == {\(zigIsNextPhase)}")
         }
 
-        //zigZagCurves = calculateRandomlyPerturbedZigZags(doZig: animateToZigPhase)
         zigZagCurves = calculateZigZagsForNextPhase()
         
         blobCurve = zigIsNextPhase ?
@@ -151,6 +135,12 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         // ---------------------------------------------------------
         boundingCurves = calculateBoundingCurves(using: self.offsets)
         normalsCurve = calculateNormalsPseudoCurve()
+        
+        self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
+                                           offsets: offsets,
+                                           zigZagCurves: zigZagCurves,
+                                           limits: perturbationLimits)
+        
         zigZagCurves = calculatePlainJaneZigZags()
         // ----------------------------------------------------------
 
@@ -162,6 +152,8 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             animateToCurrZigZagPhase()
         }
     }
+    
+    var zigZagManager : ZigZagManager
     
     func upscale(_: PerturbationLimits,
                toMatch offsets: Offsets) -> PerturbationLimits
@@ -187,7 +179,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     
     //MARK: - ZIG-ZAGS
-        
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     // NOTA: we only want to change one of them, not both
     func calculateZigZagsForNextPhase() -> ZigZagCurves {
         let deltas = randomPerturbationDeltas()
@@ -261,6 +253,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
         return (zig, zag)
     }
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
     
     // MARK:- OTHER CURVES
     
