@@ -44,7 +44,7 @@ struct PageView: View {
     @EnvironmentObject var layers : SuperEllipseLayers
     @EnvironmentObject var options : Options
     
-    static let timerTimeIncrement : Double = 4.5
+    static let timerTimeIncrement : Double = 4.0
     static let animationTimeIncrement : Double = 3.0
     static let timerInitialTimeIncrement : Double = 0.0
     
