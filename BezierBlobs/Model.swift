@@ -136,13 +136,13 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         boundingCurves = calculateBoundingCurves(using: self.offsets)
         normalsCurve = calculateNormalsPseudoCurve()
         
-        self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
-                                           offsets: offsets,
-                                           zigZagCurves: zigZagCurves,
-                                           limits: perturbationLimits)
+//        self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
+//                                           offsets: offsets,
+//                                           zigZagCurves: zigZagCurves,
+//                                           limits: perturbationLimits)
         
-        zigZagCurves = calculatePlainJaneZigZags()
-        // ----------------------------------------------------------
+        // zigZagCurves = zigZagManager.calculatePlainJaneZigZags()
+        // -----------------------------------------------------
 
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
             setInitialBlobCurve()
