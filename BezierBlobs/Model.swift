@@ -87,7 +87,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         zigIsNextPhase = true
         
         // recalculate with 0 perturbations
-        zigZagCurves = calculatePlainJaneZigZags()
+        zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
         blobCurve = baseCurve.map{ $0.vertex }
     }
        
