@@ -15,7 +15,6 @@ typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 
-
 class Model: ObservableObject { // init() { print("Model.init()") }
     
     static let DEBUG_PRINT_BASIC_SE_PARAMS = false
@@ -136,13 +135,13 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         boundingCurves = calculateBoundingCurves(using: self.offsets)
         normalsCurve = calculateNormalsPseudoCurve()
         
-//        self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
-//                                           offsets: offsets,
-//                                           zigZagCurves: zigZagCurves,
-//                                           limits: perturbationLimits)
+        self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
+                                           offsets: offsets,
+                                           zigZagCurves: zigZagCurves,
+                                           limits: perturbationLimits)
         
-        // zigZagCurves = zigZagManager.calculatePlainJaneZigZags()
-        // -----------------------------------------------------
+        zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
+        // ------------------------------------------------------
 
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
             setInitialBlobCurve()
@@ -153,7 +152,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
     }
     
-    var zigZagManager : ZigZagManager
+    var zigZagManager : ZigZagManager?
     
     func upscale(_: PerturbationLimits,
                toMatch offsets: Offsets) -> PerturbationLimits
@@ -179,7 +178,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     
     //MARK: - ZIG-ZAGS
-/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     // NOTA: we only want to change one of them, not both
     func calculateZigZagsForNextPhase() -> ZigZagCurves {
         let deltas = randomPerturbationDeltas()
@@ -187,7 +185,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
             (zig: calculateNewZig(using: deltas), zag: zigZagCurves.zag) :
             (zig: zigZagCurves.zig, zag: calculateNewZag(using: deltas))
     }
-    
+
     func randomPerturbation(within limits: CGFloat) -> CGFloat {
         return CGFloat.random(in: -abs(limits)...abs(limits))
     }
@@ -253,7 +251,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         }
         return (zig, zag)
     }
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
     
     // MARK:- OTHER CURVES
     
