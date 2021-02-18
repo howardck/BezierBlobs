@@ -10,7 +10,7 @@ struct Layer {
     var visible = false
 }
 
-class Layers : ObservableObject {
+class SuperEllipseLayers : ObservableObject {
       
     static let DEBUG_PRINT_LAYERS = false
     
@@ -37,7 +37,7 @@ class Layers : ObservableObject {
     ]
     
     init() {
-        if Layers.DEBUG_PRINT_LAYERS {
+        if SuperEllipseLayers.DEBUG_PRINT_LAYERS {
             print("initializing class Layers(): layers.count = {\(layers.count)}")
             for (ix, layer) in layers.enumerated() {
                 print("layer[\(ix)] visible = {\(layer.visible)}")

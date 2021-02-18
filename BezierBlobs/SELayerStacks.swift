@@ -41,7 +41,7 @@ let highlitRed = Gradient(colors: [.black, .red, .black
 struct AnimatingBlob_Filled: View {
     
     // @@@@@@@@@@@@  EXPLORING @@@@@@@@@@@@@@
-    @EnvironmentObject var layers: Layers
+    @EnvironmentObject var layers: SuperEllipseLayers
     @EnvironmentObject var options: Options
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

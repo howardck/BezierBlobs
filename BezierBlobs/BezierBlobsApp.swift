@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct BezierBlobsApp: App {
     
-    let layers = Layers()
+    let layers = SuperEllipseLayers()
     let options = Options()
     
     var body: some Scene {

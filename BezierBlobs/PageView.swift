@@ -41,7 +41,7 @@ struct PageView: View {
     ]
             
     @ObservedObject var model = Model()
-    @EnvironmentObject var layers : Layers
+    @EnvironmentObject var layers : SuperEllipseLayers
     @EnvironmentObject var options : Options
     
     static let timerTimeIncrement : Double = 4.5

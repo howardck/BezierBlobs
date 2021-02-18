@@ -43,9 +43,9 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     @Published var blobCurve = [CGPoint]()
     
-    // at vertex 0:
-    // zig configuration starts to the outside
-    // zag configuration starts to the inside
+    // at vertex 0
+    // zig configuration moves to the outside
+    // zag configuration moves to the inside
     
     // go to the outside (== ZIG) first
     var zigIsNextPhase = true
@@ -145,7 +145,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
             print("Model.calculateSuperEllipseCurves(PageType.\(pageType.rawValue))")
-            //print("-------------------------------------")
             print("  numPoints: {\(numPoints)} ")
             print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((self.axes.b).format(fspec: "6.2"))})")
@@ -203,7 +202,6 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     }
     
     func randomPerturbation(within limits: CGFloat) -> CGFloat {
-        
         return CGFloat.random(in: -abs(limits)...abs(limits))
     }
     
@@ -218,6 +216,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
                     randomPerturbation(within: perturbationLimits.outer) :
                     randomPerturbation(within: perturbationLimits.inner)
             }
+            
         }
         // deltas for zag phase
         return enumerated.map {
@@ -268,7 +267,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         return (zig, zag)
     }
     
-    // MARK:- OTHER SUPPORT CURVES
+    // MARK:- OTHER CURVES
     
     func calculateBoundingCurves(using offsets: Offsets) -> BoundingCurves {
         
