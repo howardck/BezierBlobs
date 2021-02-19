@@ -40,10 +40,8 @@ let highlitRed = Gradient(colors: [.black, .red, .black
 
 struct AnimatingBlob_Filled: View {
     
-    // @@@@@@@@@@@@  EXPLORING @@@@@@@@@@@@@@
     @EnvironmentObject var layers: SuperEllipseLayers
     @EnvironmentObject var options: Options
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     var curve: [CGPoint]
     var layerType : LayerType

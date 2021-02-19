@@ -15,13 +15,13 @@ typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 
-class Model: ObservableObject { // init() { print("Model.init()") }
+class Model: ObservableObject {
     
     static let DEBUG_PRINT_BASIC_SE_PARAMS = false
     static let DEBUG_PRINT_VERTEX_NORMALS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = false
-    static let DEBUG_ADJUST_PERTURBATION_LIMITS = false
+    static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
     
     @Published var blobCurve = [CGPoint]()
     
@@ -47,8 +47,40 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     var axes : Axes = (1, 1)
     var numPoints: Int = 0
     var offsets : Offsets = (inner: 0, outer: 0)
-    
+    var pageType: PageType?
     var perturbationLimits : PerturbationLimits = (inner: 0, outer: 0)
+    
+    //MARK:-
+    func calculateSuperEllipseCurves(for pageType: PageType,
+                                     pageDescription: PageDescription,
+                                     axes: Axes) {
+        
+        calculateBasicParameters(pageType: pageType,
+                                 pageDescription: pageDescription,
+                                 axes: axes)
+        
+        baseCurve = calculateSuperEllipse(for: numPoints,
+                                          n: pageDescription.n,
+                                          with: self.axes)
+        
+        boundingCurves = calculateBoundingCurves(using: offsets)
+        normalsCurve = calculateNormalsPseudoCurve()
+        
+        self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
+                                           offsets: offsets,
+                                           zigZagCurves: zigZagCurves,
+                                           limits: perturbationLimits)
+        
+        zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
+
+        if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
+            setInitialBlobCurve()
+            ContentView.StatusTracker.markInited(pageType: pageType)
+        }
+        else {
+            animateToCurrZigZagPhase()
+        }
+    }
     
     //MARK: - ANIMATE TO ZIG-ZAGS
     func animateToNextZigZagPhase() {
@@ -74,6 +106,7 @@ class Model: ObservableObject { // init() { print("Model.init()") }
     
     //MARK:-
     func setInitialBlobCurve() {
+        
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
             print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
         }
@@ -90,72 +123,79 @@ class Model: ObservableObject { // init() { print("Model.init()") }
         zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
         blobCurve = baseCurve.map{ $0.vertex }
     }
-       
-    //MARK:-
-    var pageType: PageType?
-
-    //MARK:-
-    func calculateSuppportCurves(for pageType: PageType,
-                                 pageDescription: PageDescription,
-                                 axes: Axes) {
+    
+    func calculateBasicParameters(pageType: PageType,
+                                  pageDescription: PageDescription,
+                                  axes: Axes) {
         self.pageType = pageType
-        self.perturbationLimits = pageDescription.perturbLimits
         self.numPoints = pageDescription.numPoints
         
         // NOT SURE IF THIS IS THE BEST APPROACH HERE ...
         let radius = CGFloat((axes.a + axes.b)/2.0)
-        
-        // NOTA: offsets here are CGFloats based on pageDescription
-        // offsets, which are percentages of the screen height & width
-        
-        offsets = (inner: radius * pageDescription.offsets.in,
-                   outer: radius * pageDescription.offsets.out)
-
         self.axes = axes
+        
         if pageDescription.forceEqualAxes {
             let minab = min(axes.a, axes.b)
             self.axes = (a: minab, b: minab)
         }
-
-        self.baseCurve = calculateSuperEllipse(for: self.numPoints,
-                                            n: pageDescription.n,
-                                            with: self.axes)
+        offsets = (inner: radius * pageDescription.offsets.in,
+                   outer: radius * pageDescription.offsets.out)
+        self.perturbationLimits = upscale(pageDescription.perturbLimits,
+                                          toMatch: offsets)
         
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
-            print("Model.calculateSuperEllipseCurves(PageType.\(pageType.rawValue))")
-            print("  numPoints: {\(numPoints)} ")
-            print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
-                    "b: {\((self.axes.b).format(fspec: "6.2"))})")
-            print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
-        }
-        
-        self.perturbationLimits = upscale(perturbationLimits, toMatch: offsets)
-        
-        // ---------------------------------------------------------
-        boundingCurves = calculateBoundingCurves(using: self.offsets)
-        normalsCurve = calculateNormalsPseudoCurve()
-        
-        self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
-                                           offsets: offsets,
-                                           zigZagCurves: zigZagCurves,
-                                           limits: perturbationLimits)
-        
-        zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
-        // ------------------------------------------------------
-
-        if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
-            setInitialBlobCurve()
-            ContentView.StatusTracker.markInited(pageType: pageType)
-        }
-        else {
-            animateToCurrZigZagPhase()
+            debugPrintBasicParams(numPoints: numPoints, axes: axes, offsets: offsets)
         }
     }
+    
+    func debugPrintBasicParams(numPoints: Int,
+                               axes: Axes,
+                               offsets: Offsets) {
+        print("Model.calculateSuperEllipseCurves(PageType.\(pageType!.rawValue))")
+        print("  numPoints: {\(numPoints)} ")
+        print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
+                "b: {\((self.axes.b).format(fspec: "6.2"))})")
+        print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+    }
+
+    //MARK:-
+//    func calculateSuperEllipseCurves(for pageType: PageType,
+//                                     pageDescription: PageDescription,
+//                                     axes: Axes) {
+//
+//        calculateBasicParameters(pageType: pageType,
+//                                 pageDescription: pageDescription,
+//                                 axes: axes)
+//
+//        baseCurve = calculateSuperEllipse(for: numPoints,
+//                                          n: pageDescription.n,
+//                                          with: self.axes)
+//
+//        boundingCurves = calculateBoundingCurves(using: offsets)
+//        normalsCurve = calculateNormalsPseudoCurve()
+//
+//        self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
+//                                           offsets: offsets,
+//                                           zigZagCurves: zigZagCurves,
+//                                           limits: perturbationLimits)
+//
+//        zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
+//
+//        animateToCurrZigZagPhase()
+//
+//        if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
+//            setInitialBlobCurve()
+//            ContentView.StatusTracker.markInited(pageType: pageType)
+//        }
+//        else {
+//            animateToCurrZigZagPhase()
+//        }
+//    }
     
     var zigZagManager : ZigZagManager?
     
     func upscale(_: PerturbationLimits,
-               toMatch offsets: Offsets) -> PerturbationLimits
+                 toMatch offsets: Offsets) -> PerturbationLimits
     {
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("Model.upscale(perturbationLimits)")

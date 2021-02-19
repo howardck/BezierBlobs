@@ -64,18 +64,16 @@ struct PageView: View {
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
         
-        //print("PageView.init( PageType.\(pageType.rawValue) )")
-
         self.pageType = pageType
         self.description = description
         self.size = CGSize(width: size.width * PlatformSpecifics.IPAD.w,
                            height: size.height * PlatformSpecifics.IPAD.h)
         
-        model.calculateSuppportCurves(for: pageType,
+        model.calculateSuperEllipseCurves(for: pageType,
                                           pageDescription: description,
                                           axes: (a: Double(self.size.width/2),
                                                  b: Double(self.size.height/2)))
-     }
+    }
     
     struct PageGradientBackground : View {
         let colors : [Color] = [.init(white: 0.7), .init(white: 0.3)]
@@ -96,9 +94,10 @@ struct PageView: View {
     //MARK:-
     //MARK: show the following SuperEllipse layer stacks if so flagged
 
-            // comparing testing for visibility here vs inside the
-            // called SuperEllipse stack itself via @EnvironmentObject.
-            // (think I like testing for it here. maybe ...)
+    // comparing gating for visibility here via layers.isVisible()
+    // vs accessing the same info inside the invoked struct via @EnvironmentObject.
+    // note we use @EnvironmentObject where smoothed/non-smoothed is involved.
+            
             AnimatingBlob_Filled(curve: model.blobCurve,
                                  layerType: .blob_filled)
             
@@ -152,7 +151,7 @@ struct PageView: View {
                 }
             }
         }
-        // can't do this because all layers might be turned off,
+        // we can't do this because all layers might be turned off,
         // in which case the view disappears on us!
         //  .background(PageGradientBackground())
         
