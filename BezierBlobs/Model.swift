@@ -157,19 +157,19 @@ class Model: ObservableObject {
         }
     }
         
-    func upscale(_ pertubationLimits: PerturbationLimits,
+    func upscale(_ perturbLimits: PerturbationLimits,
                  toMatch offsets: Offsets) -> PerturbationLimits
     {
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("Model.upscale(perturbationLimits)")
             print("offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
             
-            print("perturbationLimits before upscaling : ( inner: {\(perturbationLimits.inner.format(fspec: "4.2"))}, " +
-                    "outer: {\(perturbationLimits.outer.format(fspec: "4.2"))} ) "
+            print("perturbationLimits before upscaling : ( inner: {\(perturbLimits.inner.format(fspec: "4.2"))}, " +
+                    "outer: {\(perturbLimits.outer.format(fspec: "4.2"))} ) "
                   )
         }
-        let pLimits = (inner: abs(perturbationLimits.inner * offsets.inner),
-                       outer: abs(perturbationLimits.outer * offsets.outer))
+        let pLimits = (inner: abs(perturbLimits.inner * offsets.inner),
+                       outer: abs(perturbLimits.outer * offsets.outer))
         
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("perturbationLimits after  upscaling : " +
