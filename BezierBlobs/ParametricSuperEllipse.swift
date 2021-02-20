@@ -1,5 +1,5 @@
 //
-//  SuperEllipseCalculator.swift
+//  SuperEllipse.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-02-17.
@@ -17,6 +17,8 @@ func calculateSuperEllipse(for numPoints: Int,
                            n: Double,
                            with axes: Axes) -> BaseCurvePairs
 {
+    let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001
+
     var baseCurve : BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]()
     
     var i = 0
@@ -26,8 +28,10 @@ func calculateSuperEllipse(for numPoints: Int,
         let cosT = cos(theta)
         var sinT = sin(theta)
 
-        if sinT == 0 { sinT = Model.VANISHINGLY_SMALL_DOUBLE }
-        // else dX goes infinite at theta == 0 & we're forked. kludgy?
+        if sinT == 0 {
+            sinT = VANISHINGLY_SMALL_DOUBLE
+            // else dX goes infinite at theta == 0 & we're forked. kludgy?
+        }
         
         let inverseN = 2.0/n // not named accurately, but whatever...
 

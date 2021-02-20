@@ -69,7 +69,7 @@ struct PageView: View {
         self.size = CGSize(width: size.width * PlatformSpecifics.IPAD.w,
                            height: size.height * PlatformSpecifics.IPAD.h)
         
-        model.calculateSuperEllipseCurves(for: pageType,
+        model.calculateSuperEllipseCurvesFamily(for: pageType,
                                           pageDescription: description,
                                           axes: (a: Double(self.size.width/2),
                                                  b: Double(self.size.height/2)))

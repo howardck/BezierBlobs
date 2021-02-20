@@ -19,9 +19,9 @@ class Model: ObservableObject {
     
     static let DEBUG_PRINT_BASIC_SE_PARAMS = false
     static let DEBUG_PRINT_VERTEX_NORMALS = false
-    static let DEBUG_TRACK_ZIGZAG_PHASING = false
+    static let DEBUG_TRACK_ZIGZAG_PHASING = true
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = false
-    static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
+    static let DEBUG_ADJUST_PERTURBATION_LIMITS = false
     
     @Published var blobCurve = [CGPoint]()
     
@@ -29,12 +29,8 @@ class Model: ObservableObject {
     // zig configuration moves to the outside
     // zag configuration moves to the inside
     
-    // ZIG == vertex[0] moves to the outside first
-    // ZAG == vertex[0] moves to the inside first
     var zigIsNextPhase = true
-    
-    static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001  // kludge ahoy?
-        
+            
     // MARK:-
     var baseCurve : BaseCurvePairs = [(CGPoint, CGVector)]()
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
@@ -51,27 +47,28 @@ class Model: ObservableObject {
     var perturbationLimits : PerturbationLimits = (inner: 0, outer: 0)
     
     //MARK:-
-    func calculateSuperEllipseCurves(for pageType: PageType,
-                                     pageDescription: PageDescription,
-                                     axes: Axes) {
+    func calculateSuperEllipseCurvesFamily(for pageType: PageType,
+                                           pageDescription: PageDescription,
+                                           axes: Axes) {
         
-        calculateBasicParameters(pageType: pageType,
-                                 pageDescription: pageDescription,
-                                 axes: axes)
+        calculateBasicParams(pageType: pageType,
+                             pageDescription: pageDescription,
+                             axes: axes)
         
         baseCurve = calculateSuperEllipse(for: numPoints,
                                           n: pageDescription.n,
                                           with: self.axes)
         
         boundingCurves = calculateBoundingCurves(using: offsets)
-        normalsCurve = calculateNormalsPseudoCurve()
+        normalsCurve = calculateNormals()
         
         self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
                                            offsets: offsets,
                                            zigZagCurves: zigZagCurves,
                                            limits: perturbationLimits)
         
-        zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
+        //zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
+        zigZagCurves = self.calculatePlainJaneZigZags()
 
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
             setInitialBlobCurve()
@@ -82,26 +79,28 @@ class Model: ObservableObject {
         }
     }
     
+    func animateToCurrZigZagPhase() {
+        
+        blobCurve = zigIsNextPhase ?
+            zigZagCurves.zag :
+            zigZagCurves.zig
+    }
+    
     //MARK: - ANIMATE TO ZIG-ZAGS
     func animateToNextZigZagPhase() {
         
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.animateToNextZigZagPhase():: animateToZig == {\(zigIsNextPhase)}")
+            print("ZigZagManager.calculateZigZags / animateToZig == {\(zigIsNextPhase)}")
         }
 
         zigZagCurves = calculateZigZagsForNextPhase()
+        //zigZagCurves = zigZagManager!.calculateZigZags(zigIsNextPhase: zigIsNextPhase)
         
         blobCurve = zigIsNextPhase ?
             zigZagCurves.zig :
             zigZagCurves.zag
-
+//
         zigIsNextPhase.toggle()
-    }
-
-    func animateToCurrZigZagPhase() {
-        blobCurve = zigIsNextPhase ?
-            zigZagCurves.zag :
-            zigZagCurves.zig
     }
     
     //MARK:-
@@ -124,13 +123,15 @@ class Model: ObservableObject {
         blobCurve = baseCurve.map{ $0.vertex }
     }
     
-    func calculateBasicParameters(pageType: PageType,
-                                  pageDescription: PageDescription,
-                                  axes: Axes) {
+    func calculateBasicParams(pageType: PageType,
+                              pageDescription: PageDescription,
+                              axes: Axes) {
         self.pageType = pageType
         self.numPoints = pageDescription.numPoints
         
-        // NOT SURE IF THIS IS THE BEST APPROACH HERE ...
+        // #####################################
+        // REVIEW IF THIS IS BEST WAY TO DO THIS ...
+        // #####################################
         let radius = CGFloat((axes.a + axes.b)/2.0)
         self.axes = axes
         
@@ -144,56 +145,13 @@ class Model: ObservableObject {
                                           toMatch: offsets)
         
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
-            debugPrintBasicParams(numPoints: numPoints, axes: axes, offsets: offsets)
-        }
+            print("Basic SuperEllipse params for: (PageType.\(pageType.rawValue))")
+            print("  numPoints: {\(numPoints)} ")
+            print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
+                    "b: {\((self.axes.b).format(fspec: "6.2"))})")
+            print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")        }
     }
-    
-    func debugPrintBasicParams(numPoints: Int,
-                               axes: Axes,
-                               offsets: Offsets) {
-        print("Model.calculateSuperEllipseCurves(PageType.\(pageType!.rawValue))")
-        print("  numPoints: {\(numPoints)} ")
-        print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
-                "b: {\((self.axes.b).format(fspec: "6.2"))})")
-        print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
-    }
-
-    //MARK:-
-//    func calculateSuperEllipseCurves(for pageType: PageType,
-//                                     pageDescription: PageDescription,
-//                                     axes: Axes) {
-//
-//        calculateBasicParameters(pageType: pageType,
-//                                 pageDescription: pageDescription,
-//                                 axes: axes)
-//
-//        baseCurve = calculateSuperEllipse(for: numPoints,
-//                                          n: pageDescription.n,
-//                                          with: self.axes)
-//
-//        boundingCurves = calculateBoundingCurves(using: offsets)
-//        normalsCurve = calculateNormalsPseudoCurve()
-//
-//        self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
-//                                           offsets: offsets,
-//                                           zigZagCurves: zigZagCurves,
-//                                           limits: perturbationLimits)
-//
-//        zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
-//
-//        animateToCurrZigZagPhase()
-//
-//        if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
-//            setInitialBlobCurve()
-//            ContentView.StatusTracker.markInited(pageType: pageType)
-//        }
-//        else {
-//            animateToCurrZigZagPhase()
-//        }
-//    }
-    
-    var zigZagManager : ZigZagManager?
-    
+        
     func upscale(_: PerturbationLimits,
                  toMatch offsets: Offsets) -> PerturbationLimits
     {
@@ -216,6 +174,7 @@ class Model: ObservableObject {
         return pLimits
     }
     
+    var zigZagManager : ZigZagManager?
     
     //MARK: - ZIG-ZAGS
     // NOTA: we only want to change one of them, not both
@@ -300,7 +259,7 @@ class Model: ObservableObject {
           outer: baseCurve.map{ $0.newPoint(at: offsets.outer, along: $1)})
     }
     
-    func calculateNormalsPseudoCurve() -> [CGPoint] {
+    func calculateNormals() -> [CGPoint] {
         var normals = [CGPoint]()
         for i in 0..<numPoints {
             normals.append(boundingCurves.inner[i])
