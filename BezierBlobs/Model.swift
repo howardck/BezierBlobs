@@ -21,7 +21,7 @@ class Model: ObservableObject {
     static let DEBUG_PRINT_VERTEX_NORMALS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = true
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = false
-    static let DEBUG_ADJUST_PERTURBATION_LIMITS = false
+    static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
     
     @Published var blobCurve = [CGPoint]()
     
@@ -141,6 +141,7 @@ class Model: ObservableObject {
         }
         offsets = (inner: radius * pageDescription.offsets.in,
                    outer: radius * pageDescription.offsets.out)
+        
         self.perturbationLimits = upscale(pageDescription.perturbLimits,
                                           toMatch: offsets)
         
@@ -149,10 +150,14 @@ class Model: ObservableObject {
             print("  numPoints: {\(numPoints)} ")
             print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((self.axes.b).format(fspec: "6.2"))})")
-            print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")        }
+            print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+            print("  perturbationLimits: " +
+                    "( inner: {+/- \(perturbationLimits.inner.format(fspec: "4.2"))}, " +
+                    "outer: {+/- \(perturbationLimits.outer.format(fspec: "4.2"))} ) ")
+        }
     }
         
-    func upscale(_: PerturbationLimits,
+    func upscale(_ pertubationLimits: PerturbationLimits,
                  toMatch offsets: Offsets) -> PerturbationLimits
     {
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
@@ -179,6 +184,9 @@ class Model: ObservableObject {
     //MARK: - ZIG-ZAGS
     // NOTA: we only want to change one of them, not both
     func calculateZigZagsForNextPhase() -> ZigZagCurves {
+        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.calculateZigZagsForNextPhase()")
+        }
         let deltas = randomPerturbationDeltas()
         return zigIsNextPhase ?
             (zig: calculateNewZig(using: deltas), zag: zigZagCurves.zag) :
@@ -191,6 +199,11 @@ class Model: ObservableObject {
     
     func randomPerturbationDeltas() -> [CGFloat] {
 
+        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.randomPerturbationDeltas()")
+            print("..... perturbationLimits(.outer: +/- \(perturbationLimits.outer)"
+                    + ", .inner: \(perturbationLimits.inner))")
+        }
         let enumerated = baseCurve.enumerated()
         if zigIsNextPhase {
             
