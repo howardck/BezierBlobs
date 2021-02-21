@@ -64,7 +64,7 @@ struct ContentView: View {
                         Image(systemName: "1.circle.fill")
                         Text("\(PageType.circle.rawValue)")
                     }
-/*
+
                 PageView(pageType: PageType.superEllipse,
                          description: PageView.descriptions[1],
                          size: gr.size)
@@ -96,8 +96,6 @@ struct ContentView: View {
                         Image(systemName: "4.circle.fill");
                         Text("\(PageType.killerMoth.rawValue)" )
                     }
- */
-                
             }
         }
 //        .onAppear{
