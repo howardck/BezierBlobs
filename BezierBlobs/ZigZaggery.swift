@@ -1,5 +1,5 @@
 //
-//  ZigZagery.swift
+//  ZigZaggery.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-02-17.
@@ -12,21 +12,21 @@ struct ZigZagManager {
     
     let baseCurve : BaseCurvePairs
     let offsets : Offsets
-    let zigZagCurves : ZigZagCurves
     let perturbationLimits : PerturbationLimits
     
     init(baseCurve: BaseCurvePairs,
          offsets: Offsets,
-         zigZagCurves: ZigZagCurves,
          limits: PerturbationLimits) {
         
         self.baseCurve = baseCurve
         self.offsets = offsets
-        self.zigZagCurves = zigZagCurves
         self.perturbationLimits = limits
     }
-    
-    func calculateZigZags(zigIsNextPhase: Bool) -> ZigZagCurves {
+    /*  BUG w/ new ZigZagManager:
+        assumes zigZag
+     */
+    func calculateZigZags(zigIsNextPhase: Bool,
+                          zigZagCurves: ZigZagCurves) -> ZigZagCurves {
         let deltas = randomPerturbationDeltas(zigIsNextPhase: zigIsNextPhase)
         
         return zigIsNextPhase ?

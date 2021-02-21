@@ -17,15 +17,15 @@ typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 
 class Model: ObservableObject {
     
-    static let DEBUG_PRINT_BASIC_SE_PARAMS = false
+    static let DEBUG_PRINT_BASIC_SE_PARAMS = true
     static let DEBUG_PRINT_VERTEX_NORMALS = false
-    static let DEBUG_TRACK_ZIGZAG_PHASING = true
+    static let DEBUG_TRACK_ZIGZAG_PHASING = false
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = false
-    static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
+    static let DEBUG_ADJUST_PERTURBATION_LIMITS = false
     
     @Published var blobCurve = [CGPoint]()
     
-    // at vertex 0
+    // at vertex 0:
     // zig configuration moves to the outside
     // zag configuration moves to the inside
     
@@ -51,9 +51,9 @@ class Model: ObservableObject {
                                            pageDescription: PageDescription,
                                            axes: Axes) {
         
-        calculateBasicParams(pageType: pageType,
-                             pageDescription: pageDescription,
-                             axes: axes)
+        massageParameters(pageType: pageType,
+                          pageDescription: pageDescription,
+                          axes: axes)
         
         baseCurve = calculateSuperEllipse(for: numPoints,
                                           n: pageDescription.n,
@@ -64,11 +64,10 @@ class Model: ObservableObject {
         
         self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
                                            offsets: offsets,
-                                           zigZagCurves: zigZagCurves,
                                            limits: perturbationLimits)
         
-        //zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
-        zigZagCurves = self.calculatePlainJaneZigZags()
+        zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
+//        zigZagCurves = self.calculatePlainJaneZigZags()
 
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
             setInitialBlobCurve()
@@ -87,14 +86,16 @@ class Model: ObservableObject {
     }
     
     //MARK: - ANIMATE TO ZIG-ZAGS
+    // called by PageView.onReceive(timer):
     func animateToNextZigZagPhase() {
         
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
             print("ZigZagManager.calculateZigZags / animateToZig == {\(zigIsNextPhase)}")
         }
 
-        zigZagCurves = calculateZigZagsForNextPhase()
-        //zigZagCurves = zigZagManager!.calculateZigZags(zigIsNextPhase: zigIsNextPhase)
+//        zigZagCurves = calculateZigZagsForNextPhase()
+        zigZagCurves = zigZagManager!.calculateZigZags(zigIsNextPhase: zigIsNextPhase,
+                                                       zigZagCurves: zigZagCurves)
         
         blobCurve = zigIsNextPhase ?
             zigZagCurves.zig :
@@ -123,9 +124,9 @@ class Model: ObservableObject {
         blobCurve = baseCurve.map{ $0.vertex }
     }
     
-    func calculateBasicParams(pageType: PageType,
-                              pageDescription: PageDescription,
-                              axes: Axes) {
+    func massageParameters(pageType: PageType,
+                           pageDescription: PageDescription,
+                           axes: Axes) {
         self.pageType = pageType
         self.numPoints = pageDescription.numPoints
         
