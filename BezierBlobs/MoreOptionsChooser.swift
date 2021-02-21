@@ -1,5 +1,5 @@
 //
-//  MoreOptionsChooserList.swift
+//  MoreOptionsChooser.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-02-11.
