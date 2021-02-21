@@ -1,4 +1,13 @@
 17feb21
+    App VERSION 2: MAYBE add further options to MoreOptionsChooser:
+    
+    enum OptionType: String {
+    ...
+    case fixedZigZags = "fixed zig-zags"
+    case snapToZigZags = "\"snap-to\" zig-zags"
+    case animatedZigZags = "animated zig-zags"
+    }
+    
     o (1) of first 11feb21 TO-DO is done
     o earlier 11Feb21 TO-DO -- use two buttons -- is now done
 
