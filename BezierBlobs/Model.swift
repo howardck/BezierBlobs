@@ -46,6 +46,8 @@ class Model: ObservableObject {
     var pageType: PageType?
     var perturbationLimits : PerturbationLimits = (inner: 0, outer: 0)
     
+    var zigZagManager : ZigZagManager?
+    
     //MARK:-
     func calculateSuperEllipseCurvesFamily(for pageType: PageType,
                                            pageDescription: PageDescription,
@@ -67,7 +69,6 @@ class Model: ObservableObject {
                                            limits: perturbationLimits)
         
         zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
-//        zigZagCurves = self.calculatePlainJaneZigZags()
 
         if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
             setInitialBlobCurve()
@@ -88,19 +89,13 @@ class Model: ObservableObject {
     //MARK: - ANIMATE TO ZIG-ZAGS
     // called by PageView.onReceive(timer):
     func animateToNextZigZagPhase() {
-        
-        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("ZigZagManager.calculateZigZags / animateToZig == {\(zigIsNextPhase)}")
-        }
 
-//        zigZagCurves = calculateZigZagsForNextPhase()
         zigZagCurves = zigZagManager!.calculateZigZags(zigIsNextPhase: zigIsNextPhase,
                                                        zigZagCurves: zigZagCurves)
-        
         blobCurve = zigIsNextPhase ?
             zigZagCurves.zig :
             zigZagCurves.zag
-//
+
         zigIsNextPhase.toggle()
     }
     
@@ -178,91 +173,6 @@ class Model: ObservableObject {
                     "outer: {+/- \(pLimits.outer.format(fspec: "4.2"))} ) ")
         }
         return pLimits
-    }
-    
-    var zigZagManager : ZigZagManager?
-    
-    //MARK: - ZIG-ZAGS
-    // NOTA: we only want to change one of them, not both
-    func calculateZigZagsForNextPhase() -> ZigZagCurves {
-        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.calculateZigZagsForNextPhase()")
-        }
-        let deltas = randomPerturbationDeltas()
-        return zigIsNextPhase ?
-            (zig: calculateNewZig(using: deltas), zag: zigZagCurves.zag) :
-            (zig: zigZagCurves.zig, zag: calculateNewZag(using: deltas))
-    }
-
-    func randomPerturbation(within limits: CGFloat) -> CGFloat {
-        return CGFloat.random(in: -abs(limits)...abs(limits))
-    }
-    
-    func randomPerturbationDeltas() -> [CGFloat] {
-
-        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.randomPerturbationDeltas()")
-            print("..... perturbationLimits(.outer: +/- \(perturbationLimits.outer)"
-                    + ", .inner: \(perturbationLimits.inner))")
-        }
-        let enumerated = baseCurve.enumerated()
-        if zigIsNextPhase {
-            
-            // deltas for zig phase
-            return enumerated.map {
-                $0.0.isEven() ?
-                    randomPerturbation(within: perturbationLimits.outer) :
-                    randomPerturbation(within: perturbationLimits.inner)
-            }
-            
-        }
-        // deltas for zag phase
-        return enumerated.map {
-            $0.0.isEven() ?
-                randomPerturbation(within: perturbationLimits.inner) :
-                randomPerturbation(within: perturbationLimits.outer)
-        }
-    }
-    
-    func calculateNewZig(using deltas: [CGFloat]) -> [CGPoint] {
-        let enumerated = self.baseCurve.enumerated()
-        let zig = enumerated.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
-                                offsets.outer + deltas[$0.0] :
-                                offsets.inner + deltas[$0.0],
-                            along: $0.1.1)
-        }
-         return zig
-    }
-    
-    func calculateNewZag(using deltas: [CGFloat]) -> [CGPoint] {
-        let enumerated = self.baseCurve.enumerated()
-        let zag = enumerated.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
-                                offsets.inner + deltas[$0.0]:
-                                offsets.outer + deltas[$0.0],
-                            along: $0.1.1)
-        }
-        return zag
-    }
-
-    // initial plain-jane unperturbed variety
-    func calculatePlainJaneZigZags() -> ZigZagCurves {
-
-        let z = baseCurve.enumerated()
-        let zig = z.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
-                                offsets.outer :
-                                offsets.inner,
-                            along: $0.1.1)
-        }
-        let zag = z.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
-                                offsets.inner :
-                                offsets.outer,
-                            along: $0.1.1)
-        }
-        return (zig, zag)
     }
     
     // MARK:- OTHER CURVES

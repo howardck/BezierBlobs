@@ -22,11 +22,15 @@ struct ZigZagManager {
         self.offsets = offsets
         self.perturbationLimits = limits
     }
-    /*  BUG w/ new ZigZagManager:
-        assumes zigZag
-     */
+
+    //MARK:-
     func calculateZigZags(zigIsNextPhase: Bool,
                           zigZagCurves: ZigZagCurves) -> ZigZagCurves {
+        
+        if Model.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.calculateZigZagsForNextPhase()")
+        }
+        
         let deltas = randomPerturbationDeltas(zigIsNextPhase: zigIsNextPhase)
         
         return zigIsNextPhase ?
@@ -34,12 +38,19 @@ struct ZigZagManager {
             (zig: zigZagCurves.zig, zag: calculateNewZag(using: deltas))
     }
     
+    //MARK:-
     func randomPerturbation(within limits: CGFloat) -> CGFloat {
         return CGFloat.random(in: -abs(limits)...abs(limits))
     }
     
     func randomPerturbationDeltas(zigIsNextPhase: Bool) -> [CGFloat] {
 
+        if Model.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("ZigZagManager.randomPerturbationDeltas()")
+            print("..... perturbationLimits(.outer: +/- \(perturbationLimits.outer)"
+                    + ", .inner: \(perturbationLimits.inner))")
+        }
+        
         let enumerated = baseCurve.enumerated()
         if zigIsNextPhase {
             
@@ -59,6 +70,7 @@ struct ZigZagManager {
         }
     }
     
+    //MARK:-
     func calculateNewZig(using deltas: [CGFloat]) -> [CGPoint] {
         let enumerated = baseCurve.enumerated()
         let zig = enumerated.map {
@@ -80,7 +92,7 @@ struct ZigZagManager {
         }
         return zag
     }
-    
+    //MARK:-
     // initial plain-jane unperturbed variety
     func calculatePlainJaneZigZags() -> ZigZagCurves {
 
