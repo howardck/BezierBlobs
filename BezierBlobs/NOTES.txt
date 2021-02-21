@@ -1,5 +1,8 @@
-17FEB
+17feb21
+    o (1) of first 11feb21 TO-DO is done
+    o earlier 11Feb21 TO-DO -- use two buttons -- is now done
 
+11feb21
     TO DO: greatly simplfiy Model handling of ZigZag curves :
     
         1) move to own file/struct
@@ -8,7 +11,7 @@
         3) and we can calc perturbLimits(inner: , outer: ) to simplify
             their calculation
 
-11feb2021
+11feb21
 iphone version respects dark mode, unless you've altered the color of a List:Section header text color.
 ipad version apparently doesn't
 
