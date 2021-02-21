@@ -1,5 +1,5 @@
 //
-//  ZigZagManager.swift
+//  ZigZagery.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-02-17.
@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ZigZagManager {
     
-    let baseCurve : BaseCurvePairs // [(vertex: CGPoint, normals: CGVector)]
+    let baseCurve : BaseCurvePairs
     let offsets : Offsets
     let zigZagCurves : ZigZagCurves
     let perturbationLimits : PerturbationLimits
