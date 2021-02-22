@@ -161,11 +161,8 @@ struct PageView: View {
 //            print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
 //        }
         .onDisappear {
-            print("PageView.onDisappear( PageType.\(pageType.rawValue) )")
             
             isAnimating = false
-            
-            // Animator.stopTimer()
             timer.connect().cancel()
         }
         .onTapGesture(count: 2) {

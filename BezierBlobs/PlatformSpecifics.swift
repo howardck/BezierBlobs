@@ -15,7 +15,7 @@ typealias Specifics = (name: String,
 struct PlatformSpecifics {
     static let IPHONE : Specifics = (
     // inset the baseCurve so that the outerCurve can fit onscreen
-        name: "phone",
+        name: "COMPACT",
         w: 0.65,
         h: 0.75,
         in: -0.3,
@@ -23,7 +23,7 @@ struct PlatformSpecifics {
         numPoints: 22
     )
     static let IPAD : Specifics = (
-        name: "pad",
+        name: "REGULAR",
         w: 0.70,
         h: 0.60,
         in: -0.3,

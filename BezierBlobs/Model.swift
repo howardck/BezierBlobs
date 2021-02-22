@@ -93,6 +93,10 @@ class Model: ObservableObject {
         blobCurve = zigIsNextPhase ?
             zigZagCurves.zig :
             zigZagCurves.zag
+        
+        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+            print("Model.animateToNextZigZagPhase(). { zigIsNextPhase = \(zigIsNextPhase) }")
+        }
 
         zigIsNextPhase.toggle()
     }

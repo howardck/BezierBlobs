@@ -22,21 +22,19 @@ struct LayersSelectionList: View {
     var body: some View
     {
         List {
+            
+            
+            Section(header: Text("Animating Blob Layers").textCase(.uppercase)) {
+                rowsInSection(for: .animatingBlobCurves)
+            }
+            .textCase(.lowercase)
 
             Section(header: Text("Support Layers").textCase(.uppercase)) {
-                        //.foregroundColor(sectionHeaderTextColor)) {
                 rowsInSection(for: .staticSupportCurves)
             }
             .textCase(.lowercase)
             
-            Section(header: Text("Animating Blob Layers").textCase(.uppercase)) {
-                        //.foregroundColor(sectionHeaderTextColor)) {
-                rowsInSection(for: .animatingBlobCurves)
-            }
-            .textCase(.lowercase)
-            
             Section(header: Text("Shortcuts").textCase(.uppercase)) {
-                        //.foregroundColor(sectionHeaderTextColor)) {
                 rowsInSection(for: .shortcuts)
             }
             .textCase(.lowercase)
@@ -49,7 +47,7 @@ struct LayersSelectionList: View {
                 DEBUG_printLayerVisibilityFlags()
             }
         }
-        .environment(\.defaultMinListRowHeight, 40) // 0 == tight as possible
+        .environment(\.defaultMinListRowHeight, 40)
     }
     
     func rowsInSection(for section: SectionType) -> some View {

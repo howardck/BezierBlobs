@@ -16,6 +16,14 @@ class SuperEllipseLayers : ObservableObject {
     
     @Published var layers : [Layer] = [
         
+        .init(type: .blob_stroked, section: .animatingBlobCurves,
+              visible: true),
+        .init(type: .blob_filled, section: .animatingBlobCurves,
+              visible: false),
+        .init(type: .blob_markers, section: .animatingBlobCurves),
+        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
+              visible: true),
+    // ------------------------------------------------------------------
         .init(type: .baseCurve, section: .staticSupportCurves,
               visible: true),
         .init(type: .baseCurve_markers, section: .staticSupportCurves,
@@ -24,14 +32,6 @@ class SuperEllipseLayers : ObservableObject {
         .init(type: .envelopeBounds, section: .staticSupportCurves),
         .init(type: .zigZags_with_markers, section: .staticSupportCurves),
     // -------------------------------------------------------------------
-        .init(type: .blob_stroked, section: .animatingBlobCurves,
-              visible: true),
-        .init(type: .blob_filled, section: .animatingBlobCurves,
-              visible: false),
-        .init(type: .blob_markers, section: .animatingBlobCurves),
-        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
-              visible: true),
-    // --------------------------------------------------=---------------
         .init(type: .showAll, section: .shortcuts),
         .init(type: .hideAll, section: .shortcuts)
     ]
@@ -54,16 +54,17 @@ class SuperEllipseLayers : ObservableObject {
 }
 
 enum LayerType : String {
-    case baseCurve = "base Curve"
-    case baseCurve_markers = "base Curve markers"
-    case normals = "normals"
-    case envelopeBounds = "envelope Bounds"
-    case zigZags_with_markers = "zig-zags (animated)"
     
     case blob_stroked = "stroked"
     case blob_filled = "filled"
     case blob_markers = "vertex markers"
     case blob_vertex_0_marker = "vertex[0] marker"
+    
+    case baseCurve = "base Curve"
+    case baseCurve_markers = "base Curve markers"
+    case normals = "normals"
+    case envelopeBounds = "envelope Bounds"
+    case zigZags_with_markers = "zig-zags (animated)"
     
     case showAll = "show All layers"
     case hideAll = "hide All layers"
