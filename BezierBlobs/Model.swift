@@ -17,7 +17,11 @@ typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 
 class Model: ObservableObject {
     
-    static let DEBUG_PRINT_BASIC_SE_PARAMS = true
+    init() {
+        print("Model.init( zigIsNextPhase = {\(zigIsNextPhase)} )")
+    }
+    
+    static let DEBUG_PRINT_BASIC_SE_PARAMS = false
     static let DEBUG_PRINT_VERTEX_NORMALS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = false
@@ -70,13 +74,7 @@ class Model: ObservableObject {
         
         zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
 
-        if ContentView.StatusTracker.isUninitialzed(pageType: pageType) {
-            setInitialBlobCurve()
-            ContentView.StatusTracker.markInited(pageType: pageType)
-        }
-        else {
-            animateToCurrZigZagPhase()
-        }
+        setInitialBlobCurve()
     }
     
     func animateToCurrZigZagPhase() {

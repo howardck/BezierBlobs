@@ -64,6 +64,8 @@ struct PageView: View {
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
         
+        print("PageView.init(pageType.\(pageType.rawValue))")
+        
         self.pageType = pageType
         self.description = description
         self.size = CGSize(width: size.width * PlatformSpecifics.IPAD.w,

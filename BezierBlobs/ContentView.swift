@@ -15,31 +15,13 @@ import SwiftUI
 
 struct ContentView: View {
     
-//    let layersModel = LayersModel()
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
     var ps: PlatformSpecifics!
     
     @Environment(\.verticalSizeClass) var vClass
     @Environment(\.horizontalSizeClass) var hClass
     
     init() {
-        print("ContentView.init() -----------")
-    }
-        
-    struct StatusTracker {
-        static var isInitialized : [PageType : Bool] = [
-            .circle: false,
-            .superEllipse: false,
-            .deltaWing: false,
-            .killerMoth: false
-        ]
-        static func isUninitialzed(pageType: PageType) -> Bool {
-            return !ContentView.StatusTracker.isInitialized[pageType]!
-        }
-        static func markInited(pageType: PageType) {
-            ContentView.StatusTracker.isInitialized[pageType] = true
-        }
+        print("ContentView.init()")
     }
         
     var body: some View {
