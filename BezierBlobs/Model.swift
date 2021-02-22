@@ -18,7 +18,7 @@ typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 class Model: ObservableObject {
     
     init() {
-        print("Model.init( zigIsNextPhase = {\(zigIsNextPhase)} )")
+//        print("Model.init( zigIsNextPhase = {\(zigIsNextPhase)} )")
     }
     
     static let DEBUG_PRINT_BASIC_SE_PARAMS = false
@@ -107,6 +107,7 @@ class Model: ObservableObject {
     }
     
     func returnToInitialConfiguration() {
+        
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
             print("Model.returnToInitialConfiguration(PageType.\(pageType!.rawValue))" )
         }

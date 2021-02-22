@@ -29,7 +29,7 @@ struct ContentView: View {
         let ps = PlatformSpecifics.forSizeClasses(
             vSizeClass: vClass!,
             hSizeClass: hClass!)
-        
+         
         GeometryReader { gr in
             
             TabView {
@@ -38,10 +38,8 @@ struct ContentView: View {
                          description: PageView.descriptions[0],
                          size: gr.size)
                     
-                    .onAppear{ print("PageView.onAppear(PageType.CIRCLE) Platform ======== { \(ps.name) } =========")}
+                    .onAppear{ print("PageView.onAppear(PageType.CIRCLE) Platform { \(ps.name) }")}
                     
-//                    .onAppear{ print("TAB PAGE #1 appearing") }
-//                    .onDisappear{ print("TAB PAGE #1 disappearing") }
                     .tabItem {
                         Image(systemName: "1.circle.fill")
                         Text("\(PageType.circle.rawValue)")
@@ -50,10 +48,6 @@ struct ContentView: View {
                 PageView(pageType: PageType.superEllipse,
                          description: PageView.descriptions[1],
                          size: gr.size)
-                    
-                    .onAppear{ print("PageView.onAppear(PageType.CLASSIC) Platform ======== { \(ps.name) } =========")}
-
-//                    .onDisappear{ print("TAB PAGE #2 disappearing") }
                     .tabItem {
                         Image(systemName: "2.circle.fill")
                         Text("\(PageType.superEllipse.rawValue)" )
@@ -62,8 +56,6 @@ struct ContentView: View {
                 PageView(pageType: PageType.deltaWing,
                          description: PageView.descriptions[2],
                          size: gr.size)
-//                    .onAppear{ print("TAB PAGE #3 appearing") }
-//                    .onDisappear{ print("TAB PAGE #3 disappearing") }
                     .tabItem {
                         Image(systemName: "3.circle.fill")
                         Text("\(PageType.deltaWing.rawValue)" )
@@ -72,19 +64,12 @@ struct ContentView: View {
                 PageView(pageType: PageType.killerMoth,
                          description: PageView.descriptions[3],
                          size: gr.size)
-//                    .onAppear{ print("TAB PAGE #4 appearing") }
-//                    .onDisappear{ print("TAB PAGE #4 disappearing") }
                     .tabItem {
                         Image(systemName: "4.circle.fill");
                         Text("\(PageType.killerMoth.rawValue)" )
                     }
             }
         }
-//        .onAppear{
-//            print("horizontalSizeClass: \(vClass!)")
-//        }
-        //.environmentObject(layersModel)
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     }
 }
 

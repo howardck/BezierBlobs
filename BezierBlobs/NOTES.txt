@@ -1,3 +1,6 @@
+22fab21
+    how hard would it be to do a single arm/tentacle animation??
+    
 17feb21
     App VERSION 2: MAYBE add further options to MoreOptionsChooser:
     
