@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct ZigZagManager {
+struct ZigZagger {
     
     let baseCurve : BaseCurvePairs
     let offsets : Offsets
@@ -52,7 +52,7 @@ struct ZigZagManager {
     func randomDeltas(zigIsNextPhase: Bool) -> [CGFloat] {
 
         if Model.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("ZigZagManager.randomDeltas()")
+            print("ZigZagger.randomDeltas()")
             print("..... perturbationLimits(.outer: +/- \(perturbationLimits.outer)"
                     + ", .inner: \(perturbationLimits.inner))")
         }
@@ -100,6 +100,8 @@ struct ZigZagManager {
     }
     //MARK:-
     // initial plain-jane unperturbed variety
+    // leave in for comparison to calling
+    // calculateZigZags(..., randomPermutations: false)
     func calculatePlainJaneZigZags() -> ZigZagCurves {
 
         let z = baseCurve.enumerated()

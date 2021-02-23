@@ -94,7 +94,7 @@ struct PageView: View {
             PageGradientBackground()
                         
     //MARK:-
-    //MARK: show the following SuperEllipse layer stacks if so flagged
+    //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
 
     // comparing gating for visibility here via layers.isVisible()
     // vs accessing the same info inside the invoked struct via @EnvironmentObject.
@@ -120,7 +120,7 @@ struct PageView: View {
                 BaseCurve(vertices: model.baseCurve.map{$0.vertex})
             }
             
-            if layers.isVisible(layerWithType: .envelopeBounds) {
+            if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
@@ -132,13 +132,6 @@ struct PageView: View {
             }
 
             Group {
-//                if options.isSelected(optionWithType: .smoothed) {
-//                    Text("SELECTED")
-//                        .font(.custom("courier", size: 42))
-//                        .fontWeight(.heavy)
-//                        .foregroundColor(.green)
-//                }
-                
                 if layers.isVisible(layerWithType: .baseCurve_markers) {
                     BaseCurve_Markers(curve: model.baseCurve.map{$0.vertex} ,
                                       style: markerStyles[.baseCurve]!)
@@ -153,9 +146,12 @@ struct PageView: View {
                 }
             }
         }
-        // we can't do this because all layers might be turned off,
-        // in which case the view disappears on us!
-        //  .background(PageGradientBackground())
+        // NOTA: instead of embedding PageGradientBackground() as a subview,
+        // we might think of putting it in a .background(). we can't do that
+        // that however b/c if all layers were turned off, the view "crashes"!
+        // to see, commment it out then call 'hide all layers'
+        
+        //    .background(PageGradientBackground())
         
 //        .onAppear {
 //            print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
@@ -218,7 +214,7 @@ struct PageView: View {
             VStack {
                 Spacer()
                 if showLayersList {
-                    let s = CGSize(width: 280, height: 600)
+                    let s = CGSize(width: 244, height: 590)
                     HStack {
                         ZStack {
                             LayersSelectionList(layers: $layers.layers)
@@ -230,7 +226,7 @@ struct PageView: View {
                     }
                 }
                 else if showMoreOptionsList {
-                    let s = CGSize(width: 290, height: 133)
+                    let s = CGSize(width: 274, height: 133)
                     HStack {
                         ZStack {
                             MoreOptionsChooserList(options: $options.options)

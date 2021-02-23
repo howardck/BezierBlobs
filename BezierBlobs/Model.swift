@@ -50,7 +50,7 @@ class Model: ObservableObject {
     var pageType: PageType?
     var perturbationLimits : PerturbationLimits = (inner: 0, outer: 0)
     
-    var zigZagManager : ZigZagManager?
+    var zigZagger : ZigZagger?
     
     //MARK:-
     func calculateSuperEllipseCurvesFamily(for pageType: PageType,
@@ -68,11 +68,11 @@ class Model: ObservableObject {
         boundingCurves = calculateBoundingCurves(using: offsets)
         normalsCurve = calculateNormals()
         
-        self.zigZagManager = ZigZagManager(baseCurve: baseCurve,
-                                           offsets: offsets,
-                                           limits: perturbationLimits)
+        zigZagger = ZigZagger(baseCurve: baseCurve,
+                                      offsets: offsets,
+                                      limits: perturbationLimits)
         
-        zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
+        zigZagCurves = zigZagger!.calculatePlainJaneZigZags()
 
         setInitialBlobCurve()
     }
@@ -81,9 +81,9 @@ class Model: ObservableObject {
 
     func animateToNextZigZagPhase() {
 
-        zigZagCurves = zigZagManager!.calculateZigZags(zigIsNextPhase: zigIsNextPhase,
-                                                       zigZagCurves: zigZagCurves,
-                                                       randomPermutations: false)
+        zigZagCurves = zigZagger!.calculateZigZags(zigIsNextPhase: zigIsNextPhase,
+                                                   zigZagCurves: zigZagCurves,
+                                                   randomPermutations: true)
         blobCurve = zigIsNextPhase ?
             zigZagCurves.zig :
             zigZagCurves.zag

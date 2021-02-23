@@ -1,5 +1,11 @@
-22fab21
+23feb21
+    TODO: implement stewart lynch's SFSybols enum for
+    LayersSelectionList.CheckBox
+
+22feb21
     how hard would it be to do a single arm/tentacle animation??
+    THIS WOULD BE FUN TO FIGURE OUT.
+    TURN ON baseCurve + markers + vertex[0] TO WATCH
     
 17feb21
     App VERSION 2: MAYBE add further options to MoreOptionsChooser:

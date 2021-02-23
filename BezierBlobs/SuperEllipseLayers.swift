@@ -4,6 +4,23 @@
 
 import Combine
 
+enum LayerType : String {
+    
+    case blob_stroked = "stroked"
+    case blob_filled = "filled"
+    case blob_markers = "vertex markers"
+    case blob_vertex_0_marker = "vertex[0]"
+    
+    case baseCurve = "baseCurve"
+    case baseCurve_markers = "baseCurve markers"
+    case offsetsEnvelope = "offsets envelope"
+    case normals = "normals"
+    case zigZags_with_markers = "zig-zags"
+    
+    case showAll = "show All layers"
+    case hideAll = "hide All layers"
+}
+
 struct Layer {
     var type : LayerType
     var section: SectionType
@@ -28,8 +45,8 @@ class SuperEllipseLayers : ObservableObject {
               visible: true),
         .init(type: .baseCurve_markers, section: .staticSupportCurves,
               visible: true),
+        .init(type: .offsetsEnvelope, section: .staticSupportCurves),
         .init(type: .normals, section: .staticSupportCurves),
-        .init(type: .envelopeBounds, section: .staticSupportCurves),
         .init(type: .zigZags_with_markers, section: .staticSupportCurves),
     // -------------------------------------------------------------------
         .init(type: .showAll, section: .shortcuts),
@@ -51,23 +68,6 @@ class SuperEllipseLayers : ObservableObject {
     func index(of layerWithType: LayerType) -> Int {
         layers.firstIndex( where: { $0.type == layerWithType } )!
     }
-}
-
-enum LayerType : String {
-    
-    case blob_stroked = "stroked"
-    case blob_filled = "filled"
-    case blob_markers = "vertex markers"
-    case blob_vertex_0_marker = "vertex[0] marker"
-    
-    case baseCurve = "base Curve"
-    case baseCurve_markers = "base Curve markers"
-    case normals = "normals"
-    case envelopeBounds = "envelope Bounds"
-    case zigZags_with_markers = "zig-zags (animated)"
-    
-    case showAll = "show All layers"
-    case hideAll = "hide All layers"
 }
 
 enum SectionType {
