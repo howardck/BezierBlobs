@@ -13,6 +13,7 @@ struct ZigZagManager {
     let baseCurve : BaseCurvePairs
     let offsets : Offsets
     let perturbationLimits : PerturbationLimits
+    var nilDeltas = [CGFloat]()
     
     init(baseCurve: BaseCurvePairs,
          offsets: Offsets,
@@ -21,17 +22,22 @@ struct ZigZagManager {
         self.baseCurve = baseCurve
         self.offsets = offsets
         self.perturbationLimits = limits
+        
+        self.nilDeltas = Array.init(repeating: 0 as CGFloat, count: baseCurve.count)
     }
 
     //MARK:-
     func calculateZigZags(zigIsNextPhase: Bool,
-                          zigZagCurves: ZigZagCurves) -> ZigZagCurves {
+                          zigZagCurves: ZigZagCurves,
+                          randomPermutations: Bool) -> ZigZagCurves {
         
         if Model.DEBUG_TRACK_ZIGZAG_PHASING {
             print("Model.calculateZigZagsForNextPhase()")
         }
         
-        let deltas = randomPerturbationDeltas(zigIsNextPhase: zigIsNextPhase)
+        let deltas = randomPermutations ?
+                        randomDeltas(zigIsNextPhase: zigIsNextPhase) :
+                        nilDeltas
         
         return zigIsNextPhase ?
             (zig: calculateNewZig(using: deltas), zag: zigZagCurves.zag) :
@@ -43,10 +49,10 @@ struct ZigZagManager {
         return CGFloat.random(in: -abs(limits)...abs(limits))
     }
     
-    func randomPerturbationDeltas(zigIsNextPhase: Bool) -> [CGFloat] {
+    func randomDeltas(zigIsNextPhase: Bool) -> [CGFloat] {
 
         if Model.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("ZigZagManager.randomPerturbationDeltas()")
+            print("ZigZagManager.randomDeltas()")
             print("..... perturbationLimits(.outer: +/- \(perturbationLimits.outer)"
                     + ", .inner: \(perturbationLimits.inner))")
         }

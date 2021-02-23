@@ -76,20 +76,14 @@ class Model: ObservableObject {
 
         setInitialBlobCurve()
     }
-    
-    func animateToCurrZigZagPhase() {
-        
-        blobCurve = zigIsNextPhase ?
-            zigZagCurves.zag :
-            zigZagCurves.zig
-    }
-    
+
     //MARK: - ANIMATE TO ZIG-ZAGS
-    // called by PageView.onReceive(timer):
+
     func animateToNextZigZagPhase() {
 
         zigZagCurves = zigZagManager!.calculateZigZags(zigIsNextPhase: zigIsNextPhase,
-                                                       zigZagCurves: zigZagCurves)
+                                                       zigZagCurves: zigZagCurves,
+                                                       randomPermutations: false)
         blobCurve = zigIsNextPhase ?
             zigZagCurves.zig :
             zigZagCurves.zag
@@ -111,17 +105,12 @@ class Model: ObservableObject {
     }
     
     func returnToInitialConfiguration() {
-        
-        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.returnToInitialConfiguration(PageType.\(pageType!.rawValue))" )
-        }
+
+        setInitialBlobCurve()
         zigIsNextPhase = true
-        
-        // recalculate with 0 perturbations
-        zigZagCurves = zigZagManager!.calculatePlainJaneZigZags()
-        blobCurve = baseCurve.map{ $0.vertex }
     }
     
+    //MARK:-
     func massageParameters(pageType: PageType,
                            pageDescription: PageDescription,
                            axes: Axes) {
