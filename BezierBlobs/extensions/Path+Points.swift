@@ -14,10 +14,10 @@ extension Int {
 
 extension CGPoint {
     func newPoint(at offset: CGFloat,
-                  along vector: CGVector) -> CGPoint
+                  along normal: CGVector) -> CGPoint
     {
-        CGPoint(x: self.x + (offset * vector.dx),
-                y: self.y + (offset * vector.dy))
+        CGPoint(x: self.x + (offset * normal.dx),
+                y: self.y + (offset * normal.dy))
     }
 }
 
@@ -45,7 +45,7 @@ extension Path {
         var smoothed = Path()
         var points = self.verticesOnly()
         
-        // close the ring so we can properly compute across the origin
+        // close the ring so we can properly compute across vertex[0]
         points.append(points[0])
         points.append(points[1])
         points.insert(points.last!, at: 0)
@@ -68,10 +68,11 @@ extension Path {
         return smoothed
     }
     
-    /* a moving viewport that slides along our curve, encompassing 4 points at a time. */
-    /* at each position points P0 and P3 are control points; we interpolate  */
-    /* numIterpolated new points between points P1 and P2. rinse and repeat until  */
-    /* we've interpolated between all pairs of vertices. */
+    /*  a moving viewport that slides along our curve one vertex at a time, with
+        P1 = vertex[n], P2 = vertex[n+1], and P0 and P1 acting as control points.
+        we interpolate <numIterpolated> new points between the existing points P1 and P2.
+        rinse and repeat until we've interpolated between all pairs of vertices.
+    */
     func interpolatedPoint(p0: CGPoint, p1: CGPoint, p2: CGPoint, p3: CGPoint, t: CGFloat) -> CGPoint
     {
         let t2 = t * t

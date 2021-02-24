@@ -23,7 +23,7 @@ struct ZigZagger {
         self.offsets = offsets
         self.perturbationLimits = limits
         
-        self.nilDeltas = Array.init(repeating: 0 as CGFloat, count: baseCurve.count)
+        self.nilDeltas = [CGFloat](repeating: 0, count: baseCurve.count)
     }
 
     //MARK:-
@@ -66,7 +66,6 @@ struct ZigZagger {
                     randomPerturbation(within: perturbationLimits.outer) :
                     randomPerturbation(within: perturbationLimits.inner)
             }
-            
         }
         // deltas for zag phase
         return enumerated.map {
@@ -99,19 +98,18 @@ struct ZigZagger {
         return zag
     }
     //MARK:-
-    // initial plain-jane unperturbed variety
-    // leave in for comparison to calling
-    // calculateZigZags(..., randomPermutations: false)
-    func calculatePlainJaneZigZags() -> ZigZagCurves {
+    // initial plain-jane unperturbed zigZag generator. leave in for comparison
+    // to newer, more generalized version that uses param randomPermutations: false.
 
-        let z = baseCurve.enumerated()
-        let zig = z.map {
+    func calculatePlainJaneZigZags() -> ZigZagCurves {
+        let enumerated = baseCurve.enumerated()
+        let zig = enumerated.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
                                 offsets.outer :
                                 offsets.inner,
                             along: $0.1.1)
         }
-        let zag = z.map {
+        let zag = enumerated.map {
             $0.1.0.newPoint(at: $0.0.isEven() ?
                                 offsets.inner :
                                 offsets.outer,
