@@ -29,6 +29,8 @@ class Model: ObservableObject {
     
     @Published var blobCurve = [CGPoint]()
     
+    
+    
     // at vertex 0:
     // zig configuration moves to the outside
     // zag configuration moves to the inside

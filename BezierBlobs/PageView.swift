@@ -260,14 +260,16 @@ struct PageView: View {
             HStack {
                 Spacer()
                 
-                LayersSelectionListButton(faceColor: .blue, edgeColor: .orange)
+                LayersSelectionListButton(faceColor: .blue,
+                                          edgeColor: .red)
                     .onTapGesture {
                         showLayersList.toggle()
                     }
                 Spacer()
                 
                 MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
-                                      faceColor: .blue, edgeColor: .orange)
+                                      faceColor: .blue,
+                                      edgeColor: .red)
                     .onTapGesture {
                         showMoreOptionsList.toggle()
                     }
