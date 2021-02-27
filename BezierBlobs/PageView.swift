@@ -256,12 +256,15 @@ struct PageView: View {
         @Binding var showLayersList : Bool
         @Binding var showMoreOptionsList : Bool
         
+        var edgeOffset = CGSize(width: 1, height: 1)
+        
         var body: some View {
             HStack {
                 Spacer()
                 
                 LayersSelectionListButton(faceColor: .blue,
-                                          edgeColor: .red)
+                                          edgeColor: .white,
+                                          edgeOffset: edgeOffset)
                     .onTapGesture {
                         showLayersList.toggle()
                     }
@@ -269,13 +272,14 @@ struct PageView: View {
                 
                 MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                       faceColor: .blue,
-                                      edgeColor: .red)
+                                      edgeColor: .white,
+                                      edgeOffset: edgeOffset)
                     .onTapGesture {
                         showMoreOptionsList.toggle()
                     }
                 Spacer()
             }
-            .scaleEffect(1.1)
+            .scaleEffect(1.2)
         }
     }
 

@@ -56,13 +56,15 @@ struct MoreOptionsListButton : View {
     var iconName: String
     var faceColor: Color
     var edgeColor: Color
+    var edgeOffset: CGSize
+
     let s = CGSize(width: 70, height: 50)
     
     var body : some View {
         ZStack {
             // the highlight
             PencilSymbolView(name: iconName, color: edgeColor, size: s)
-                .offset(x: 1, y : 1)
+                .offset(edgeOffset)
             // and then the face
             PencilSymbolView(name: iconName, color: faceColor, size: s)
         }
@@ -83,13 +85,15 @@ struct LayerStackSymbol: View {
 struct LayersSelectionListButton : View {
     var faceColor: Color
     var edgeColor: Color
+    var edgeOffset: CGSize
+    
     let s = CGSize(width: 70, height: 50)
     
     var body : some View {
         ZStack {
             // the base (or edge) on the bottom
             LayerStackSymbol(color: edgeColor, size: s)
-                .offset(x: 1, y : 1)
+                .offset(edgeOffset)
             // and then the face
             LayerStackSymbol(color: faceColor, size: s)
         }
@@ -106,24 +110,30 @@ struct PencilSymbol {
 struct ScreenButtons_Previews: PreviewProvider {
     static var previews: some View {
         
+        let edgeOffset = CGSize(width: 1, height: 1)
+        
         ZStack {
             Color.init(white: 0.4)
             VStack {
                 MoreOptionsListButton(iconName: PencilSymbol.PENCIL,
                                           faceColor: .blue,
-                                          edgeColor: .pink)
+                                          edgeColor: .pink,
+                                          edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
                 MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
                                           faceColor: .blue,
-                                          edgeColor: .pink)
+                                          edgeColor: .pink,
+                                          edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
                 MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
                                           faceColor: .blue,
-                                          edgeColor: .orange)
+                                          edgeColor: .orange,
+                                          edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
                 MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                           faceColor: .blue,
-                                          edgeColor: .orange)
+                                          edgeColor: .orange,
+                                          edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
             }
         }

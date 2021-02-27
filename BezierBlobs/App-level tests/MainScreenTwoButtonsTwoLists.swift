@@ -77,14 +77,17 @@ struct PageView_2 : View {
 }
 
 struct DrawingAndLayeringButtons : View {
-        @Binding var showDrawingOptionsList : Bool
-        @Binding var showLayerSelectionList : Bool
+    @Binding var showDrawingOptionsList : Bool
+    @Binding var showLayerSelectionList : Bool
+    
+    var edgeOffset = CGSize(width: 1, height: 1)
         
         var body: some View {
             HStack {
                 MoreOptionsListButton(iconName: PencilSymbol.PENCIL,
                                        faceColor: .blue,
-                                       edgeColor: .orange)
+                                       edgeColor: .orange,
+                                       edgeOffset: edgeOffset)
                     .onTapGesture {
                         print("DrawingOptions Button tapped")
                         showDrawingOptionsList.toggle()
