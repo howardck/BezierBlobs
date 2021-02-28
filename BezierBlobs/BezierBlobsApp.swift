@@ -10,15 +10,15 @@ import SwiftUI
 @main
 struct BezierBlobsApp: App {
     
-    let layers = SuperEllipseLayers()
-    let options = Options()
+//    let layers = SuperEllipseLayers()
+//    let options = Options()
     
     var body: some Scene {
         WindowGroup {
             
             ContentView()
-                .environmentObject(layers)
-                .environmentObject(options)
+                .environmentObject(SuperEllipseLayers())
+                .environmentObject(Options())
             
 //            EmojiViewTest()
             

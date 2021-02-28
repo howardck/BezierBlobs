@@ -8,8 +8,8 @@ enum LayerType : String {
     
     case blob_stroked = "stroked"
     case blob_filled = "filled"
-    case blob_markers = "vertex markers"
     case blob_vertex_0_marker = "vertex[0]"
+    case blob_markers = "all vertex markers"
     
     case baseCurve = "baseCurve"
     case baseCurve_markers = "b/curve markers"
@@ -35,11 +35,10 @@ class SuperEllipseLayers : ObservableObject {
         
         .init(type: .blob_stroked, section: .animatingBlobCurves,
               visible: true),
-        .init(type: .blob_filled, section: .animatingBlobCurves,
-              visible: false),
-        .init(type: .blob_markers, section: .animatingBlobCurves),
+        .init(type: .blob_filled, section: .animatingBlobCurves),
         .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
               visible: true),
+        .init(type: .blob_markers, section: .animatingBlobCurves),
     // ------------------------------------------------------------------
         .init(type: .baseCurve, section: .staticSupportCurves,
               visible: true),

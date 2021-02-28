@@ -226,7 +226,8 @@ struct PageView: View {
                     }
                 }
                 else if showMoreOptionsList {
-                    let s = CGSize(width: 274, height: 133)
+                    //let s = CGSize(width: 274, height: 133)
+                    let s = CGSize(width: 274, height: 300)
                     HStack {
                         ZStack {
                             MoreOptionsChooserList(options: $options.options)

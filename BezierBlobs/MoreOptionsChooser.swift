@@ -49,7 +49,8 @@ struct MoreOptionsChooserList: View {
     
     var body: some View {
         let sectionHeaderTextColor = Color.init(white: 0.1)
-        
+//        let sectionHeaderTextColor = Color.blue
+
         List {
             Section(header: Text("more options").textCase(.uppercase)
                 .foregroundColor(sectionHeaderTextColor)) {
@@ -57,8 +58,7 @@ struct MoreOptionsChooserList: View {
                 ForEach(options, id: \.type) { option in
                     OptionRow(option: option)
                         .onTapGesture {
-                            
-                            if let tappedItem = options.firstIndex(
+                            if let tappedItem = options.firstIndex (
                                 where: {$0.type == option.type})
                             {
                                 options[tappedItem].isSelected.toggle()
@@ -66,7 +66,13 @@ struct MoreOptionsChooserList: View {
                         }
                 }
             }
-            .textCase(.lowercase)
+            
+            Section(header: Text("some random notes").textCase(.uppercase)
+                        .foregroundColor(sectionHeaderTextColor)) {
+                Text("hello, is this not the time to clap and jump?!")
+                    .frame(height: 100, alignment: .topLeading)
+            }
+            //.textCase(.lowercase)
         }
         .listStyle(InsetGroupedListStyle())
         .environment(\.defaultMinListRowHeight, 40)

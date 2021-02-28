@@ -28,14 +28,13 @@ class Model: ObservableObject {
     static let DEBUG_ADJUST_PERTURBATION_LIMITS = false
     
     @Published var blobCurve = [CGPoint]()
-    
-    
-    
+        
     // at vertex 0:
     // zig configuration moves to the outside
     // zag configuration moves to the inside
     
     var zigIsNextPhase = true
+    var doRandomDeltas = true
             
     // MARK:-
     var baseCurve : BaseCurvePairs = [(CGPoint, CGVector)]()
@@ -119,10 +118,11 @@ class Model: ObservableObject {
         self.pageType = pageType
         self.numPoints = pageDescription.numPoints
         
-        // #####################################
-        // REVIEW IF THIS IS BEST WAY TO DO THIS ...
-        // #####################################
+        //TODO: REVIEW IF BEST PRACTISE
+        // ########################################
         let radius = CGFloat((axes.a + axes.b)/2.0)
+        // ########################################
+
         self.axes = axes
         
         if pageDescription.forceEqualAxes {
