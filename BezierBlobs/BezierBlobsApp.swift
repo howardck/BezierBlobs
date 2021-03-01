@@ -10,9 +10,6 @@ import SwiftUI
 @main
 struct BezierBlobsApp: App {
     
-//    let layers = SuperEllipseLayers()
-//    let options = Options()
-    
     var body: some Scene {
         WindowGroup {
             
@@ -20,9 +17,7 @@ struct BezierBlobsApp: App {
                 .environmentObject(SuperEllipseLayers())
                 .environmentObject(Options())
             
-//            EmojiViewTest()
-            
-            // or ...
+            // EmojiViewTest()
             // TimerTest()
             // TabViewTest()
             // MainScreenLayoutTest()

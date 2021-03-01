@@ -58,6 +58,8 @@ struct PageView: View {
                                             on: .main, in: .common)
     @State var isAnimating = false
     @State var isFirstTappedCycle = true
+    
+    var randomPermutations = true
         
     var pageType: PageType
     
@@ -146,16 +148,13 @@ struct PageView: View {
                 }
             }
         }
-        // NOTA: instead of embedding PageGradientBackground() as a subview,
-        // we might think of putting it in a .background(). we can't do that
-        // that however b/c if all layers were turned off, the view "crashes"!
-        // to see, commment it out then call 'hide all layers'
-        
-        //    .background(PageGradientBackground())
-        
-//        .onAppear {
-//            print("PageView.onAppear( PageType.\(pageType.rawValue) )" )
-//        }
+        /*  NOTA: we can't put PageGradientBackground in a .background()
+            even if we wanted to, b/c ALL subview layers above are conditioned,
+            and if ALL are turned off, the view immediately "crashes"
+         
+            .background(PageGradientBackground())
+         */
+
         .onDisappear {
             
             isAnimating = false
@@ -226,8 +225,9 @@ struct PageView: View {
                     }
                 }
                 else if showMoreOptionsList {
-                    //let s = CGSize(width: 274, height: 133)
+                    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     let s = CGSize(width: 274, height: 300)
+                    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     HStack {
                         ZStack {
                             MoreOptionsChooserList(options: $options.options)
