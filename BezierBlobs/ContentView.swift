@@ -61,12 +61,12 @@ struct ContentView: View {
                         Text("\(PageType.deltaWing.rawValue)" )
                     }
 
-                PageView(pageType: PageType.killerMoth,
+                PageView(pageType: PageType.mutantMoth,
                          description: PageView.descriptions[3],
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "4.circle.fill");
-                        Text("\(PageType.killerMoth.rawValue)" )
+                        Text("\(PageType.mutantMoth.rawValue)" )
                     }
             }
         }
@@ -81,14 +81,14 @@ struct ContentView_Previews: PreviewProvider {
                      size: CGSize(width: 800, height: 800))
                 .tabItem {
                     Image(systemName: "4.circle.fill");
-                    Text("\(PageType.killerMoth.rawValue)" )
+                    Text("\(PageType.mutantMoth.rawValue)" )
             }
             PageView(pageType: PageType.deltaWing,
                      description: PageView.descriptions[3],
                      size: CGSize(width: 800, height: 800))
                 .tabItem {
                     Image(systemName: "4.circle.fill");
-                    Text("\(PageType.killerMoth.rawValue)" )
+                    Text("\(PageType.mutantMoth.rawValue)" )
                 }
         }
     }
