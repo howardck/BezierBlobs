@@ -22,20 +22,18 @@ struct LayersSelectionList: View {
     var body: some View
     {
         List {
-            
-            
             Section(header: Text("Animating Blob Layers").textCase(.uppercase)) {
-                rowsInSection(for: .animatingBlobCurves)
+                rows(in: .animatingBlobCurves)
             }
             .textCase(.lowercase)
 
             Section(header: Text("Support Layers").textCase(.uppercase)) {
-                rowsInSection(for: .staticSupportCurves)
+                rows(in: .staticSupportCurves)
             }
             .textCase(.lowercase)
             
             Section(header: Text("Shortcuts").textCase(.uppercase)) {
-                rowsInSection(for: .shortcuts)
+                rows(in: .shortcuts)
             }
             .textCase(.lowercase)
         }
@@ -50,7 +48,7 @@ struct LayersSelectionList: View {
         .environment(\.defaultMinListRowHeight, 40)
     }
     
-    func rowsInSection(for section: SectionType) -> some View {
+    func rows(in section: SectionType) -> some View {
         let items = layers.filter { $0.section == section }
         return ForEach(items, id: \.type) { layer in
             

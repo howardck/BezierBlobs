@@ -1,5 +1,5 @@
 //
-//  SuperEllipse.swift
+//  ParametricSuperEllipse.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-02-17.

@@ -8,6 +8,12 @@
 import Combine
 import SwiftUI
 
+enum ZigZagAnimationType: String {
+    case fixed = "fixed"
+    case snapTo = "snap to"
+    case animated = "animated"
+}
+
 enum OptionType : String {
     case smoothed = "smoothed"
     case randomPerturbations = "random perturbations"

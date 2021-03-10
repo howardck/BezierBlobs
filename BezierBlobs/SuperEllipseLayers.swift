@@ -27,6 +27,12 @@ struct Layer {
     var visible = false
 }
 
+enum SectionType {
+    case animatingBlobCurves
+    case staticSupportCurves
+    case shortcuts
+}
+
 class SuperEllipseLayers : ObservableObject {
       
     static let DEBUG_PRINT_LAYERS = false
@@ -69,8 +75,3 @@ class SuperEllipseLayers : ObservableObject {
     }
 }
 
-enum SectionType {
-    case animatingBlobCurves
-    case staticSupportCurves
-    case shortcuts
-}

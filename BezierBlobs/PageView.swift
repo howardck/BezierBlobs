@@ -48,8 +48,6 @@ struct PageView: View {
     static let animationTimeIncrement : Double = 3.0
     static let timerInitialTimeIncrement : Double = 0.0
     
-    @State var smoothed = false
-
     @State var showLayersList = true
     @State var showMoreOptionsList = false
     
@@ -148,9 +146,10 @@ struct PageView: View {
                 }
             }
         }
-        /*  NOTA: we can't put PageGradientBackground in a .background()
-            even if we wanted to, b/c ALL subview layers above are conditioned,
-            and if ALL are turned off, the view immediately "crashes"
+        /*
+            the view PageGradientBackground() will work in a .background(),
+            but all the other remaining views in the PageView.body are
+            conditioned, and if all are set to false, the PageView "crashes"
          
             .background(PageGradientBackground())
          */
@@ -173,7 +172,8 @@ struct PageView: View {
         .onReceive(timer) { _ in
             withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
             {
-                model.animateToNextZigZagPhase()
+                let doRandom = options.isSelected(optionWithType: .randomPerturbations)
+                model.animateToNextZigZagPhase(doRandom: doRandom)
             }
             
             if isFirstTappedCycle {

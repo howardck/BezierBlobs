@@ -57,7 +57,6 @@ class Model: ObservableObject {
     func calculateSuperEllipseCurvesFamily(for pageType: PageType,
                                            pageDescription: PageDescription,
                                            axes: Axes) {
-        
         massageParameters(pageType: pageType,
                           pageDescription: pageDescription,
                           axes: axes)
@@ -80,11 +79,11 @@ class Model: ObservableObject {
 
     //MARK: - ANIMATE TO ZIG-ZAGS
 
-    func animateToNextZigZagPhase() {
+    func animateToNextZigZagPhase(doRandom: Bool) {
 
         zigZagCurves = zigZagger!.calculateZigZags(zigIsNextPhase: zigIsNextPhase,
                                                    zigZagCurves: zigZagCurves,
-                                                   randomPermutations: true)
+                                                   randomPermutations: doRandom)
         blobCurve = zigIsNextPhase ?
             zigZagCurves.zig :
             zigZagCurves.zag
