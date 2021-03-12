@@ -48,7 +48,7 @@ struct PageView: View {
     static let animationTimeIncrement : Double = 3.0
     static let timerInitialTimeIncrement : Double = 0.0
     
-    @State var showLayersList = true
+    @State var showLayersList = false
     @State var showMoreOptionsList = false
     
     @State var timer: Timer.TimerPublisher
