@@ -22,22 +22,26 @@ typealias PageDescription = (numPoints: Int,
 struct PageView: View {
         
     let description: PageDescription
-    let size: CGSize
+    let s: CGSize
     
     static let descriptions : [PageDescription] =
     [
-        (numPoints: 14, n: 2.0,
+        (numPoints: 4, n: 2.0,
          offsets: (in: -0.25, out: 0.25), perturbLimits: (inner: 0.75, outer: 1.0),
          forceEqualAxes: true),
+        
+//        (numPoints: 14, n: 2.0,
+//         offsets: (in: -0.25, out: 0.25), perturbLimits: (inner: 0.75, outer: 1.0),
+//         forceEqualAxes: true),
         
         (numPoints: 20, n: 3.8,
          offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
         
-        (numPoints: 6, n: 3,
-         offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.0, outer: 0.0), false),
-        
-        (numPoints: 24, n: 1,
-         offsets: (in: -0.1, out: 0.4), perturbLimits: (inner: 4, outer: 0.4), false)
+//        (numPoints: 6, n: 3,
+//         offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.0, outer: 0.0), false),
+//        
+//        (numPoints: 24, n: 1,
+//         offsets: (in: -0.1, out: 0.4), perturbLimits: (inner: 4, outer: 0.4), false)
     ]
             
     @ObservedObject var model = Model()
@@ -68,13 +72,18 @@ struct PageView: View {
         
         self.pageType = pageType
         self.description = description
-        self.size = CGSize(width: size.width * PlatformSpecifics.IPAD.w,
+        self.s = //size
+            CGSize(width: size.width * PlatformSpecifics.IPAD.w,
                            height: size.height * PlatformSpecifics.IPAD.h)
+        
+        print ("\noriginal size.w: \(size.width) size.h: \(size.height)")
+        print ("adjusted s.w:    \(s.width)    s.h: \(s.height)")
+        print ("delta off.w :    \((size.width - s.width)/2.0)  off.h: \((size.height - s.height)/2.0)")
         
         model.calculateSuperEllipseCurvesFamily(for: pageType,
                                           pageDescription: description,
-                                          axes: (a: Double(self.size.width/2),
-                                                 b: Double(self.size.height/2)))
+                                          axes: (a: Double(self.s.width/2),
+                                                 b: Double(self.s.height/2)))
     }
     
     struct PageGradientBackground : View {

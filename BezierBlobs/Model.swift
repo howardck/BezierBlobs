@@ -64,14 +64,12 @@ class Model: ObservableObject {
         baseCurve = calculateSuperEllipse(for: numPoints,
                                           n: pageDescription.n,
                                           with: self.axes)
-        
         boundingCurves = calculateBoundingCurves(using: offsets)
         normalsCurve = calculateNormals()
         
         zigZagger = ZigZagger(baseCurve: baseCurve,
                                       offsets: offsets,
                                       limits: perturbationLimits)
-        
         zigZagCurves = zigZagger!.calculatePlainJaneZigZags()
 
         setInitialBlobCurve()
@@ -118,9 +116,11 @@ class Model: ObservableObject {
         self.numPoints = pageDescription.numPoints
         
         //TODO: REVIEW IF BEST PRACTISE
+        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         // ########################################
         let radius = CGFloat((axes.a + axes.b)/2.0)
         // ########################################
+        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         self.axes = axes
         
@@ -172,8 +172,11 @@ class Model: ObservableObject {
     
     func calculateBoundingCurves(using offsets: Offsets) -> BoundingCurves {
         
-         (inner: baseCurve.map{ $0.newPoint(at: offsets.inner, along: $1)},
-          outer: baseCurve.map{ $0.newPoint(at: offsets.outer, along: $1)})
+        print("Model.calculateBoundingCurves(). offset.outer: \(offsets.outer)" )
+        
+        return
+            (inner: baseCurve.map{ $0.newPoint(at: offsets.inner, along: $1)},
+             outer: baseCurve.map{ $0.newPoint(at: offsets.outer, along: $1)})
     }
     
     func calculateNormals() -> [CGPoint] {

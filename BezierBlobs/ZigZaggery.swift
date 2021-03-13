@@ -13,7 +13,7 @@ struct ZigZagger {
     let baseCurve : BaseCurvePairs
     let offsets : Offsets
     let perturbationLimits : PerturbationLimits
-    var nilDeltas = [CGFloat]()
+    var nilDeltas : [CGFloat]
     
     init(baseCurve: BaseCurvePairs,
          offsets: Offsets,
@@ -21,9 +21,9 @@ struct ZigZagger {
         
         self.baseCurve = baseCurve
         self.offsets = offsets
-        self.perturbationLimits = limits
         
-        self.nilDeltas = [CGFloat](repeating: 0, count: baseCurve.count)
+        perturbationLimits = limits
+        nilDeltas = [CGFloat](repeating: 0, count: baseCurve.count)
     }
 
     //MARK:-
@@ -44,6 +44,12 @@ struct ZigZagger {
             (zig: zigZagCurves.zig, zag: calculateNewZag(using: deltas))
     }
     
+    func calculatePlainJaneZigZags() -> ZigZagCurves {
+        
+        return (calculateNewZig(using: nilDeltas),
+                calculateNewZag(using: nilDeltas))
+    }
+    
     //MARK:-
     func randomPerturbation(within limits: CGFloat) -> CGFloat {
         return CGFloat.random(in: -abs(limits)...abs(limits))
@@ -60,7 +66,6 @@ struct ZigZagger {
         let enumerated = baseCurve.enumerated()
         if zigIsNextPhase {
             
-            // deltas for zig phase
             return enumerated.map {
                 $0.0.isEven() ?
                     randomPerturbation(within: perturbationLimits.outer) :
@@ -96,25 +101,5 @@ struct ZigZagger {
                             along: $0.1.1)
         }
         return zag
-    }
-    //MARK:-
-    // initial plain-jane unperturbed zigZag generator. leave in for comparison
-    // to newer, more generalized version that uses param randomPermutations: false.
-
-    func calculatePlainJaneZigZags() -> ZigZagCurves {
-        let enumerated = baseCurve.enumerated()
-        let zig = enumerated.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
-                                offsets.outer :
-                                offsets.inner,
-                            along: $0.1.1)
-        }
-        let zag = enumerated.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
-                                offsets.inner :
-                                offsets.outer,
-                            along: $0.1.1)
-        }
-        return (zig, zag)
     }
 }
