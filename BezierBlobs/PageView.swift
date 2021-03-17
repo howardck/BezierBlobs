@@ -68,15 +68,17 @@ struct PageView: View {
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
         
-//        print("PageView.init(pageType.\(pageType.rawValue))")
+        print("\nPageView.init(pageType.\(pageType.rawValue))")
         
         self.pageType = pageType
         self.description = description
         self.s = //size
-            CGSize(width: size.width * PlatformSpecifics.IPAD.w,
-                           height: size.height * PlatformSpecifics.IPAD.h)
+            CGSize(width: size.width,
+                           height: size.height)
+//            CGSize(width: size.width * PlatformSpecifics.IPAD.w,
+//                           height: size.height * PlatformSpecifics.IPAD.h)
         
-        print ("\noriginal size.w: \(size.width) size.h: \(size.height)")
+        print ("original size.w: \(size.width) size.h: \(size.height)")
         print ("adjusted s.w:    \(s.width)    s.h: \(s.height)")
         print ("delta off.w :    \((size.width - s.width)/2.0)  off.h: \((size.height - s.height)/2.0)")
         
@@ -115,7 +117,6 @@ struct PageView: View {
             if layers.isVisible(layerWithType: .blob_stroked) {
                 AnimatingBlob_Stroked(curve: model.blobCurve)
             }
-            
             if layers.isVisible(layerWithType: .zigZags_with_markers) {
                 ZigZags(curves: model.zigZagCurves)
             }
@@ -124,22 +125,18 @@ struct PageView: View {
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
- 
-            if layers.isVisible(layerWithType: .baseCurve) {
+             if layers.isVisible(layerWithType: .baseCurve) {
                 BaseCurve(vertices: model.baseCurve.map{$0.vertex})
             }
-            
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
-            
             if layers.isVisible(layerWithType: .zigZags_with_markers) {
                 ZigZag_Markers(curves: model.zigZagCurves,
                                zigStyle : markerStyles[.zig]!,
                                zagStyle : markerStyles[.zag]!)
             }
-
             Group {
                 if layers.isVisible(layerWithType: .baseCurve_markers) {
                     BaseCurve_Markers(curve: model.baseCurve.map{$0.vertex} ,
