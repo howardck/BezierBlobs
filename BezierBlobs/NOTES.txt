@@ -26,7 +26,7 @@
         1) move to own file/struct
         2) remove much code by using randomPerturbationDeltas
             of [0.0, 0.0 ... etc] limits to remove plain-jane versions
-        3) and we can calc perturbLimits(inner: , outer: ) to simplify
+        3) and we can calc blobLimits(inner: , outer: ) to simplify
             their calculation
 
 11feb21

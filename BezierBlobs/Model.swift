@@ -9,7 +9,7 @@ import SwiftUI
 
 typealias Axes = (a: Double, b: Double)
 typealias Offsets = (inner: CGFloat, outer: CGFloat)
-typealias PerturbationLimits =  (inner: CGFloat, outer: CGFloat)
+typealias BlobPerturbationLimits =  (inner: CGFloat, outer: CGFloat)
 
 typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
@@ -49,7 +49,7 @@ class Model: ObservableObject {
     var numPoints: Int = 0
     var offsets : Offsets = (inner: 0, outer: 0)
     var pageType: PageType?
-    var perturbationLimits : PerturbationLimits = (inner: 0, outer: 0)
+    var blobLimits : BlobPerturbationLimits = (inner: 0, outer: 0)
     
     var zigZagger : ZigZagger?
     
@@ -69,7 +69,7 @@ class Model: ObservableObject {
         
         zigZagger = ZigZagger(baseCurve: baseCurve,
                                       offsets: offsets,
-                                      limits: perturbationLimits)
+                                      limits: blobLimits)
         zigZagCurves = zigZagger!.calculatePlainJaneZigZags()
 
         setInitialBlobCurve()
@@ -115,12 +115,18 @@ class Model: ObservableObject {
         self.pageType = pageType
         self.numPoints = pageDescription.numPoints
         
+        print("Model.massageParameters(). " +
+            "axes: (a: {\((axes.a).format(fspec: "6.2"))}, " +
+                                                      "b: {\((axes.b).format(fspec: "6.2"))})")
+        
         //TODO: REVIEW IF BEST PRACTISE
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         // ########################################
-        let radius = CGFloat((axes.a + axes.b)/2.0)
+        var radius = CGFloat((axes.a + axes.b)/2.0)
         // ########################################
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        
+        radius = CGFloat(min(axes.a, axes.b))
 
         self.axes = axes
         
@@ -131,8 +137,8 @@ class Model: ObservableObject {
         offsets = (inner: radius * pageDescription.offsets.in,
                    outer: radius * pageDescription.offsets.out)
         
-        self.perturbationLimits = upscale(pageDescription.perturbLimits,
-                                          toMatch: offsets)
+        self.blobLimits = upscale(pageDescription.blobLimits,
+                                  toMatch: offsets)
         
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
             print("Basic SuperEllipse params for: (PageType.\(pageType.rawValue))")
@@ -140,28 +146,28 @@ class Model: ObservableObject {
             print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((self.axes.b).format(fspec: "6.2"))})")
             print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
-            print("  perturbationLimits: " +
-                    "( inner: {+/- \(perturbationLimits.inner.format(fspec: "4.2"))}, " +
-                    "outer: {+/- \(perturbationLimits.outer.format(fspec: "4.2"))} ) ")
+            print("  blobLimits: " +
+                    "( inner: {+/- \(blobLimits.inner.format(fspec: "4.2"))}, " +
+                    "outer: {+/- \(blobLimits.outer.format(fspec: "4.2"))} ) ")
         }
     }
         
-    func upscale(_ perturbLimits: PerturbationLimits,
-                 toMatch offsets: Offsets) -> PerturbationLimits
+    func upscale(_ blobLimits: BlobPerturbationLimits,
+                 toMatch offsets: Offsets) -> BlobPerturbationLimits
     {
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
-            print("Model.upscale(perturbationLimits)")
+            print("Model.upscale(blobLimits)")
             print("offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
             
-            print("perturbationLimits before upscaling : ( inner: {\(perturbLimits.inner.format(fspec: "4.2"))}, " +
-                    "outer: {\(perturbLimits.outer.format(fspec: "4.2"))} ) "
+            print("blobLimits before upscaling : ( inner: {\(blobLimits.inner.format(fspec: "4.2"))}, " +
+                    "outer: {\(blobLimits.outer.format(fspec: "4.2"))} ) "
                   )
         }
-        let pLimits = (inner: abs(perturbLimits.inner * offsets.inner),
-                       outer: abs(perturbLimits.outer * offsets.outer))
+        let pLimits = (inner: abs(blobLimits.inner * offsets.inner),
+                       outer: abs(blobLimits.outer * offsets.outer))
         
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
-            print("perturbationLimits after  upscaling : " +
+            print("blobLimits after  upscaling : " +
                     "( inner: {+/- \(pLimits.inner.format(fspec: "4.2"))}, " +
                     "outer: {+/- \(pLimits.outer.format(fspec: "4.2"))} ) ")
         }

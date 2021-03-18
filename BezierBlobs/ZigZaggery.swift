@@ -12,17 +12,17 @@ struct ZigZagger {
     
     let baseCurve : BaseCurvePairs
     let offsets : Offsets
-    let perturbationLimits : PerturbationLimits
+    let blobLimits : BlobPerturbationLimits
     var nilDeltas : [CGFloat]
     
     init(baseCurve: BaseCurvePairs,
          offsets: Offsets,
-         limits: PerturbationLimits) {
+         limits: BlobPerturbationLimits) {
         
         self.baseCurve = baseCurve
         self.offsets = offsets
         
-        perturbationLimits = limits
+        blobLimits = limits
         nilDeltas = [CGFloat](repeating: 0, count: baseCurve.count)
     }
 
@@ -59,8 +59,8 @@ struct ZigZagger {
 
         if Model.DEBUG_TRACK_ZIGZAG_PHASING {
             print("ZigZagger.randomDeltas()")
-            print("..... perturbationLimits(.outer: +/- \(perturbationLimits.outer)"
-                    + ", .inner: \(perturbationLimits.inner))")
+            print("..... blobLimits(.outer: +/- \(blobLimits.outer)"
+                    + ", .inner: \(blobLimits.inner))")
         }
         
         let enumerated = baseCurve.enumerated()
@@ -68,15 +68,15 @@ struct ZigZagger {
             
             return enumerated.map {
                 $0.0.isEven() ?
-                    randomPerturbation(within: perturbationLimits.outer) :
-                    randomPerturbation(within: perturbationLimits.inner)
+                    randomPerturbation(within: blobLimits.outer) :
+                    randomPerturbation(within: blobLimits.inner)
             }
         }
         // deltas for zag phase
         return enumerated.map {
             $0.0.isEven() ?
-                randomPerturbation(within: perturbationLimits.inner) :
-                randomPerturbation(within: perturbationLimits.outer)
+                randomPerturbation(within: blobLimits.inner) :
+                randomPerturbation(within: blobLimits.outer)
         }
     }
     

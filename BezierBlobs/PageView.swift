@@ -17,7 +17,7 @@ enum PageType : String {
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              offsets: (in: CGFloat, out: CGFloat),
-                             perturbLimits: PerturbationLimits,
+                             blobLimits: BlobPerturbationLimits,
                              forceEqualAxes: Bool)
 struct PageView: View {
         
@@ -27,21 +27,21 @@ struct PageView: View {
     static let descriptions : [PageDescription] =
     [
         (numPoints: 4, n: 2.0,
-         offsets: (in: -0.25, out: 0.25), perturbLimits: (inner: 0.75, outer: 1.0),
+         offsets: (in: -0.5, out: 0.5), blobLimits: (inner: 0.75, outer: 1.0),
          forceEqualAxes: true),
         
 //        (numPoints: 14, n: 2.0,
-//         offsets: (in: -0.25, out: 0.25), perturbLimits: (inner: 0.75, outer: 1.0),
+//         offsets: (in: -0.25, out: 0.25), blobLimits: (inner: 0.75, outer: 1.0),
 //         forceEqualAxes: true),
         
         (numPoints: 20, n: 3.8,
-         offsets: (in: -0.2, out: 0.25), perturbLimits: (inner: 0.6, outer: 1.0), false),
+         offsets: (in: -0.2, out: 0.25), blobLimits: (inner: 0.6, outer: 1.0), false),
         
 //        (numPoints: 6, n: 3,
-//         offsets: (in: -0.45, out: 0.35), perturbLimits: (inner: 0.0, outer: 0.0), false),
+//         offsets: (in: -0.45, out: 0.35), blobLimits: (inner: 0.0, outer: 0.0), false),
 //        
 //        (numPoints: 24, n: 1,
-//         offsets: (in: -0.1, out: 0.4), perturbLimits: (inner: 4, outer: 0.4), false)
+//         offsets: (in: -0.1, out: 0.4), blobLimits: (inner: 4, outer: 0.4), false)
     ]
             
     @ObservedObject var model = Model()
