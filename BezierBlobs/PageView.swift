@@ -16,6 +16,7 @@ enum PageType : String {
 
 typealias PageDescription = (numPoints: Int,
                              n: Double,
+                             minorAxisRelativeBaseCurveRatio: CGFloat,
                              offsets: (in: CGFloat, out: CGFloat),
                              blobLimits: BlobPerturbationLimits,
                              forceEqualAxes: Bool)
@@ -26,7 +27,14 @@ struct PageView: View {
     
     static let descriptions : [PageDescription] =
     [
+        // CLASSIC
+        (numPoints: 20, n: 3.8,
+         minorAxisRelativeBaseCurveRatio: 0.5,
+         offsets: (in: -0.2, out: 0.25), blobLimits: (inner: 0.6, outer: 1.0), false),
+        
+        // CIRCLE
         (numPoints: 4, n: 2.0,
+         minorAxisRelativeBaseCurveRatio: 0.5,
          offsets: (in: -0.5, out: 0.5), blobLimits: (inner: 0.75, outer: 1.0),
          forceEqualAxes: true),
         
@@ -34,13 +42,14 @@ struct PageView: View {
 //         offsets: (in: -0.25, out: 0.25), blobLimits: (inner: 0.75, outer: 1.0),
 //         forceEqualAxes: true),
         
-        (numPoints: 20, n: 3.8,
-         offsets: (in: -0.2, out: 0.25), blobLimits: (inner: 0.6, outer: 1.0), false),
-        
+        // DELTA WING
         (numPoints: 6, n: 3,
+         minorAxisRelativeBaseCurveRatio: 0.5,
          offsets: (in: -0.45, out: 0.35), blobLimits: (inner: 0.0, outer: 0.0), false),
         
+        // MUTANT MOTG
         (numPoints: 24, n: 1,
+         minorAxisRelativeBaseCurveRatio: 0.5,
          offsets: (in: -0.1, out: 0.4), blobLimits: (inner: 4, outer: 0.4), false)
     ]
             
@@ -72,20 +81,23 @@ struct PageView: View {
         
         self.pageType = pageType
         self.description = description
-        self.s = //size
-            CGSize(width: size.width,
-                           height: size.height)
+        self.s = CGSize.zero
+//            CGSize(width: size.width,
+//                   height: size.height)
 //            CGSize(width: size.width * PlatformSpecifics.IPAD.w,
 //                           height: size.height * PlatformSpecifics.IPAD.h)
         
-        print ("original size.w: \(size.width) size.h: \(size.height)")
-        print ("adjusted s.w:    \(s.width)    s.h: \(s.height)")
-        print ("delta off.w :    \((size.width - s.width)/2.0)  off.h: \((size.height - s.height)/2.0)")
+        print ("screen size.w: \(size.width) size.h: \(size.height)")
+//        print ("adjusted s.w:    \(s.width)    s.h: \(s.height)")
+//        print ("delta off.w :    \((size.width - s.width)/2.0)  off.h: \((size.height - s.height)/2.0)")
+//        
+        let a = Double(size.width/2.0) // * description.minorAxisRelativeBaseCurveRatio)
+        let b = Double(size.width/2.0) // * description.minorAxisRelativeBaseCurveRatio)
         
         model.calculateSuperEllipseCurvesFamily(for: pageType,
                                                 pageDescription: description,
-                                                axes: (a: Double(self.s.width/2),
-                                                       b: Double(self.s.height/2)))
+                                                axes: (a: a, //Double(self.s.width/2),
+                                                       b: b))//Double(self.s.height/2)))
     }
     
     struct PageGradientBackground : View {

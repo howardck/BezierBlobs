@@ -34,23 +34,23 @@ struct ContentView: View {
             
             TabView {
                 
-                PageView(pageType: PageType.circle,
+                PageView(pageType: PageType.superEllipse,
                          description: PageView.descriptions[0],
+                         size: gr.size)
+                    .tabItem {
+                        Image(systemName: "1.circle.fill")
+                        Text("\(PageType.superEllipse.rawValue)" )
+                    }
+                
+                PageView(pageType: PageType.circle,
+                         description: PageView.descriptions[1],
                          size: gr.size)
                     
                     .onAppear{ print("PageView.onAppear(PageType.CIRCLE) Platform { \(ps.name) }")}
                     
                     .tabItem {
-                        Image(systemName: "1.circle.fill")
-                        Text("\(PageType.circle.rawValue)")
-                    }
-
-                PageView(pageType: PageType.superEllipse,
-                         description: PageView.descriptions[1],
-                         size: gr.size)
-                    .tabItem {
                         Image(systemName: "2.circle.fill")
-                        Text("\(PageType.superEllipse.rawValue)" )
+                        Text("\(PageType.circle.rawValue)")
                     }
                 
                 PageView(pageType: PageType.deltaWing,
