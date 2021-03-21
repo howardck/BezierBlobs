@@ -83,9 +83,9 @@ struct PageView: View {
         print ("delta off.w :    \((size.width - s.width)/2.0)  off.h: \((size.height - s.height)/2.0)")
         
         model.calculateSuperEllipseCurvesFamily(for: pageType,
-                                          pageDescription: description,
-                                          axes: (a: Double(self.s.width/2),
-                                                 b: Double(self.s.height/2)))
+                                                pageDescription: description,
+                                                axes: (a: Double(self.s.width/2),
+                                                       b: Double(self.s.height/2)))
     }
     
     struct PageGradientBackground : View {
