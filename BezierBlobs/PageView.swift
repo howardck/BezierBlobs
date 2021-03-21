@@ -37,11 +37,11 @@ struct PageView: View {
         (numPoints: 20, n: 3.8,
          offsets: (in: -0.2, out: 0.25), blobLimits: (inner: 0.6, outer: 1.0), false),
         
-//        (numPoints: 6, n: 3,
-//         offsets: (in: -0.45, out: 0.35), blobLimits: (inner: 0.0, outer: 0.0), false),
-//        
-//        (numPoints: 24, n: 1,
-//         offsets: (in: -0.1, out: 0.4), blobLimits: (inner: 4, outer: 0.4), false)
+        (numPoints: 6, n: 3,
+         offsets: (in: -0.45, out: 0.35), blobLimits: (inner: 0.0, outer: 0.0), false),
+        
+        (numPoints: 24, n: 1,
+         offsets: (in: -0.1, out: 0.4), blobLimits: (inner: 4, outer: 0.4), false)
     ]
             
     @ObservedObject var model = Model()
