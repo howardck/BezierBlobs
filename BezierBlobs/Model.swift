@@ -28,7 +28,7 @@ class Model: ObservableObject {
     static let DEBUG_ADJUST_PERTURBATION_LIMITS = false
     
     @Published var blobCurve = [CGPoint]()
-        
+         
     // at vertex 0:
     // zig configuration moves to the outside
     // zag configuration moves to the inside
@@ -45,7 +45,7 @@ class Model: ObservableObject {
     //MARK:-
     //TODO: TODO: (maybe) OFFSETS SHOULD BE A PLATFORM-SPECIFIC SCREEN RATIO
     
-    var axes : Axes = (1, 1)
+    var axes : Axes = (1.0, 1.0)
     var numPoints: Int = 0
     var offsets : Offsets = (inner: 0, outer: 0)
     var pageType: PageType?
@@ -116,26 +116,17 @@ class Model: ObservableObject {
         self.numPoints = pageDescription.numPoints
         
         print("Model.massageParameters(). " +
-            "axes: (a: {\((axes.a).format(fspec: "6.2"))}, " +
-                                                      "b: {\((axes.b).format(fspec: "6.2"))})")
+            "axes: ( a: {\((axes.a).format(fspec: "6.2"))}, " +
+                    "b: {\((axes.b).format(fspec: "6.2"))})")
         
-        //TODO: REVIEW IF BEST PRACTISE
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        // ########################################
-        var radius = CGFloat((axes.a + axes.b)/2.0)
-        // ########################################
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        
-        radius = CGFloat(min(axes.a, axes.b))
-
         self.axes = axes
-        
+        let semiMinorAxis = min(axes.a, axes.b)
+
         if pageDescription.forceEqualAxes {
-            let minab = min(axes.a, axes.b)
-            self.axes = (a: minab, b: minab)
+            self.axes = (a: semiMinorAxis, b: semiMinorAxis)
         }
-        offsets = (inner: radius * pageDescription.offsets.in,
-                   outer: radius * pageDescription.offsets.out)
+        offsets = (inner: CGFloat(semiMinorAxis) * pageDescription.offsets.in,
+                   outer: CGFloat(semiMinorAxis) * pageDescription.offsets.out)
         
         self.blobLimits = upscale(pageDescription.blobLimits,
                                   toMatch: offsets)

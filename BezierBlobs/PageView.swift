@@ -57,7 +57,7 @@ struct PageView: View {
     @EnvironmentObject var layers : SuperEllipseLayers
     @EnvironmentObject var options : Options
     
-    static let timerTimeIncrement : Double = 3.6
+    static let timerTimeIncrement : Double = 3.3
     static let animationTimeIncrement : Double = 3.0
     static let timerInitialTimeIncrement : Double = 0.0
     
@@ -90,7 +90,7 @@ struct PageView: View {
         print ("screen size.w: \(size.width) size.h: \(size.height)")
 //        print ("adjusted s.w:    \(s.width)    s.h: \(s.height)")
 //        print ("delta off.w :    \((size.width - s.width)/2.0)  off.h: \((size.height - s.height)/2.0)")
-//        
+//
         let a = Double(size.width/2.0) // * description.minorAxisRelativeBaseCurveRatio)
         let b = Double(size.width/2.0) // * description.minorAxisRelativeBaseCurveRatio)
         
