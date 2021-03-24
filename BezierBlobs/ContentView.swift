@@ -29,7 +29,7 @@ struct ContentView: View {
         let ps = PlatformSpecifics.forSizeClasses(
             vSizeClass: vClass!,
             hSizeClass: hClass!)
-         
+               
         GeometryReader { gr in
             
             TabView {
