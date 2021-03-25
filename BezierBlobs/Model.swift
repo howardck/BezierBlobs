@@ -21,7 +21,7 @@ class Model: ObservableObject {
 //        print("Model.init( zigIsNextPhase = {\(zigIsNextPhase)} )")
     }
     
-    static let DEBUG_PRINT_BASIC_SE_PARAMS = false
+    static let DEBUG_PRINT_BASIC_SE_PARAMS = true
     static let DEBUG_PRINT_VERTEX_NORMALS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = false
@@ -48,6 +48,11 @@ class Model: ObservableObject {
     var axes : Axes = (1.0, 1.0)
     var numPoints: Int = 0
     var offsets : Offsets = (inner: 0, outer: 0)
+    
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    var newStyleOffsets : Offsets = (inner: 0, outer: 0)
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    
     var pageType: PageType?
     var blobLimits : BlobPerturbationLimits = (inner: 0, outer: 0)
     
@@ -120,13 +125,14 @@ class Model: ObservableObject {
                     "b: {\((axes.b).format(fspec: "6.2"))})")
         
         self.axes = axes
-        let semiMinorAxis = min(axes.a, axes.b)
+        let minAxis = min(axes.a, axes.b)
 
         if pageDescription.forceEqualAxes {
-            self.axes = (a: semiMinorAxis, b: semiMinorAxis)
+            self.axes = (a: minAxis, b: minAxis)
         }
-        offsets = (inner: CGFloat(semiMinorAxis) * pageDescription.offsets.in,
-                   outer: CGFloat(semiMinorAxis) * pageDescription.offsets.out)
+        
+        offsets = (inner: CGFloat(minAxis) * pageDescription.offsets.in,
+                   outer: CGFloat(minAxis) * pageDescription.offsets.out)
         
         self.blobLimits = upscale(pageDescription.blobLimits,
                                   toMatch: offsets)
@@ -136,7 +142,8 @@ class Model: ObservableObject {
             print("  numPoints: {\(numPoints)} ")
             print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((self.axes.b).format(fspec: "6.2"))})")
-            print("  offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+            print("  offsets: [OLD STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+            print("  offsets: [NEW STYLE] (inner: \(newStyleOffsets.inner.format(fspec: "6.2")), outer: \(newStyleOffsets.outer.format(fspec: "6.2")))")
             print("  blobLimits: " +
                     "( inner: {+/- \(blobLimits.inner.format(fspec: "4.2"))}, " +
                     "outer: {+/- \(blobLimits.outer.format(fspec: "4.2"))} ) ")
