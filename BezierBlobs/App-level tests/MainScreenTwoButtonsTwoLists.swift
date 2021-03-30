@@ -84,7 +84,7 @@ struct DrawingAndLayeringButtons : View {
         
         var body: some View {
             HStack {
-                MoreOptionsListButton(iconName: PencilSymbol.PENCIL,
+                MiscOptionsListButton(iconName: PencilSymbol.PENCIL,
                                        faceColor: .blue,
                                        edgeColor: .orange,
                                        edgeOffset: edgeOffset)

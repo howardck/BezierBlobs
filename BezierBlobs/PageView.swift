@@ -74,8 +74,8 @@ struct PageView: View {
     static let animationTimeIncrement : Double = 3.0
     static let timerInitialTimeIncrement : Double = 0.0
     
-    @State var showLayersList = true
-    @State var showMoreOptionsList = false
+    @State var showLayersList = false
+    @State var showMiscOptionsList = true
     
     @State var timer: Timer.TimerPublisher
                             = Timer.publish(every: PageView.timerTimeIncrement,
@@ -227,9 +227,9 @@ struct PageView: View {
         }
         .onTapGesture(count: 1)
         {
-            if showLayersList || showMoreOptionsList {
+            if showLayersList || showMiscOptionsList {
                 showLayersList = false
-                showMoreOptionsList = false
+                showMiscOptionsList = false
             }
             else {
                 if !isAnimating {
@@ -264,13 +264,13 @@ struct PageView: View {
                         Spacer()
                     }
                 }
-                else if showMoreOptionsList {
+                else if showMiscOptionsList {
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     let s = CGSize(width: 274, height: 300)
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     HStack {
                         ZStack {
-                            MoreOptionsChooserList(options: $options.options)
+                            MiscOptionsChooserList(options: $options.options)
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }
@@ -282,7 +282,7 @@ struct PageView: View {
                     let s = CGSize(width: 266, height: 130)
                     HStack {
                         TwoButtonPanel(showLayersList: $showLayersList,
-                                       showMoreOptionsList: $showMoreOptionsList)
+                                       showMiscOptionsList: $showMiscOptionsList)
                             .frame(width: s.width)
                             .padding(EdgeInsets(top: 0, leading: 30, bottom: 50, trailing: 0))
                         Spacer()
@@ -290,55 +290,6 @@ struct PageView: View {
                 }
             }
         )
-    }
-    
-    struct TwoButtonPanel : View {
-        
-        @Binding var showLayersList : Bool
-        @Binding var showMoreOptionsList : Bool
-        
-        var edgeOffset = CGSize(width: 1, height: 1)
-        
-        var body: some View {
-            HStack {
-                Spacer()
-                
-                LayersSelectionListButton(faceColor: .blue,
-                                          edgeColor: .white,
-                                          edgeOffset: edgeOffset)
-                    .onTapGesture {
-                        showLayersList.toggle()
-                    }
-                Spacer()
-                
-                MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
-                                      faceColor: .blue,
-                                      edgeColor: .white,
-                                      edgeOffset: edgeOffset)
-                    .onTapGesture {
-                        showMoreOptionsList.toggle()
-                    }
-                Spacer()
-            }
-            .scaleEffect(1.2)
-        }
-    }
-
-    //MARK:-
-    struct BezelFrame : View {
-        let color: Color
-        let size: CGSize
-        
-        var body: some View {
-            ZStack {
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(color, lineWidth: 8)
-                    .frame(width: size.width, height: size.height)
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(Color.white, lineWidth: 1.25)
-                    .frame(width: size.width, height: size.height)
-            }
-        }
     }
     
     func displaySuperEllipseMetrics() -> some View {
@@ -350,7 +301,7 @@ struct PageView: View {
                              foreColor: .white,
                              backColor: .init(white: 0.2))
         }
-   }
+    }
 }
 
 //MARK:-

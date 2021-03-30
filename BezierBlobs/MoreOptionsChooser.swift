@@ -1,5 +1,5 @@
 //
-//  MoreOptionsChooser.swift
+//  MiscOptionsChooser.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-02-11.
@@ -49,7 +49,7 @@ struct OptionRow : View {
     }
 }
 
-struct MoreOptionsChooserList: View {
+struct MiscOptionsChooserList: View {
     
     @Binding var options : [Option]
     
@@ -58,7 +58,7 @@ struct MoreOptionsChooserList: View {
 //        let sectionHeaderTextColor = Color.blue
 
         List {
-            Section(header: Text("more options").textCase(.uppercase)
+            Section(header: Text("misc options").textCase(.uppercase)
                 .foregroundColor(sectionHeaderTextColor)) {
                 
                 ForEach(options, id: \.type) { option in
@@ -73,19 +73,18 @@ struct MoreOptionsChooserList: View {
                 }
             }
             
-            Section(header: Text("some random notes").textCase(.uppercase)
+            Section(header: Text("onboarding").textCase(.uppercase)
                         .foregroundColor(sectionHeaderTextColor)) {
                 Text("hello, is this not the time to clap and jump?!")
                     .frame(height: 100, alignment: .topLeading)
             }
-            //.textCase(.lowercase)
         }
         .listStyle(InsetGroupedListStyle())
         .environment(\.defaultMinListRowHeight, 40)
     }
 }
 
-struct MoreOptionsChooserList_Previews: PreviewProvider {
+struct MiscOptionsChooserList_Previews: PreviewProvider {
     static var previews: some View {
 
         Text("SELECTED")

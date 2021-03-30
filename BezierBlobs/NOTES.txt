@@ -8,7 +8,7 @@
     TURN ON baseCurve + markers + vertex[0] TO WATCH
     
 17feb21
-    App VERSION 2: MAYBE add further options to MoreOptionsChooser:
+    App VERSION 2: MAYBE add further options to MiscOptionsChooser:
     
     enum OptionType: String {
     ...

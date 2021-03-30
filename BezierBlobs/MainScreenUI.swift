@@ -1,5 +1,5 @@
 //
-//  CurveSettings.swift
+//  MainScreenUI.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2020-12-09.
@@ -51,7 +51,56 @@ struct PencilSymbolView: View {
     }
 }
 
-struct MoreOptionsListButton : View {
+//MARK:-
+struct BezelFrame : View {
+    let color: Color
+    let size: CGSize
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 6)
+                .stroke(color, lineWidth: 8)
+                .frame(width: size.width, height: size.height)
+            RoundedRectangle(cornerRadius: 6)
+                .stroke(Color.white, lineWidth: 1.25)
+                .frame(width: size.width, height: size.height)
+        }
+    }
+}
+
+struct TwoButtonPanel : View {
+    
+    @Binding var showLayersList : Bool
+    @Binding var showMiscOptionsList : Bool
+    
+    var edgeOffset = CGSize(width: 1, height: 1)
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            
+            LayersSelectionListButton(faceColor: .blue,
+                                      edgeColor: .red,
+                                      edgeOffset: edgeOffset)
+                .onTapGesture {
+                    showLayersList.toggle()
+                }
+            Spacer()
+            
+            MiscOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                                  faceColor: .blue,
+                                  edgeColor: .red,
+                                  edgeOffset: edgeOffset)
+                .onTapGesture {
+                    showMiscOptionsList.toggle()
+                }
+            Spacer()
+        }
+        .scaleEffect(1.2)
+    }
+}
+
+struct MiscOptionsListButton : View {
     
     var iconName: String
     var faceColor: Color
@@ -115,22 +164,22 @@ struct ScreenButtons_Previews: PreviewProvider {
         ZStack {
             Color.init(white: 0.4)
             VStack {
-                MoreOptionsListButton(iconName: PencilSymbol.PENCIL,
+                MiscOptionsListButton(iconName: PencilSymbol.PENCIL,
                                           faceColor: .blue,
                                           edgeColor: .pink,
                                           edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
-                MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
+                MiscOptionsListButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
                                           faceColor: .blue,
                                           edgeColor: .pink,
                                           edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
-                MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
+                MiscOptionsListButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
                                           faceColor: .blue,
                                           edgeColor: .orange,
                                           edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
-                MoreOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                MiscOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                           faceColor: .blue,
                                           edgeColor: .orange,
                                           edgeOffset: edgeOffset)
