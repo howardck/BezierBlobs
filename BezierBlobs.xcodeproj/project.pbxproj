@@ -10,9 +10,9 @@
 		3B11D73925CC73450080F72F /* SuperEllipseLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B11D73825CC73450080F72F /* SuperEllipseLayers.swift */; };
 		3B2A60C925DDF4E4004CF8F4 /* ZigZaggery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2A60C825DDF4E4004CF8F4 /* ZigZaggery.swift */; };
 		3B5A4BD425B90BB800CC5C26 /* TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */; };
-		3B686E032590091C00466BF5 /* LayersSelectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* LayersSelectionList.swift */; };
+		3B686E032590091C00466BF5 /* SELayersChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* SELayersChooser.swift */; };
 		3B779D262587CD5C00C5BC85 /* SELayerStacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B779D252587CD5C00C5BC85 /* SELayerStacks.swift */; };
-		3B81690525D56C9A0068010B /* MoreOptionsChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B81690425D56C9A0068010B /* MoreOptionsChooser.swift */; };
+		3B81690525D56C9A0068010B /* MiscOptionsChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */; };
 		3B82699C25D75C81002B11E4 /* MainScreenTwoButtonsTwoLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B82699B25D75C81002B11E4 /* MainScreenTwoButtonsTwoLists.swift */; };
 		3B859FEF25BB3B470033DB7A /* MainScreenLayoutTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */; };
 		3B9A048B25C7C94D0097ECC6 /* TimerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */; };
@@ -37,9 +37,9 @@
 		3B11D73825CC73450080F72F /* SuperEllipseLayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseLayers.swift; sourceTree = "<group>"; };
 		3B2A60C825DDF4E4004CF8F4 /* ZigZaggery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZigZaggery.swift; sourceTree = "<group>"; };
 		3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewTest.swift; sourceTree = "<group>"; };
-		3B686E022590091C00466BF5 /* LayersSelectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayersSelectionList.swift; sourceTree = "<group>"; };
+		3B686E022590091C00466BF5 /* SELayersChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayersChooser.swift; sourceTree = "<group>"; };
 		3B779D252587CD5C00C5BC85 /* SELayerStacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayerStacks.swift; sourceTree = "<group>"; };
-		3B81690425D56C9A0068010B /* MoreOptionsChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsChooser.swift; sourceTree = "<group>"; };
+		3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscOptionsChooser.swift; sourceTree = "<group>"; };
 		3B82699B25D75C81002B11E4 /* MainScreenTwoButtonsTwoLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTwoButtonsTwoLists.swift; sourceTree = "<group>"; };
 		3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenLayoutTest.swift; sourceTree = "<group>"; };
 		3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTest.swift; sourceTree = "<group>"; };
@@ -115,8 +115,8 @@
 				5E57D2E1256D5CDB00D6B1C0 /* SEShape.swift */,
 				3B779D252587CD5C00C5BC85 /* SELayerStacks.swift */,
 				3B11D73825CC73450080F72F /* SuperEllipseLayers.swift */,
-				3B686E022590091C00466BF5 /* LayersSelectionList.swift */,
-				3B81690425D56C9A0068010B /* MoreOptionsChooser.swift */,
+				3B686E022590091C00466BF5 /* SELayersChooser.swift */,
+				3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
 				3B9A048E25C8642D0097ECC6 /* App-level tests */,
 				5E57D2E6256D5CF900D6B1C0 /* extensions */,
@@ -220,7 +220,7 @@
 				5E57D2E4256D5CDB00D6B1C0 /* SEShape.swift in Sources */,
 				5E57D2EC256D5D1200D6B1C0 /* CGPointVector.swift in Sources */,
 				3BB094B925D9E42D00DE96CF /* EmojiViewTest.swift in Sources */,
-				3B686E032590091C00466BF5 /* LayersSelectionList.swift in Sources */,
+				3B686E032590091C00466BF5 /* SELayersChooser.swift in Sources */,
 				3B82699C25D75C81002B11E4 /* MainScreenTwoButtonsTwoLists.swift in Sources */,
 				5E57D2EB256D5D1200D6B1C0 /* Path+Points.swift in Sources */,
 				5E57D2E3256D5CDB00D6B1C0 /* Model.swift in Sources */,
@@ -230,7 +230,7 @@
 				3BB48CC22581A2CD005DEBB8 /* MainScreenUI.swift in Sources */,
 				3B859FEF25BB3B470033DB7A /* MainScreenLayoutTest.swift in Sources */,
 				5E57D2E2256D5CDB00D6B1C0 /* PageView.swift in Sources */,
-				3B81690525D56C9A0068010B /* MoreOptionsChooser.swift in Sources */,
+				3B81690525D56C9A0068010B /* MiscOptionsChooser.swift in Sources */,
 				3B2A60C925DDF4E4004CF8F4 /* ZigZaggery.swift in Sources */,
 				3B779D262587CD5C00C5BC85 /* SELayerStacks.swift in Sources */,
 				5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */,

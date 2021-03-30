@@ -140,11 +140,9 @@ struct PageView: View {
                         
     //MARK:-
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
-
-    // comparing gating for visibility here via layers.isVisible()
-    // vs accessing the same info inside the invoked struct via @EnvironmentObject.
-    // note we use @EnvironmentObject where smoothed/non-smoothed is involved.
             
+            // as an experiment, this one SELayer is turned on/off
+            // from an internal @Environment-injected layers object
             AnimatingBlob_Filled(curve: model.blobCurve,
                                  layerType: .blob_filled)
             
@@ -195,12 +193,10 @@ struct PageView: View {
          */
 
         .onDisappear {
-            
             isAnimating = false
             timer.connect().cancel()
         }
         .onTapGesture(count: 2) {
-            
             withAnimation(Animation.easeInOut(duration: 0.6))
             {
                 isAnimating = false
@@ -256,7 +252,7 @@ struct PageView: View {
                     let s = CGSize(width: 244, height: 590)
                     HStack {
                         ZStack {
-                            LayersSelectionList(layers: $layers.layers)
+                            SELayersChooser(layers: $layers.layers)
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }

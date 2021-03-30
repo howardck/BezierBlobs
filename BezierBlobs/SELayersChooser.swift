@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct LayersSelectionList: View {
+struct SELayersChooser: View {
     
     static let DEBUG_PRINT_SHOW_LAYER_VISIBILITY = false
     static let DEBUG_PRINT_LAYER_LIST_TAPPING = false

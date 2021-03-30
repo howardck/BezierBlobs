@@ -73,10 +73,14 @@ struct MiscOptionsChooserList: View {
                 }
             }
             
-            Section(header: Text("onboarding").textCase(.uppercase)
+            Section(header: Text("a tap-driven interface").textCase(.uppercase)
                         .foregroundColor(sectionHeaderTextColor)) {
-                Text("hello, is this not the time to clap and jump?!")
-                    .frame(height: 100, alignment: .topLeading)
+                VStack(alignment: .leading) {
+                    Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" hello")
+                    Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" goodbye")
+                    Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" & a 3rd time!")
+                }
+                .frame(alignment: .leading)
             }
         }
         .listStyle(InsetGroupedListStyle())
