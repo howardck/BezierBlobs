@@ -43,7 +43,7 @@ struct PageView: View {
          n: 2.0,
          
          baseCurveRatio: 0.85,
-         newStyleOffsets: (inner: 0.1, outer: 0.1), // new style
+         newStyleOffsets: (inner: 0.25, outer: 0.9), // new style
          offsets: (in: -0.25, out: 0.15), // old style
 
          blobLimits: (inner: 0.75, outer: 1.0),
@@ -108,9 +108,17 @@ struct PageView: View {
         var a = Double(size.width/2.0)
         var b = Double(size.height/2.0)
         
-        let smallerAxis = min(a, b)
-        model.newStyleOffsets = (inner: CGFloat(smallerAxis) * description.newStyleOffsets.inner,
-                                 outer: CGFloat(smallerAxis) * description.newStyleOffsets.outer)
+        // newStyleOffsets are relative to the FULL minimum axis
+        // old style offsets were relative to the 'radius' of the base curve
+        
+        let minAxis = CGFloat(min(a, b))
+        model.newStyleOffsets = (inner: minAxis * description.newStyleOffsets.inner,
+                                 outer: minAxis * description.newStyleOffsets.outer)
+        
+        model.newStyleOffsets = model.calculateNewStyleOffsets(
+                                        ratios: description.newStyleOffsets,
+                                        baseCurve: minAxis * CGFloat(description.baseCurveRatio),
+                                        against: minAxis)
         
 //        print("PageView.init(). offsets = [NEW STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
         

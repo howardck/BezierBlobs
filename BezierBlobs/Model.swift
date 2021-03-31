@@ -69,15 +69,24 @@ class Model: ObservableObject {
         baseCurve = calculateSuperEllipse(for: numPoints,
                                           n: pageDescription.n,
                                           with: self.axes)
-        boundingCurves = calculateBoundingCurves(using: offsets)
+        boundingCurves = calculateBoundingCurves(using: newStyleOffsets)
         normalsCurve = calculateNormals()
         
         zigZagger = ZigZagger(baseCurve: baseCurve,
-                                      offsets: offsets,
+                                      offsets: newStyleOffsets,
                                       limits: blobLimits)
         zigZagCurves = zigZagger!.calculatePlainJaneZigZags()
 
         setInitialBlobCurve()
+    }
+    
+    //MARK: - NEW STYLE OFFSETS
+    
+    func calculateNewStyleOffsets(ratios: Offsets,
+                                  baseCurve : CGFloat,
+                                  against axisSize: CGFloat) -> Offsets
+    {
+        return (-99, 99)
     }
 
     //MARK: - ANIMATE TO ZIG-ZAGS

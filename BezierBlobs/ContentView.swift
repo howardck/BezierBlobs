@@ -43,13 +43,13 @@ struct ContentView: View {
             hSizeClass: hClass!)
                
         GeometryReader { gr in
-                                    
+                              
             TabView {
                                 
                 Group {
-//                    TestPrintSizeView(size: gr.size)
-//                        .font(.largeTitle)
-//                        .foregroundColor(.blue)
+                    TestPrintSizeView(size: gr.size)
+                        .font(.largeTitle)
+                        .foregroundColor(.blue)
 
                     PageView(pageType: PageType.superEllipse,
                              description: PageView.descriptions[0],
