@@ -44,7 +44,7 @@ struct OptionRow : View {
             CheckBox(checked: option.isSelected)
             Spacer()
             Text(option.type.rawValue)
-                .frame(width: 320, height: 0, alignment: .leading)
+                .frame(width: 360, height: 0, alignment: .leading)
         }
     }
 }
@@ -55,8 +55,7 @@ struct MiscOptionsChooserList: View {
     
     var body: some View {
         let sectionHeaderTextColor = Color.init(white: 0.1)
-//        let sectionHeaderTextColor = Color.blue
-
+        
         List {
             Section(header: Text("misc options").textCase(.uppercase)
                 .foregroundColor(sectionHeaderTextColor)) {
@@ -72,10 +71,10 @@ struct MiscOptionsChooserList: View {
                         }
                 }
             }
-            
-            Section(header: Text("a tap-driven interface").textCase(.uppercase)
+            Section(header: Text("driving a tap-driven interface").textCase(.uppercase)
                         .foregroundColor(sectionHeaderTextColor)) {
                 VStack(alignment: .leading) {
+                    bulletedText
                     Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" hello")
                     Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" goodbye")
                     Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" & a 3rd time!")
@@ -85,6 +84,10 @@ struct MiscOptionsChooserList: View {
         }
         .listStyle(InsetGroupedListStyle())
         .environment(\.defaultMinListRowHeight, 40)
+    }
+    
+    var bulletedText : some View {
+        Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" hello")
     }
 }
 

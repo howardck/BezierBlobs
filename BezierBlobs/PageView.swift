@@ -17,31 +17,35 @@ enum PageType : String {
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              baseCurveRatio: Double,
-                             offsets: (in: CGFloat, out: CGFloat),  // it's either THIS
-                             axisRelOffsets: (inner: CGFloat, outer: CGFloat), // or THIS
+                             newStyleOffsets: (inner: CGFloat, outer: CGFloat), // it's either THIS
+                             offsets: (in: CGFloat, out: CGFloat),  // or THIS
+                             
                              blobLimits: BlobPerturbationLimits,
                              forceEqualAxes: Bool)
 struct PageView: View {
         
     let description: PageDescription
-    //let s: CGSize
     
     static let descriptions : [PageDescription] =
     [
         // CLASSIC
         (numPoints: 20,
          n: 3.8,
-         baseCurveRatio: 0.75,
+         
+         baseCurveRatio: 0.7,
+         newStyleOffsets: (inner: 0.4, outer: 0.9), // new style
          offsets: (in: -0.25, out: 0.25), // old style
-         axisRelOffsets: (inner: 0.2, outer: 0.2), // new style
+         
          blobLimits: (inner: 0.6, outer: 1.0), false),
         
         // CIRCLE
         (numPoints: 12,
          n: 2.0,
-         baseCurveRatio: 1,
-         offsets: (in: -0.33, out: 0.33), // old style
-         axisRelOffsets: (inner: 0.1, outer: 0.1), // new style
+         
+         baseCurveRatio: 0.85,
+         newStyleOffsets: (inner: 0.1, outer: 0.1), // new style
+         offsets: (in: -0.25, out: 0.15), // old style
+
          blobLimits: (inner: 0.75, outer: 1.0),
          forceEqualAxes: true),
         
@@ -52,17 +56,21 @@ struct PageView: View {
         // DELTA WING
         (numPoints: 6,
          n: 3,
+         
          baseCurveRatio: 0.5,
+         newStyleOffsets: (inner: 0.1, outer: 0.1),
          offsets: (in: -0.45, out: 0.35),
-         axisRelOffsets: (inner: 0.1, outer: 0.1),
+         
          blobLimits: (inner: 0.0, outer: 0.0), false),
         
         // MUTANT MOTH
         (numPoints: 24,
          n: 1,
+         
          baseCurveRatio: 0.5,
+         newStyleOffsets: (inner: 0.1, outer: 0.1),
          offsets: (in: -0.1, out: 0.4),
-         axisRelOffsets: (inner: 0.1, outer: 0.1),
+         
          blobLimits: (inner: 4, outer: 0.4), false)
     ]
             
@@ -90,35 +98,41 @@ struct PageView: View {
     //MARK:-
     init(pageType: PageType, description: PageDescription, size: CGSize) {
         
-        print("\nPageView.init(). pageType.\(pageType.rawValue))")
+        print("\nPageView.init(). {pageType.\(pageType.rawValue)}")
         print ("PageView.init(). screen size   = W: {\(size.width)}, H: {\(size.height)}")
         print ("PageView.init(). semiAxis size = W: {\((size.width/2.0).format(fspec: "4.2"))} H: {\((size.height/2.0).format(fspec: "4.2"))}")
-        print ("PageView.init(). baseCurveRatio: {\((description.baseCurveRatio).format(fspec: "4.2"))}")
-
+        
         self.pageType = pageType
         self.description = description
 
         var a = Double(size.width/2.0)
         var b = Double(size.height/2.0)
         
-        print ( "PageView.init(). baseCurve.a: {\((a).format(fspec: "6.2"))}\n" +
-                "               . baseCurve.b: {\((b).format(fspec: "6.2"))}")
-        
-        let minAorB = min(a, b)
-        model.newStyleOffsets = (inner: CGFloat(minAorB) * description.axisRelOffsets.inner,
-                                 outer: CGFloat(minAorB) * description.axisRelOffsets.outer)
+        let smallerAxis = min(a, b)
+        model.newStyleOffsets = (inner: CGFloat(smallerAxis) * description.newStyleOffsets.inner,
+                                 outer: CGFloat(smallerAxis) * description.newStyleOffsets.outer)
         
 //        print("PageView.init(). offsets = [NEW STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
         
-        a = a * description.baseCurveRatio
-        b = b * description.baseCurveRatio
+        print ("\nPageView.init(). baseCurveRatio: {\((description.baseCurveRatio).format(fspec: "4.2"))}")
 
-        print ( "PageView.init(). baseCurve.a: {\((a).format(fspec: "6.2"))}\n" +
-                "               . baseCurve.b: {\((b).format(fspec: "6.2"))}")
+        let formattedA = "\((a).format(fspec: "6.2"))"
+        let formattedB = "\((b).format(fspec: "6.2"))"
+        
+        let bcr = description.baseCurveRatio
+        a = a * bcr
+        b = b * bcr
+        
+        let newFormattedA = "\((a).format(fspec: "6.2"))"
+        let newFormattedB = "\((b).format(fspec: "6.2"))"
+
+        print ( "PageView.init(). {a: \(formattedA), b: \(formattedB)} -> \n" +
+                "                 {a: \(newFormattedA), b: \(newFormattedB)}\n" )
 
         model.calculateSuperEllipseCurvesFamily(for: pageType,
                                                 pageDescription: description,
-                                                axes: (a: a, b: b)
+                                                axes: (a: a,
+                                                       b: b)
         )
     }
     

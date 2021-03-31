@@ -13,6 +13,18 @@
 
 import SwiftUI
 
+struct TestPrintSizeView : View {
+    
+    let size : CGSize
+    var body: some View {
+        
+        Text("size: {" +
+                "w: \((size.width).format(fspec: "6.2")), " +
+                "h: \((size.height).format(fspec: "6.2"))" +
+            "}")
+    }
+}
+
 struct ContentView: View {
     
     var ps: PlatformSpecifics!
@@ -31,27 +43,34 @@ struct ContentView: View {
             hSizeClass: hClass!)
                
         GeometryReader { gr in
-            
+                                    
             TabView {
+                                
+                Group {
+//                    TestPrintSizeView(size: gr.size)
+//                        .font(.largeTitle)
+//                        .foregroundColor(.blue)
+
+                    PageView(pageType: PageType.superEllipse,
+                             description: PageView.descriptions[0],
+                             size: gr.size)
+                        .tabItem {
+                            Image(systemName: "1.circle.fill")
+                            Text("\(PageType.superEllipse.rawValue)" )
+                        }
+                }
                 
-                PageView(pageType: PageType.superEllipse,
-                         description: PageView.descriptions[0],
-                         size: gr.size)
-                    .tabItem {
-                        Image(systemName: "1.circle.fill")
-                        Text("\(PageType.superEllipse.rawValue)" )
-                    }
-                
-                PageView(pageType: PageType.circle,
-                         description: PageView.descriptions[1],
-                         size: gr.size)
-                    
-                    .onAppear{ print("PageView.onAppear(PageType.CIRCLE) Platform { \(ps.name) }")}
-                    
-                    .tabItem {
-                        Image(systemName: "2.circle.fill")
-                        Text("\(PageType.circle.rawValue)")
-                    }
+//                PageView(pageType: PageType.circle,
+//                         description: PageView.descriptions[1],
+//                         size: gr.size)
+//
+//                    .onAppear{ print("PageView.onAppear(PageType.CIRCLE)\n" +
+//                                     "         Platform { \(ps.name) }")}
+//
+//                    .tabItem {
+//                        Image(systemName: "2.circle.fill")
+//                        Text("\(PageType.circle.rawValue)")
+//                    }
                 
 //                PageView(pageType: PageType.deltaWing,
 //                         description: PageView.descriptions[2],
