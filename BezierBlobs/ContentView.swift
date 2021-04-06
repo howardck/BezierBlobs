@@ -43,13 +43,11 @@ struct ContentView: View {
             hSizeClass: hClass!)
                
         GeometryReader { gr in
-                              
             TabView {
-                                
                 Group {
-                    TestPrintSizeView(size: gr.size)
-                        .font(.largeTitle)
-                        .foregroundColor(.blue)
+//                    TestPrintSizeView(size: gr.size)
+//                        .font(.largeTitle)
+//                        .foregroundColor(.blue)
 
                     PageView(pageType: PageType.superEllipse,
                              description: PageView.descriptions[0],
@@ -60,17 +58,17 @@ struct ContentView: View {
                         }
                 }
                 
-//                PageView(pageType: PageType.circle,
-//                         description: PageView.descriptions[1],
-//                         size: gr.size)
-//
-//                    .onAppear{ print("PageView.onAppear(PageType.CIRCLE)\n" +
-//                                     "         Platform { \(ps.name) }")}
-//
-//                    .tabItem {
-//                        Image(systemName: "2.circle.fill")
-//                        Text("\(PageType.circle.rawValue)")
-//                    }
+                PageView(pageType: PageType.circle,
+                         description: PageView.descriptions[1],
+                         size: gr.size)
+
+                    .onAppear{ print("PageView.onAppear(PageType.CIRCLE)\n" +
+                                     "         Platform { \(ps.name) }")}
+
+                    .tabItem {
+                        Image(systemName: "2.circle.fill")
+                        Text("\(PageType.circle.rawValue)")
+                    }
                 
 //                PageView(pageType: PageType.deltaWing,
 //                         description: PageView.descriptions[2],

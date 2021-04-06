@@ -32,8 +32,8 @@ struct PageView: View {
         (numPoints: 20,
          n: 3.8,
          
-         baseCurveRatio: 0.7,
-         newStyleOffsets: (inner: 0.4, outer: 0.9), // new style
+         baseCurveRatio: 0.75,
+         newStyleOffsets: (inner: 0.6, outer: 1.0), // new style
          offsets: (in: -0.25, out: 0.25), // old style
          
          blobLimits: (inner: 0.6, outer: 1.0), false),
@@ -115,10 +115,17 @@ struct PageView: View {
         model.newStyleOffsets = (inner: minAxis * description.newStyleOffsets.inner,
                                  outer: minAxis * description.newStyleOffsets.outer)
         
-        model.newStyleOffsets = model.calculateNewStyleOffsets(
-                                        ratios: description.newStyleOffsets,
-                                        baseCurve: minAxis * CGFloat(description.baseCurveRatio),
-                                        against: minAxis)
+        let baseCurveDistance = minAxis * CGFloat(description.baseCurveRatio)
+        
+        
+
+//        model.newStyleOffsets = model.calculateNewStyleOffsets(
+//                                        ratios: description.newStyleOffsets,
+//                                        baseCurve: minAxis * CGFloat(description.baseCurveRatio),
+//                                        against: minAxis)
+        
+        model.offsets = (inner: model.newStyleOffsets.inner - baseCurveDistance,
+                         outer: model.newStyleOffsets.outer - baseCurveDistance)
         
 //        print("PageView.init(). offsets = [NEW STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
         
@@ -127,20 +134,18 @@ struct PageView: View {
         let formattedA = "\((a).format(fspec: "6.2"))"
         let formattedB = "\((b).format(fspec: "6.2"))"
         
-        let bcr = description.baseCurveRatio
-        a = a * bcr
-        b = b * bcr
-        
+                
         let newFormattedA = "\((a).format(fspec: "6.2"))"
         let newFormattedB = "\((b).format(fspec: "6.2"))"
 
         print ( "PageView.init(). {a: \(formattedA), b: \(formattedB)} -> \n" +
                 "                 {a: \(newFormattedA), b: \(newFormattedB)}\n" )
 
+        let baseCurveRatio = description.baseCurveRatio
         model.calculateSuperEllipseCurvesFamily(for: pageType,
                                                 pageDescription: description,
-                                                axes: (a: a,
-                                                       b: b)
+                                                axes: (a: a * baseCurveRatio,
+                                                       b: b * baseCurveRatio)
         )
     }
     

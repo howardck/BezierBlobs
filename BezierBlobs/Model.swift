@@ -69,11 +69,11 @@ class Model: ObservableObject {
         baseCurve = calculateSuperEllipse(for: numPoints,
                                           n: pageDescription.n,
                                           with: self.axes)
-        boundingCurves = calculateBoundingCurves(using: newStyleOffsets)
+        boundingCurves = calculateBoundingCurves(using: offsets)
         normalsCurve = calculateNormals()
         
         zigZagger = ZigZagger(baseCurve: baseCurve,
-                                      offsets: newStyleOffsets,
+                                      offsets: offsets,
                                       limits: blobLimits)
         zigZagCurves = zigZagger!.calculatePlainJaneZigZags()
 
@@ -134,14 +134,17 @@ class Model: ObservableObject {
                     "b: {\((axes.b).format(fspec: "6.2"))})")
         
         self.axes = axes
-        let minAxis = min(axes.a, axes.b)
+        let minAxis = max(axes.a, axes.b)
 
         if pageDescription.forceEqualAxes {
             self.axes = (a: minAxis, b: minAxis)
         }
         
-        offsets = (inner: CGFloat(minAxis) * pageDescription.offsets.in,
-                   outer: CGFloat(minAxis) * pageDescription.offsets.out)
+        
+//        offsets = (inner: CGFloat(minAxis) * pageDescription.offsets.in,
+//                   outer: CGFloat(minAxis) * pageDescription.offsets.out)
+        
+        
         
         self.blobLimits = upscale(pageDescription.blobLimits,
                                   toMatch: offsets)
