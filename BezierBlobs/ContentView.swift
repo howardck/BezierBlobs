@@ -70,21 +70,21 @@ struct ContentView: View {
                         Text("\(PageType.circle.rawValue)")
                     }
                 
-//                PageView(pageType: PageType.deltaWing,
-//                         description: PageView.descriptions[2],
-//                         size: gr.size)
-//                    .tabItem {
-//                        Image(systemName: "3.circle.fill")
-//                        Text("\(PageType.deltaWing.rawValue)" )
-//                    }
-//
-//                PageView(pageType: PageType.mutantMoth,
-//                         description: PageView.descriptions[3],
-//                         size: gr.size)
-//                    .tabItem {
-//                        Image(systemName: "4.circle.fill");
-//                        Text("\(PageType.mutantMoth.rawValue)" )
-//                    }
+                PageView(pageType: PageType.deltaWing,
+                         description: PageView.descriptions[2],
+                         size: gr.size)
+                    .tabItem {
+                        Image(systemName: "3.circle.fill")
+                        Text("\(PageType.deltaWing.rawValue)" )
+                    }
+
+                PageView(pageType: PageType.mutantMoth,
+                         description: PageView.descriptions[3],
+                         size: gr.size)
+                    .tabItem {
+                        Image(systemName: "4.circle.fill");
+                        Text("\(PageType.mutantMoth.rawValue)" )
+                    }
             }
         }
     }

@@ -42,7 +42,7 @@ struct PageView: View {
         (numPoints: 12,
          n: 2.0,
          
-         baseCurveRatio: 0.85,
+         baseCurveRatio: 0.75,
          newStyleOffsets: (inner: 0.25, outer: 0.9), // new style
          offsets: (in: -0.25, out: 0.15), // old style
 
@@ -57,8 +57,8 @@ struct PageView: View {
         (numPoints: 6,
          n: 3,
          
-         baseCurveRatio: 0.5,
-         newStyleOffsets: (inner: 0.1, outer: 0.1),
+         baseCurveRatio: 0.6,
+         newStyleOffsets: (inner: 0.15, outer: 0.95),
          offsets: (in: -0.45, out: 0.35),
          
          blobLimits: (inner: 0.0, outer: 0.0), false),
@@ -68,7 +68,7 @@ struct PageView: View {
          n: 1,
          
          baseCurveRatio: 0.5,
-         newStyleOffsets: (inner: 0.1, outer: 0.1),
+         newStyleOffsets: (inner: 0.4, outer: 1.0),
          offsets: (in: -0.1, out: 0.4),
          
          blobLimits: (inner: 4, outer: 0.4), false)

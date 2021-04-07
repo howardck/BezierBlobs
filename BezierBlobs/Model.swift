@@ -187,12 +187,8 @@ class Model: ObservableObject {
     // MARK:- OTHER CURVES
     
     func calculateBoundingCurves(using offsets: Offsets) -> BoundingCurves {
-        
-        print("Model.calculateBoundingCurves(). offset.outer: \(offsets.outer)" )
-        
-        return
-            (inner: baseCurve.map{ $0.newPoint(at: offsets.inner, along: $1)},
-             outer: baseCurve.map{ $0.newPoint(at: offsets.outer, along: $1)})
+        (inner: baseCurve.map{ $0.newPoint(at: offsets.inner, along: $1)},
+         outer: baseCurve.map{ $0.newPoint(at: offsets.outer, along: $1)})
     }
     
     func calculateNormals() -> [CGPoint] {
