@@ -17,9 +17,7 @@ enum PageType : String {
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              baseCurveRatio: Double,
-                             offsetRatios: (inner: CGFloat, outer: CGFloat), // it's either THIS
-                             //offsets: (in: CGFloat, out: CGFloat),  // or THIS
-                             
+                             offsetRatios: (inner: CGFloat, outer: CGFloat),
                              blobLimits: BlobPerturbationLimits,
                              forceEqualAxes: Bool)
 struct PageView: View {
@@ -28,49 +26,33 @@ struct PageView: View {
     
     static let descriptions : [PageDescription] =
     [
-        // CLASSIC
+    // CLASSIC
         (numPoints: 20,
          n: 3.8,
-         
          baseCurveRatio: 0.75,
          offsetRatios: (inner: 0.6, outer: 1.0), // new style
-         //offsets: (in: -0.25, out: 0.25), // old style
-         
-         blobLimits: (inner: 0.6, outer: 1.0), false),
+          blobLimits: (inner: 0.6, outer: 1.0), false),
         
-        // CIRCLE
+    // CIRCLE
         (numPoints: 10,
          n: 2.0,
-         
          baseCurveRatio: 0.75,
          offsetRatios: (inner: 0.35, outer: 0.9), // new style
-         //offsets: (in: -0.25, out: 0.15), // old style
-
          blobLimits: (inner: 0.5, outer: 0.8),
          forceEqualAxes: true),
-        
-//        (numPoints: 14, n: 2.0,
-//         offsets: (in: -0.25, out: 0.25), blobLimits: (inner: 0.75, outer: 1.0),
-//         forceEqualAxes: true),
-        
-        // DELTA WING
+
+    // DELTA WING
         (numPoints: 6,
          n: 3,
-         
          baseCurveRatio: 0.6,
          offsetRatios: (inner: 0.15, outer: 0.95),
-         //offsets: (in: -0.45, out: 0.35),
-         
          blobLimits: (inner: 0.0, outer: 0.0), false),
         
-        // MUTANT MOTH
+    // MUTANT MOTH
         (numPoints: 24,
          n: 1,
-         
          baseCurveRatio: 0.5,
          offsetRatios: (inner: 0.4, outer: 1.0),
-         //offsets: (in: -0.1, out: 0.4),
-         
          blobLimits: (inner: 4, outer: 0.4), false)
     ]
             
@@ -98,7 +80,7 @@ struct PageView: View {
     //MARK:-
     init(pageType: PageType, pageDesc: PageDescription, size: CGSize) {
         
-        print("\nPageView.init(pageType.\(pageType.rawValue))")
+        print("PageView.init(pageType.\(pageType.rawValue))")
         print ("PageView.init(). screen size   = W: {\(size.width)}, H: {\(size.height)}")
         print ("PageView.init(). semiAxis size = W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
         
@@ -138,7 +120,6 @@ struct PageView: View {
 
             PageGradientBackground()
                         
-    //MARK:-
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
             // as an experiment, this one SELayer is turned on/off

@@ -18,7 +18,7 @@ typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 class Model: ObservableObject {
     
     init() {
-        print("Model.init()")
+        print("\nModel.init()")
     }
     
     static let DEBUG_PRINT_BASIC_SE_PARAMS = false
