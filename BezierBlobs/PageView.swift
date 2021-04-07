@@ -39,7 +39,7 @@ struct PageView: View {
          blobLimits: (inner: 0.6, outer: 1.0), false),
         
         // CIRCLE
-        (numPoints: 12,
+        (numPoints: 10,
          n: 2.0,
          
          baseCurveRatio: 0.75,
