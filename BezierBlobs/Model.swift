@@ -18,7 +18,7 @@ typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 class Model: ObservableObject {
     
     init() {
-//        print("Model.init( zigIsNextPhase = {\(zigIsNextPhase)} )")
+        print("Model.init()")
     }
     
     static let DEBUG_PRINT_BASIC_SE_PARAMS = false
@@ -30,8 +30,8 @@ class Model: ObservableObject {
     @Published var blobCurve = [CGPoint]()
          
     // at vertex 0:
-    // zig configuration moves to the outside
-    // zag configuration moves to the inside
+    // zig configuration: green vertex[0] marker moves to the outside
+    // zag configuration: green vertex[0] marker moves to the inside
     
     var zigIsNextPhase = true
     var doRandomDeltas = true
