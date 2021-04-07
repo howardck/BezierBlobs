@@ -29,13 +29,13 @@ struct ZigZagger {
     //MARK:-
     func calculateZigZags(zigIsNextPhase: Bool,
                           zigZagCurves: ZigZagCurves,
-                          randomPermutations: Bool) -> ZigZagCurves {
+                          randomPerturbations: Bool) -> ZigZagCurves {
         
         if Model.DEBUG_TRACK_ZIGZAG_PHASING {
             print("Model.calculateZigZagsForNextPhase()")
         }
         
-        let deltas = randomPermutations ?
+        let deltas =                                                    randomPerturbations ?
                         randomDeltas(zigIsNextPhase: zigIsNextPhase) :
                         nilDeltas
         

@@ -50,7 +50,7 @@ struct ContentView: View {
 //                        .foregroundColor(.blue)
 
                     PageView(pageType: PageType.superEllipse,
-                             description: PageView.descriptions[0],
+                             pageDesc: PageView.descriptions[0],
                              size: gr.size)
                         .tabItem {
                             Image(systemName: "1.circle.fill")
@@ -59,7 +59,7 @@ struct ContentView: View {
                 }
                 
                 PageView(pageType: PageType.circle,
-                         description: PageView.descriptions[1],
+                         pageDesc: PageView.descriptions[1],
                          size: gr.size)
 
                     .onAppear{ print("PageView.onAppear(PageType.CIRCLE)\n" +
@@ -71,7 +71,7 @@ struct ContentView: View {
                     }
                 
                 PageView(pageType: PageType.deltaWing,
-                         description: PageView.descriptions[2],
+                         pageDesc: PageView.descriptions[2],
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "3.circle.fill")
@@ -79,7 +79,7 @@ struct ContentView: View {
                     }
 
                 PageView(pageType: PageType.mutantMoth,
-                         description: PageView.descriptions[3],
+                         pageDesc: PageView.descriptions[3],
                          size: gr.size)
                     .tabItem {
                         Image(systemName: "4.circle.fill");
@@ -94,14 +94,14 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             PageView(pageType: PageType.deltaWing,
-                     description: PageView.descriptions[3],
+                     pageDesc: PageView.descriptions[3],
                      size: CGSize(width: 800, height: 800))
                 .tabItem {
                     Image(systemName: "4.circle.fill");
                     Text("\(PageType.mutantMoth.rawValue)" )
             }
             PageView(pageType: PageType.deltaWing,
-                     description: PageView.descriptions[3],
+                     pageDesc: PageView.descriptions[3],
                      size: CGSize(width: 800, height: 800))
                 .tabItem {
                     Image(systemName: "4.circle.fill");

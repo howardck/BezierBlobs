@@ -17,8 +17,6 @@ func calculateSuperEllipse(for numPoints: Int,
                            n: Double,
                            with axes: Axes) -> BaseCurvePairs
 {
-    print("ParametricSuperEllipse.calculateSuperEllipse(): {a: \(axes.a)} b: \(axes.b)}")
-    
     let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001
 
     var baseCurve : BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]()

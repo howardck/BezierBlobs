@@ -17,14 +17,14 @@ enum PageType : String {
 typealias PageDescription = (numPoints: Int,
                              n: Double,
                              baseCurveRatio: Double,
-                             newStyleOffsets: (inner: CGFloat, outer: CGFloat), // it's either THIS
-                             offsets: (in: CGFloat, out: CGFloat),  // or THIS
+                             offsetRatios: (inner: CGFloat, outer: CGFloat), // it's either THIS
+                             //offsets: (in: CGFloat, out: CGFloat),  // or THIS
                              
                              blobLimits: BlobPerturbationLimits,
                              forceEqualAxes: Bool)
 struct PageView: View {
         
-    let description: PageDescription
+    let pageDesc: PageDescription
     
     static let descriptions : [PageDescription] =
     [
@@ -33,8 +33,8 @@ struct PageView: View {
          n: 3.8,
          
          baseCurveRatio: 0.75,
-         newStyleOffsets: (inner: 0.6, outer: 1.0), // new style
-         offsets: (in: -0.25, out: 0.25), // old style
+         offsetRatios: (inner: 0.6, outer: 1.0), // new style
+         //offsets: (in: -0.25, out: 0.25), // old style
          
          blobLimits: (inner: 0.6, outer: 1.0), false),
         
@@ -43,8 +43,8 @@ struct PageView: View {
          n: 2.0,
          
          baseCurveRatio: 0.75,
-         newStyleOffsets: (inner: 0.35, outer: 0.9), // new style
-         offsets: (in: -0.25, out: 0.15), // old style
+         offsetRatios: (inner: 0.35, outer: 0.9), // new style
+         //offsets: (in: -0.25, out: 0.15), // old style
 
          blobLimits: (inner: 0.5, outer: 0.8),
          forceEqualAxes: true),
@@ -58,8 +58,8 @@ struct PageView: View {
          n: 3,
          
          baseCurveRatio: 0.6,
-         newStyleOffsets: (inner: 0.15, outer: 0.95),
-         offsets: (in: -0.45, out: 0.35),
+         offsetRatios: (inner: 0.15, outer: 0.95),
+         //offsets: (in: -0.45, out: 0.35),
          
          blobLimits: (inner: 0.0, outer: 0.0), false),
         
@@ -68,8 +68,8 @@ struct PageView: View {
          n: 1,
          
          baseCurveRatio: 0.5,
-         newStyleOffsets: (inner: 0.4, outer: 1.0),
-         offsets: (in: -0.1, out: 0.4),
+         offsetRatios: (inner: 0.4, outer: 1.0),
+         //offsets: (in: -0.1, out: 0.4),
          
          blobLimits: (inner: 4, outer: 0.4), false)
     ]
@@ -96,54 +96,27 @@ struct PageView: View {
     var pageType: PageType
     
     //MARK:-
-    init(pageType: PageType, description: PageDescription, size: CGSize) {
+    init(pageType: PageType, pageDesc: PageDescription, size: CGSize) {
         
-        print("\nPageView.init(). {pageType.\(pageType.rawValue)}")
+        print("\nPageView.init(pageType.\(pageType.rawValue))")
         print ("PageView.init(). screen size   = W: {\(size.width)}, H: {\(size.height)}")
-        print ("PageView.init(). semiAxis size = W: {\((size.width/2.0).format(fspec: "4.2"))} H: {\((size.height/2.0).format(fspec: "4.2"))}")
+        print ("PageView.init(). semiAxis size = W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
         
         self.pageType = pageType
-        self.description = description
-
-        var a = Double(size.width/2.0)
-        var b = Double(size.height/2.0)
+        self.pageDesc = pageDesc
         
-        // newStyleOffsets are relative to the FULL minimum axis
-        // old style offsets were relative to the 'radius' of the base curve
-        
+        let a = Double(size.width/2)
+        let b = Double(size.height/2)
         let minAxis = CGFloat(min(a, b))
-        model.newStyleOffsets = (inner: minAxis * description.newStyleOffsets.inner,
-                                 outer: minAxis * description.newStyleOffsets.outer)
         
-        let baseCurveDistance = minAxis * CGFloat(description.baseCurveRatio)
+        let baseCurveRatio = pageDesc.baseCurveRatio
+        let baseCurve = minAxis * CGFloat(baseCurveRatio)
         
+        model.offsets = (inner: (minAxis * pageDesc.offsetRatios.inner) - baseCurve,
+                         outer: (minAxis * pageDesc.offsetRatios.outer) - baseCurve)
         
-
-//        model.newStyleOffsets = model.calculateNewStyleOffsets(
-//                                        ratios: description.newStyleOffsets,
-//                                        baseCurve: minAxis * CGFloat(description.baseCurveRatio),
-//                                        against: minAxis)
-        
-        model.offsets = (inner: model.newStyleOffsets.inner - baseCurveDistance,
-                         outer: model.newStyleOffsets.outer - baseCurveDistance)
-        
-//        print("PageView.init(). offsets = [NEW STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
-        
-        print ("\nPageView.init(). baseCurveRatio: {\((description.baseCurveRatio).format(fspec: "4.2"))}")
-
-        let formattedA = "\((a).format(fspec: "6.2"))"
-        let formattedB = "\((b).format(fspec: "6.2"))"
-        
-                
-        let newFormattedA = "\((a).format(fspec: "6.2"))"
-        let newFormattedB = "\((b).format(fspec: "6.2"))"
-
-        print ( "PageView.init(). {a: \(formattedA), b: \(formattedB)} -> \n" +
-                "                 {a: \(newFormattedA), b: \(newFormattedB)}\n" )
-
-        let baseCurveRatio = description.baseCurveRatio
         model.calculateSuperEllipseCurvesFamily(for: pageType,
-                                                pageDescription: description,
+                                                pageDescription: pageDesc,
                                                 axes: (a: a * baseCurveRatio,
                                                        b: b * baseCurveRatio)
         )
@@ -317,10 +290,10 @@ struct PageView: View {
     
     func displaySuperEllipseMetrics() -> some View {
         VStack(spacing: 10) {
-            DropShadowedText(text: "numPoints: \(description.numPoints)",
+            DropShadowedText(text: "numPoints: \(pageDesc.numPoints)",
                              foreColor: .white,
                              backColor: .init(white: 0.2))
-            DropShadowedText(text: "n: \(description.n.format(fspec: "3.1"))",
+            DropShadowedText(text: "n: \(pageDesc.n.format(fspec: "3.1"))",
                              foreColor: .white,
                              backColor: .init(white: 0.2))
         }
@@ -354,6 +327,6 @@ struct DropShadowedText : View {
 
 struct PageView_Previews: PreviewProvider {
     static var previews: some View {
-        PageView(pageType: PageType.circle, description: PageView.descriptions[0], size: CGSize(width: 650, height: 550))
+        PageView(pageType: PageType.circle, pageDesc: PageView.descriptions[0], size: CGSize(width: 650, height: 550))
     }
 }

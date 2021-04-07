@@ -21,7 +21,7 @@ class Model: ObservableObject {
 //        print("Model.init( zigIsNextPhase = {\(zigIsNextPhase)} )")
     }
     
-    static let DEBUG_PRINT_BASIC_SE_PARAMS = true
+    static let DEBUG_PRINT_BASIC_SE_PARAMS = false
     static let DEBUG_PRINT_VERTEX_NORMALS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = false
@@ -41,18 +41,9 @@ class Model: ObservableObject {
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
     var normalsCurve : [CGPoint] = [CGPoint]()
-    
-    //MARK:-
-    //TODO: TODO: (maybe) OFFSETS SHOULD BE A PLATFORM-SPECIFIC SCREEN RATIO
-    
     var axes : Axes = (1.0, 1.0)
     var numPoints: Int = 0
     var offsets : Offsets = (inner: 0, outer: 0)
-    
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    var newStyleOffsets : Offsets = (inner: 0, outer: 0)
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    
     var pageType: PageType?
     var blobLimits : BlobPerturbationLimits = (inner: 0, outer: 0)
     
@@ -79,23 +70,13 @@ class Model: ObservableObject {
 
         setInitialBlobCurve()
     }
-    
-    //MARK: - NEW STYLE OFFSETS
-    
-    func calculateNewStyleOffsets(ratios: Offsets,
-                                  baseCurve : CGFloat,
-                                  against axisSize: CGFloat) -> Offsets
-    {
-        return (-99, 99)
-    }
 
     //MARK: - ANIMATE TO ZIG-ZAGS
-
     func animateToNextZigZagPhase(doRandom: Bool) {
 
         zigZagCurves = zigZagger!.calculateZigZags(zigIsNextPhase: zigIsNextPhase,
                                                    zigZagCurves: zigZagCurves,
-                                                   randomPermutations: doRandom)
+                                                   randomPerturbations: doRandom)
         blobCurve = zigIsNextPhase ?
             zigZagCurves.zig :
             zigZagCurves.zag
@@ -130,23 +111,15 @@ class Model: ObservableObject {
         self.numPoints = pageDescription.numPoints
         
         print("Model.massageParameters(). " +
-            "axes: ( a: {\((axes.a).format(fspec: "6.2"))}, " +
+            "axes: (a: {\((axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((axes.b).format(fspec: "6.2"))})")
         
-        self.axes = axes
+        let minAxis = min(axes.a, axes.b)
+        self.axes = pageDescription.forceEqualAxes ?
+                        (a: minAxis, b: minAxis) :
+                        axes
 
-        if pageDescription.forceEqualAxes {
-            let minAxis = min(axes.a, axes.b)
-            self.axes = (a: minAxis, b: minAxis)
-        }
-        
-        
-//        offsets = (inner: CGFloat(minAxis) * pageDescription.offsets.in,
-//                   outer: CGFloat(minAxis) * pageDescription.offsets.out)
-        
-        
-        
-        self.blobLimits = upscale(pageDescription.blobLimits,
+        self.blobLimits = scaleUp(pageDescription.blobLimits,
                                   toMatch: offsets)
         
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
@@ -154,15 +127,15 @@ class Model: ObservableObject {
             print("  numPoints: {\(numPoints)} ")
             print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((self.axes.b).format(fspec: "6.2"))})")
-            print("  offsets: [OLD STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
-            print("  offsets: [NEW STYLE] (inner: \(newStyleOffsets.inner.format(fspec: "6.2")), outer: \(newStyleOffsets.outer.format(fspec: "6.2")))")
+//            print("  offsets: [OLD STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+            print("  offsets: [NEW STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
             print("  blobLimits: " +
                     "( inner: {+/- \(blobLimits.inner.format(fspec: "4.2"))}, " +
                     "outer: {+/- \(blobLimits.outer.format(fspec: "4.2"))} ) ")
         }
     }
         
-    func upscale(_ blobLimits: BlobPerturbationLimits,
+    func scaleUp(_ blobLimits: BlobPerturbationLimits,
                  toMatch offsets: Offsets) -> BlobPerturbationLimits
     {
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
