@@ -134,9 +134,9 @@ class Model: ObservableObject {
                     "b: {\((axes.b).format(fspec: "6.2"))})")
         
         self.axes = axes
-        let minAxis = max(axes.a, axes.b)
 
         if pageDescription.forceEqualAxes {
+            let minAxis = min(axes.a, axes.b)
             self.axes = (a: minAxis, b: minAxis)
         }
         

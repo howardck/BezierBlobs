@@ -43,10 +43,10 @@ struct PageView: View {
          n: 2.0,
          
          baseCurveRatio: 0.75,
-         newStyleOffsets: (inner: 0.25, outer: 0.9), // new style
+         newStyleOffsets: (inner: 0.35, outer: 0.9), // new style
          offsets: (in: -0.25, out: 0.15), // old style
 
-         blobLimits: (inner: 0.75, outer: 1.0),
+         blobLimits: (inner: 0.5, outer: 0.8),
          forceEqualAxes: true),
         
 //        (numPoints: 14, n: 2.0,
