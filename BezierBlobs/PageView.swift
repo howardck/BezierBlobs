@@ -77,12 +77,14 @@ struct PageView: View {
         
     var pageType: PageType
     
-    //MARK:-
+    //MARK:- PageView.INIT
     init(pageType: PageType, pageDesc: PageDescription, size: CGSize) {
         
-        print("PageView.init(pageType.\(pageType.rawValue))")
-        print ("PageView.init(). screen size   = W: {\(size.width)}, H: {\(size.height)}")
-        print ("PageView.init(). semiAxis size = W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
+        if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
+            print("PageView.init(pageType.\(pageType.rawValue))")
+            print ("PageView.init(). screen size   = W: {\(size.width)}, H: {\(size.height)}")
+            print ("PageView.init(). semiAxis size = W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
+        }
         
         self.pageType = pageType
         self.pageDesc = pageDesc
@@ -194,10 +196,15 @@ struct PageView: View {
                 model.animateToNextZigZagPhase()
             }
             
+        /*
+             if the page is appearing and we haven't been animating already,
+             start the timer so that can happen on the next.onReceive() callback
+        */
+            
             if isFirstTappedCycle {
                 
                 //print("\nFIRST TAPPED CYCLE!\n")
-                isFirstTappedCycle.toggle()
+                isFirstTappedCycle = false
                 
                 timer.connect().cancel()
                 timer = Timer.publish(every: PageView.timerTimeIncrement,

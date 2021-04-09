@@ -21,6 +21,7 @@ class Model: ObservableObject {
         print("\nModel.init()")
     }
     
+    static let DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS = false
     static let DEBUG_PRINT_BASIC_SE_PARAMS = false
     static let DEBUG_PRINT_VERTEX_NORMALS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
@@ -110,7 +111,7 @@ class Model: ObservableObject {
         self.pageType = pageType
         self.numPoints = pageDescription.numPoints
         
-        print("Model.massageParameters(). " +
+        print("Model.massageParameters({\"\(pageType.rawValue)\"}). " +
             "axes: (a: {\((axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((axes.b).format(fspec: "6.2"))})")
         

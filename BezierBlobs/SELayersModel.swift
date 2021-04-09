@@ -15,15 +15,13 @@ class SELayersModel : ObservableObject {
         .init(type: .blob_filled, section: .animatingBlobCurves),
         .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
               visible: true),
-        .init(type: .blob_markers, section: .animatingBlobCurves,
-              visible: true),
+        .init(type: .blob_markers, section: .animatingBlobCurves),
     // ----------------------------------------------------------------
         .init(type: .baseCurve, section: .staticSupportCurves,
               visible: true),
         .init(type: .baseCurve_markers, section: .staticSupportCurves,
               visible: true),
-        .init(type: .offsetsEnvelope, section: .staticSupportCurves,
-              visible: true),
+        .init(type: .offsetsEnvelope, section: .staticSupportCurves),
         .init(type: .normals, section: .staticSupportCurves),
         .init(type: .zigZags_with_markers, section: .staticSupportCurves),
     // -----------------------------------------------------------------
