@@ -8,8 +8,8 @@
 import SwiftUI
 
 enum PageType : String {
+    case superEllipse = "CLASSIC SE"
     case circle = "CIRCLE"
-    case superEllipse = "CLASSIC"
     case deltaWing = "DELTA WING"
     case mutantMoth = "MUTANT MOTH"
 }
