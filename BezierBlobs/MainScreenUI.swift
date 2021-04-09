@@ -39,6 +39,7 @@ extension View {
     }
 }
 
+//MARK:-
 struct PencilSymbolView: View {
     let name : String
     var color: Color
@@ -68,6 +69,7 @@ struct BezelFrame : View {
     }
 }
 
+//MARK:-
 struct TwoButtonPanel : View {
     
     @Binding var showLayersList : Bool
@@ -100,6 +102,7 @@ struct TwoButtonPanel : View {
     }
 }
 
+//MARK:-
 struct MiscOptionsListButton : View {
     
     var iconName: String
@@ -120,6 +123,7 @@ struct MiscOptionsListButton : View {
     }
 }
 
+//MARK:-
 struct LayerStackSymbol: View {
     var color: Color
     var size: CGSize
@@ -131,6 +135,7 @@ struct LayerStackSymbol: View {
     }
 }
 
+//MARK:-
 struct LayersSelectionListButton : View {
     var faceColor: Color
     var edgeColor: Color
@@ -149,6 +154,7 @@ struct LayersSelectionListButton : View {
     }
 }
 
+//MARK:-
 struct PencilSymbol {
     static let PENCIL = "pencil"
     static let PENCIL_AND_SQUARE = "square.and.pencil"
@@ -156,6 +162,7 @@ struct PencilSymbol {
     static let PENCIL_AND_OUTLINE = "pencil.and.outline"
 }
 
+//MARK:-
 struct ScreenButtons_Previews: PreviewProvider {
     static var previews: some View {
         
