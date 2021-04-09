@@ -55,11 +55,11 @@ struct AnimatingBlob_Filled: View {
             
             ZStack {
                 SuperEllipse(curve: curve,
-                             smoothed: options.isSelected(optionWithType: .smoothed))
+                             smoothed: options.isSelected(optionType: .smoothed))
                     .fill(gradient)
                 
                 SuperEllipse(curve: curve,
-                             smoothed: options.isSelected(optionWithType: .smoothed))
+                             smoothed: options.isSelected(optionType: .smoothed))
                     .stroke(Color.init(white: 0.35), lineWidth: 1)
             }
         }
@@ -77,7 +77,7 @@ struct AnimatingBlob_Stroked: View {
                                  endPoint: .bottomTrailing)
     var body : some View {
         
-        let isSmoothed = options.isSelected(optionWithType: .smoothed)
+        let isSmoothed = options.isSelected(optionType: .smoothed)
 
         ZStack {
             SuperEllipse(curve: curve,

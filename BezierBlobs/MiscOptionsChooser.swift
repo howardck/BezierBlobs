@@ -26,8 +26,8 @@ class MiscOptionsModel: ObservableObject {
         .init(type: .randomPerturbations, isSelected: true)
     ]
     
-    func isSelected(optionWithType: OptionType) -> Bool {
-        options.filter{ $0.type == optionWithType && $0.isSelected }.count == 1
+    func isSelected(optionType: OptionType) -> Bool {
+        options.filter{ $0.type == optionType && $0.isSelected }.count == 1
     }
 }
 

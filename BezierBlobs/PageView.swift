@@ -190,9 +190,8 @@ struct PageView: View {
             
             withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
             {
-                let doRandom = options.isSelected(optionWithType: .randomPerturbations)
-                
-                model.animateToNextZigZagPhase(doRandom: doRandom)
+                model.doRandomDeltas = options.isSelected(optionType: .randomPerturbations)
+                model.animateToNextZigZagPhase()
             }
             
             if isFirstTappedCycle {

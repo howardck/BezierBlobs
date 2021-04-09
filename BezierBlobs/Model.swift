@@ -72,11 +72,11 @@ class Model: ObservableObject {
     }
 
     //MARK: - ANIMATE TO ZIG-ZAGS
-    func animateToNextZigZagPhase(doRandom: Bool) {
+    func animateToNextZigZagPhase() {
 
         zigZagCurves = zigZagger!.calculateZigZags(zigIsNextPhase: zigIsNextPhase,
                                                    zigZagCurves: zigZagCurves,
-                                                   randomPerturbations: doRandom)
+                                                   randomPerturbations: self.doRandomDeltas)
         blobCurve = zigIsNextPhase ?
             zigZagCurves.zig :
             zigZagCurves.zag
