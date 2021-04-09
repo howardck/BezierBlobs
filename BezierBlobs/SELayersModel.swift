@@ -4,14 +4,14 @@
 
 import Combine
 
-class SuperEllipseLayers : ObservableObject {
+class SELayersModel : ObservableObject {
       
     static let DEBUG_PRINT_LAYERS = false
     
     @Published var layers : [Layer] = [
         
         .init(type: .blob_stroked, section: .animatingBlobCurves,
-              visible: false),
+              visible: true),
         .init(type: .blob_filled, section: .animatingBlobCurves),
         .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
               visible: true),
@@ -32,7 +32,7 @@ class SuperEllipseLayers : ObservableObject {
     ]
     
     init() {
-        if SuperEllipseLayers.DEBUG_PRINT_LAYERS {
+        if SELayersModel.DEBUG_PRINT_LAYERS {
             print("initializing class Layers(): layers.count = {\(layers.count)}")
             for (ix, layer) in layers.enumerated() {
                 print("layer[\(ix)] visible = {\(layer.visible)}")

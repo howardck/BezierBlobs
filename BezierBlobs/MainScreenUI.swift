@@ -80,7 +80,7 @@ struct TwoButtonPanel : View {
             Spacer()
             
             LayersSelectionListButton(faceColor: .blue,
-                                      edgeColor: .orange,
+                                      edgeColor: .red,
                                       edgeOffset: edgeOffset)
                 .onTapGesture {
                     showLayersList.toggle()
@@ -89,7 +89,7 @@ struct TwoButtonPanel : View {
             
             MiscOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                   faceColor: .blue,
-                                  edgeColor: .orange,
+                                  edgeColor: .red,
                                   edgeOffset: edgeOffset)
                 .onTapGesture {
                     showMiscOptionsList.toggle()

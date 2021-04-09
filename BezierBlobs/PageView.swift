@@ -57,8 +57,8 @@ struct PageView: View {
     ]
             
     @ObservedObject var model = Model()
-    @EnvironmentObject var layers : SuperEllipseLayers
-    @EnvironmentObject var options : Options
+    @EnvironmentObject var layers : SELayersModel
+    @EnvironmentObject var options : MiscOptionsModel
     
     static let timerTimeIncrement : Double = 3.3
     static let animationTimeIncrement : Double = 3.0
@@ -122,8 +122,8 @@ struct PageView: View {
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
-            // as an experiment, this one SELayer is turned on/off
-            // from an internal @Environment-injected layers object
+            // this 1st one uses an @Environment-injected layers
+            // object for its .isVisible boolean, just for fun
             AnimatingBlob_Filled(curve: model.blobCurve,
                                  layerType: .blob_filled)
             
@@ -187,13 +187,17 @@ struct PageView: View {
             }
         }
         .onReceive(timer) { _ in
+            
             withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
             {
                 let doRandom = options.isSelected(optionWithType: .randomPerturbations)
+                
                 model.animateToNextZigZagPhase(doRandom: doRandom)
             }
             
             if isFirstTappedCycle {
+                
+                //print("\nFIRST TAPPED CYCLE!\n")
                 isFirstTappedCycle.toggle()
                 
                 timer.connect().cancel()
@@ -247,7 +251,7 @@ struct PageView: View {
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     HStack {
                         ZStack {
-                            MiscOptionsChooserList(options: $options.options)
+                            MiscOptionsChooser(options: $options.options)
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }

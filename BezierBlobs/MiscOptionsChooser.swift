@@ -8,12 +8,6 @@
 import Combine
 import SwiftUI
 
-enum ZigZagAnimationType: String {
-    case fixed = "fixed"
-    case snapTo = "snap to"
-    case animated = "animated"
-}
-
 enum OptionType : String {
     case smoothed = "smoothed"
     case randomPerturbations = "random perturbations"
@@ -24,7 +18,7 @@ struct Option {
     var isSelected : Bool
 }
 
-class Options: ObservableObject {
+class MiscOptionsModel: ObservableObject {
     
     @Published var options : [Option] = [
 
@@ -49,7 +43,7 @@ struct OptionRow : View {
     }
 }
 
-struct MiscOptionsChooserList: View {
+struct MiscOptionsChooser: View {
     
     @Binding var options : [Option]
     

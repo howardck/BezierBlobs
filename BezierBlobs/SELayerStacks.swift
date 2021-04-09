@@ -40,8 +40,8 @@ let highlitRed = Gradient(colors: [.black, .red, .black
 
 struct AnimatingBlob_Filled: View {
     
-    @EnvironmentObject var layers: SuperEllipseLayers
-    @EnvironmentObject var options: Options
+    @EnvironmentObject var layers: SELayersModel
+    @EnvironmentObject var options: MiscOptionsModel
 
     var curve: [CGPoint]
     var layerType : LayerType
@@ -70,7 +70,7 @@ struct AnimatingBlob_Filled: View {
 struct AnimatingBlob_Stroked: View {
     var curve: [CGPoint]
     
-    @EnvironmentObject var options: Options
+    @EnvironmentObject var options: MiscOptionsModel
     
     let gradient = LinearGradient(gradient: blueGradient,
                                  startPoint: .topLeading,
