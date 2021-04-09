@@ -168,7 +168,7 @@ struct PageView: View {
         /*
             the view PageGradientBackground() will work in a .background(),
             but all the other remaining views in the PageView.body are
-            conditioned, and if all are set to false, the PageView "crashes"
+            conditioned, and if all are set to false the PageView "crashes"
          
             .background(PageGradientBackground())
          */
