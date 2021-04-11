@@ -30,14 +30,15 @@ struct PageView: View {
         (numPoints: 20,
          n: 3.8,
          baseCurveRatio: 0.75,
-         offsetRatios: (inner: 0.6, outer: 1.0), // new style
+         offsetRatios: (inner: 0.2, outer: 1.0), // new style
           blobLimits: (inner: 0.6, outer: 1.0), false),
         
     // CIRCLE
         (numPoints: 10,
          n: 2.0,
          baseCurveRatio: 0.75,
-         offsetRatios: (inner: 0.35, outer: 0.9), // new style
+         //offsetRatios: (inner: 0.35, outer: 0.9),
+         offsetRatios: (inner: 0.2, outer: 1.1),
          blobLimits: (inner: 0.5, outer: 0.8),
          forceEqualAxes: true),
 
@@ -193,7 +194,9 @@ struct PageView: View {
             withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
             {
                 model.doRandomDeltas = options.isSelected(optionType: .randomPerturbations)
-                model.animateToNextZigZagPhase()
+                
+                model.animateToTotallyRandomOffset()
+                //model.animateToNextZigZagPhase()
             }
             
         /*

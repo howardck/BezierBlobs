@@ -47,8 +47,9 @@ class Model: ObservableObject {
     var offsets : Offsets = (inner: 0, outer: 0)
     var pageType: PageType?
     var blobLimits : BlobPerturbationLimits = (inner: 0, outer: 0)
-    
     var zigZagger : ZigZagger?
+    
+    var totallyRandomBlobbyCurve = [CGPoint]()
     
     //MARK:-
     func calculateSuperEllipseCurvesFamily(for pageType: PageType,
@@ -72,7 +73,7 @@ class Model: ObservableObject {
         setInitialBlobCurve()
     }
 
-    //MARK: - ANIMATE TO ZIG-ZAGS
+    //MARK: - ANIMATING
     func animateToNextZigZagPhase() {
 
         zigZagCurves = zigZagger!.calculateZigZags(zigIsNextPhase: zigIsNextPhase,
@@ -87,6 +88,18 @@ class Model: ObservableObject {
         }
 
         zigIsNextPhase.toggle()
+    }
+    
+    func animateToTotallyRandomOffset() {
+        
+        blobCurve = baseCurve.map {
+            let r = CGFloat.random(in: -abs(offsets.inner)...abs(offsets.outer))
+            return $0.newPoint(atOffset: r, along: $1)
+        }
+    }
+    
+    func animateToAlternatingSemiRandomOffset() {
+        
     }
     
     //MARK:-
@@ -161,8 +174,8 @@ class Model: ObservableObject {
     // MARK:- OTHER CURVES
     
     func calculateBoundingCurves(using offsets: Offsets) -> BoundingCurves {
-        (inner: baseCurve.map{ $0.newPoint(at: offsets.inner, along: $1)},
-         outer: baseCurve.map{ $0.newPoint(at: offsets.outer, along: $1)})
+        (inner: baseCurve.map{ $0.newPoint(atOffset: offsets.inner, along: $1)},
+         outer: baseCurve.map{ $0.newPoint(atOffset: offsets.outer, along: $1)})
     }
     
     func calculateNormals() -> [CGPoint] {
