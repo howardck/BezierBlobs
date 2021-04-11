@@ -84,7 +84,7 @@ struct ZigZagger {
     func calculateNewZig(using deltas: [CGFloat]) -> [CGPoint] {
         let enumerated = baseCurve.enumerated()
         let zig = enumerated.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
+            $0.1.0.newPoint(atOffset: $0.0.isEven() ?
                                 offsets.outer + deltas[$0.0] :
                                 offsets.inner + deltas[$0.0],
                             along: $0.1.1)
@@ -95,7 +95,7 @@ struct ZigZagger {
     func calculateNewZag(using deltas: [CGFloat]) -> [CGPoint] {
         let enumerated = baseCurve.enumerated()
         let zag = enumerated.map {
-            $0.1.0.newPoint(at: $0.0.isEven() ?
+            $0.1.0.newPoint(atOffset: $0.0.isEven() ?
                                 offsets.inner + deltas[$0.0]:
                                 offsets.outer + deltas[$0.0],
                             along: $0.1.1)

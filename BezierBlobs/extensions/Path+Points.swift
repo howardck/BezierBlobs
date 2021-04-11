@@ -13,7 +13,7 @@ extension Int {
 }
 
 extension CGPoint {
-    func newPoint(at offset: CGFloat,
+    func newPoint(atOffset offset: CGFloat,
                   along normal: CGVector) -> CGPoint
     {
         CGPoint(x: self.x + (offset * normal.dx),
