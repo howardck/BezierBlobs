@@ -27,7 +27,7 @@ struct ZigZagger {
     }
 
     //MARK:-
-    func calculateZigZags(zigIsNextPhase: Bool,
+    func calculateZigZags(nextPhaseIsZig: Bool,
                           zigZagCurves: ZigZagCurves,
                           randomPerturbations: Bool) -> ZigZagCurves {
         
@@ -35,11 +35,11 @@ struct ZigZagger {
             print("Model.calculateZigZagsForNextPhase()")
         }
         
-        let deltas =                                                    randomPerturbations ?
-                        randomDeltas(zigIsNextPhase: zigIsNextPhase) :
+        let deltas = randomPerturbations ?
+                        randomDeltas(nextPhaseIsZig: nextPhaseIsZig) :
                         nilDeltas
         
-        return zigIsNextPhase ?
+        return nextPhaseIsZig ?
             (zig: calculateNewZig(using: deltas), zag: zigZagCurves.zag) :
             (zig: zigZagCurves.zig, zag: calculateNewZag(using: deltas))
     }
@@ -55,7 +55,7 @@ struct ZigZagger {
         return CGFloat.random(in: -abs(limits)...abs(limits))
     }
     
-    func randomDeltas(zigIsNextPhase: Bool) -> [CGFloat] {
+    func randomDeltas(nextPhaseIsZig: Bool) -> [CGFloat] {
 
         if Model.DEBUG_TRACK_ZIGZAG_PHASING {
             print("ZigZagger.randomDeltas()")
@@ -64,7 +64,7 @@ struct ZigZagger {
         }
         
         let enumerated = baseCurve.enumerated()
-        if zigIsNextPhase {
+        if nextPhaseIsZig {
             
             return enumerated.map {
                 $0.0.isEven() ?

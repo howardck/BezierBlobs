@@ -17,9 +17,12 @@ typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 
 class Model: ObservableObject {
     
+    //MARK:-
     init() {
         print("\nModel.init()")
     }
+    
+    //MARK:-
     
     static let DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS = false
     static let DEBUG_PRINT_BASIC_SE_PARAMS = false
@@ -34,7 +37,7 @@ class Model: ObservableObject {
     // zig configuration: green vertex[0] marker moves to the outside
     // zag configuration: green vertex[0] marker moves to the inside
     
-    var zigIsNextPhase = true
+    var nextPhaseIsZig = true
     var doRandomDeltas = true
             
     // MARK:-
@@ -55,6 +58,9 @@ class Model: ObservableObject {
     func calculateSuperEllipseCurvesFamily(for pageType: PageType,
                                            pageDescription: PageDescription,
                                            axes: Axes) {
+        
+        print("Model.calculateSuperEllipseCurvesFamily({\"\(pageType.rawValue)\"})")
+
         massageParameters(pageType: pageType,
                           pageDescription: pageDescription,
                           axes: axes)
@@ -76,19 +82,27 @@ class Model: ObservableObject {
     //MARK: - ANIMATING
     func animateToNextZigZagPhase() {
 
-        zigZagCurves = zigZagger!.calculateZigZags(zigIsNextPhase: zigIsNextPhase,
+        zigZagCurves = zigZagger!.calculateZigZags(nextPhaseIsZig: nextPhaseIsZig,
                                                    zigZagCurves: zigZagCurves,
                                                    randomPerturbations: self.doRandomDeltas)
-        blobCurve = zigIsNextPhase ?
+        blobCurve = nextPhaseIsZig ?
             zigZagCurves.zig :
             zigZagCurves.zag
         
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.animateToNextZigZagPhase(). { zigIsNextPhase = \(zigIsNextPhase) }")
+            print("Model.animateToNextZigZagPhase(). { nextPhaseIsZig = \(nextPhaseIsZig) }")
         }
 
-        zigIsNextPhase.toggle()
+        nextPhaseIsZig.toggle()
     }
+    
+    
+    func animateToSemiRandomOffset() {
+        
+    }
+    
+    // each point generated will lie somewhere (anywhere)
+    // between -offset.inner and +offset.outer
     
     func animateToTotallyRandomOffset() {
         
@@ -100,6 +114,25 @@ class Model: ObservableObject {
     
     func animateToAlternatingSemiRandomOffset() {
         
+        if nextPhaseIsZig {
+            blobCurve = baseCurve.enumerated().map {
+                    $0.1.0.newPoint(atOffset: $0.0.isEven() ?
+                                        // first point in .zig curve is in the outer envelope section
+                                        CGFloat.random(in: 0...abs(offsets.outer)) :
+                                        CGFloat.random(in: -abs(offsets.inner)...0),
+                                    along: $0.1.1)
+                }
+            }
+        else {
+            blobCurve = baseCurve.enumerated().map {
+                $0.1.0.newPoint(atOffset: $0.0.isEven() ?
+                                    // first point in .zag curve is in the inner envelope section
+                                    CGFloat.random(in: -abs(offsets.inner)...0) :
+                                    CGFloat.random(in: 0...abs(offsets.outer)),
+                                along: $0.1.1)
+            }
+        }
+        nextPhaseIsZig.toggle()
     }
     
     //MARK:-
@@ -114,7 +147,7 @@ class Model: ObservableObject {
     func returnToInitialConfiguration() {
 
         setInitialBlobCurve()
-        zigIsNextPhase = true
+        nextPhaseIsZig = true
     }
     
     //MARK:-
@@ -124,7 +157,7 @@ class Model: ObservableObject {
         self.pageType = pageType
         self.numPoints = pageDescription.numPoints
         
-        print("Model.massageParameters({\"\(pageType.rawValue)\"}). " +
+        print("Model.massageParameters({\"\(pageType.rawValue)\"}) " +
             "axes: (a: {\((axes.a).format(fspec: "6.2"))}, " +
                     "b: {\((axes.b).format(fspec: "6.2"))})")
         

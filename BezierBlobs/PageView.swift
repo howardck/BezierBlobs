@@ -38,7 +38,7 @@ struct PageView: View {
          n: 2.0,
          baseCurveRatio: 0.75,
          //offsetRatios: (inner: 0.35, outer: 0.9),
-         offsetRatios: (inner: 0.2, outer: 1.1),
+         offsetRatios: (inner: 0.2, outer: 1.0),
          blobLimits: (inner: 0.5, outer: 0.8),
          forceEqualAxes: true),
 
@@ -195,13 +195,14 @@ struct PageView: View {
             {
                 model.doRandomDeltas = options.isSelected(optionType: .randomPerturbations)
                 
-                model.animateToTotallyRandomOffset()
+                model.animateToAlternatingSemiRandomOffset()
+                //model.animateToTotallyRandomOffset()
                 //model.animateToNextZigZagPhase()
             }
             
         /*
              if the page is appearing and we haven't been animating already,
-             start the timer so that can happen on the next.onReceive() callback
+             start the timer so that will happen on the next .onReceive()
         */
             
             if isFirstTappedCycle {
