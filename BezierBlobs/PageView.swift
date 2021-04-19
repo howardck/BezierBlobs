@@ -61,8 +61,8 @@ struct PageView: View {
     @EnvironmentObject var layers : SELayersModel
     @EnvironmentObject var options : MiscOptionsModel
     
-    static let timerTimeIncrement : Double = 3.3
-    static let animationTimeIncrement : Double = 3.0
+    static let timerTimeIncrement : Double = 4.1
+    static let animationTimeIncrement : Double = 4.0
     static let timerInitialTimeIncrement : Double = 0.0
     
     @State var showLayersList = false
@@ -191,7 +191,7 @@ struct PageView: View {
         }
         .onReceive(timer) { _ in
             
-            withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
+            withAnimation(Animation.easeInOut(duration: PageView.animationTimeIncrement))
             {
                 model.doRandomDeltas = options.isSelected(optionType: .randomPerturbations)
                 
