@@ -257,7 +257,8 @@ struct PageView: View {
                 }
                 else if showMiscOptionsList {
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                    let s = CGSize(width: 274, height: 300)
+                    //let s = CGSize(width: 274, height: 300)
+                    let s = CGSize(width: 370, height: 315)
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     HStack {
                         ZStack {

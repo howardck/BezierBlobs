@@ -65,23 +65,30 @@ struct MiscOptionsChooser: View {
                         }
                 }
             }
-            Section(header: Text("driving a tap-driven interface").textCase(.uppercase)
+            Section(header: Text("driving the tap-driven highway ...").textCase(.uppercase)
                         .foregroundColor(sectionHeaderTextColor)) {
-                VStack(alignment: .leading) {
-                    bulletedText
-                    Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" hello")
-                    Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" goodbye")
-                    Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" & a 3rd time!")
+                VStack {
+                    bulletedTextItem(text: "tap x1 to dismiss this dialog.")
+                    bulletedTextItem(text: "tap x1 to start animating.")
+                    bulletedTextItem(text: "tap x1 to stop animating.")
+                    bulletedTextItem(text: "tap x2 to revert to original shape.")
                 }
-                .frame(alignment: .leading)
             }
         }
         .listStyle(InsetGroupedListStyle())
         .environment(\.defaultMinListRowHeight, 40)
     }
     
-    var bulletedText : some View {
-        Text(Image(systemName: "checkmark.rectangle.portrait.fill")) + Text(" hello")
+    func bulletedTextItem(text: String) -> some View {
+        HStack {
+            Image(systemName: "diamond.fill")
+                .scaleEffect(0.5)
+                .foregroundColor(.blue)
+            Spacer(minLength: 2)
+            Text(text)
+                .foregroundColor(.black)
+                .frame(width: 360, height: 30, alignment: .leading)
+        }
     }
 }
 
