@@ -62,18 +62,16 @@ struct ZigZagger {
             print("..... blobLimits(.outer: +/- \(blobLimits.outer)"
                     + ", .inner: \(blobLimits.inner))")
         }
-        
-        let enumerated = baseCurve.enumerated()
         if nextPhaseIsZig {
-            
-            return enumerated.map {
+            // deltas for zig phase
+            return baseCurve.enumerated().map {
                 $0.0.isEven() ?
                     randomPerturbation(within: blobLimits.outer) :
                     randomPerturbation(within: blobLimits.inner)
             }
         }
         // deltas for zag phase
-        return enumerated.map {
+        return baseCurve.enumerated().map {
             $0.0.isEven() ?
                 randomPerturbation(within: blobLimits.inner) :
                 randomPerturbation(within: blobLimits.outer)
@@ -82,8 +80,7 @@ struct ZigZagger {
     
     //MARK:-
     func calculateNewZig(using deltas: [CGFloat]) -> [CGPoint] {
-        let enumerated = baseCurve.enumerated()
-        let zig = enumerated.map {
+        let zig = baseCurve.enumerated().map {
             $0.1.0.newPoint(atOffset: $0.0.isEven() ?
                                 offsets.outer + deltas[$0.0] :
                                 offsets.inner + deltas[$0.0],
@@ -93,8 +90,7 @@ struct ZigZagger {
     }
     
     func calculateNewZag(using deltas: [CGFloat]) -> [CGPoint] {
-        let enumerated = baseCurve.enumerated()
-        let zag = enumerated.map {
+        let zag = baseCurve.enumerated().map {
             $0.1.0.newPoint(atOffset: $0.0.isEven() ?
                                 offsets.inner + deltas[$0.0]:
                                 offsets.outer + deltas[$0.0],

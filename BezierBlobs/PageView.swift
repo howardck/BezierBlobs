@@ -30,8 +30,8 @@ struct PageView: View {
         (numPoints: 20,
          n: 3.8,
          baseCurveRatio: 0.75,
-         offsetRatios: (inner: 0.2, outer: 1.0), // new style
-          blobLimits: (inner: 0.6, outer: 1.0), false),
+         offsetRatios: (inner: 0.5, outer: 1.0), // new style
+         blobLimits: (inner: 0.4, outer: 0.5), false),
         
     // CIRCLE
         (numPoints: 10,
@@ -66,7 +66,7 @@ struct PageView: View {
     static let timerInitialTimeIncrement : Double = 0.0
     
     @State var showLayersList = false
-    @State var showMiscOptionsList = true
+    @State var showMiscOptionsList = false
     
     @State var timer: Timer.TimerPublisher
                             = Timer.publish(every: PageView.timerTimeIncrement,
@@ -180,24 +180,16 @@ struct PageView: View {
             isAnimating = false
             timer.connect().cancel()
         }
-        .onTapGesture(count: 2) {
-            withAnimation(Animation.easeInOut(duration: 0.6))
-            {
-                isAnimating = false
-                timer.connect().cancel()
-                
-                model.returnToInitialConfiguration()
-            }
-        }
+    
+        //MARK: onReceive{}
         .onReceive(timer) { _ in
             
             withAnimation(Animation.easeInOut(duration: PageView.animationTimeIncrement))
             {
                 model.doRandomDeltas = options.isSelected(optionType: .randomPerturbations)
                 
-                model.animateToAlternatingSemiRandomOffset()
-                //model.animateToTotallyRandomOffset()
-                //model.animateToNextZigZagPhase()
+                model.animateToNextZigZagPhase()
+                //model.animateToAlternatingSemiRandomOffset()
             }
             
         /*
@@ -216,6 +208,18 @@ struct PageView: View {
                 _ = timer.connect()
             }
         }
+        //MARK: onTapGesture(2)
+        .onTapGesture(count: 2) {
+            withAnimation(Animation.easeInOut(duration: 0.6))
+            {
+                isAnimating = false
+                timer.connect().cancel()
+                
+                model.returnToInitialConfiguration()
+            }
+        }
+        
+        //MARK: onTagGesture(1)
         .onTapGesture(count: 1)
         {
             if showLayersList || showMiscOptionsList {
