@@ -46,7 +46,8 @@ struct AnimatingBlob_Filled: View {
     var curve: [CGPoint]
     var layerType : LayerType
         
-    let gradient = LinearGradient(gradient: highlitRed,
+    let gradient = LinearGradient(gradient: orangeish,
+//    let gradient = LinearGradient(gradient: highlitRed,
                                   startPoint: .topLeading,
                                   endPoint: .bottomTrailing)
     var body : some View {
