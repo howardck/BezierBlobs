@@ -243,7 +243,7 @@ struct PageView: View {
             VStack {
                 Spacer()
                 if showLayersList {
-                    let s = CGSize(width: 244, height: 590)
+                    let s = CGSize(width: 260, height: 600)
                     HStack {
                         ZStack {
                             SELayersChooser(layers: $layers.layers)
