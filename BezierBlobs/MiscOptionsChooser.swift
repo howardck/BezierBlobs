@@ -65,13 +65,14 @@ struct MiscOptionsChooser: View {
                         }
                 }
             }
-            Section(header: Text("driving the tap-driven highway ...").textCase(.uppercase)
+            Section(header: Text("driving the tap-driven highway").textCase(.uppercase)
                         .foregroundColor(sectionHeaderTextColor)) {
                 VStack {
-                    bulletedTextItem(text: "tap x1 to dismiss this dialog.")
-                    bulletedTextItem(text: "tap x1 to start animating.")
-                    bulletedTextItem(text: "tap x1 to stop animating.")
-                    bulletedTextItem(text: "tap x2 to revert to original shape.")
+                    bulletedTextItem(text: "tap main screen to dismiss this dialog")
+                    bulletedTextItem(text: "tap x1 to start animating")
+                    bulletedTextItem(text: "tap x1 to stop animating")
+                    bulletedTextItem(text: "tap x2 to revert to original shape")
+                    bulletedTextItem(text: "rinse and repeat")
                 }
             }
         }
@@ -81,9 +82,9 @@ struct MiscOptionsChooser: View {
     
     func bulletedTextItem(text: String) -> some View {
         HStack {
-            Image(systemName: "diamond.fill")
-                .scaleEffect(0.5)
-                .foregroundColor(.blue)
+            Image(systemName: "circle.fill")
+                .scaleEffect(0.6)
+                .foregroundColor(Color.init(white: 0.4))
             Spacer(minLength: 2)
             Text(text)
                 .foregroundColor(.black)

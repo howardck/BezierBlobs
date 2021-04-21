@@ -181,25 +181,20 @@ struct PageView: View {
             timer.connect().cancel()
         }
     
-        //MARK: onReceive{}
+        //MARK: onReceive()
         .onReceive(timer) { _ in
             
             withAnimation(Animation.easeInOut(duration: PageView.animationTimeIncrement))
             {
-                model.doRandomDeltas = options.isSelected(optionType: .randomPerturbations)
+                let randomDeltas = options.isSelected(optionType: .randomPerturbations)
+                model.animateToNextZigZagPhase(doRandomDeltas: randomDeltas)
                 
-                model.animateToNextZigZagPhase()
                 //model.animateToAlternatingSemiRandomOffset()
             }
-            
-        /*
-             if the page is appearing and we haven't been animating already,
-             start the timer so that will happen on the next .onReceive()
-        */
-            
+
             if isFirstTappedCycle {
                 
-                //print("\nFIRST TAPPED CYCLE!\n")
+                print("\nFIRST TAPPED CYCLE!\n")
                 isFirstTappedCycle = false
                 
                 timer.connect().cancel()
@@ -262,7 +257,7 @@ struct PageView: View {
                 else if showMiscOptionsList {
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     //let s = CGSize(width: 274, height: 300)
-                    let s = CGSize(width: 370, height: 315)
+                    let s = CGSize(width: 380, height: 348)
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     HStack {
                         ZStack {
