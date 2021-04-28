@@ -54,7 +54,7 @@ struct PageView: View {
          n: 1,
          baseCurveRatio: 0.6,
          offsetRatios: (inner: 0.5, outer: 0.9),
-         blobLimits: (inner: 0.6, outer: 0.4), false)
+         blobLimits: (inner: 3.0, outer: 0.4), false)
     ]
             
     @ObservedObject var model = Model()
