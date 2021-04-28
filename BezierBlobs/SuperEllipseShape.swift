@@ -16,7 +16,7 @@ enum BezierType : Equatable {
 
 struct SuperEllipse : Shape {
     
-    static let NUM_INTERPOLATED = 20
+    static let NUM_INTERPOLATED = 16
     
     var curve: [CGPoint]
     var bezierType: BezierType = .lineSegments

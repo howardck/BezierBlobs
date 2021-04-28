@@ -4,7 +4,7 @@
 
 import Combine
 
-class SELayersModel : ObservableObject {
+class SELayersViewModel : ObservableObject {
       
     static let DEBUG_PRINT_LAYERS = false
     
@@ -31,7 +31,7 @@ class SELayersModel : ObservableObject {
     ]
     
     init() {
-        if SELayersModel.DEBUG_PRINT_LAYERS {
+        if SELayersViewModel.DEBUG_PRINT_LAYERS {
             print("initializing class Layers(): layers.count = {\(layers.count)}")
             for (ix, layer) in layers.enumerated() {
                 print("layer[\(ix)] visible = {\(layer.visible)}")
