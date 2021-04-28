@@ -1,5 +1,5 @@
 //
-//  Layers.swift (BezierBlobs)
+//  SELayerViewModel.swift (BezierBlobs)
 //  Created by Howard Katz on 2021-02-04.
 
 import Combine
@@ -7,6 +7,26 @@ import Combine
 class SELayersViewModel : ObservableObject {
       
     static let DEBUG_PRINT_LAYERS = false
+    
+    static let fillOnlyLayersModel : [Layer] = [
+    
+        .init(type: .blob_stroked, section: .animatingBlobCurves),
+        .init(type: .blob_filled, section: .animatingBlobCurves,
+              visible: true),
+        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
+              visible: true),
+        .init(type: .blob_markers, section: .animatingBlobCurves),
+    // ----------------------------------------------------------------
+        .init(type: .baseCurve, section: .staticSupportCurves),
+        .init(type: .baseCurve_markers, section: .staticSupportCurves),
+        .init(type: .offsetsEnvelope, section: .staticSupportCurves),
+        .init(type: .normals, section: .staticSupportCurves),
+        .init(type: .zigZags_with_markers, section: .staticSupportCurves),
+    // -----------------------------------------------------------------
+        .init(type: .showAll, section: .shortcuts),
+        .init(type: .hideAll, section: .shortcuts)
+    ]
+
     
     @Published var layers : [Layer] = [
         
@@ -31,6 +51,8 @@ class SELayersViewModel : ObservableObject {
     ]
     
     init() {
+        layers = SELayersViewModel.fillOnlyLayersModel
+        
         if SELayersViewModel.DEBUG_PRINT_LAYERS {
             print("initializing class Layers(): layers.count = {\(layers.count)}")
             for (ix, layer) in layers.enumerated() {

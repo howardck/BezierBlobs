@@ -27,14 +27,14 @@ struct PageView: View {
     static let descriptions : [PageDescription] =
     [
     // CLASSIC
-        (numPoints: 20,
+        (numPoints: 88,
          n: 3.8,
-         baseCurveRatio: 0.75,
-         offsetRatios: (inner: 0.5, outer: 1.0), // new style
+         baseCurveRatio: 0.6,
+         offsetRatios: (inner: 0.4, outer: 0.85), // new style
          blobLimits: (inner: 0.4, outer: 0.5), false),
         
     // CIRCLE
-        (numPoints: 10,
+        (numPoints: 22,
          n: 2.0,
          baseCurveRatio: 0.75,
          //offsetRatios: (inner: 0.35, outer: 0.9),
@@ -52,17 +52,17 @@ struct PageView: View {
     // MUTANT MOTH
         (numPoints: 24,
          n: 1,
-         baseCurveRatio: 0.5,
-         offsetRatios: (inner: 0.4, outer: 1.0),
-         blobLimits: (inner: 4, outer: 0.4), false)
+         baseCurveRatio: 0.6,
+         offsetRatios: (inner: 0.5, outer: 0.9),
+         blobLimits: (inner: 0.6, outer: 0.4), false)
     ]
             
     @ObservedObject var model = Model()
-    @EnvironmentObject var layers : SELayersModel
+    @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
     
-    static let timerTimeIncrement : Double = 4.1
-    static let animationTimeIncrement : Double = 4.0
+    static let timerTimeIncrement : Double = 2.0
+    static let animationTimeIncrement : Double = 2.6
     static let timerInitialTimeIncrement : Double = 0.0
     
     @State var showLayersList = false
@@ -184,12 +184,13 @@ struct PageView: View {
         //MARK: onReceive()
         .onReceive(timer) { _ in
             
-            withAnimation(Animation.easeInOut(duration: PageView.animationTimeIncrement))
+            withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
             {
                 let randomDeltas = options.isSelected(optionType: .randomPerturbations)
                 model.animateToNextZigZagPhase(doRandomDeltas: randomDeltas)
                 
                 //model.animateToAlternatingSemiRandomOffset()
+                //model.animateToTotallyRandomOffset()
             }
 
             if isFirstTappedCycle {

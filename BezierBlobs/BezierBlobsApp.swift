@@ -14,7 +14,7 @@ struct BezierBlobsApp: App {
         WindowGroup {
             
             ContentView()
-                .environmentObject(SELayersModel())
+                .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
             
             // EmojiViewTest()

@@ -41,7 +41,7 @@ let highlitRed = Gradient(colors: [.black, .red, .black
 
 struct AnimatingBlob_Filled: View {
     
-    @EnvironmentObject var layers: SELayersModel
+    @EnvironmentObject var layers: SELayersViewModel
     @EnvironmentObject var options: MiscOptionsModel
 
     var curve: [CGPoint]
@@ -86,13 +86,13 @@ struct AnimatingBlob_Stroked: View {
                          smoothed: isSmoothed)
                 
                 .stroke(Color.init(white: 0.15),
-                        style: StrokeStyle(lineWidth: 12, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 12, lineJoin: .bevel))
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
                 
-                .stroke(Color.white, style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
+                .stroke(Color.white, style: StrokeStyle(lineWidth: 0.5, lineJoin: .bevel))
         }
     }
 }
