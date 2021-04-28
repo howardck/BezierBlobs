@@ -27,18 +27,18 @@ struct PageView: View {
     static let descriptions : [PageDescription] =
     [
     // CLASSIC
-        (numPoints: 88,
+        (numPoints: 20,
          n: 3.8,
          baseCurveRatio: 0.6,
          offsetRatios: (inner: 0.4, outer: 0.85), // new style
          blobLimits: (inner: 0.4, outer: 0.5), false),
         
     // CIRCLE
-        (numPoints: 22,
+        (numPoints: 10,
          n: 2.0,
          baseCurveRatio: 0.75,
          //offsetRatios: (inner: 0.35, outer: 0.9),
-         offsetRatios: (inner: 0.2, outer: 1.0),
+         offsetRatios: (inner: 0.3, outer: 1.0),
          blobLimits: (inner: 0.5, outer: 0.8),
          forceEqualAxes: true),
 
@@ -61,8 +61,8 @@ struct PageView: View {
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
     
-    static let timerTimeIncrement : Double = 2.0
-    static let animationTimeIncrement : Double = 2.6
+    static let timerTimeIncrement : Double = 2.5
+    static let animationTimeIncrement : Double = 3.2
     static let timerInitialTimeIncrement : Double = 0.0
     
     @State var showLayersList = false
