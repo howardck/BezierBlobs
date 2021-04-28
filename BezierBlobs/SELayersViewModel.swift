@@ -77,7 +77,7 @@ enum LayerType : String {
     case blob_markers = "all vertex markers"
     
     case baseCurve = "baseCurve"
-    case baseCurve_markers = "base-curve markers"
+    case baseCurve_markers = "basecurve markers"
     case offsetsEnvelope = "offsets"
     case normals = "normals"
     case zigZags_with_markers = "zig-zags"

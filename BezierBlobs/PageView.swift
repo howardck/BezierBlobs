@@ -16,8 +16,8 @@ enum PageType : String {
 
 typealias PageDescription = (numPoints: Int,
                              n: Double,
-                             baseCurveRatio: Double,
-                             offsetRatios: (inner: CGFloat, outer: CGFloat),
+                             relativeBaseCurve: Double,
+                             relativeOffsets: (inner: CGFloat, outer: CGFloat),
                              blobLimits: BlobPerturbationLimits,
                              forceEqualAxes: Bool)
 struct PageView: View {
@@ -26,34 +26,33 @@ struct PageView: View {
     
     static let descriptions : [PageDescription] =
     [
-    // CLASSIC
-        (numPoints: 20,
+    // CLASSIC SE
+        (numPoints: 34,
          n: 3.8,
-         baseCurveRatio: 0.6,
-         offsetRatios: (inner: 0.4, outer: 0.85), // new style
-         blobLimits: (inner: 0.4, outer: 0.5), false),
+         relativeBaseCurve: 0.6,
+         relativeOffsets: (inner: 0.5, outer: 0.8),
+         blobLimits: (inner: 0.6, outer: 0.8), false),
         
     // CIRCLE
         (numPoints: 10,
          n: 2.0,
-         baseCurveRatio: 0.75,
-         //offsetRatios: (inner: 0.35, outer: 0.9),
-         offsetRatios: (inner: 0.3, outer: 1.0),
+         relativeBaseCurve: 0.75,
+         relativeOffsets: (inner: 0.3, outer: 1.0),
          blobLimits: (inner: 0.5, outer: 0.8),
          forceEqualAxes: true),
 
     // DELTA WING
         (numPoints: 6,
          n: 3,
-         baseCurveRatio: 0.6,
-         offsetRatios: (inner: 0.15, outer: 0.95),
+         relativeBaseCurve: 0.6,
+         relativeOffsets: (inner: 0.15, outer: 0.95),
          blobLimits: (inner: 0.0, outer: 0.0), false),
         
     // MUTANT MOTH
         (numPoints: 24,
          n: 1,
-         baseCurveRatio: 0.6,
-         offsetRatios: (inner: 0.5, outer: 0.9),
+         relativeBaseCurve: 0.6,
+         relativeOffsets: (inner: 0.5, outer: 0.9),
          blobLimits: (inner: 3.0, outer: 0.4), false)
     ]
             
@@ -62,7 +61,9 @@ struct PageView: View {
     @EnvironmentObject var options : MiscOptionsModel
     
     static let timerTimeIncrement : Double = 2.5
-    static let animationTimeIncrement : Double = 3.2
+    static let animationTimeIncrement : Double = 2.5
+//  static let animationTimeIncrement : Double = 3.2
+    
     static let timerInitialTimeIncrement : Double = 0.0
     
     @State var showLayersList = false
@@ -94,11 +95,11 @@ struct PageView: View {
         let b = Double(size.height/2)
         let minAxis = CGFloat(min(a, b))
         
-        let baseCurveRatio = pageDesc.baseCurveRatio
+        let baseCurveRatio = pageDesc.relativeBaseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
         
-        model.offsets = (inner: (minAxis * pageDesc.offsetRatios.inner) - baseCurve,
-                         outer: (minAxis * pageDesc.offsetRatios.outer) - baseCurve)
+        model.offsets = (inner: (minAxis * pageDesc.relativeOffsets.inner) - baseCurve,
+                         outer: (minAxis * pageDesc.relativeOffsets.outer) - baseCurve)
         
         model.calculateSuperEllipseCurvesFamily(for: pageType,
                                                 pageDescription: pageDesc,

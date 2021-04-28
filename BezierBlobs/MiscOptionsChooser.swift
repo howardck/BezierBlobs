@@ -68,11 +68,11 @@ struct MiscOptionsChooser: View {
             Section(header: Text("driving the tap-driven highway").textCase(.uppercase)
                         .foregroundColor(sectionHeaderTextColor)) {
                 VStack {
-                    bulletedTextItem(text: "tap main screen to dismiss this dialog")
-                    bulletedTextItem(text: "tap x1 to start animating")
-                    bulletedTextItem(text: "tap x1 to stop animating")
-                    bulletedTextItem(text: "tap x2 to revert to original shape")
-                    bulletedTextItem(text: "rinse and repeat")
+                    bulletedTextItem(text: "tap screen to dismiss dialogs")
+                    bulletedTextItem(text: "tap 1x to start animating")
+                    bulletedTextItem(text: "tap 1x to stop animating")
+                    bulletedTextItem(text: "tap 2x to revert to original shape")
+                    bulletedTextItem(text: "rinse & repeat")
                 }
             }
         }

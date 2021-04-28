@@ -58,33 +58,33 @@ struct ContentView: View {
                         }
                 }
                 
-                PageView(pageType: PageType.circle,
-                         pageDesc: PageView.descriptions[1],
-                         size: gr.size)
-
-                    .onAppear{ print("PageView.onAppear(PageType.CIRCLE)\n" +
-                                     "         Platform { \(ps.name) }")}
-
-                    .tabItem {
-                        Image(systemName: "2.circle.fill")
-                        Text("\(PageType.circle.rawValue)")
-                    }
-                
-                PageView(pageType: PageType.deltaWing,
-                         pageDesc: PageView.descriptions[2],
-                         size: gr.size)
-                    .tabItem {
-                        Image(systemName: "3.circle.fill")
-                        Text("\(PageType.deltaWing.rawValue)" )
-                    }
-
-                PageView(pageType: PageType.mutantMoth,
-                         pageDesc: PageView.descriptions[3],
-                         size: gr.size)
-                    .tabItem {
-                        Image(systemName: "4.circle.fill");
-                        Text("\(PageType.mutantMoth.rawValue)" )
-                    }
+//                PageView(pageType: PageType.circle,
+//                         pageDesc: PageView.descriptions[1],
+//                         size: gr.size)
+//
+//                    .onAppear{ print("PageView.onAppear(PageType.CIRCLE)\n" +
+//                                     "         Platform { \(ps.name) }")}
+//
+//                    .tabItem {
+//                        Image(systemName: "2.circle.fill")
+//                        Text("\(PageType.circle.rawValue)")
+//                    }
+//                
+//                PageView(pageType: PageType.deltaWing,
+//                         pageDesc: PageView.descriptions[2],
+//                         size: gr.size)
+//                    .tabItem {
+//                        Image(systemName: "3.circle.fill")
+//                        Text("\(PageType.deltaWing.rawValue)" )
+//                    }
+//
+//                PageView(pageType: PageType.mutantMoth,
+//                         pageDesc: PageView.descriptions[3],
+//                         size: gr.size)
+//                    .tabItem {
+//                        Image(systemName: "4.circle.fill");
+//                        Text("\(PageType.mutantMoth.rawValue)" )
+//                    }
             }
         }
     }

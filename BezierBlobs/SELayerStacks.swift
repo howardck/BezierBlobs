@@ -84,15 +84,13 @@ struct AnimatingBlob_Stroked: View {
         ZStack {
             SuperEllipse(curve: curve,
                          smoothed: isSmoothed)
-                
                 .stroke(Color.init(white: 0.15),
-                        style: StrokeStyle(lineWidth: 12, lineJoin: .bevel))
+                        style: StrokeStyle(lineWidth: 12, lineJoin: .round))
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
-                
-                .stroke(Color.white, style: StrokeStyle(lineWidth: 0.5, lineJoin: .bevel))
+                .stroke(Color.white, style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
         }
     }
 }
