@@ -16,9 +16,13 @@ enum PageType : String {
 
 typealias PageDescription = (numPoints: Int,
                              n: Double,
-                             relativeBaseCurve: Double,
-                             relativeOffsets: (inner: CGFloat, outer: CGFloat),
+                             axisRelativeOffsets: (inner: CGFloat,
+                                                   baseCurve: Double,
+                                                   outer: CGFloat),
+                             
+
                              blobLimits: BlobPerturbationLimits,
+                             
                              forceEqualAxes: Bool)
 struct PageView: View {
         
@@ -29,31 +33,31 @@ struct PageView: View {
     // CLASSIC SE
         (numPoints: 34,
          n: 3.8,
-         relativeBaseCurve: 0.6,
-         relativeOffsets: (inner: 0.5, outer: 0.8),
+         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
+
          blobLimits: (inner: 0.6, outer: 0.8), false),
         
     // CIRCLE
         (numPoints: 10,
          n: 2.0,
-         relativeBaseCurve: 0.75,
-         relativeOffsets: (inner: 0.3, outer: 1.0),
-         blobLimits: (inner: 0.5, outer: 0.8),
+         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.75, outer: 0.9),
+
+         blobLimits: (inner: 0.6, outer: 0.8),
          forceEqualAxes: true),
 
     // DELTA WING
         (numPoints: 6,
          n: 3,
-         relativeBaseCurve: 0.6,
-         relativeOffsets: (inner: 0.15, outer: 0.95),
+         axisRelativeOffsets: (inner: 0.15, baseCurve: 0.6, outer: 0.95),
+
          blobLimits: (inner: 0.0, outer: 0.0), false),
         
     // MUTANT MOTH
         (numPoints: 24,
          n: 1,
-         relativeBaseCurve: 0.6,
-         relativeOffsets: (inner: 0.5, outer: 0.9),
-         blobLimits: (inner: 3.0, outer: 0.4), false)
+         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.9),
+
+         blobLimits: (inner: 3.0, outer: 0.8), false)
     ]
             
     @ObservedObject var model = Model()
@@ -95,11 +99,11 @@ struct PageView: View {
         let b = Double(size.height/2)
         let minAxis = CGFloat(min(a, b))
         
-        let baseCurveRatio = pageDesc.relativeBaseCurve
+        let baseCurveRatio = pageDesc.axisRelativeOffsets.baseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
         
-        model.offsets = (inner: (minAxis * pageDesc.relativeOffsets.inner) - baseCurve,
-                         outer: (minAxis * pageDesc.relativeOffsets.outer) - baseCurve)
+        model.offsets = (inner: minAxis*pageDesc.axisRelativeOffsets.inner - baseCurve,
+                         outer: minAxis*pageDesc.axisRelativeOffsets.outer - baseCurve)
         
         model.calculateSuperEllipseCurvesFamily(for: pageType,
                                                 pageDescription: pageDesc,

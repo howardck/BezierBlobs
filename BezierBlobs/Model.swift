@@ -29,7 +29,7 @@ class Model: ObservableObject {
     static let DEBUG_PRINT_VERTEX_NORMALS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = false
-    static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
+    static let DEBUG_ADJUST_PERTURBATION_LIMITS = false
     
     @Published var blobCurve = [CGPoint]()
          
