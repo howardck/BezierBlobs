@@ -38,7 +38,7 @@ struct PageView: View {
          blobLimits: (inner: 0.6, outer: 0.8), false),
         
     // CIRCLE
-        (numPoints: 10,
+        (numPoints: 18,
          n: 2.0,
          axisRelativeOffsets: (inner: 0.5, baseCurve: 0.75, outer: 0.9),
 
@@ -105,10 +105,15 @@ struct PageView: View {
         model.offsets = (inner: minAxis*pageDesc.axisRelativeOffsets.inner - baseCurve,
                          outer: minAxis*pageDesc.axisRelativeOffsets.outer - baseCurve)
         
+        let aAxis = Double(size.width/2)
+        let bAxis = pageDesc.forceEqualAxes ?
+                        aAxis:
+                        Double(size.height/2)
+        
         model.calculateSuperEllipseCurvesFamily(for: pageType,
                                                 pageDescription: pageDesc,
-                                                axes: (a: a * baseCurveRatio,
-                                                       b: b * baseCurveRatio)
+                                                axes: (a: aAxis * baseCurveRatio,
+                                                       b: bAxis * baseCurveRatio)
         )
     }
     
