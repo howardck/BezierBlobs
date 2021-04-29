@@ -105,6 +105,9 @@ struct PageView: View {
         model.offsets = (inner: minAxis*pageDesc.axisRelativeOffsets.inner - baseCurve,
                          outer: minAxis*pageDesc.axisRelativeOffsets.outer - baseCurve)
         
+        model.blobLimits = model.scaleUp(pageDesc.blobLimits,
+                                         toMatch: model.offsets)
+
         let aAxis = Double(size.width/2)
         let bAxis = pageDesc.forceEqualAxes ?
                         aAxis:

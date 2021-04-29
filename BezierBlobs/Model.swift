@@ -106,11 +106,13 @@ class Model: ObservableObject {
                                            pageDescription: PageDescription,
                                            axes: Axes) {
         self.axes = axes
+        self.numPoints = pageDescription.numPoints
+        self.pageType = pageType
         
         print("Model.calculateSuperEllipseCurvesFamily({\"\(pageType.rawValue)\"})")
 
-        massageParameters(pageType: pageType,
-                          pageDescription: pageDescription)
+//        massageParameters(pageType: pageType,
+//                          pageDescription: pageDescription)
         
         baseCurve = calculateSuperEllipse(for: numPoints,
                                           n: pageDescription.n,
@@ -118,8 +120,7 @@ class Model: ObservableObject {
         
         boundingCurves = calculateBoundingCurves(using: offsets)
         normalsCurve = calculateNormals()
-        
-        
+                
         zigZagger = ZigZagger(baseCurve: baseCurve,
                                       offsets: offsets,
                                       limits: blobLimits)
