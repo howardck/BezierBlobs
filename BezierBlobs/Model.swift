@@ -102,21 +102,21 @@ class Model: ObservableObject {
         return pLimits
     }
 
-    func calculateSuperEllipseCurvesFamily(for pageType: PageType,
-                                           pageDescription: PageDescription,
-                                           axes: Axes) {
+    //MARK:- MAIN SUPERELLIPSE
+    func calculateSuperEllipse(for pageType: PageType,
+                               pageDescription: PageDescription,
+                               axes: Axes) {
         self.axes = axes
         self.numPoints = pageDescription.numPoints
         self.pageType = pageType
-        
-        print("Model.calculateSuperEllipseCurvesFamily({\"\(pageType.rawValue)\"})")
-
-//        massageParameters(pageType: pageType,
-//                          pageDescription: pageDescription)
-        
-        baseCurve = calculateSuperEllipse(for: numPoints,
-                                          n: pageDescription.n,
-                                          with: axes)
+         
+        baseCurve = Parametrics.calculateSuperEllipse(for: numPoints,
+                                                      n: pageDescription.n,
+                                                      with: axes)
+    }
+    
+    //MARK:- SUPPORT CURVES
+    func calculateSupportCurves() {
         
         boundingCurves = calculateBoundingCurves(using: offsets)
         normalsCurve = calculateNormals()

@@ -17,7 +17,7 @@
 		3B859FEF25BB3B470033DB7A /* MainScreenLayoutTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */; };
 		3B9A048B25C7C94D0097ECC6 /* TimerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */; };
 		3BB094B925D9E42D00DE96CF /* EmojiViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB094B825D9E42D00DE96CF /* EmojiViewTest.swift */; };
-		3BB0F23D25DD70C100725800 /* SuperEllipseParametrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0F23C25DD70C100725800 /* SuperEllipseParametrics.swift */; };
+		3BB0F23D25DD70C100725800 /* Parametrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0F23C25DD70C100725800 /* Parametrics.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* MainScreenUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* MainScreenUI.swift */; };
 		3BD421C325D635650034CE7D /* NOTES.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BD421C225D635650034CE7D /* NOTES.txt */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
@@ -44,7 +44,7 @@
 		3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenLayoutTest.swift; sourceTree = "<group>"; };
 		3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTest.swift; sourceTree = "<group>"; };
 		3BB094B825D9E42D00DE96CF /* EmojiViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiViewTest.swift; sourceTree = "<group>"; };
-		3BB0F23C25DD70C100725800 /* SuperEllipseParametrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseParametrics.swift; sourceTree = "<group>"; };
+		3BB0F23C25DD70C100725800 /* Parametrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parametrics.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* MainScreenUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenUI.swift; sourceTree = "<group>"; };
 		3BD421C225D635650034CE7D /* NOTES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NOTES.txt; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,7 +111,7 @@
 				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
 				3BB48CC12581A2CD005DEBB8 /* MainScreenUI.swift */,
 				3B2A60C825DDF4E4004CF8F4 /* ZigZaggery.swift */,
-				3BB0F23C25DD70C100725800 /* SuperEllipseParametrics.swift */,
+				3BB0F23C25DD70C100725800 /* Parametrics.swift */,
 				5E57D2E1256D5CDB00D6B1C0 /* SuperEllipseShape.swift */,
 				3B779D252587CD5C00C5BC85 /* SELayerStacks.swift */,
 				3B11D73825CC73450080F72F /* SELayersViewModel.swift */,
@@ -215,7 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BB0F23D25DD70C100725800 /* SuperEllipseParametrics.swift in Sources */,
+				3BB0F23D25DD70C100725800 /* Parametrics.swift in Sources */,
 				3B11D73925CC73450080F72F /* SELayersViewModel.swift in Sources */,
 				5E57D2E4256D5CDB00D6B1C0 /* SuperEllipseShape.swift in Sources */,
 				5E57D2EC256D5D1200D6B1C0 /* CGPointVector.swift in Sources */,

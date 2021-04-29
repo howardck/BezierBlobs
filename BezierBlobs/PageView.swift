@@ -31,17 +31,17 @@ struct PageView: View {
     static let descriptions : [PageDescription] =
     [
     // CLASSIC SE
-        (numPoints: 34,
+        (numPoints: 36,
          n: 3.8,
          axisRelativeOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
 
          blobLimits: (inner: 0.6, outer: 0.8), false),
         
     // CIRCLE
-        (numPoints: 18,
+        (numPoints: 14,
          n: 2.0,
-         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.75, outer: 0.9),
-
+//         axisRelativeOffsets: (inner: 0.25, baseCurve: 0.5, outer: 1.0),
+         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.75, outer: 1.0),
          blobLimits: (inner: 0.6, outer: 0.8),
          forceEqualAxes: true),
 
@@ -95,29 +95,29 @@ struct PageView: View {
         self.pageType = pageType
         self.pageDesc = pageDesc
         
-        let a = Double(size.width/2)
-        let b = Double(size.height/2)
+        var a = Double(size.width/2)
+        var b = Double(size.height/2)
         let minAxis = CGFloat(min(a, b))
+        if pageDesc.forceEqualAxes {
+            a = Double(minAxis)
+            b = Double(minAxis)
+        }
         
         let baseCurveRatio = pageDesc.axisRelativeOffsets.baseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
         
-        model.offsets = (inner: minAxis*pageDesc.axisRelativeOffsets.inner - baseCurve,
-                         outer: minAxis*pageDesc.axisRelativeOffsets.outer - baseCurve)
+        model.offsets = (inner: minAxis * pageDesc.axisRelativeOffsets.inner - baseCurve,
+                         outer: minAxis * pageDesc.axisRelativeOffsets.outer - baseCurve)
         
         model.blobLimits = model.scaleUp(pageDesc.blobLimits,
                                          toMatch: model.offsets)
-
-        let aAxis = Double(size.width/2)
-        let bAxis = pageDesc.forceEqualAxes ?
-                        aAxis:
-                        Double(size.height/2)
         
-        model.calculateSuperEllipseCurvesFamily(for: pageType,
-                                                pageDescription: pageDesc,
-                                                axes: (a: aAxis * baseCurveRatio,
-                                                       b: bAxis * baseCurveRatio)
+        model.calculateSuperEllipse(for: pageType,
+                                    pageDescription: pageDesc,
+                                    axes: (a: a * baseCurveRatio,
+                                           b: b * baseCurveRatio)
         )
+        model.calculateSupportCurves()
     }
     
     struct PageGradientBackground : View {
