@@ -156,7 +156,7 @@ class Model: ObservableObject {
     // each point generated will lie somewhere (anywhere)
     // between -offset.inner and +offset.outer
     
-    func animateToTotallyRandomOffset() {
+    func animateToRandomOffsetWithinEnvelope() {
         
         blobCurve = baseCurve.map {
             let r = CGFloat.random(in: -abs(offsets.inner)...abs(offsets.outer))

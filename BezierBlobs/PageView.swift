@@ -31,11 +31,15 @@ struct PageView: View {
     static let descriptions : [PageDescription] =
     [
     // CLASSIC SE
-        (numPoints: 36,
+//        (numPoints: 36,
+//         n: 3.8,
+//         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
+//         blobLimits: (inner: 0.6, outer: 0.8), false),
+        
+        (numPoints: 66,
          n: 3.8,
-         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
-
-         blobLimits: (inner: 0.6, outer: 0.8), false),
+         axisRelativeOffsets: (inner: 0.4, baseCurve: 0.6, outer: 1.0),
+         blobLimits: (inner: 1.2, outer: 1.0), false),
         
     // CIRCLE
         (numPoints: 14,
@@ -64,8 +68,8 @@ struct PageView: View {
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
     
-    static let timerTimeIncrement : Double = 2.5
-    static let animationTimeIncrement : Double = 2.5
+    static let timerTimeIncrement : Double = 2
+    static let animationTimeIncrement : Double = 2
 //  static let animationTimeIncrement : Double = 3.2
     
     static let timerInitialTimeIncrement : Double = 0.0
@@ -199,11 +203,11 @@ struct PageView: View {
             
             withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
             {
-                let randomDeltas = options.isSelected(optionType: .randomPerturbations)
-                model.animateToNextZigZagPhase(doRandomDeltas: randomDeltas)
+//                let randomDeltas = options.isSelected(optionType: .randomPerturbations)
+//                model.animateToNextZigZagPhase(doRandomDeltas: randomDeltas)
                 
                 //model.animateToAlternatingSemiRandomOffset()
-                //model.animateToTotallyRandomOffset()
+                model.animateToRandomOffsetWithinEnvelope()
             }
 
             if isFirstTappedCycle {
