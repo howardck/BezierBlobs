@@ -275,11 +275,13 @@ struct PageView: View {
                 else if showMiscOptionsList {
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     //let s = CGSize(width: 274, height: 300)
-                    let s = CGSize(width: 380, height: 348)
+                    let s = CGSize(width: 370, height: 460)
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     HStack {
                         ZStack {
                             MiscOptionsChooser(options: $options.options)
+                                
+                                
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }
