@@ -169,7 +169,7 @@ class Model: ObservableObject {
         if nextPhaseIsZig {
             blobCurve = baseCurve.enumerated().map {
                     $0.1.0.newPoint(atOffset: $0.0.isEven() ?
-                                        // first point in .zig curve is in the outer envelope section
+                                        // starting at somewhere in the outer envelope section
                                         CGFloat.random(in: 0...abs(offsets.outer)) :
                                         CGFloat.random(in: -abs(offsets.inner)...0),
                                     along: $0.1.1)
@@ -178,7 +178,7 @@ class Model: ObservableObject {
         else {
             blobCurve = baseCurve.enumerated().map {
                 $0.1.0.newPoint(atOffset: $0.0.isEven() ?
-                                    // first point in .zag curve is in the inner envelope section
+                                    // starting at somewhere in the inner envelope section
                                     CGFloat.random(in: -abs(offsets.inner)...0) :
                                     CGFloat.random(in: 0...abs(offsets.outer)),
                                 along: $0.1.1)

@@ -26,31 +26,42 @@ class MiscOptionsModel: ObservableObject {
         .init(type: .randomPerturbations, isSelected: true)
     ]
     
-    @Published var animationTypeOptions : [AnimationTypeOption] = [
+    @Published var perturbationOptions : [PerturbationTypeOption] = [
         
         .init(type: .randomizedZigZags, isSelected: true),
-        .init(type: .randomWithinEnvelope, isSelected: false)
+        .init(type: .randomAnywhereInEnvelope, isSelected: false)
     ]
     
     func isSelected(optionType: OptionType) -> Bool {
-        options.filter{ $0.type == optionType && $0.isSelected }.count == 1
+        options.filter{
+            $0.type == optionType && $0.isSelected }.count == 1
+    }
+    
+    func isSelected(perturbationType: PerturbationType) -> Bool {
+        perturbationOptions.filter{
+            $0.type == perturbationType && $0.isSelected }.count == 1
     }
 }
 
-enum AnimationType : String {
-    case randomizedZigZags = "randomized zig-zags"
-    case randomWithinEnvelope = "random w/in offsets envelope"
+enum PerturbationType : String {
+    case randomizedZigZags = "randomized alternating zig-zags"
+    case randomAnywhereInEnvelope = "random anywhere in envelope"
 }
 
-struct AnimationTypeOption {
-    var type : AnimationType
+struct PerturbationTypeOption {
+    var type : PerturbationType
     var isSelected: Bool
 }
 
-struct AnimationTypeRow : View {
-    var animationTypeOption : AnimationTypeOption
+struct PerturbationTypeRow : View {
+    var perturbationOption : PerturbationTypeOption
     var body : some View {
-        Text("I'm an animation type row")
+        HStack {
+            CheckBox(checked: perturbationOption.isSelected)
+            Spacer()
+            Text(perturbationOption.type.rawValue)
+                .frame(width: 360, height: 0, alignment: .leading)
+        }
     }
 }
 
@@ -69,7 +80,7 @@ struct OptionRow : View {
 struct MiscOptionsChooser: View {
     
     @Binding var options : [Option]
-    //@Binding var animationOptions : [AnimationTypeOption]
+    @Binding var perturbationOptions : [PerturbationTypeOption]
     
     var body: some View {
         let sectionHeaderTextColor = Color.init(white: 0.1)
@@ -82,22 +93,23 @@ struct MiscOptionsChooser: View {
                     OptionRow(option: option)
                         .onTapGesture {
                             if let tappedItem = options.firstIndex (
-                                where: {$0.type == option.type})
-                            {
+                                where: { $0.type == option.type} ) {
                                 options[tappedItem].isSelected.toggle()
                             }
                         }
                 }
             }
-            Section(header: Text("animation types")) {
-//                Color.yellow
-//                    .frame(width: 200, height: 40)
-                List() {
-                    Text("1")
-                    Text("2")
-                    Text("3")
-                }
-                .frame(width: 200, height: 200)
+            
+            Section(header: Text("perturbation type if random")
+                .foregroundColor(sectionHeaderTextColor)) {
+
+                PerturbationTypeRow(perturbationOption: PerturbationTypeOption(type: .randomizedZigZags,
+                                                                          isSelected: false))
+                PerturbationTypeRow(perturbationOption: PerturbationTypeOption(type: .randomAnywhereInEnvelope,
+                                                                          isSelected: true))
+//                    Text("1")
+//                    Text("2")
+//                    Text("3")
             }
             
             Section(header: Text("driving the tap-driven highway")
@@ -118,9 +130,10 @@ struct MiscOptionsChooser: View {
     func bulletedTextItem(text: String) -> some View {
         HStack {
             Image(systemName: "circle.fill")
-                .scaleEffect(0.6)
-                .foregroundColor(Color.init(white: 0.4))
-            Spacer(minLength: 2)
+                .scaleEffect(0.5)
+                .foregroundColor(.green)
+                //.foregroundColor(Color.init(white: 0.4))
+            Spacer(minLength: 6)
             Text(text)
                 .foregroundColor(.black)
                 .frame(width: 360, height: 30, alignment: .leading)

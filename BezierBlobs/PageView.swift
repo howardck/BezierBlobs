@@ -19,10 +19,7 @@ typealias PageDescription = (numPoints: Int,
                              axisRelativeOffsets: (inner: CGFloat,
                                                    baseCurve: Double,
                                                    outer: CGFloat),
-                             
-
                              blobLimits: BlobPerturbationLimits,
-                             
                              forceEqualAxes: Bool)
 struct PageView: View {
         
@@ -31,20 +28,30 @@ struct PageView: View {
     static let descriptions : [PageDescription] =
     [
     // CLASSIC SE
+        
+        // NOTA: THIS ONE IS GOOD FOR .randomizedZigZags
+        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //        (numPoints: 36,
 //         n: 3.8,
 //         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
-//         blobLimits: (inner: 0.6, outer: 0.8), false),
+//         blobLimits: (inner: 1.0, outer: 0.8), false),
         
+        // THIS ONE IS GOOD FOR .randomWithinEnvelope
+        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         (numPoints: 66,
          n: 3.8,
          axisRelativeOffsets: (inner: 0.4, baseCurve: 0.6, outer: 1.0),
          blobLimits: (inner: 1.2, outer: 1.0), false),
-        
+//
     // CIRCLE
-        (numPoints: 14,
+//        (numPoints: 14,
+//         n: 2.0,
+//         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.75, outer: 1.0),
+//         blobLimits: (inner: 0.6, outer: 0.8),
+//         forceEqualAxes: true),
+//
+        (numPoints: 30,
          n: 2.0,
-//         axisRelativeOffsets: (inner: 0.25, baseCurve: 0.5, outer: 1.0),
          axisRelativeOffsets: (inner: 0.5, baseCurve: 0.75, outer: 1.0),
          blobLimits: (inner: 0.6, outer: 0.8),
          forceEqualAxes: true),
@@ -67,10 +74,18 @@ struct PageView: View {
     @ObservedObject var model = Model()
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
+        
+    // lots of room to play w/ the relative time
+    // increments, as well as the animation curves.
     
-    static let timerTimeIncrement : Double = 2
-    static let animationTimeIncrement : Double = 2
+    // if the timer increment is larger than the
+    // animation increment, we get a pause between cycles
+    static let timerTimeIncrement : Double = 3
+    static let animationTimeIncrement : Double = 2.5
 //  static let animationTimeIncrement : Double = 3.2
+    
+    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
+//    static let animationStyle = Animation.easeInOut(duration: PageView.animationTimeIncrement)
     
     static let timerInitialTimeIncrement : Double = 0.0
     
@@ -142,8 +157,8 @@ struct PageView: View {
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
-            // this 1st one uses an @Environment-injected layers
-            // object for its .isVisible boolean, just for fun
+            // just for fun this one uses an @Environment-injected
+            // layers object internally to acesss .isVisible
             AnimatingBlob_Filled(curve: model.blobCurve,
                                  layerType: .blob_filled)
             
@@ -201,12 +216,12 @@ struct PageView: View {
         //MARK: onReceive()
         .onReceive(timer) { _ in
             
-            withAnimation(Animation.easeOut(duration: PageView.animationTimeIncrement))
+            withAnimation(PageView.animationStyle)
             {
 //                let randomDeltas = options.isSelected(optionType: .randomPerturbations)
 //                model.animateToNextZigZagPhase(doRandomDeltas: randomDeltas)
-                
-                //model.animateToAlternatingSemiRandomOffset()
+//
+//                model.animateToAlternatingSemiRandomOffset()
                 model.animateToRandomOffsetWithinEnvelope()
             }
 
@@ -275,11 +290,12 @@ struct PageView: View {
                 else if showMiscOptionsList {
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     //let s = CGSize(width: 274, height: 300)
-                    let s = CGSize(width: 370, height: 460)
+                    let s = CGSize(width: 354, height: 490)
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     HStack {
                         ZStack {
-                            MiscOptionsChooser(options: $options.options)
+                            MiscOptionsChooser(options: $options.options,
+                                               perturbationOptions: $options.perturbationOptions)
                                 
                                 
                                 .frame(width: s.width, height: s.height)
