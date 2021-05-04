@@ -290,12 +290,14 @@ struct PageView: View {
                 else if showMiscOptionsList {
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     //let s = CGSize(width: 274, height: 300)
-                    let s = CGSize(width: 354, height: 490)
+                    let s = CGSize(width: 350, height: 540)
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     HStack {
                         ZStack {
-                            MiscOptionsChooser(options: $options.options,
-                                               perturbationOptions: $options.perturbationOptions)
+                            MiscOptionsChooser(
+                                smoothed: $options.smoothed,
+                                options: $options.options,
+                                perturbationOptions: $options.perturbationOptions)
                                 
                                 
                                 .frame(width: s.width, height: s.height)

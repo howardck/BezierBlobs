@@ -20,9 +20,11 @@ struct Option {
 
 class MiscOptionsModel: ObservableObject {
     
+    @Published var smoothed = true
+    
     @Published var options : [Option] = [
 
-        .init(type: .smoothed, isSelected: true),
+        //.init(type: .smoothed, isSelected: true),
         .init(type: .randomPerturbations, isSelected: true)
     ]
     
@@ -44,7 +46,7 @@ class MiscOptionsModel: ObservableObject {
 }
 
 enum PerturbationType : String {
-    case randomizedZigZags = "randomized alternating zig-zags"
+    case randomizedZigZags = "alternating zig-zags"
     case randomAnywhereInEnvelope = "random anywhere in envelope"
 }
 
@@ -66,18 +68,21 @@ struct PerturbationTypeRow : View {
 }
 
 struct OptionRow : View {
-    var option : Option
+    var isSelected: Bool
+    var text : String
     var body: some View {
         HStack {
-            CheckBox(checked: option.isSelected)
+            CheckBox(checked: isSelected)
             Spacer()
-            Text(option.type.rawValue)
+            Text(text)
                 .frame(width: 360, height: 0, alignment: .leading)
         }
     }
 }
 
 struct MiscOptionsChooser: View {
+    
+    @Binding var smoothed : Bool
     
     @Binding var options : [Option]
     @Binding var perturbationOptions : [PerturbationTypeOption]
@@ -86,11 +91,19 @@ struct MiscOptionsChooser: View {
         let sectionHeaderTextColor = Color.init(white: 0.1)
         
         List {
-            Section(header: Text("misc options")
+            
+            Section(header: Text("miscellaneous")) {
+                OptionRow(isSelected: smoothed, text: "smoothed")
+                    .onTapGesture {
+                        smoothed.toggle()
+                    }
+            }
+
+            Section(header: Text("miscellaneous")
                 .foregroundColor(sectionHeaderTextColor)) {
                 
                 ForEach(options, id: \.type) { option in
-                    OptionRow(option: option)
+                    OptionRow(isSelected: option.isSelected, text: option.type.rawValue)
                         .onTapGesture {
                             if let tappedItem = options.firstIndex (
                                 where: { $0.type == option.type} ) {
@@ -100,43 +113,47 @@ struct MiscOptionsChooser: View {
                 }
             }
             
-            Section(header: Text("perturbation type if random")
+            Section(header: Text("perturbation type")
                 .foregroundColor(sectionHeaderTextColor)) {
 
-                PerturbationTypeRow(perturbationOption: PerturbationTypeOption(type: .randomizedZigZags,
-                                                                          isSelected: false))
-                PerturbationTypeRow(perturbationOption: PerturbationTypeOption(type: .randomAnywhereInEnvelope,
-                                                                          isSelected: true))
-//                    Text("1")
-//                    Text("2")
-//                    Text("3")
+                PerturbationTypeRow(perturbationOption:
+                                        PerturbationTypeOption(type: .randomizedZigZags,
+                                                               isSelected: false))
+                    .onTapGesture(count: 1) {
+                        print("Tapped 'Perturbation: alternating zigZags'")
+                        
+                    }
+                PerturbationTypeRow(perturbationOption:
+                                        PerturbationTypeOption(type: .randomAnywhereInEnvelope,
+                                                               isSelected: true))
+                    .onTapGesture(count: 1) {
+                        print("Tapped 'Perturbation: random anywhere in envelope'")
+                    }
             }
             
             Section(header: Text("driving the tap-driven highway")
                         .foregroundColor(sectionHeaderTextColor)) {
                 VStack {
-                    bulletedTextItem(text: "tap screen to dismiss this dialog")
-                    bulletedTextItem(text: "tap 1x to start animating")
-                    bulletedTextItem(text: "tap 1x to stop animating")
-                    bulletedTextItem(text: "tap 2x to revert to original shape")
-                    bulletedTextItem(text: "rinse & repeat")
+                    bulletedTextItem(text: "tap screen to dismiss dialog.")
+                    bulletedTextItem(text: "tap 1x to start animating.")
+                    bulletedTextItem(text: "tap 1x to stop animating.")
+                    bulletedTextItem(text: "tap 2x to revert to original shape.")
+                    bulletedTextItem(text: "rinse & repeat.")
                 }
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .environment(\.defaultMinListRowHeight, 40)
+        .environment(\.defaultMinListRowHeight, 34)
     }
     
     func bulletedTextItem(text: String) -> some View {
-        HStack {
-            Image(systemName: "circle.fill")
-                .scaleEffect(0.5)
-                .foregroundColor(.green)
-                //.foregroundColor(Color.init(white: 0.4))
-            Spacer(minLength: 6)
+        HStack(alignment: .center){
+            Image(systemName: "diamond.fill")
+                .scaleEffect(0.7)
+                .foregroundColor(.yellow)
+            Spacer(minLength: 4)
             Text(text)
-                .foregroundColor(.black)
-                .frame(width: 360, height: 30, alignment: .leading)
+                .frame(width: 360, height: 34, alignment: .leading)
         }
     }
 }

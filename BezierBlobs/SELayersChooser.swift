@@ -45,7 +45,7 @@ struct SELayersChooser: View {
                 DEBUG_printLayerVisibilityFlags()
             }
         }
-        .environment(\.defaultMinListRowHeight, 40)
+        .environment(\.defaultMinListRowHeight, 34)
     }
     
     func rows(in section: SectionType) -> some View {
