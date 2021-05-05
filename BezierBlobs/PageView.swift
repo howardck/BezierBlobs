@@ -81,11 +81,11 @@ struct PageView: View {
     // if the timer increment is larger than the
     // animation increment, we get a pause between cycles
     static let timerTimeIncrement : Double = 3
-    static let animationTimeIncrement : Double = 2.5
+    static let animationTimeIncrement : Double = 2.75
 //  static let animationTimeIncrement : Double = 3.2
     
-    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
-//    static let animationStyle = Animation.easeInOut(duration: PageView.animationTimeIncrement)
+//    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
+    static let animationStyle = Animation.easeInOut(duration: PageView.animationTimeIncrement)
     
     static let timerInitialTimeIncrement : Double = 0.0
     
@@ -200,7 +200,8 @@ struct PageView: View {
                 }
             }
         }
-        /*
+        /*  a rather interesting bug:
+         
             the view PageGradientBackground() will work in a .background(),
             but all the other remaining views in the PageView.body are
             conditioned, and if all are set to false the PageView "crashes"
@@ -218,11 +219,18 @@ struct PageView: View {
             
             withAnimation(PageView.animationStyle)
             {
-//                let randomDeltas = options.isSelected(optionType: .randomPerturbations)
-//                model.animateToNextZigZagPhase(doRandomDeltas: randomDeltas)
-//
+                if options.isSelected(perturbationType: .staticZigZags) {
+                    model.animateToNextZigZagPhase(doRandomDeltas: false)
+                }
+                else if options.isSelected(perturbationType: .randomizedZigZags) {
+                    model.animateToNextZigZagPhase(doRandomDeltas: true)
+                }
+                else {
+                    // .randomAnywhereInEnvelope
+                    model.animateToRandomOffsetWithinEnvelope()
+                }
 //                model.animateToAlternatingSemiRandomOffset()
-                model.animateToRandomOffsetWithinEnvelope()
+                //model.animateToRandomOffsetWithinEnvelope()
             }
 
             if isFirstTappedCycle {
@@ -290,13 +298,12 @@ struct PageView: View {
                 else if showMiscOptionsList {
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     //let s = CGSize(width: 274, height: 300)
-                    let s = CGSize(width: 350, height: 540)
+                    let s = CGSize(width: 350, height: 486)
                     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     HStack {
                         ZStack {
                             MiscOptionsChooser(
                                 smoothed: $options.smoothed,
-                                options: $options.options,
                                 perturbationOptions: $options.perturbationOptions)
                                 
                                 

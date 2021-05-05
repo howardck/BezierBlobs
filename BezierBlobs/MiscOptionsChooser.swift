@@ -8,37 +8,17 @@
 import Combine
 import SwiftUI
 
-enum OptionType : String {
-    case smoothed = "smoothed"
-    case randomPerturbations = "random perturbations"
-}
-
-struct Option {
-    var type : OptionType
-    var isSelected : Bool
-}
-
 class MiscOptionsModel: ObservableObject {
     
     @Published var smoothed = true
-    @Published var options : [Option] = [
-
-        //.init(type: .smoothed, isSelected: true),
-        .init(type: .randomPerturbations, isSelected: true)
-    ]
-    
+    @Published var currPerturbationOption = PerturbationType.randomizedZigZags
     @Published var perturbationOptions : [PerturbationTypeOption] = [
         
-        .init(type: .staticZigZags, isSelected: true),
-        .init(type: .randomizedZigZags, isSelected: false),
+        .init(type: .staticZigZags, isSelected: false),
+        .init(type: .randomizedZigZags, isSelected: true),
         .init(type: .randomAnywhereInEnvelope, isSelected: false)
     ]
-    
-    func isSelected(optionType: OptionType) -> Bool {
-        options.filter{
-            $0.type == optionType && $0.isSelected }.count == 1
-    }
-    
+
     func isSelected(perturbationType: PerturbationType) -> Bool {
         perturbationOptions.filter{
             $0.type == perturbationType && $0.isSelected }.count == 1
@@ -46,8 +26,8 @@ class MiscOptionsModel: ObservableObject {
 }
 
 enum PerturbationType : String {
-    case staticZigZags = "alternating zig-zags"
-    case randomizedZigZags = "alternating randomized zig-zags"
+    case staticZigZags = "static zig-zags"
+    case randomizedZigZags = "randomized zig-zags"
     case randomAnywhereInEnvelope = "random anywhere in envelope"
 }
 
@@ -84,8 +64,6 @@ struct OptionRow : View {
 struct MiscOptionsChooser: View {
     
     @Binding var smoothed : Bool
-    
-    @Binding var options : [Option]
     @Binding var perturbationOptions : [PerturbationTypeOption]
     
     var body: some View {
@@ -93,47 +71,27 @@ struct MiscOptionsChooser: View {
         
         List {
             
-            Section(header: Text("miscellaneous")) {
+            Section(header: Text("miscellaneous & sundry")) {
                 OptionRow(isSelected: smoothed, text: "smoothed")
                     .onTapGesture {
                         smoothed.toggle()
                     }
             }
-
-            Section(header: Text("miscellaneous")
-                .foregroundColor(sectionHeaderTextColor)) {
-                
-                ForEach(options, id: \.type) { option in
-                    OptionRow(isSelected: option.isSelected, text: option.type.rawValue)
-                        .onTapGesture {
-                            if let tappedItem = options.firstIndex (
-                                where: { $0.type == option.type} ) {
-                                options[tappedItem].isSelected.toggle()
-                            }
-                        }
-                }
-            }
             
             Section(header: Text("perturbation type")
                 .foregroundColor(sectionHeaderTextColor)) {
                 
-                ForEach(perturbationOptions, id: \.type) { option in
-                    PerturbationTypeRow(perturbationOption: option)
-                }
-
-//                PerturbationTypeRow(perturbationOption:
-//                                        PerturbationTypeOption(type: .randomizedZigZags,
-//                                                               isSelected: false))
-//                    .onTapGesture(count: 1) {
-//                        print("Tapped 'Perturbation: alternating zigZags'")
-//
-//                    }
-//                PerturbationTypeRow(perturbationOption:
-//                                        PerturbationTypeOption(type: .randomAnywhereInEnvelope,
-//                                                               isSelected: true))
-//                    .onTapGesture(count: 1) {
-//                        print("Tapped 'Perturbation: random anywhere in envelope'")
-//                    }
+                ForEach(perturbationOptions, id: \.type) { perturbationOption in
+                    PerturbationTypeRow(perturbationOption: perturbationOption)
+                        .onTapGesture {
+                            if let tappedItem = perturbationOptions.firstIndex (
+                                where: { $0.type.rawValue == perturbationOption.type.rawValue} )
+                            {
+                                showHideAllOptions(show: false)
+                                perturbationOptions[tappedItem].isSelected = true
+                                
+                            }
+                        }}
             }
             
             Section(header: Text("driving the tap-driven highway")
@@ -149,6 +107,12 @@ struct MiscOptionsChooser: View {
         }
         .listStyle(InsetGroupedListStyle())
         .environment(\.defaultMinListRowHeight, 34)
+    }
+    
+    func showHideAllOptions(show: Bool) {
+        for ix in 0..<perturbationOptions.count {
+            perturbationOptions[ix].isSelected = show ? true : false
+        }
     }
     
     func bulletedTextItem(_ text: String) -> some View {

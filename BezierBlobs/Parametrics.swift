@@ -47,7 +47,7 @@ struct Parametrics {
             let hypotenuse = hypot(dX, dY)
             let normal = CGVector(dx: dX/hypotenuse, dy: dY/hypotenuse)
             
-            // proving that our normal is a unit vector: dx*dx + dy*dy = 1
+            // showing that our normal is a unit vector: dx*dx + dy*dy = 1
             //print("dx: \(  (normal.dx).format(fspec: "4.4"))  dy: \((normal.dx).format(fspec: "4.4")) ")
             //print("HYPO: \(  ((normal.dx * normal.dx) + (normal.dy * normal.dy) ).format(fspec: "4.4"))")
 

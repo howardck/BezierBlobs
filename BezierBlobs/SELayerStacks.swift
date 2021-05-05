@@ -20,11 +20,11 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .blue, radius: r + 2),
-    .vertexOrigin :     (color: .green, radius : r + 2),
-    .envelopeBounds :   (color: .black, radius: 8),
+    .blob :             (color: .red, radius: r + 2),
+    .vertexOrigin :     (color: .yellow, radius : r + 2),
+    .envelopeBounds :   (color: .black, radius: r/2.0),
     .baseCurve :        (color: .white, radius: r + 2),
-    .zig :              (color: .red, radius : r - 3),
+    .zig :              (color: .green, radius : r - 3),
     .zag :              (color: .yellow, radius: r - 3)
 ]
 
@@ -58,6 +58,7 @@ struct AnimatingBlob_Filled: View {
             ZStack {
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
+                                // prior way of doing things
                                 // options.isSelected(optionType: .smoothed))
                     .fill(gradient)
                 SuperEllipse(curve: curve,
@@ -86,12 +87,15 @@ struct AnimatingBlob_Stroked: View {
         ZStack {
             SuperEllipse(curve: curve,
                          smoothed: isSmoothed)
-                .stroke(Color.init(white: 0.15),
-                        style: StrokeStyle(lineWidth: 12, lineJoin: .round))
+                .stroke(Color.blue,
+                        style: StrokeStyle(lineWidth: 8, lineJoin: .round))
+            
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
-                .stroke(Color.white, style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
+                .stroke(Color.init(white: 0.85),
+                        //style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 1.5, lineJoin: .round))
         }
     }
 }
@@ -201,25 +205,24 @@ struct EnvelopeBounds : View {
     var style : MarkerStyle
     
     let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-    let color = Color.init(white: 0.15)
     
     var body: some View {
         
         ZStack {
             SuperEllipse(curve: curves.inner)
-                .stroke(color, style: strokeStyle)
+                .stroke(style.color, style: strokeStyle)
             SuperEllipse(curve: curves.outer)
-                .stroke(color, style: strokeStyle)
+                .stroke(style.color, style: strokeStyle)
             
     // markers at the inner and outer ends of our normals.
     // these are duplicated in the struct NormalsPlusMarkers{}
             SuperEllipse(curve: curves.inner,
                          bezierType: .markers(radius: style.radius))
-                .fill(Color.black)
+                .fill(style.color)
             
             SuperEllipse(curve: curves.outer,
                          bezierType: .markers(radius: style.radius))
-                .fill(Color.black)
+                .fill(style.color)
         }
     }
 }
@@ -239,7 +242,7 @@ struct ZigZags : View {
             
     // ZIG
             SuperEllipse(curve: curves.zig)
-                .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0, dash: [4,3]))
+                .stroke(Color.green, style: StrokeStyle(lineWidth: 2.0, dash: [4,3]))
             if ZigZags.SHOW_SMOOTHED_CURVES_TOO
             {
                 SuperEllipse(curve: curves.zig,
@@ -248,7 +251,7 @@ struct ZigZags : View {
                 
                 SuperEllipse(curve: curves.zig,
                              smoothed: true)
-                    .stroke(Color.red, style: StrokeStyle(lineWidth: 1.5))
+                    .stroke(Color.green, style: StrokeStyle(lineWidth: 1.5))
             }
     // ZAG
             SuperEllipse(curve: curves.zag)
