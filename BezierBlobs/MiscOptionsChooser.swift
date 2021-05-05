@@ -21,7 +21,6 @@ struct Option {
 class MiscOptionsModel: ObservableObject {
     
     @Published var smoothed = true
-    
     @Published var options : [Option] = [
 
         //.init(type: .smoothed, isSelected: true),
@@ -30,7 +29,8 @@ class MiscOptionsModel: ObservableObject {
     
     @Published var perturbationOptions : [PerturbationTypeOption] = [
         
-        .init(type: .randomizedZigZags, isSelected: true),
+        .init(type: .staticZigZags, isSelected: true),
+        .init(type: .randomizedZigZags, isSelected: false),
         .init(type: .randomAnywhereInEnvelope, isSelected: false)
     ]
     
@@ -46,7 +46,8 @@ class MiscOptionsModel: ObservableObject {
 }
 
 enum PerturbationType : String {
-    case randomizedZigZags = "alternating zig-zags"
+    case staticZigZags = "alternating zig-zags"
+    case randomizedZigZags = "alternating randomized zig-zags"
     case randomAnywhereInEnvelope = "random anywhere in envelope"
 }
 
@@ -115,30 +116,34 @@ struct MiscOptionsChooser: View {
             
             Section(header: Text("perturbation type")
                 .foregroundColor(sectionHeaderTextColor)) {
+                
+                ForEach(perturbationOptions, id: \.type) { option in
+                    PerturbationTypeRow(perturbationOption: option)
+                }
 
-                PerturbationTypeRow(perturbationOption:
-                                        PerturbationTypeOption(type: .randomizedZigZags,
-                                                               isSelected: false))
-                    .onTapGesture(count: 1) {
-                        print("Tapped 'Perturbation: alternating zigZags'")
-                        
-                    }
-                PerturbationTypeRow(perturbationOption:
-                                        PerturbationTypeOption(type: .randomAnywhereInEnvelope,
-                                                               isSelected: true))
-                    .onTapGesture(count: 1) {
-                        print("Tapped 'Perturbation: random anywhere in envelope'")
-                    }
+//                PerturbationTypeRow(perturbationOption:
+//                                        PerturbationTypeOption(type: .randomizedZigZags,
+//                                                               isSelected: false))
+//                    .onTapGesture(count: 1) {
+//                        print("Tapped 'Perturbation: alternating zigZags'")
+//
+//                    }
+//                PerturbationTypeRow(perturbationOption:
+//                                        PerturbationTypeOption(type: .randomAnywhereInEnvelope,
+//                                                               isSelected: true))
+//                    .onTapGesture(count: 1) {
+//                        print("Tapped 'Perturbation: random anywhere in envelope'")
+//                    }
             }
             
             Section(header: Text("driving the tap-driven highway")
                         .foregroundColor(sectionHeaderTextColor)) {
                 VStack {
-                    bulletedTextItem(text: "tap screen to dismiss dialog.")
-                    bulletedTextItem(text: "tap 1x to start animating.")
-                    bulletedTextItem(text: "tap 1x to stop animating.")
-                    bulletedTextItem(text: "tap 2x to revert to original shape.")
-                    bulletedTextItem(text: "rinse & repeat.")
+                    bulletedTextItem("tap screen to dismiss dialog.")
+                    bulletedTextItem("tap 1x to start animating.")
+                    bulletedTextItem("tap 1x to stop animating.")
+                    bulletedTextItem("tap 2x to revert to original shape.")
+                    bulletedTextItem("rinse & repeat.")
                 }
             }
         }
@@ -146,7 +151,7 @@ struct MiscOptionsChooser: View {
         .environment(\.defaultMinListRowHeight, 34)
     }
     
-    func bulletedTextItem(text: String) -> some View {
+    func bulletedTextItem(_ text: String) -> some View {
         HStack(alignment: .center){
             Image(systemName: "diamond.fill")
                 .scaleEffect(0.7)
