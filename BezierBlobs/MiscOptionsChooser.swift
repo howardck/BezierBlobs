@@ -71,7 +71,7 @@ struct MiscOptionsChooser: View {
         
         List {
             
-            Section(header: Text("miscellaneous & sundry")) {
+            Section(header: Text("miscellaneous")) {
                 OptionRow(isSelected: smoothed, text: "smoothed")
                     .onTapGesture {
                         smoothed.toggle()
@@ -83,13 +83,14 @@ struct MiscOptionsChooser: View {
                 
                 ForEach(perturbationOptions, id: \.type) { perturbationOption in
                     PerturbationTypeRow(perturbationOption: perturbationOption)
+                        // quick & dirty radio buttons
                         .onTapGesture {
                             if let tappedItem = perturbationOptions.firstIndex (
                                 where: { $0.type.rawValue == perturbationOption.type.rawValue} )
                             {
                                 showHideAllOptions(show: false)
                                 perturbationOptions[tappedItem].isSelected = true
-                                
+
                             }
                         }}
             }

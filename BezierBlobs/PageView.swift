@@ -31,17 +31,17 @@ struct PageView: View {
         
         // NOTA: THIS ONE IS GOOD FOR .randomizedZigZags
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//        (numPoints: 36,
-//         n: 3.8,
-//         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
-//         blobLimits: (inner: 1.0, outer: 0.8), false),
+        (numPoints: 36,
+         n: 3.8,
+         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
+         blobLimits: (inner: 1.0, outer: 0.8), false),
         
         // THIS ONE IS GOOD FOR .randomWithinEnvelope
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        (numPoints: 66,
-         n: 3.8,
-         axisRelativeOffsets: (inner: 0.4, baseCurve: 0.6, outer: 1.0),
-         blobLimits: (inner: 1.2, outer: 1.0), false),
+//        (numPoints: 66,
+//         n: 3.8,
+//         axisRelativeOffsets: (inner: 0.4, baseCurve: 0.6, outer: 1.0),
+//         blobLimits: (inner: 1.2, outer: 1.0), false),
 //
     // CIRCLE
 //        (numPoints: 14,
@@ -226,11 +226,9 @@ struct PageView: View {
                     model.animateToNextZigZagPhase(doRandomDeltas: true)
                 }
                 else {
-                    // .randomAnywhereInEnvelope
                     model.animateToRandomOffsetWithinEnvelope()
                 }
 //                model.animateToAlternatingSemiRandomOffset()
-                //model.animateToRandomOffsetWithinEnvelope()
             }
 
             if isFirstTappedCycle {
@@ -296,17 +294,14 @@ struct PageView: View {
                     }
                 }
                 else if showMiscOptionsList {
-                    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                    //let s = CGSize(width: 274, height: 300)
+                    // ------------------------------------
                     let s = CGSize(width: 350, height: 486)
-                    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                    // ------------------------------------
                     HStack {
                         ZStack {
                             MiscOptionsChooser(
                                 smoothed: $options.smoothed,
                                 perturbationOptions: $options.perturbationOptions)
-                                
-                                
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }

@@ -75,14 +75,16 @@ struct TwoButtonPanel : View {
     @Binding var showLayersList : Bool
     @Binding var showMiscOptionsList : Bool
     
-    var edgeOffset = CGSize(width: 1, height: 1)
+    var edgeOffset = CGSize(width: -1.5, height: -1.5)
+    let faceColor = Color.blue//Color.init(white: 0.2)
+    let highlightColor = Color.white
     
     var body: some View {
         HStack {
             Spacer()
-            
-            LayersSelectionListButton(faceColor: .blue,
-                                      edgeColor: .orange,
+        
+            LayersSelectionListButton(faceColor: faceColor,
+                                      edgeColor: highlightColor,
                                       edgeOffset: edgeOffset)
                 .onTapGesture {
                     showLayersList.toggle()
@@ -90,8 +92,8 @@ struct TwoButtonPanel : View {
             Spacer()
             
             MiscOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
-                                  faceColor: .blue,
-                                  edgeColor: .orange,
+                                  faceColor: faceColor,
+                                  edgeColor: highlightColor,
                                   edgeOffset: edgeOffset)
                 .onTapGesture {
                     showMiscOptionsList.toggle()

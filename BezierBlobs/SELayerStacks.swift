@@ -20,11 +20,11 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 
 let r: CGFloat = 14
 let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .red, radius: r + 2),
-    .vertexOrigin :     (color: .yellow, radius : r + 2),
+    .blob :             (color: .blue, radius: r + 2),
+    .vertexOrigin :     (color: .green, radius : r + 2),
     .envelopeBounds :   (color: .black, radius: r/2.0),
     .baseCurve :        (color: .white, radius: r + 2),
-    .zig :              (color: .green, radius : r - 3),
+    .zig :              (color: .red, radius : r - 3),
     .zag :              (color: .yellow, radius: r - 3)
 ]
 
@@ -87,15 +87,15 @@ struct AnimatingBlob_Stroked: View {
         ZStack {
             SuperEllipse(curve: curve,
                          smoothed: isSmoothed)
-                .stroke(Color.blue,
-                        style: StrokeStyle(lineWidth: 8, lineJoin: .round))
+                .stroke(Color.black,
+                        style: StrokeStyle(lineWidth: 6, lineJoin: .round))
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
                 .stroke(Color.init(white: 0.85),
                         //style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
-                        style: StrokeStyle(lineWidth: 1.5, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
         }
     }
 }
@@ -242,7 +242,7 @@ struct ZigZags : View {
             
     // ZIG
             SuperEllipse(curve: curves.zig)
-                .stroke(Color.green, style: StrokeStyle(lineWidth: 2.0, dash: [4,3]))
+                .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0, dash: [4,3]))
             if ZigZags.SHOW_SMOOTHED_CURVES_TOO
             {
                 SuperEllipse(curve: curves.zig,
@@ -251,7 +251,7 @@ struct ZigZags : View {
                 
                 SuperEllipse(curve: curves.zig,
                              smoothed: true)
-                    .stroke(Color.green, style: StrokeStyle(lineWidth: 1.5))
+                    .stroke(Color.red, style: StrokeStyle(lineWidth: 1.5))
             }
     // ZAG
             SuperEllipse(curve: curves.zag)

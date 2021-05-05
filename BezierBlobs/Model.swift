@@ -41,6 +41,8 @@ class Model: ObservableObject {
     var doRandomDeltas = true
             
     // MARK:-
+    var pageDescription: PageDescription!
+    
     var baseCurve : BaseCurvePairs = [(CGPoint, CGVector)]()
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
@@ -106,6 +108,8 @@ class Model: ObservableObject {
     func calculateSuperEllipse(for pageType: PageType,
                                pageDescription: PageDescription,
                                axes: Axes) {
+        self.pageDescription = pageDescription
+        
         self.axes = axes
         self.numPoints = pageDescription.numPoints
         self.pageType = pageType
@@ -113,6 +117,15 @@ class Model: ObservableObject {
         baseCurve = Parametrics.calculateSuperEllipse(for: numPoints,
                                                       n: pageDescription.n,
                                                       with: axes)
+    }
+    
+    func recalculateFor(newNumPoints: Int) {
+        
+        self.numPoints = newNumPoints
+        baseCurve = Parametrics.calculateSuperEllipse(for: self.numPoints,
+                                                      n: self.pageDescription.n,
+                                                      with: self.axes)
+        calculateSupportCurves()
     }
     
     //MARK:- SUPPORT CURVES
