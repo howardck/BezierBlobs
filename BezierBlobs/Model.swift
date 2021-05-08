@@ -181,7 +181,7 @@ class Model: ObservableObject {
         }
     }
     
-    func animateToRandomOffsetInAlternatingQuadrants() {
+    func animateToRandomOffsetsInAlternatingQuadrants() {
         
         blobCurve = nextPhaseIsZig ?
             animateToOffsets(offsets.outer, offsets.inner) :

@@ -1,5 +1,5 @@
 //
-//  MainScreenUI.swift
+//  OtherScreenUI.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2020-12-09.
@@ -77,7 +77,7 @@ struct TwoButtonPanel : View {
     
     var edgeOffset = CGSize(width: -1.5, height: -1.5)
     let faceColor = Color.blue//Color.init(white: 0.2)
-    let highlightColor = Color.white
+    let highlightColor = Color.orange
     
     var body: some View {
         HStack {

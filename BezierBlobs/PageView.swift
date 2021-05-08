@@ -245,15 +245,17 @@ struct PageView: View {
         //MARK: onTapGesture(2)
         .onTapGesture(count: 2) {
             
-            model.recalculateFor(newNumPoints: model.numPoints * 2)
+            // testing how to update model & pages when new PageDesc changes
+            // the number of points, if/when we implement that feature
+            //model.recalculateFor(newNumPoints: model.numPoints * 2)
             
-//            withAnimation(Animation.easeInOut(duration: 0.6))
-//            {
-//                isAnimating = false
-//                timer.connect().cancel()
-//                
-//                model.returnToInitialConfiguration()
-//            }
+            withAnimation(Animation.easeInOut(duration: 0.6))
+            {
+                isAnimating = false
+                timer.connect().cancel()
+                
+                model.returnToInitialConfiguration()
+            }
         }
         
         //MARK: onTagGesture(1)
