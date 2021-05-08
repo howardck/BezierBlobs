@@ -32,6 +32,7 @@ class Model: ObservableObject {
     static let DEBUG_ADJUST_PERTURBATION_LIMITS = false
     
     @Published var blobCurve = [CGPoint]()
+    @Published var numPoints: Int = 0
          
     // at vertex 0:
     // zig configuration: green vertex[0] marker moves to the outside
@@ -48,7 +49,6 @@ class Model: ObservableObject {
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
     var normalsCurve : [CGPoint] = [CGPoint]()
     var axes : Axes = (1.0, 1.0)
-    var numPoints: Int = 0
     var offsets : Offsets = (inner: 0, outer: 0)
     var pageType: PageType?
     var blobLimits : BlobPerturbationLimits = (inner: 0, outer: 0)
@@ -157,19 +157,12 @@ class Model: ObservableObject {
         if Self.DEBUG_TRACK_ZIGZAG_PHASING {
             print("Model.animateToNextZigZagPhase(). { nextPhaseIsZig = \(nextPhaseIsZig) }")
         }
-
+        
         nextPhaseIsZig.toggle()
     }
     
-    
-    func animateToSemiRandomOffset() {
-        
-    }
-    
-    // each point generated will lie somewhere (anywhere)
-    // between -offset.inner and +offset.outer
-    
-    func animateToRandomOffsetWithinEnvelope() {
+
+    func animateToRandomOffsetsAnywhereWithinEnvelope() {
         
         blobCurve = baseCurve.map {
             let r = CGFloat.random(in: -abs(offsets.inner)...abs(offsets.outer))
@@ -177,26 +170,23 @@ class Model: ObservableObject {
         }
     }
     
-    func animateToAlternatingSemiRandomOffset() {
-        
-        if nextPhaseIsZig {
-            blobCurve = baseCurve.enumerated().map {
-                    $0.1.0.newPoint(atOffset: $0.0.isEven() ?
-                                        // starting at somewhere in the outer envelope section
-                                        CGFloat.random(in: 0...abs(offsets.outer)) :
-                                        CGFloat.random(in: -abs(offsets.inner)...0),
-                                    along: $0.1.1)
-                }
-            }
-        else {
-            blobCurve = baseCurve.enumerated().map {
-                $0.1.0.newPoint(atOffset: $0.0.isEven() ?
-                                    // starting at somewhere in the inner envelope section
-                                    CGFloat.random(in: -abs(offsets.inner)...0) :
-                                    CGFloat.random(in: 0...abs(offsets.outer)),
-                                along: $0.1.1)
-            }
+    func animateToOffsets( _ evenOffsets: CGFloat,
+                           _ oddOffsets: CGFloat) -> [CGPoint]
+    {
+        baseCurve.enumerated().map {
+            $0.1.0.newPoint(atOffset: $0.0.isEven() ?
+                                CGFloat.random(in: 0...abs(evenOffsets)) :
+                                CGFloat.random(in: -abs(oddOffsets)...0),
+                            along: $0.1.1)
         }
+    }
+    
+    func animateToRandomOffsetInAlternatingQuadrants() {
+        
+        blobCurve = nextPhaseIsZig ?
+            animateToOffsets(offsets.outer, offsets.inner) :
+            animateToOffsets(offsets.inner, offsets.outer)
+        
         nextPhaseIsZig.toggle()
     }
     
@@ -207,12 +197,12 @@ class Model: ObservableObject {
             print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
         }
         blobCurve = baseCurve.map{ $0.vertex }
+        nextPhaseIsZig = true
     }
     
     func returnToInitialConfiguration() {
 
         setInitialBlobCurve()
-        nextPhaseIsZig = true
     }
     
     // MARK:- OTHER CURVES

@@ -226,9 +226,9 @@ struct PageView: View {
                     model.animateToNextZigZagPhase(doRandomDeltas: true)
                 }
                 else {
-                    model.animateToRandomOffsetWithinEnvelope()
+                    model.animateToRandomOffsetsAnywhereWithinEnvelope()
                 }
-//                model.animateToAlternatingSemiRandomOffset()
+//                model.animateToRandomOffsetInAlternateQuadrant()
             }
 
             if isFirstTappedCycle {
@@ -244,13 +244,16 @@ struct PageView: View {
         }
         //MARK: onTapGesture(2)
         .onTapGesture(count: 2) {
-            withAnimation(Animation.easeInOut(duration: 0.6))
-            {
-                isAnimating = false
-                timer.connect().cancel()
-                
-                model.returnToInitialConfiguration()
-            }
+            
+            model.recalculateFor(newNumPoints: model.numPoints * 2)
+            
+//            withAnimation(Animation.easeInOut(duration: 0.6))
+//            {
+//                isAnimating = false
+//                timer.connect().cancel()
+//                
+//                model.returnToInitialConfiguration()
+//            }
         }
         
         //MARK: onTagGesture(1)
