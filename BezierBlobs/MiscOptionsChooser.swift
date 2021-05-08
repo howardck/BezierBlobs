@@ -90,7 +90,10 @@ struct MiscOptionsChooser: View {
                             {
                                 showHideAllOptions(show: false)
                                 perturbationOptions[tappedItem].isSelected = true
-
+                                
+                                // if we have an options.currPerturationType enum
+                                // used to switched on in PageView.onReceive(),
+                                // this is likely where we'd set it, no?
                             }
                         }}
             }
