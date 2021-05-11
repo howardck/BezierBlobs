@@ -8,33 +8,6 @@
 import Combine
 import SwiftUI
 
-class MiscOptionsModel: ObservableObject {
-    
-    @Published var smoothed = true
-    @Published var currPerturbationOption = PerturbationType.randomizedZigZags
-    @Published var perturbationOptions : [PerturbationTypeOption] = [
-        
-        .init(type: .staticZigZags, isSelected: false),
-        .init(type: .randomizedZigZags, isSelected: true),
-        .init(type: .randomAnywhereInEnvelope, isSelected: false)
-    ]
-
-    func isSelected(perturbationType: PerturbationType) -> Bool {
-        perturbationOptions.filter{
-            $0.type == perturbationType && $0.isSelected }.count == 1
-    }
-}
-
-enum PerturbationType : String {
-    case staticZigZags = "static zig-zags"
-    case randomizedZigZags = "randomized zig-zags"
-    case randomAnywhereInEnvelope = "random anywhere in envelope"
-}
-
-struct PerturbationTypeOption {
-    var type : PerturbationType
-    var isSelected: Bool
-}
 
 struct PerturbationTypeRow : View {
     var perturbationOption : PerturbationTypeOption
@@ -89,7 +62,6 @@ struct MiscOptionsChooser: View {
                                 where: { $0.type.rawValue == perturbationOption.type.rawValue} )
                             {
                                 showHideAllOptions(show: false)
-                        
                                 perturbationOptions[tappedItem].isSelected = true
                                 
                                 // @@@@@@@@@@@@@@@@@@@@@@

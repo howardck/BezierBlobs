@@ -128,7 +128,6 @@ struct PageView: View {
             b = Double(minAxis)
         }
         
-        
         let baseCurveRatio = pageDesc.axisRelOffsets.baseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
         

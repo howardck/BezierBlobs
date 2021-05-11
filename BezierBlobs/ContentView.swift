@@ -38,6 +38,7 @@ struct ContentView: View {
         
     var body: some View {
         
+        // possible future experiment. see file
         let ps = PlatformSpecifics.forSizeClasses(
             vSizeClass: vClass!,
             hSizeClass: hClass!)

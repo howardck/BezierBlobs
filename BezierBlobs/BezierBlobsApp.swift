@@ -13,9 +13,11 @@ struct BezierBlobsApp: App {
     var body: some Scene {
         WindowGroup {
             
-            ContentView()
-                .environmentObject(SELayersViewModel())
-                .environmentObject(MiscOptionsModel())
+//            ContentView()
+//                .environmentObject(SELayersViewModel())
+//                .environmentObject(MiscOptionsModel())
+            
+            EnumPerturbOptions_TEST()
             
             // EmojiViewTest()
             // TimerTest()

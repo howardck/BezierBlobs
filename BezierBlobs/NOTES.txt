@@ -1,5 +1,10 @@
+
+11may2021
+    should new MiscOptionsModel.swift class be better labelled
+    MiscOptions-VIEW-Model ...??? find MVVM explainer
+
 23feb21
-    TODO: implement stewart lynch's SFSybols enum for
+    TODO: implement stewart lynch's SFSymbols enum for
     LayersSelectionList.CheckBox
 
 22feb21
