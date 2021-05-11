@@ -14,13 +14,13 @@ enum PageType : String {
     case mutantMoth = "MUTANT MOTH"
 }
 
-typealias PageDescription = (numPoints: Int,
-                             n: Double,
-                             axisRelativeOffsets: (inner: CGFloat,
-                                                   baseCurve: Double,
-                                                   outer: CGFloat),
-                             blobLimits: BlobPerturbationLimits,
-                             forceEqualAxes: Bool)
+typealias PageDescription
+                = (numPoints: Int,
+                   n: Double,
+                   axisRelOffsets: (inner: CGFloat, baseCurve: Double, outer: CGFloat),
+                   blobLimits: ZigZagDeltas,
+                   forceEqualAxes: Bool)
+
 struct PageView: View {
         
     let pageDesc: PageDescription
@@ -29,15 +29,21 @@ struct PageView: View {
     [
     // CLASSIC SE
         
-        // NOTA: THIS ONE IS GOOD FOR .randomizedZigZags
+        // NOTA: THIS ONE IS GOOD FOR (experimental at the moment)
+        //         .zigZagBased pages
+        // we do FEWER points because the arms are generally deeper
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        
         (numPoints: 36,
          n: 3.8,
-         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
+         axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
          blobLimits: (inner: 1.0, outer: 0.8), false),
         
-        // THIS ONE IS GOOD FOR .randomWithinEnvelope
+        // THIS ONE IS GOOD FOR (experimental )
+        //          .envelopeBased pages
+        // we do MORE points b/cause the arms are generally shallower
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        
 //        (numPoints: 66,
 //         n: 3.8,
 //         axisRelativeOffsets: (inner: 0.4, baseCurve: 0.6, outer: 1.0),
@@ -52,21 +58,21 @@ struct PageView: View {
 //
         (numPoints: 30,
          n: 2.0,
-         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.75, outer: 1.0),
+         axisRelOffsets: (inner: 0.5, baseCurve: 0.75, outer: 1.0),
          blobLimits: (inner: 0.6, outer: 0.8),
          forceEqualAxes: true),
 
     // DELTA WING
         (numPoints: 6,
          n: 3,
-         axisRelativeOffsets: (inner: 0.15, baseCurve: 0.6, outer: 0.95),
+         axisRelOffsets: (inner: 0.15, baseCurve: 0.6, outer: 0.95),
 
          blobLimits: (inner: 0.0, outer: 0.0), false),
         
     // MUTANT MOTH
         (numPoints: 24,
          n: 1,
-         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.9),
+         axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.9),
 
          blobLimits: (inner: 3.0, outer: 0.8), false)
     ]
@@ -122,13 +128,14 @@ struct PageView: View {
             b = Double(minAxis)
         }
         
-        let baseCurveRatio = pageDesc.axisRelativeOffsets.baseCurve
+        
+        let baseCurveRatio = pageDesc.axisRelOffsets.baseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
         
-        model.offsets = (inner: minAxis * pageDesc.axisRelativeOffsets.inner - baseCurve,
-                         outer: minAxis * pageDesc.axisRelativeOffsets.outer - baseCurve)
+        model.offsets = (inner: minAxis * pageDesc.axisRelOffsets.inner - baseCurve,
+                         outer: minAxis * pageDesc.axisRelOffsets.outer - baseCurve)
         
-        model.blobLimits = model.scaleUp(pageDesc.blobLimits,
+        model.blobLimits = model.convert(pageDesc.blobLimits,
                                          toMatch: model.offsets)
         
         model.calculateSuperEllipse(for: pageType,
@@ -157,8 +164,8 @@ struct PageView: View {
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
-            // just for fun this one uses an @Environment-injected
-            // layers object internally to acesss .isVisible
+            // (just for fun this one uses an @Environment-injected
+            // layers object internally to acesss .isVisible)
             AnimatingBlob_Filled(curve: model.blobCurve,
                                  layerType: .blob_filled)
             
@@ -216,6 +223,8 @@ struct PageView: View {
     
         //MARK: onReceive()
         .onReceive(timer) { _ in
+            
+            //TODO: -- USE AN OPTIONAL FOR options HERE
             
             withAnimation(PageView.animationStyle)
             {

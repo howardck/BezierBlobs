@@ -9,7 +9,6 @@ import SwiftUI
 
 typealias Axes = (a: Double, b: Double)
 typealias Offsets = (inner: CGFloat, outer: CGFloat)
-typealias BlobPerturbationLimits =  (inner: CGFloat, outer: CGFloat)
 
 typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
@@ -51,7 +50,7 @@ class Model: ObservableObject {
     var axes : Axes = (1.0, 1.0)
     var offsets : Offsets = (inner: 0, outer: 0)
     var pageType: PageType?
-    var blobLimits : BlobPerturbationLimits = (inner: 0, outer: 0)
+    var blobLimits : ZigZagDeltas = (inner: 0, outer: 0)
     var zigZagger : ZigZagger?
     
     var totallyRandomBlobbyCurve = [CGPoint]()
@@ -66,7 +65,7 @@ class Model: ObservableObject {
                 "axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                 "b: {\((self.axes.b).format(fspec: "6.2"))})")
 
-        self.blobLimits = scaleUp(pageDescription.blobLimits,
+        self.blobLimits = convert(pageDescription.blobLimits,
                                   toMatch: offsets)
         
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
@@ -82,8 +81,8 @@ class Model: ObservableObject {
         }
     }
         
-    func scaleUp(_ blobLimits: BlobPerturbationLimits,
-                 toMatch offsets: Offsets) -> BlobPerturbationLimits
+    func convert(_ blobLimits: ZigZagDeltas,
+                 toMatch offsets: Offsets) -> ZigZagDeltas
     {
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("Model.upscale(blobLimits)")

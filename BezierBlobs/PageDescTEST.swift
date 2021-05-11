@@ -7,66 +7,60 @@
 
 import SwiftUI
 
-typealias PageDesc_1 = (order: Double, numPoints: Int)
-typealias PageDesc_2 = (type: PerturbType, order: Double, numPoints: Int)
-typealias PageDesc_3 = (page : Int, order: Double, numPoints: Int)
+typealias OffsetsBC = (inner: CGFloat, BaseCurve: Double, outer: CGFloat)
+typealias ZigZagDeltas = (inner: CGFloat, outer: CGFloat)
 
+typealias PageDesc = (numPoints : Int, n : Double,
+                      axisRelOffsets : OffsetsBC,
+                      zzDeltas : ZigZagDeltas,
+                      forceEqualAxes : Bool)
 enum PerturbType {
-    case fixedZigZag
-    case randomZigZag
-    case randomAnywhere
+    case zigZagBased
+    case envelopeBased
 }
 
-struct Pages_3 {
-    static let pages : [[PageDesc_2]] =
+struct PageDescs {
+    static let ZZ_DELTAS_UNUSED : ZigZagDeltas = (inner: -999999, outer: -99999)
+    static let pages : [PerturbType : [PageDesc] ] =
     [
-        //  tab entries for
-        [
-            (type: .fixedZigZag, order: 1.0, numPoints: 10),
-            (type: .randomZigZag, order: 2.0, numPoints: 20)
-        ]
-    ]
-}
-struct Pages_1 {
-    static let pages : [PageDesc_2] =
-    [
-        (type : .fixedZigZag, order: 1.0, numPoints: 10),
-        (type : .fixedZigZag, order: 2.0, numPoints: 20),
-        
-        (type : .randomZigZag, order: 3.0, numPoints: 10),
-        (type : .randomZigZag, order: 4.0, numPoints: 20)
-    ]
-}
-
-struct Pages_2 {
-    static let pages_2 : [PerturbType : [PageDesc_1] ] =
-    [
-        .fixedZigZag :
+        .zigZagBased :
             [
-            (order : 1.0, numPoints : 10),
-            (order : 2.0, numPoints: 20)
+            // CLASSIC SE
+                (numPoints : 36, n : 3.8, axisRelOffsets: (inner: 0.5, BaseCurve: 0.6, outer: 0.8),
+                    zzDeltas : (inner: 1.0, outer: 0.8), false),
+            // CIRCLE
+                (numPoints : 14, n : 2.0, axisRelOffsets: (inner: 0.5, BaseCurve: 0.75, outer: 1.0),
+                    zzDeltas : (inner: 10, outer: 10), forceEqualAxes: true),
+            // DELTA WING
+                (numPoints : 6, n : 3.0, axisRelOffsets: (inner: 0.15, BaseCurve: 0.6, outer: 0.95),
+                    zzDeltas : (inner: 0.0, outer: 0.0), false), // == fixed zigZags
+            // MUTANT MOTH
+                (numPoints : 24, n : 1.0, axisRelOffsets: (inner: 0.5, BaseCurve: 0.6, outer: 0.9),
+                    zzDeltas : (inner: 10, outer: 10), false)
             ],
-        .randomZigZag :
+        .envelopeBased :
             [
-            (order : 3.0, numPoints : 30),
-            (order : 4.0, numPoints: 40)
-            ],
-        .randomAnywhere :
-            [
-            (order : 5.0, numPoints : 50),
-            (order : 6.0, numPoints: 60)
+            // CLASSIC SE
+                (numPoints : 66, n : 3.8, axisRelOffsets: (inner: 0.4, BaseCurve: 0.6, outer: 1.0),
+                    zzDeltas : PageDescs.ZZ_DELTAS_UNUSED, false),
+            // CIRCLE
+                (numPoints : 30, n : 2.0, axisRelOffsets: (inner: 0.5, BaseCurve: 0.75, outer: 1.0),
+                    zzDeltas : PageDescs.ZZ_DELTAS_UNUSED, forceEqualAxes : true),
+            // DELTA WING
+                (numPoints: 12, n : 3.0, axisRelOffsets: (inner: 0.5, BaseCurve: 0.75, outer: 1.0),
+                    zzDeltas : PageDescs.ZZ_DELTAS_UNUSED, false),
+            // MUTANT MOTH
+                (numPoints: 50, n : 1.0, axisRelOffsets: (inner: 0.4, BaseCurve: 0.5, outer: 1.1),
+                    zzDeltas : PageDescs.ZZ_DELTAS_UNUSED, false)
             ]
     ]
 }
-
 
 struct PageDescTEST: View {
     var body: some View {
         Text("Hello, World!")
     }
 }
-
-
 
 struct PageDescTEST_Previews: PreviewProvider {
     static var previews: some View {

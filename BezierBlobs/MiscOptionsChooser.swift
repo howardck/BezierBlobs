@@ -89,7 +89,12 @@ struct MiscOptionsChooser: View {
                                 where: { $0.type.rawValue == perturbationOption.type.rawValue} )
                             {
                                 showHideAllOptions(show: false)
+                        
                                 perturbationOptions[tappedItem].isSelected = true
+                                
+                                // @@@@@@@@@@@@@@@@@@@@@@
+                                print("--- Selected PerturbationType: {\(perturbationOptions[tappedItem].type)}")
+                                // @@@@@@@@@@@@@@@@@@@@@@
                                 
                                 // if we have an options.currPerturationType enum
                                 // used to switched on in PageView.onReceive(),
