@@ -108,6 +108,7 @@ struct LayerItemRow : View {
 //  Image(systemName: "checkmark.rectangle.fill")
 //  Image(systemName: "checkmark.rectangle.portrait.fill")
 //  Image(systemName: "checkmark.square.fill")
+
 struct CheckBox : View {
     var checked: Bool
     var body: some View {
