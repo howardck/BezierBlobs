@@ -21,19 +21,6 @@ struct PerturbationTypeRow : View {
     }
 }
 
-struct OptionRow : View {
-    var isSelected: Bool
-    var text : String
-    var body: some View {
-        HStack {
-            CheckBox(checked: isSelected)
-            Spacer()
-            Text(text)
-                .frame(width: 360, height: 0, alignment: .leading)
-        }
-    }
-}
-
 struct MiscOptionsChooser: View {
     
     @Binding var smoothed : Bool
@@ -45,7 +32,7 @@ struct MiscOptionsChooser: View {
         List {
             
             Section(header: Text("miscellaneous")) {
-                OptionRow(isSelected: smoothed, text: "smoothed")
+                LabeledCheckboxRow(isSelected: smoothed, text: "smoothed")
                     .onTapGesture {
                         smoothed.toggle()
                     }
@@ -108,12 +95,37 @@ struct MiscOptionsChooser: View {
     }
 }
 
-struct MiscOptionsChooserList_Previews: PreviewProvider {
+struct MiscOptionsChooser_Previews: PreviewProvider {
     static var previews: some View {
 
-        Text("SELECTED")
-            .font(.custom("courier", size: 42))
-            .fontWeight(.heavy)
-            .foregroundColor(.green)
+        let edgeOffset = CGSize(width: 1, height: 1)
+        
+        ZStack {
+            Color.init(white: 0.4)
+            VStack {
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL,
+                                         faceColor: .blue,
+                                         edgeColor: .pink,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.pink, width: 0.5)
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
+                                         faceColor: .blue,
+                                         edgeColor: .pink,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.pink, width: 0.5)
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
+                                         faceColor: .blue,
+                                         edgeColor: .orange,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.pink, width: 0.5)
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                                         faceColor: .blue,
+                                         edgeColor: .orange,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.pink, width: 0.5)
+            }
+        }
+        .scaleEffect(3.5)
+        
     }
 }

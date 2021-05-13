@@ -49,10 +49,13 @@ struct SELayersChooser: View {
     }
     
     func rows(in section: SectionType) -> some View {
+        
         let items = layers.filter { $0.section == section }
         return ForEach(items, id: \.type) { layer in
             
-            LayerItemRow(layerItem: layer)
+            LabeledCheckboxRow(isSelected: layer.visible,
+                               text: layer.type.rawValue)
+                .frame(width: 314, height: 10, alignment: .leading)
                 .onTapGesture {
                    
                     if let tappedItemIndex = layers.firstIndex(

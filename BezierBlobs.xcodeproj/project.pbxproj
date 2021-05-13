@@ -11,15 +11,15 @@
 		3B16CA4C2644B13D00B10838 /* PageDescTEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16CA4B2644B13D00B10838 /* PageDescTEST.swift */; };
 		3B2A60C925DDF4E4004CF8F4 /* ZigZaggery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2A60C825DDF4E4004CF8F4 /* ZigZaggery.swift */; };
 		3B47B469264AC92A0016E0AA /* MiscOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47B468264AC92A0016E0AA /* MiscOptionsModel.swift */; };
-		3B47B46B264ACC8C0016E0AA /* EnumListingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47B46A264ACC8C0016E0AA /* EnumListingTest.swift */; };
-		3B5A4BD425B90BB800CC5C26 /* TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */; };
+		3B47B46B264ACC8C0016E0AA /* EnumBasedListChooser_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47B46A264ACC8C0016E0AA /* EnumBasedListChooser_TEST.swift */; };
+		3B5A4BD425B90BB800CC5C26 /* TabView_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5A4BD325B90BB800CC5C26 /* TabView_TEST.swift */; };
 		3B686E032590091C00466BF5 /* SELayersChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* SELayersChooser.swift */; };
 		3B779D262587CD5C00C5BC85 /* SELayerStacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B779D252587CD5C00C5BC85 /* SELayerStacks.swift */; };
 		3B81690525D56C9A0068010B /* MiscOptionsChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */; };
-		3B82699C25D75C81002B11E4 /* MainScreenTwoButtonsTwoLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B82699B25D75C81002B11E4 /* MainScreenTwoButtonsTwoLists.swift */; };
-		3B859FEF25BB3B470033DB7A /* MainScreenLayoutTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */; };
-		3B9A048B25C7C94D0097ECC6 /* TimerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */; };
-		3BB094B925D9E42D00DE96CF /* EmojiViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB094B825D9E42D00DE96CF /* EmojiViewTest.swift */; };
+		3B82699C25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B82699B25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift */; };
+		3B859FEF25BB3B470033DB7A /* MainScreenLayout_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B859FEE25BB3B470033DB7A /* MainScreenLayout_TEST.swift */; };
+		3B9A048B25C7C94D0097ECC6 /* Timer_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A048A25C7C94D0097ECC6 /* Timer_TEST.swift */; };
+		3BB094B925D9E42D00DE96CF /* EmojiView_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB094B825D9E42D00DE96CF /* EmojiView_TEST.swift */; };
 		3BB0F23D25DD70C100725800 /* SEParametrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0F23C25DD70C100725800 /* SEParametrics.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* OtherScreenUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* OtherScreenUI.swift */; };
 		3BD421C325D635650034CE7D /* NOTES.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BD421C225D635650034CE7D /* NOTES.txt */; };
@@ -41,15 +41,15 @@
 		3B16CA4B2644B13D00B10838 /* PageDescTEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageDescTEST.swift; sourceTree = "<group>"; };
 		3B2A60C825DDF4E4004CF8F4 /* ZigZaggery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZigZaggery.swift; sourceTree = "<group>"; };
 		3B47B468264AC92A0016E0AA /* MiscOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscOptionsModel.swift; sourceTree = "<group>"; };
-		3B47B46A264ACC8C0016E0AA /* EnumListingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumListingTest.swift; sourceTree = "<group>"; };
-		3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewTest.swift; sourceTree = "<group>"; };
+		3B47B46A264ACC8C0016E0AA /* EnumBasedListChooser_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumBasedListChooser_TEST.swift; sourceTree = "<group>"; };
+		3B5A4BD325B90BB800CC5C26 /* TabView_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView_TEST.swift; sourceTree = "<group>"; };
 		3B686E022590091C00466BF5 /* SELayersChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayersChooser.swift; sourceTree = "<group>"; };
 		3B779D252587CD5C00C5BC85 /* SELayerStacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayerStacks.swift; sourceTree = "<group>"; };
 		3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscOptionsChooser.swift; sourceTree = "<group>"; };
-		3B82699B25D75C81002B11E4 /* MainScreenTwoButtonsTwoLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTwoButtonsTwoLists.swift; sourceTree = "<group>"; };
-		3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenLayoutTest.swift; sourceTree = "<group>"; };
-		3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTest.swift; sourceTree = "<group>"; };
-		3BB094B825D9E42D00DE96CF /* EmojiViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiViewTest.swift; sourceTree = "<group>"; };
+		3B82699B25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen2Buttons2Lists_TEST.swift; sourceTree = "<group>"; };
+		3B859FEE25BB3B470033DB7A /* MainScreenLayout_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenLayout_TEST.swift; sourceTree = "<group>"; };
+		3B9A048A25C7C94D0097ECC6 /* Timer_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_TEST.swift; sourceTree = "<group>"; };
+		3BB094B825D9E42D00DE96CF /* EmojiView_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView_TEST.swift; sourceTree = "<group>"; };
 		3BB0F23C25DD70C100725800 /* SEParametrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEParametrics.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* OtherScreenUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScreenUI.swift; sourceTree = "<group>"; };
 		3BD421C225D635650034CE7D /* NOTES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NOTES.txt; sourceTree = "<group>"; };
@@ -79,17 +79,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3B9A048E25C8642D0097ECC6 /* ContentView_TestAlternatives */ = {
+		3B9A048E25C8642D0097ECC6 /* ContentViewAlternative_TESTS */ = {
 			isa = PBXGroup;
 			children = (
-				3B47B46A264ACC8C0016E0AA /* EnumListingTest.swift */,
-				3BB094B825D9E42D00DE96CF /* EmojiViewTest.swift */,
-				3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */,
-				3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */,
-				3B859FEE25BB3B470033DB7A /* MainScreenLayoutTest.swift */,
-				3B82699B25D75C81002B11E4 /* MainScreenTwoButtonsTwoLists.swift */,
+				3B47B46A264ACC8C0016E0AA /* EnumBasedListChooser_TEST.swift */,
+				3BB094B825D9E42D00DE96CF /* EmojiView_TEST.swift */,
+				3B9A048A25C7C94D0097ECC6 /* Timer_TEST.swift */,
+				3B5A4BD325B90BB800CC5C26 /* TabView_TEST.swift */,
+				3B859FEE25BB3B470033DB7A /* MainScreenLayout_TEST.swift */,
+				3B82699B25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift */,
 			);
-			path = ContentView_TestAlternatives;
+			path = ContentViewAlternative_TESTS;
 			sourceTree = "<group>";
 		};
 		5E57D2A3256D5AD900D6B1C0 = {
@@ -112,8 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				3BD421C225D635650034CE7D /* NOTES.txt */,
-				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
+				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				5E57D2E0256D5CDB00D6B1C0 /* Model.swift */,
 				5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */,
 				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
@@ -127,7 +127,7 @@
 				3B686E022590091C00466BF5 /* SELayersChooser.swift */,
 				3B47B468264AC92A0016E0AA /* MiscOptionsModel.swift */,
 				3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */,
-				3B9A048E25C8642D0097ECC6 /* ContentView_TestAlternatives */,
+				3B9A048E25C8642D0097ECC6 /* ContentViewAlternative_TESTS */,
 				5E57D2E6256D5CF900D6B1C0 /* extensions */,
 				5E57D2B3256D5ADD00D6B1C0 /* Assets.xcassets */,
 				5E57D2B8256D5ADD00D6B1C0 /* Info.plist */,
@@ -228,18 +228,18 @@
 				3B11D73925CC73450080F72F /* SELayersViewModel.swift in Sources */,
 				5E57D2E4256D5CDB00D6B1C0 /* SuperEllipseShape.swift in Sources */,
 				5E57D2EC256D5D1200D6B1C0 /* CGPointVector.swift in Sources */,
-				3BB094B925D9E42D00DE96CF /* EmojiViewTest.swift in Sources */,
+				3BB094B925D9E42D00DE96CF /* EmojiView_TEST.swift in Sources */,
 				3B686E032590091C00466BF5 /* SELayersChooser.swift in Sources */,
-				3B82699C25D75C81002B11E4 /* MainScreenTwoButtonsTwoLists.swift in Sources */,
+				3B82699C25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift in Sources */,
 				5E57D2EB256D5D1200D6B1C0 /* Path+Points.swift in Sources */,
 				5E57D2E3256D5CDB00D6B1C0 /* Model.swift in Sources */,
-				3B5A4BD425B90BB800CC5C26 /* TabViewTest.swift in Sources */,
-				3B9A048B25C7C94D0097ECC6 /* TimerTest.swift in Sources */,
+				3B5A4BD425B90BB800CC5C26 /* TabView_TEST.swift in Sources */,
+				3B9A048B25C7C94D0097ECC6 /* Timer_TEST.swift in Sources */,
 				5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */,
-				3B47B46B264ACC8C0016E0AA /* EnumListingTest.swift in Sources */,
+				3B47B46B264ACC8C0016E0AA /* EnumBasedListChooser_TEST.swift in Sources */,
 				3BB48CC22581A2CD005DEBB8 /* OtherScreenUI.swift in Sources */,
 				3B16CA4C2644B13D00B10838 /* PageDescTEST.swift in Sources */,
-				3B859FEF25BB3B470033DB7A /* MainScreenLayoutTest.swift in Sources */,
+				3B859FEF25BB3B470033DB7A /* MainScreenLayout_TEST.swift in Sources */,
 				5E57D2E2256D5CDB00D6B1C0 /* PageView.swift in Sources */,
 				3B81690525D56C9A0068010B /* MiscOptionsChooser.swift in Sources */,
 				3B2A60C925DDF4E4004CF8F4 /* ZigZaggery.swift in Sources */,

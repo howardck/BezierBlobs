@@ -1,5 +1,5 @@
 //
-//  MainScreenTwoButtonsTwoLists.swift
+//  MainScreen2Buttons2Lists_TEST.swift
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-02-12.
@@ -20,7 +20,7 @@ struct PageView_2 : View {
     
     var body : some View {
         
-         Text("I am God!")
+         Text("I am HE!")
             
             .overlay(
                 VStack {
@@ -33,8 +33,6 @@ struct PageView_2 : View {
                         
                         if showLayerSelectionList {
                             ZStack {
-                                //LayerSelectionList(listItems: $superEllipseLayers)
-                                
                                 List {
                                     Section(header: Text("range 123")) {
                                         ForEach( range123 ) { i in Text("\(i)") }
@@ -84,10 +82,10 @@ struct DrawingAndLayeringButtons : View {
         
         var body: some View {
             HStack {
-                MiscOptionsListButton(iconName: PencilSymbol.PENCIL,
-                                       faceColor: .blue,
-                                       edgeColor: .orange,
-                                       edgeOffset: edgeOffset)
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL,
+                                         faceColor: .blue,
+                                         edgeColor: .orange,
+                                         edgeOffset: edgeOffset)
                     .onTapGesture {
                         print("DrawingOptions Button tapped")
                         showDrawingOptionsList.toggle()
@@ -134,8 +132,42 @@ struct LayerSelectionListButton_2 : View {
     }
 }
 
+//struct MainScreenTwoButtonsTwoLists_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainScreenTwoButtonsTwoLists()
+//    }
+//}
+
 struct MainScreenTwoButtonsTwoLists_Previews: PreviewProvider {
     static var previews: some View {
-        MainScreenTwoButtonsTwoLists()
+
+        let edgeOffset = CGSize(width: 1, height: 1)
+
+        ZStack {
+            Color.init(white: 0.4)
+            VStack {
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL,
+                                         faceColor: .blue,
+                                         edgeColor: .pink,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.pink, width: 0.5)
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
+                                         faceColor: .blue,
+                                         edgeColor: .pink,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.pink, width: 0.5)
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
+                                         faceColor: .blue,
+                                         edgeColor: .orange,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.pink, width: 0.5)
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                                         faceColor: .blue,
+                                         edgeColor: .orange,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.pink, width: 0.5)
+            }
+        }
+        .scaleEffect(3.5)
     }
 }

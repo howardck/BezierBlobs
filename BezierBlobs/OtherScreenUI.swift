@@ -75,26 +75,26 @@ struct TwoButtonPanel : View {
     @Binding var showLayersList : Bool
     @Binding var showMiscOptionsList : Bool
     
-    var edgeOffset = CGSize(width: -1.5, height: -1.5)
-    let faceColor = Color.blue//Color.init(white: 0.2)
-    let highlightColor = Color.orange
+    var edgeOffset = CGSize(width: 1, height: 1)
+    let faceColor = Color.blue
+    let edgeColor = Color.red
     
     var body: some View {
         HStack {
             Spacer()
         
-            LayersSelectionListButton(faceColor: faceColor,
-                                      edgeColor: highlightColor,
-                                      edgeOffset: edgeOffset)
+            SELayersChooserButton(faceColor: faceColor,
+                                  edgeColor: edgeColor,
+                                  edgeOffset: edgeOffset)
                 .onTapGesture {
                     showLayersList.toggle()
                 }
             Spacer()
             
-            MiscOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
-                                  faceColor: faceColor,
-                                  edgeColor: highlightColor,
-                                  edgeOffset: edgeOffset)
+            MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                                     faceColor: faceColor,
+                                     edgeColor: edgeColor,
+                                     edgeOffset: edgeOffset)
                 .onTapGesture {
                     showMiscOptionsList.toggle()
                 }
@@ -104,8 +104,22 @@ struct TwoButtonPanel : View {
     }
 }
 
+struct LabeledCheckboxRow : View {
+    var isSelected: Bool
+    var text : String
+    
+    var body: some View {
+        HStack {
+            CheckBox(checked: isSelected)
+            Spacer()
+            Text(text)
+                .frame(width: 360, height: 0, alignment: .leading)
+        }
+    }
+}
+
 //MARK:-
-struct MiscOptionsListButton : View {
+struct MiscOptionsChooserButton : View {
     
     var iconName: String
     var faceColor: Color
@@ -119,8 +133,10 @@ struct MiscOptionsListButton : View {
             // the highlight
             PencilSymbolView(name: iconName, color: edgeColor, size: s)
                 .offset(edgeOffset)
-            // and then the face
+
+            //  and then the face
             PencilSymbolView(name: iconName, color: faceColor, size: s)
+            
         }
     }
 }
@@ -138,7 +154,7 @@ struct LayerStackSymbol: View {
 }
 
 //MARK:-
-struct LayersSelectionListButton : View {
+struct SELayersChooserButton : View {
     var faceColor: Color
     var edgeColor: Color
     var edgeOffset: CGSize
@@ -147,7 +163,7 @@ struct LayersSelectionListButton : View {
     
     var body : some View {
         ZStack {
-            // the base (or edge) on the bottom
+            // base (ie edge) on the bottom
             LayerStackSymbol(color: edgeColor, size: s)
                 .offset(edgeOffset)
             // and then the face
@@ -165,36 +181,36 @@ struct PencilSymbol {
 }
 
 //MARK:-
-struct ScreenButtons_Previews: PreviewProvider {
-    static var previews: some View {
-        
-        let edgeOffset = CGSize(width: 1, height: 1)
-        
-        ZStack {
-            Color.init(white: 0.4)
-            VStack {
-                MiscOptionsListButton(iconName: PencilSymbol.PENCIL,
-                                          faceColor: .blue,
-                                          edgeColor: .pink,
-                                          edgeOffset: edgeOffset)
-                    .border(Color.pink, width: 0.5)
-                MiscOptionsListButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
-                                          faceColor: .blue,
-                                          edgeColor: .pink,
-                                          edgeOffset: edgeOffset)
-                    .border(Color.pink, width: 0.5)
-                MiscOptionsListButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
-                                          faceColor: .blue,
-                                          edgeColor: .orange,
-                                          edgeOffset: edgeOffset)
-                    .border(Color.pink, width: 0.5)
-                MiscOptionsListButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
-                                          faceColor: .blue,
-                                          edgeColor: .orange,
-                                          edgeOffset: edgeOffset)
-                    .border(Color.pink, width: 0.5)
-            }
-        }
-        .scaleEffect(3.5)
-    }
-}
+//struct ScreenButtons_Previews: PreviewProvider {
+//    static var previews: some View {
+//        
+//        let edgeOffset = CGSize(width: 1, height: 1)
+//        
+//        ZStack {
+//            Color.init(white: 0.4)
+//            VStack {
+//                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL,
+//                                         faceColor: .blue,
+//                                         edgeColor: .pink,
+//                                         edgeOffset: edgeOffset)
+//                    .border(Color.pink, width: 0.5)
+//                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
+//                                         faceColor: .blue,
+//                                         edgeColor: .pink,
+//                                         edgeOffset: edgeOffset)
+//                    .border(Color.pink, width: 0.5)
+//                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
+//                                         faceColor: .blue,
+//                                         edgeColor: .orange,
+//                                         edgeOffset: edgeOffset)
+//                    .border(Color.pink, width: 0.5)
+//                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+//                                         faceColor: .blue,
+//                                         edgeColor: .orange,
+//                                         edgeOffset: edgeOffset)
+//                    .border(Color.pink, width: 0.5)
+//            }
+//        }
+//        .scaleEffect(3.5)
+//    }
+//}

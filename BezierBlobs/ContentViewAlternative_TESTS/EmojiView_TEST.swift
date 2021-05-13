@@ -1,7 +1,9 @@
 //
-//  EmojiViewTest.swift
+//  EmojiView_TEST.swift
 //  BezierBlobs
-// https://stackoverflow.com/questions/38809425/convert-apple-emoji-string-to-uiimage
+//
+//  see
+//  https://stackoverflow.com/questions/38809425/convert-apple-emoji-string-to-uiimage
 
 //  Created by Howard Katz on 2021-02-14.
 //
