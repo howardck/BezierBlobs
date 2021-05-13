@@ -11,7 +11,7 @@
 		3B16CA4C2644B13D00B10838 /* PageDescTEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16CA4B2644B13D00B10838 /* PageDescTEST.swift */; };
 		3B2A60C925DDF4E4004CF8F4 /* ZigZaggery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2A60C825DDF4E4004CF8F4 /* ZigZaggery.swift */; };
 		3B47B469264AC92A0016E0AA /* MiscOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47B468264AC92A0016E0AA /* MiscOptionsModel.swift */; };
-		3B47B46B264ACC8C0016E0AA /* EnumPerturbOptions_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47B46A264ACC8C0016E0AA /* EnumPerturbOptions_TEST.swift */; };
+		3B47B46B264ACC8C0016E0AA /* EnumListingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47B46A264ACC8C0016E0AA /* EnumListingTest.swift */; };
 		3B5A4BD425B90BB800CC5C26 /* TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */; };
 		3B686E032590091C00466BF5 /* SELayersChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* SELayersChooser.swift */; };
 		3B779D262587CD5C00C5BC85 /* SELayerStacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B779D252587CD5C00C5BC85 /* SELayerStacks.swift */; };
@@ -41,7 +41,7 @@
 		3B16CA4B2644B13D00B10838 /* PageDescTEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageDescTEST.swift; sourceTree = "<group>"; };
 		3B2A60C825DDF4E4004CF8F4 /* ZigZaggery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZigZaggery.swift; sourceTree = "<group>"; };
 		3B47B468264AC92A0016E0AA /* MiscOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscOptionsModel.swift; sourceTree = "<group>"; };
-		3B47B46A264ACC8C0016E0AA /* EnumPerturbOptions_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumPerturbOptions_TEST.swift; sourceTree = "<group>"; };
+		3B47B46A264ACC8C0016E0AA /* EnumListingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumListingTest.swift; sourceTree = "<group>"; };
 		3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewTest.swift; sourceTree = "<group>"; };
 		3B686E022590091C00466BF5 /* SELayersChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayersChooser.swift; sourceTree = "<group>"; };
 		3B779D252587CD5C00C5BC85 /* SELayerStacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayerStacks.swift; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 		3B9A048E25C8642D0097ECC6 /* ContentView_TestAlternatives */ = {
 			isa = PBXGroup;
 			children = (
-				3B47B46A264ACC8C0016E0AA /* EnumPerturbOptions_TEST.swift */,
+				3B47B46A264ACC8C0016E0AA /* EnumListingTest.swift */,
 				3BB094B825D9E42D00DE96CF /* EmojiViewTest.swift */,
 				3B9A048A25C7C94D0097ECC6 /* TimerTest.swift */,
 				3B5A4BD325B90BB800CC5C26 /* TabViewTest.swift */,
@@ -236,7 +236,7 @@
 				3B5A4BD425B90BB800CC5C26 /* TabViewTest.swift in Sources */,
 				3B9A048B25C7C94D0097ECC6 /* TimerTest.swift in Sources */,
 				5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */,
-				3B47B46B264ACC8C0016E0AA /* EnumPerturbOptions_TEST.swift in Sources */,
+				3B47B46B264ACC8C0016E0AA /* EnumListingTest.swift in Sources */,
 				3BB48CC22581A2CD005DEBB8 /* OtherScreenUI.swift in Sources */,
 				3B16CA4C2644B13D00B10838 /* PageDescTEST.swift in Sources */,
 				3B859FEF25BB3B470033DB7A /* MainScreenLayoutTest.swift in Sources */,

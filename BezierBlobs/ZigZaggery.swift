@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 
+typealias ZigZagDeltas = (inner: CGFloat, outer: CGFloat)
+
 struct ZigZagger {
     
     let baseCurve : BaseCurvePairs

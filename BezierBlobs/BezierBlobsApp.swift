@@ -17,7 +17,7 @@ struct BezierBlobsApp: App {
 //                .environmentObject(SELayersViewModel())
 //                .environmentObject(MiscOptionsModel())
             
-            EnumPerturbOptions_TEST()
+            ListTesterView()
             
             // EmojiViewTest()
             // TimerTest()

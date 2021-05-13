@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-typealias OffsetsBC = (inner: CGFloat, BaseCurve: Double, outer: CGFloat)
-typealias ZigZagDeltas = (inner: CGFloat, outer: CGFloat)
+typealias RelativeOffsets = (inner: CGFloat, BaseCurve: Double, outer: CGFloat)
+typealias ZigZagRandomDeltas = (inner: CGFloat, outer: CGFloat)
 
 typealias PageDesc = (numPoints : Int, n : Double,
-                      axisRelOffsets : OffsetsBC,
-                      zzDeltas : ZigZagDeltas,
+                      axisRelOffsets : RelativeOffsets,
+                      zzDeltas : ZigZagRandomDeltas,
                       forceEqualAxes : Bool)
 enum PerturbType {
     case zigZagBased
@@ -20,7 +20,7 @@ enum PerturbType {
 }
 
 struct PageDescs {
-    static let ZZ_DELTAS_UNUSED : ZigZagDeltas = (inner: -999999, outer: -99999)
+    static let ZZ_DELTAS_UNUSED : ZigZagRandomDeltas = (inner: -999999, outer: -99999)
     static let pages : [PerturbType : [PageDesc] ] =
     [
         .zigZagBased :
