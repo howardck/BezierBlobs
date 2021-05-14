@@ -255,7 +255,7 @@ struct PageView: View {
             
             // testing how to update model & pages when new PageDesc changes
             // the number of points, if/when we implement that feature
-            //model.recalculateFor(newNumPoints: model.numPoints * 2)
+            model.recalculateFor(newNumPoints: model.numPoints * 2)
             
             withAnimation(Animation.easeInOut(duration: 0.6))
             {
