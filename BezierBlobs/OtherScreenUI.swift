@@ -104,6 +104,25 @@ struct TwoButtonPanel : View {
     }
 }
 
+//  Image(systemName: "checkmark.rectangle.fill")
+//  Image(systemName: "checkmark.rectangle.portrait.fill")
+//  Image(systemName: "checkmark.square.fill")
+
+struct CheckBox : View {
+    var checked: Bool
+    var body: some View {
+        ZStack {
+            Image(systemName: "rectangle.portrait")
+                .font(.title3).foregroundColor(.gray)
+            if checked {
+                Image(systemName: "checkmark.rectangle.portrait.fill")
+                    .font(.headline) .foregroundColor(.green)
+            }
+        }
+    }
+}
+
+//MARK:-
 struct LabeledCheckboxRow : View {
     var isSelected: Bool
     var text : String
@@ -181,36 +200,36 @@ struct PencilSymbol {
 }
 
 //MARK:-
-//struct ScreenButtons_Previews: PreviewProvider {
-//    static var previews: some View {
-//        
-//        let edgeOffset = CGSize(width: 1, height: 1)
-//        
-//        ZStack {
-//            Color.init(white: 0.4)
-//            VStack {
-//                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL,
-//                                         faceColor: .blue,
-//                                         edgeColor: .pink,
-//                                         edgeOffset: edgeOffset)
-//                    .border(Color.pink, width: 0.5)
-//                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
-//                                         faceColor: .blue,
-//                                         edgeColor: .pink,
-//                                         edgeOffset: edgeOffset)
-//                    .border(Color.pink, width: 0.5)
-//                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
-//                                         faceColor: .blue,
-//                                         edgeColor: .orange,
-//                                         edgeOffset: edgeOffset)
-//                    .border(Color.pink, width: 0.5)
-//                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
-//                                         faceColor: .blue,
-//                                         edgeColor: .orange,
-//                                         edgeOffset: edgeOffset)
-//                    .border(Color.pink, width: 0.5)
-//            }
-//        }
-//        .scaleEffect(3.5)
-//    }
-//}
+struct ScreenButtons_Previews: PreviewProvider {
+    static var previews: some View {
+        
+        let edgeOffset = CGSize(width: 1, height: 1)
+        
+        ZStack {
+            Color.init(white: 0.4)
+            VStack {
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL,
+                                         faceColor: .blue,
+                                         edgeColor: .pink,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.black, width: 0.25)
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
+                                         faceColor: .blue,
+                                         edgeColor: .pink,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.black, width: 0.25)
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
+                                         faceColor: .blue,
+                                         edgeColor: .orange,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.white, width: 0.25)
+                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                                         faceColor: .blue,
+                                         edgeColor: .orange,
+                                         edgeOffset: edgeOffset)
+                    .border(Color.white, width: 0.25)
+            }
+        }
+        .scaleEffect(3.5)
+    }
+}

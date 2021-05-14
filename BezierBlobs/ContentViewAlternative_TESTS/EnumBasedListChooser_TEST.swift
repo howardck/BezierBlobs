@@ -14,8 +14,7 @@ enum TestPerturbationType : String, Equatable, CaseIterable {
     case randomAnywhereInEnvelope = "random anywhere in envelope"
 }
 
-class EnumBasedListModel : ObservableObject {
-
+class EnumBasedListModel : ObservableObject  {
     @Published var currPerturbationType : TestPerturbationType = .randomAnywhereInEnvelope
 }
 
@@ -24,10 +23,10 @@ struct EnumBasedListChooser : View {
     @ObservedObject var model = EnumBasedListModel()
     var body : some View {
         
-        Text("UI for Selecting an Item from an enum").font(.title)
+        Text("UI for selecting a choice from an enum").font(.title)
             .padding(10)
         ListChooserView(selection: $model.currPerturbationType)
-            .frame(width: 360, height: 200)
+            .frame(width: 350, height: 190)
     }
 }
 
@@ -47,9 +46,7 @@ struct ListChooserView : View {
                     }
             }
         }
-        .border(Color.gray, width: 2)
-//        .onAppear {
-//            print("currSelection: \"\(selection.rawValue)\"")
-//        }
+        .padding(4)
+        .border(Color.black, width: 0.4)
     }
 }

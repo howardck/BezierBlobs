@@ -108,24 +108,6 @@ struct LayerItemRow : View {
     }
 }
 
-//  Image(systemName: "checkmark.rectangle.fill")
-//  Image(systemName: "checkmark.rectangle.portrait.fill")
-//  Image(systemName: "checkmark.square.fill")
-
-struct CheckBox : View {
-    var checked: Bool
-    var body: some View {
-        ZStack {
-            Image(systemName: "rectangle.portrait")
-                .font(.title3).foregroundColor(.gray)
-            if checked {
-                Image(systemName: "checkmark.rectangle.portrait.fill")
-                    .font(.headline) .foregroundColor(.green)
-            }
-        }
-    }
-}
-
 //struct LayersSelectionList_Previews: PreviewProvider {
 //    static var previews: some View {
 //        SuperEllipseLayerStacksSelectionList()
