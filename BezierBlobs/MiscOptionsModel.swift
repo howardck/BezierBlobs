@@ -14,6 +14,13 @@ enum PerturbationType : String {
     case randomAnywhereInEnvelope = "random anywhere in envelope"
 }
 
+enum NEW_PerturbationType : String, Equatable, CaseIterable {
+    case staticZigZags = "fixed zig-zags"
+    case randomizedZigZags = "randomized alternating zig-zags"
+    case randomAnywhereInHalfEnvelope = "random alternating in half-envelope"
+    case randomAnywhereInEnvelope = "random anywhere in envelope"
+}
+
 struct PerturbationTypeOption {
     var type : PerturbationType
     var isSelected: Bool
@@ -23,6 +30,8 @@ class MiscOptionsModel: ObservableObject {
     
     @Published var smoothed = true
     @Published var currPerturbationOption = PerturbationType.randomizedZigZags
+    
+    @Published var currPerturbationType: NEW_PerturbationType = .staticZigZags
     
 // EXPERIMENTAL
 // EXPERIMENTAL

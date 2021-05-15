@@ -22,7 +22,7 @@ struct TabViewTest: View {
                 .onAppear{print("TAB PAGE #1 appearing")}
                 .onDisappear{print("TAB PAGE #1 disappearing")}
                 .tabItem {
-                    Image(systemName: "1.square.fill")
+                    SFSymbol.tab_1
                     Text("TAB 1")
                 }
             Text("Tab #2")
@@ -30,7 +30,7 @@ struct TabViewTest: View {
                 .onAppear{print("TAB PAGE #2 appearing")}
                 .onDisappear{print("TAB PAGE #2 disappearing")}
                 .tabItem {
-                    Image(systemName: "2.square.fill")
+                    SFSymbol.tab_2
                     Text("TAB 2")
                 }
         }

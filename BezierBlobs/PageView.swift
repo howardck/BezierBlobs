@@ -86,8 +86,8 @@ struct PageView: View {
     
     // if the timer increment is larger than the
     // animation increment, we get a pause between cycles
-    static let timerTimeIncrement : Double = 3
-    static let animationTimeIncrement : Double = 2.75
+    static let timerTimeIncrement : Double = 2.6
+    static let animationTimeIncrement : Double = 2.5
 //  static let animationTimeIncrement : Double = 3.2
     
 //    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
@@ -110,6 +110,8 @@ struct PageView: View {
     
     //MARK:- PageView.INIT
     init(pageType: PageType, pageDesc: PageDescription, size: CGSize) {
+        
+        print("PageView.init(): {PageType.\(pageType)} numPoints: {\(pageDesc.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
         
         if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
             print("PageView.init(pageType.\(pageType.rawValue))")
@@ -137,6 +139,7 @@ struct PageView: View {
         model.blobLimits = model.convert(pageDesc.blobLimits,
                                          toMatch: model.offsets)
         
+        print("model.calculateSuperEllipse()")
         model.calculateSuperEllipse(for: pageType,
                                     pageDescription: pageDesc,
                                     axes: (a: a * baseCurveRatio,
@@ -308,13 +311,15 @@ struct PageView: View {
                 }
                 else if showMiscOptionsList {
                     // ------------------------------------
-                    let s = CGSize(width: 350, height: 486)
+                    let s = CGSize(width: 350, height: 450)
                     // ------------------------------------
                     HStack {
                         ZStack {
                             MiscOptionsChooser(
                                 smoothed: $options.smoothed,
-                                perturbationOptions: $options.perturbationOptions)
+                                perturbationOptions: $options.perturbationOptions,
+                                selection: $options.currPerturbationType)
+                                
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }

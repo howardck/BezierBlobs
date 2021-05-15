@@ -18,7 +18,7 @@ class Model: ObservableObject {
     
     //MARK:-
     init() {
-        print("\nModel.init()")
+        print("Model.init()")
     }
     
     //MARK:-

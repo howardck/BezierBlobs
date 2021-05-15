@@ -54,7 +54,7 @@ struct ContentView: View {
                              pageDesc: PageView.descriptions[0],
                              size: gr.size)
                         .tabItem {
-                            Image(systemName: "1.circle.fill")
+                            SFSymbol.tab_1
                             Text("\(PageType.superEllipse.rawValue)" )
                         }
                 }
@@ -67,7 +67,7 @@ struct ContentView: View {
                                      "         Platform { \(ps.name) }")}
 
                     .tabItem {
-                        Image(systemName: "2.circle.fill")
+                        SFSymbol.tab_2
                         Text("\(PageType.circle.rawValue)")
                     }
                 
@@ -75,7 +75,7 @@ struct ContentView: View {
                          pageDesc: PageView.descriptions[2],
                          size: gr.size)
                     .tabItem {
-                        Image(systemName: "3.circle.fill")
+                        SFSymbol.tab_3
                         Text("\(PageType.deltaWing.rawValue)" )
                     }
 
@@ -83,7 +83,7 @@ struct ContentView: View {
                          pageDesc: PageView.descriptions[3],
                          size: gr.size)
                     .tabItem {
-                        Image(systemName: "4.circle.fill");
+                        SFSymbol.tab_4
                         Text("\(PageType.mutantMoth.rawValue)" )
                     }
             }
@@ -94,20 +94,23 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PageView(pageType: PageType.deltaWing,
-                     pageDesc: PageView.descriptions[3],
+            PageView(pageType: PageType.superEllipse,
+                     pageDesc: PageView.descriptions[0],
                      size: CGSize(width: 800, height: 800))
                 .tabItem {
-                    Image(systemName: "4.circle.fill");
-                    Text("\(PageType.mutantMoth.rawValue)" )
+                    SFSymbol.tab_1
+                    Text("\(PageType.superEllipse.rawValue)" )
             }
-            PageView(pageType: PageType.deltaWing,
-                     pageDesc: PageView.descriptions[3],
+            PageView(pageType: PageType.circle,
+                     pageDesc: PageView.descriptions[1],
                      size: CGSize(width: 800, height: 800))
                 .tabItem {
-                    Image(systemName: "4.circle.fill");
-                    Text("\(PageType.mutantMoth.rawValue)" )
+                    SFSymbol.tab_1
+                    Text("\(PageType.circle.rawValue)" )
                 }
         }
+        .environmentObject(SELayersViewModel())
+        .environmentObject(MiscOptionsModel())
     }
+    
 }

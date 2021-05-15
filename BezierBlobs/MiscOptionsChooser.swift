@@ -26,6 +26,8 @@ struct MiscOptionsChooser: View {
     @Binding var smoothed : Bool
     @Binding var perturbationOptions : [PerturbationTypeOption]
     
+    @Binding var selection : NEW_PerturbationType
+    
     var body: some View {
         let sectionHeaderTextColor = Color.init(white: 0.1)
         
@@ -62,6 +64,15 @@ struct MiscOptionsChooser: View {
                         }}
             }
             
+            Section(header: Text("NEW perturbation type (enum)")
+                .foregroundColor(sectionHeaderTextColor)) {
+
+                ForEach( NEW_PerturbationType.allCases, id: \.self) { type in
+                    LabeledCheckboxRow(isSelected: type == selection,
+                                       text: type.rawValue)
+                }
+            }
+            
             Section(header: Text("driving the tap-driven highway")
                         .foregroundColor(sectionHeaderTextColor)) {
                 VStack {
@@ -85,10 +96,11 @@ struct MiscOptionsChooser: View {
     
     func bulletedTextItem(_ text: String) -> some View {
         HStack(alignment: .center){
-            Image(systemName: "diamond.fill")
-                .scaleEffect(0.7)
-                .foregroundColor(.yellow)
-            Spacer(minLength: 4)
+            SFSymbol.diamondBullet
+                .font(.footnote)
+                //.scaleEffect..(0.7)
+                .foregroundColor(.orange)
+            Spacer(minLength: 6)
             Text(text)
                 .frame(width: 360, height: 34, alignment: .leading)
         }

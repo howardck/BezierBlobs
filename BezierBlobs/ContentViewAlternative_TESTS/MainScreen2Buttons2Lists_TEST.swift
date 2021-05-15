@@ -37,7 +37,6 @@ struct PageView_2 : View {
                                     Section(header: Text("range 123")) {
                                         ForEach( range123 ) { i in Text("\(i)") }
                                     }
-                                    
                                     Section(header: Text("range 456")) {
                                         ForEach( range456 ) { j in Text("\(j)") }
                                     }

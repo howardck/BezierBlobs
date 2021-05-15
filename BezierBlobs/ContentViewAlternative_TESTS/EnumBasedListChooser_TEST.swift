@@ -7,15 +7,8 @@
 
 import SwiftUI
 
-enum TestPerturbationType : String, Equatable, CaseIterable {
-    case staticZigZags = "fixed zig-zags"
-    case randomizedZigZags = "randomized alternating zig-zags"
-    case randomAnywhereInHalfEnvelope = "random alternating in half-envelope"
-    case randomAnywhereInEnvelope = "random anywhere in envelope"
-}
-
 class EnumBasedListModel : ObservableObject  {
-    @Published var currPerturbationType : TestPerturbationType = .randomAnywhereInEnvelope
+    @Published var currPerturbationType : NEW_PerturbationType = .randomAnywhereInEnvelope
 }
 
 struct EnumBasedListChooser : View {
@@ -32,12 +25,12 @@ struct EnumBasedListChooser : View {
 
 struct ListChooserView : View {
     
-    @Binding var selection : TestPerturbationType
+    @Binding var selection : NEW_PerturbationType
     
     var body : some View {
 
         List {
-            ForEach(TestPerturbationType.allCases, id: \.self) { perturbationType in
+            ForEach(NEW_PerturbationType.allCases, id: \.self) { perturbationType in
                 LabeledCheckboxRow(isSelected: perturbationType == selection,
                                    text: perturbationType.rawValue)
                     .onTapGesture {

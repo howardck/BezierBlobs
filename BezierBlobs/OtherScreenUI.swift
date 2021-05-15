@@ -112,10 +112,10 @@ struct CheckBox : View {
     var checked: Bool
     var body: some View {
         ZStack {
-            Image(systemName: "rectangle.portrait")
+            SFSymbol.checkbox_unchecked
                 .font(.title3).foregroundColor(.gray)
             if checked {
-                Image(systemName: "checkmark.rectangle.portrait.fill")
+                SFSymbol.checkbox_checked
                     .font(.headline) .foregroundColor(.green)
             }
         }
@@ -165,6 +165,7 @@ struct LayerStackSymbol: View {
     var color: Color
     var size: CGSize
     var body: some View {
+        // NOTA: can't use SFSymbol...shortcut here
         Text(Image(systemName: "square.stack.3d.up"))
             .font(.largeTitle).fontWeight(.black)
             .foregroundColor(color)
