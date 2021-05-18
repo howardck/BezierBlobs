@@ -231,24 +231,17 @@ struct PageView: View {
             withAnimation(PageView.animationStyle) {
                 
                 switch options.currPerturbStrategy {
+                
                 case .staticZigZags :
-                    
-                    print(options.currPerturbStrategy.rawValue + ">>>>>>>>>>>>>>>>>>>>>>>>")
                     model.animateToNextZigZagPhase(doRandomDeltas: false)
                     
                 case .randomizedZigZags :
-                    
-                    print(options.currPerturbStrategy.rawValue + ">>>>>>>>>>>>>>>>>>>>>>>>")
                     model.animateToNextZigZagPhase(doRandomDeltas: true)
                     
                 case .randomAnywhereInHalfEnvelope :
-                    
-                    print(options.currPerturbStrategy.rawValue + ">>>>>>>>>>>>>>>>>>>>>>>>")
                     model.animateToRandomOffsetsInAlternatingQuadrants()
                     
                 case .randomAnywhereInEnvelope :
-                    
-                    print(options.currPerturbStrategy.rawValue + ">>>>>>>>>>>>>>>>>>>>>>>>")
                     model.animateToRandomOffsetsAnywhereWithinEnvelope()
                 }
             }
