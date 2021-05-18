@@ -228,19 +228,44 @@ struct PageView: View {
             
             //TODO: -- USE AN OPTIONAL FOR options HERE
             
-            withAnimation(PageView.animationStyle)
-            {
-                if options.isSelected(perturbationType: .staticZigZags) {
+            withAnimation(PageView.animationStyle) {
+                
+                switch options.currPerturbStrategy {
+                case .staticZigZags :
+                    
+                    print(options.currPerturbStrategy.rawValue + ">>>>>>>>>>>>>>>>>>>>>>>>")
                     model.animateToNextZigZagPhase(doRandomDeltas: false)
-                }
-                else if options.isSelected(perturbationType: .randomizedZigZags) {
+                    
+                case .randomizedZigZags :
+                    
+                    print(options.currPerturbStrategy.rawValue + ">>>>>>>>>>>>>>>>>>>>>>>>")
                     model.animateToNextZigZagPhase(doRandomDeltas: true)
-                }
-                else {
+                    
+                case .randomAnywhereInHalfEnvelope :
+                    
+                    print(options.currPerturbStrategy.rawValue + ">>>>>>>>>>>>>>>>>>>>>>>>")
+                    model.animateToRandomOffsetsInAlternatingQuadrants()
+                    
+                case .randomAnywhereInEnvelope :
+                    
+                    print(options.currPerturbStrategy.rawValue + ">>>>>>>>>>>>>>>>>>>>>>>>")
                     model.animateToRandomOffsetsAnywhereWithinEnvelope()
                 }
-//                model.animateToRandomOffsetInAlternateQuadrant()
             }
+            
+//            withAnimation(PageView.animationStyle)
+//            {
+//                if options.isSelected(perturbationType: .staticZigZags) {
+//                    model.animateToNextZigZagPhase(doRandomDeltas: false)
+//                }
+//                else if options.isSelected(perturbationType: .randomizedZigZags) {
+//                    model.animateToNextZigZagPhase(doRandomDeltas: true)
+//                }
+//                else {
+//                    model.animateToRandomOffsetsAnywhereWithinEnvelope()
+//                }
+////                model.animateToRandomOffsetInAlternateQuadrant()
+//            }
 
             if isFirstTappedCycle {
                 
@@ -269,7 +294,7 @@ struct PageView: View {
             }
         }
         
-        //MARK: onTagGesture(1)
+        //MARK: onTapGesture(1)
         .onTapGesture(count: 1)
         {
             if showLayersList || showMiscOptionsList {
@@ -317,8 +342,13 @@ struct PageView: View {
                         ZStack {
                             MiscOptionsChooser(
                                 smoothed: $options.smoothed,
+                                // OLD STYLE: display the options out of an array
                                 perturbationOptions: $options.perturbationOptions,
-                                selection: $options.currPerturbationType)
+                                
+                                // NEW STYLE: the ForEach knows all the options
+                                // from a static .allCases, so only the curr
+                                // value of the enum is needed to show selection
+                                selection: $options.currPerturbStrategy)
                                 
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)

@@ -30,7 +30,8 @@ let markerStyles : [MarkerType : MarkerStyle] = [
 
 //let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
 //let orangeish = Gradient(colors: [.white, .orange, .red, .white])
-let orangeish = Gradient(colors: [.white, .orange, .red, .black])
+//let orangeish = Gradient(colors: [.white, .orange, .red, .black])
+let orangeish = Gradient(colors: [.white, .orange, .red, .white, Color.init(white: 0)])
 let blueGradient = Gradient(colors: [.blue, .init(white: 0.45)])
 let redGradient = Gradient(colors: [.red, .yellow])
 
@@ -76,13 +77,9 @@ struct AnimatingBlob_Stroked: View {
     
     @EnvironmentObject var options: MiscOptionsModel
     
-    let gradient = LinearGradient(gradient: blueGradient,
-                                 startPoint: .topLeading,
-                                 endPoint: .bottomTrailing)
     var body : some View {
         
         let isSmoothed = options.smoothed
-        //options.isSelected(optionType: .smoothed)
 
         ZStack {
             SuperEllipse(curve: curve,
@@ -93,8 +90,7 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
-                .stroke(Color.init(white: 0.85),
-                        //style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
+                .stroke(Color.white,
                         style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
         }
     }

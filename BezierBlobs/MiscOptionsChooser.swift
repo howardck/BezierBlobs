@@ -26,7 +26,7 @@ struct MiscOptionsChooser: View {
     @Binding var smoothed : Bool
     @Binding var perturbationOptions : [PerturbationTypeOption]
     
-    @Binding var selection : NEW_PerturbationType
+    @Binding var selection : PerturbationStrategy
     
     var body: some View {
         let sectionHeaderTextColor = Color.init(white: 0.1)
@@ -64,12 +64,16 @@ struct MiscOptionsChooser: View {
                         }}
             }
             
-            Section(header: Text("NEW perturbation type (enum)")
+            Section(header: Text("perturbation strategy")
                 .foregroundColor(sectionHeaderTextColor)) {
 
-                ForEach( NEW_PerturbationType.allCases, id: \.self) { type in
+                ForEach(PerturbationStrategy.allCases, id: \.self) { type in
                     LabeledCheckboxRow(isSelected: type == selection,
                                        text: type.rawValue)
+                        .onTapGesture {
+                            selection = type
+                            print("currSelection: \"\(selection.rawValue)\"")
+                        }
                 }
             }
             

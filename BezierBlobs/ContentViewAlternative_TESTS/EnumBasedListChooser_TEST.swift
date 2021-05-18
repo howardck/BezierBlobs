@@ -8,7 +8,7 @@
 import SwiftUI
 
 class EnumBasedListModel : ObservableObject  {
-    @Published var currPerturbationType : NEW_PerturbationType = .randomAnywhereInEnvelope
+    @Published var currPerturbationType : PerturbationStrategy = .randomAnywhereInEnvelope
 }
 
 struct EnumBasedListChooser : View {
@@ -25,12 +25,12 @@ struct EnumBasedListChooser : View {
 
 struct ListChooserView : View {
     
-    @Binding var selection : NEW_PerturbationType
+    @Binding var selection : PerturbationStrategy
     
     var body : some View {
 
         List {
-            ForEach(NEW_PerturbationType.allCases, id: \.self) { perturbationType in
+            ForEach(PerturbationStrategy.allCases, id: \.self) { perturbationType in
                 LabeledCheckboxRow(isSelected: perturbationType == selection,
                                    text: perturbationType.rawValue)
                     .onTapGesture {
