@@ -62,13 +62,14 @@ struct AnimatingBlob_Filled: View {
                 
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
-                    .fill(Color.init(white: 0.15))
-                    .offset(x: 6, y: 6)
+                    .fill(Gray.dark)
+                    .offset(x: 5, y: 5)
                 
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
-                    .fill(Color.white)
-                    .offset(x: 1, y: 1)
+                    .stroke(Color.black,
+                            style: StrokeStyle(lineWidth: 0.75, lineJoin: .round))
+                    //.offset(x: 0, y: 0)
                 
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )

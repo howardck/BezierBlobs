@@ -70,11 +70,11 @@ struct ContentView: View {
                         Text("\(PageType.mutantMoth.rawValue)" )
                     }
             }
-            .environmentObject(ColorScheme(background: .orange,
+            .environmentObject(ColorScheme(background: Gray.light,
                                            fill: .blue,
-                                           buttonFace: .red,
-                                           buttonEdge: .black,
-                                           baseMarkers: .green,
+                                           buttonFace: .green,
+                                           buttonEdge: .white,
+                                           baseMarkers: .orange,
                                            vertex0Marker: .red)
             )
         }
@@ -120,7 +120,7 @@ class ColorScheme : ObservableObject {
 
 struct Gray {
     static let light = Color.init(white: 0.8)
-    static let dark = Color.init(white: 0.65)
+    static let dark = Color.init(white: 0.2)
 }
 
 struct ContentView_Previews: PreviewProvider {
