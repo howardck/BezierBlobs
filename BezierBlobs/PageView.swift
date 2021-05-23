@@ -34,9 +34,11 @@ struct PageView: View {
         // we do FEWER points because the arms are generally deeper
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         
-        (numPoints: 36,
-         n: 3.8,
-         axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
+// TEMPORARILY REPLACING THIS FOR A SMALL NUMBER FOR Live Preview
+//        (numPoints: 32,
+        (numPoints: 32,
+         n: 2.8,
+         axisRelOffsets: (inner: 0.4, baseCurve: 0.7, outer: 1.0),
          blobLimits: (inner: 1.0, outer: 0.8), false),
         
         // THIS ONE IS GOOD FOR (experimental )
@@ -80,18 +82,20 @@ struct PageView: View {
     @ObservedObject var model = Model()
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
+    
+    @EnvironmentObject var colorScheme : ColorScheme
         
     // lots of room to play w/ the relative time
     // increments, as well as the animation curves.
     
     // if the timer increment is larger than the
     // animation increment, we get a pause between cycles
-    static let timerTimeIncrement : Double = 2.6
-    static let animationTimeIncrement : Double = 2.5
+    static let timerTimeIncrement : Double = 2.8
+    static let animationTimeIncrement : Double = 2.0
 //  static let animationTimeIncrement : Double = 3.2
     
 //    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
-    static let animationStyle = Animation.easeInOut(duration: PageView.animationTimeIncrement)
+    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
     
     static let timerInitialTimeIncrement : Double = 0.0
     
@@ -152,9 +156,11 @@ struct PageView: View {
         let colors : [Color] = [.init(white: 0.7), .init(white: 0.3)]
         var body : some View {
             
-            LinearGradient(gradient: Gradient(colors: colors),
-                           startPoint: .topLeading,
-                           endPoint: .bottom)
+//            LinearGradient(gradient: Gradient(colors: colors),
+//                           startPoint: .topLeading,
+//                           endPoint: .bottom)
+            
+            Color.orange
         }
     }
     
@@ -162,7 +168,7 @@ struct PageView: View {
     
         ZStack {
 
-            PageGradientBackground()
+            //PageGradientBackground()
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
@@ -209,6 +215,7 @@ struct PageView: View {
                 }
             }
         }
+        .background(colorScheme.background)
         /*  a rather interesting bug:
          
             the view PageGradientBackground() will work in a .background(),
@@ -297,6 +304,9 @@ struct PageView: View {
             else {
                 if !isAnimating {
                     isAnimating = true
+                    
+                    // we've never tapped before and we're not yet animating.
+                    // ie we've done nothing to date; start the animation.
             
                     isFirstTappedCycle = true
                     timer = Timer.publish(every: PageView.timerInitialTimeIncrement,

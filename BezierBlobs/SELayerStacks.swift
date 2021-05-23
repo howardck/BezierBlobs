@@ -44,6 +44,8 @@ struct AnimatingBlob_Filled: View {
     
     @EnvironmentObject var layers: SELayersViewModel
     @EnvironmentObject var options: MiscOptionsModel
+    
+    @EnvironmentObject var colorScheme : ColorScheme
 
     var curve: [CGPoint]
     var layerType : LayerType
@@ -57,15 +59,27 @@ struct AnimatingBlob_Filled: View {
         
         if layers.isVisible(layerWithType: .blob_filled) {
             ZStack {
+                
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
-                                // prior way of doing things
-                                // options.isSelected(optionType: .smoothed))
-                    .fill(gradient)
+                    .fill(Color.init(white: 0.15))
+                    .offset(x: 6, y: 6)
+                
                 SuperEllipse(curve: curve,
-                             smoothed: options.smoothed)
-                                //options.isSelected(optionType: .smoothed))
-                    .stroke(Color.init(white: 0.35), lineWidth: 1)
+                             smoothed: options.smoothed )
+                    .fill(Color.white)
+                    .offset(x: 1, y: 1)
+                
+                SuperEllipse(curve: curve,
+                             smoothed: options.smoothed )
+                    .fill(colorScheme.fill)
+                
+                
+                
+                
+//                SuperEllipse(curve: curve,
+//                             smoothed: options.smoothed)
+//                    .stroke(Color.init(white: 0.35), lineWidth: 1)
             }
         }
     }
@@ -102,6 +116,8 @@ struct AnimatingBlob_Markers : View {
     var curve : [CGPoint]
     var style : MarkerStyle
     
+    @EnvironmentObject var colorScheme : ColorScheme
+    
     var body : some View {
         
         SuperEllipse(curve: curve,
@@ -109,7 +125,11 @@ struct AnimatingBlob_Markers : View {
             .fill(Color.black)
         SuperEllipse(curve: curve,
                      bezierType: .markers(radius: style.radius))
-            .fill(style.color)
+            
+            // don't take from markerStyles above
+            // but from the environment
+//            .fill(style.color)
+            .fill(colorScheme.baseMarkers)
         SuperEllipse(curve: curve,
                      bezierType: .markers(radius: 3))
             .fill(Color.white)
@@ -119,6 +139,8 @@ struct AnimatingBlob_Markers : View {
 struct AnimatingBlob_VertexZeroMarker: View {
     var animatingCurve: [CGPoint]
     var markerStyle : MarkerStyle
+    
+    @EnvironmentObject var colorScheme : ColorScheme
 
     var body : some View {
         SuperEllipse(curve: animatingCurve,
@@ -128,7 +150,9 @@ struct AnimatingBlob_VertexZeroMarker: View {
         SuperEllipse(curve: animatingCurve,
                      bezierType: .singleMarker(index: 0, radius: markerStyle.radius),
                                                smoothed: false)
-            .fill(markerStyle.color)
+//            .fill(markerStyle.color)
+            .fill(colorScheme.vertex0Marker)
+
         SuperEllipse(curve: animatingCurve,
                      bezierType: .singleMarker(index: 0, radius: 3),
                                                smoothed: false)

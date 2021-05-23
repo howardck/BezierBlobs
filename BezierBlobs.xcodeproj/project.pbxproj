@@ -19,6 +19,7 @@
 		3B82699C25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B82699B25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift */; };
 		3B859FEF25BB3B470033DB7A /* MainScreenLayout_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B859FEE25BB3B470033DB7A /* MainScreenLayout_TEST.swift */; };
 		3B9A048B25C7C94D0097ECC6 /* Timer_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A048A25C7C94D0097ECC6 /* Timer_TEST.swift */; };
+		3BA4072A2658864900349ECE /* VDSP_AnimatableVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA407292658864900349ECE /* VDSP_AnimatableVector.swift */; };
 		3BB094B925D9E42D00DE96CF /* EmojiView_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB094B825D9E42D00DE96CF /* EmojiView_TEST.swift */; };
 		3BB0F23D25DD70C100725800 /* SEParametrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0F23C25DD70C100725800 /* SEParametrics.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* OtherScreenUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* OtherScreenUI.swift */; };
@@ -50,6 +51,7 @@
 		3B82699B25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen2Buttons2Lists_TEST.swift; sourceTree = "<group>"; };
 		3B859FEE25BB3B470033DB7A /* MainScreenLayout_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenLayout_TEST.swift; sourceTree = "<group>"; };
 		3B9A048A25C7C94D0097ECC6 /* Timer_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_TEST.swift; sourceTree = "<group>"; };
+		3BA407292658864900349ECE /* VDSP_AnimatableVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDSP_AnimatableVector.swift; sourceTree = "<group>"; };
 		3BB094B825D9E42D00DE96CF /* EmojiView_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView_TEST.swift; sourceTree = "<group>"; };
 		3BB0F23C25DD70C100725800 /* SEParametrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEParametrics.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* OtherScreenUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScreenUI.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				5E57D2E9256D5D1200D6B1C0 /* CGPointVector.swift */,
+				3BA407292658864900349ECE /* VDSP_AnimatableVector.swift */,
 				5E57D2E7256D5D1200D6B1C0 /* Formatting.swift */,
 				5E57D2E8256D5D1200D6B1C0 /* Path+Points.swift */,
 			);
@@ -227,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BA4072A2658864900349ECE /* VDSP_AnimatableVector.swift in Sources */,
 				3BB0F23D25DD70C100725800 /* SEParametrics.swift in Sources */,
 				3B11D73925CC73450080F72F /* SELayersViewModel.swift in Sources */,
 				5E57D2E4256D5CDB00D6B1C0 /* SuperEllipseShape.swift in Sources */,

@@ -13,18 +13,6 @@
 
 import SwiftUI
 
-struct TestPrintSizeView : View {
-    
-    let size : CGSize
-    var body: some View {
-        
-        Text("size: {" +
-                "w: \((size.width).format(fspec: "6.2")), " +
-                "h: \((size.height).format(fspec: "6.2"))" +
-            "}")
-    }
-}
-
 struct ContentView: View {
     
     var ps: PlatformSpecifics!
@@ -45,19 +33,14 @@ struct ContentView: View {
                
         GeometryReader { gr in
             TabView {
-                Group {
-//                    TestPrintSizeView(size: gr.size)
-//                        .font(.largeTitle)
-//                        .foregroundColor(.blue)
 
-                    PageView(pageType: PageType.superEllipse,
-                             pageDesc: PageView.descriptions[0],
-                             size: gr.size)
-                        .tabItem {
-                            SFSymbol.tab_1
-                            Text("\(PageType.superEllipse.rawValue)" )
-                        }
-                }
+                PageView(pageType: PageType.superEllipse,
+                         pageDesc: PageView.descriptions[0],
+                         size: gr.size)
+                    .tabItem {
+                        SFSymbol.tab_1
+                        Text("\(PageType.superEllipse.rawValue)" )
+                    }
                 
                 PageView(pageType: PageType.circle,
                          pageDesc: PageView.descriptions[1],
@@ -87,30 +70,121 @@ struct ContentView: View {
                         Text("\(PageType.mutantMoth.rawValue)" )
                     }
             }
+            .environmentObject(ColorScheme(background: .orange,
+                                           fill: .blue,
+                                           buttonFace: .red,
+                                           buttonEdge: .black,
+                                           baseMarkers: .green,
+                                           vertex0Marker: .red)
+            )
         }
     }
 }
 
+
+struct TestPrintSizeView : View {
+    
+    let size : CGSize
+    var body: some View {
+        
+        Text("size: {" +
+                "w: \((size.width).format(fspec: "6.2")), " +
+                "h: \((size.height).format(fspec: "6.2"))" +
+            "}")
+    }
+}
+
+class ColorScheme : ObservableObject {
+    @Published var background: Color
+    @Published var fill: Color
+    @Published var buttonFace: Color
+    @Published var buttonEdge: Color
+    @Published var baseMarkers: Color
+    @Published var vertex0Marker: Color
+    
+    init(background: Color,
+         fill: Color,
+         buttonFace: Color,
+         buttonEdge: Color,
+         baseMarkers: Color,
+         vertex0Marker: Color) {
+        
+        self.background = background
+        self.fill = fill
+        self.buttonFace = buttonFace
+        self.buttonEdge = buttonEdge
+        self.baseMarkers = baseMarkers
+        self.vertex0Marker = vertex0Marker
+    }
+}
+
+struct Gray {
+    static let light = Color.init(white: 0.8)
+    static let dark = Color.init(white: 0.65)
+}
+
 struct ContentView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        Group {
-            PageView(pageType: PageType.superEllipse,
-                     pageDesc: PageView.descriptions[0],
-                     size: CGSize(width: 800, height: 800))
-                .tabItem {
-                    SFSymbol.tab_1
-                    Text("\(PageType.superEllipse.rawValue)" )
+        let s = CGSize(width: 500, height: 500)
+        
+        HStack {
+            VStack {
+                PageView(pageType: PageType.superEllipse,
+                         pageDesc: PageView.descriptions[0],
+                         size: s)
+                    .environmentObject(ColorScheme(background: Gray.light,
+                                                   fill: Color.orange,
+                                                   buttonFace: .green,
+                                                   buttonEdge: .white,
+                                                   baseMarkers: .blue,
+                                                   vertex0Marker: .green)
+                    )
+                                       
+                PageView(pageType: PageType.circle,
+                         pageDesc: PageView.descriptions[0],
+                         size: s)
+                    .environmentObject(ColorScheme(background: Gray.light,
+                                                   fill: .blue,
+                                                   buttonFace: .red,
+                                                   buttonEdge: .white,
+                                                   baseMarkers: .green,
+                                                   vertex0Marker: .red)
+                    )
             }
-            PageView(pageType: PageType.circle,
-                     pageDesc: PageView.descriptions[1],
-                     size: CGSize(width: 800, height: 800))
-                .tabItem {
-                    SFSymbol.tab_1
-                    Text("\(PageType.circle.rawValue)" )
-                }
+            .environmentObject(SELayersViewModel())
+            .environmentObject(MiscOptionsModel())
+            
+            VStack {
+                PageView(pageType: PageType.superEllipse,
+                         pageDesc: PageView.descriptions[2],
+                         size: s)
+                    .environmentObject(ColorScheme(background: Gray.dark,
+                                                   fill: Color.orange,
+                                                   buttonFace: .red,
+                                                   buttonEdge: .black,
+                                                   baseMarkers: .blue,
+                                                   vertex0Marker: .red)
+                    )
+
+                PageView(pageType: PageType.circle,
+                         pageDesc: PageView.descriptions[2],
+                         size: s)
+                    .environmentObject(ColorScheme(background: Gray.dark,
+                                                   fill: Color.blue,
+                                                   buttonFace: .green,
+                                                   buttonEdge: .black,
+                                                   baseMarkers: .orange,
+                                                   vertex0Marker: .red)
+                    )
+                //                .tabItem {
+                //                    SFSymbol.tab_1
+                //                    Text("\(PageType.circle.rawValue)" )
+                //                }
+            }
+            .environmentObject(SELayersViewModel())
+            .environmentObject(MiscOptionsModel())
         }
-        .environmentObject(SELayersViewModel())
-        .environmentObject(MiscOptionsModel())
     }
     
 }

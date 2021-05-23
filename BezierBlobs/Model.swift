@@ -140,6 +140,7 @@ class Model: ObservableObject {
 
         setInitialBlobCurve()
     }
+    
 
     //MARK: - ANIMATING
     func animateToNextZigZagPhase(doRandomDeltas: Bool) {
