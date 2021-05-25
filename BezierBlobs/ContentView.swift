@@ -70,12 +70,13 @@ struct ContentView: View {
                         Text("\(PageType.mutantMoth.rawValue)" )
                     }
             }
+            
             .environmentObject(ColorScheme(background: Gray.light,
                                            fill: .blue,
                                            buttonFace: .green,
-                                           buttonEdge: .white,
+                                           buttonEdge: .black,
                                            baseMarkers: .orange,
-                                           vertex0Marker: .red)
+                                           vertex0Marker: .green)
             )
         }
     }

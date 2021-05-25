@@ -78,8 +78,6 @@ struct TwoButtonPanel : View {
     @EnvironmentObject var colorScheme : ColorScheme
     
     var edgeOffset = CGSize(width: 1, height: 1)
-    let faceColor = Color.blue
-    let edgeColor = Color.red
     
     var body: some View {
         HStack {
