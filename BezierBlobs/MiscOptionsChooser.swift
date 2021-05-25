@@ -24,8 +24,7 @@ struct PerturbationTypeRow : View {
 struct MiscOptionsChooser: View {
     
     @Binding var smoothed : Bool
-    @Binding var perturbationOptions : [PerturbationTypeOption]
-    
+    //@Binding var perturbationOptions : [PerturbationTypeOption]
     @Binding var selection : PerturbationStrategy
     
     var body: some View {
@@ -40,30 +39,30 @@ struct MiscOptionsChooser: View {
                     }
             }
             
-            Section(header: Text("perturbation type")
-                .foregroundColor(sectionHeaderTextColor)) {
-                
-                ForEach(perturbationOptions, id: \.type) { perturbationOption in
-                    PerturbationTypeRow(perturbationOption: perturbationOption)
-                        // quick & dirty radio buttons
-                        .onTapGesture {
-                            if let tappedItem = perturbationOptions.firstIndex (
-                                where: { $0.type.rawValue == perturbationOption.type.rawValue} )
-                            {
-                                showHideAllOptions(show: false)
-                                perturbationOptions[tappedItem].isSelected = true
-                                
-                                // @@@@@@@@@@@@@@@@@@@@@@
-                                print("--- Selected PerturbationType: {\(perturbationOptions[tappedItem].type)}")
-                                // @@@@@@@@@@@@@@@@@@@@@@
-                                
-                                // if we have an options.currPerturationType enum
-                                // used to switched on in PageView.onReceive(),
-                                // this is likely where we'd set it, no?
-                            }
-                        }}
-            }
-            
+//            Section(header: Text("perturbation type")
+//                .foregroundColor(sectionHeaderTextColor)) {
+//                
+//                ForEach(perturbationOptions, id: \.type) { perturbationOption in
+//                    PerturbationTypeRow(perturbationOption: perturbationOption)
+//                        // quick & dirty radio buttons
+//                        .onTapGesture {
+//                            if let tappedItem = perturbationOptions.firstIndex (
+//                                where: { $0.type.rawValue == perturbationOption.type.rawValue} )
+//                            {
+//                                showHideAllOptions(show: false)
+//                                perturbationOptions[tappedItem].isSelected = true
+//                                
+//                                // @@@@@@@@@@@@@@@@@@@@@@
+//                                print("--- Selected PerturbationType: {\(perturbationOptions[tappedItem].type)}")
+//                                // @@@@@@@@@@@@@@@@@@@@@@
+//                                
+//                                // if we have an options.currPerturationType enum
+//                                // used to switched on in PageView.onReceive(),
+//                                // this is likely where we'd set it, no?
+//                            }
+//                        }}
+//            }
+//            
             Section(header: Text("perturbation strategy")
                 .foregroundColor(sectionHeaderTextColor)) {
 
@@ -92,11 +91,11 @@ struct MiscOptionsChooser: View {
         .environment(\.defaultMinListRowHeight, 34)
     }
     
-    func showHideAllOptions(show: Bool) {
-        for ix in 0..<perturbationOptions.count {
-            perturbationOptions[ix].isSelected = show ? true : false
-        }
-    }
+//    func showHideAllOptions(show: Bool) {
+//        for ix in 0..<perturbationOptions.count {
+//            perturbationOptions[ix].isSelected = show ? true : false
+//        }
+//    }
     
     func bulletedTextItem(_ text: String) -> some View {
         HStack(alignment: .center){
