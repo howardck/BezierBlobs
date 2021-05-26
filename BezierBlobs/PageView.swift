@@ -52,17 +52,17 @@ struct PageView: View {
 //         blobLimits: (inner: 1.2, outer: 1.0), false),
 //
     // CIRCLE
-//        (numPoints: 14,
-//         n: 2.0,
-//         axisRelativeOffsets: (inner: 0.5, baseCurve: 0.75, outer: 1.0),
-//         blobLimits: (inner: 0.6, outer: 0.8),
-//         forceEqualAxes: true),
-//
-        (numPoints: 30,
+        (numPoints: 14,
          n: 2.0,
          axisRelOffsets: (inner: 0.5, baseCurve: 0.75, outer: 1.0),
          blobLimits: (inner: 0.6, outer: 0.8),
          forceEqualAxes: true),
+//
+//        (numPoints: 30,
+//         n: 2.0,
+//         axisRelOffsets: (inner: 0.5, baseCurve: 0.75, outer: 1.0),
+//         blobLimits: (inner: 0.6, outer: 0.8),
+//         forceEqualAxes: true),
 
     // DELTA WING
         (numPoints: 6,

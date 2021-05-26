@@ -8,23 +8,22 @@
 import Combine
 import SwiftUI
 
-
-struct PerturbationTypeRow : View {
-    var perturbationOption : PerturbationTypeOption
-    var body : some View {
-        HStack {
-            CheckBox(checked: perturbationOption.isSelected)
-            Spacer()
-            Text(perturbationOption.type.rawValue)
-                .frame(width: 360, height: 0, alignment: .leading)
-        }
-    }
-}
+//
+//struct PerturbationTypeRow : View {
+//    var perturbationOption : PerturbationTypeOption
+//    var body : some View {
+//        HStack {
+//            CheckBox(checked: perturbationOption.isSelected)
+//            Spacer()
+//            Text(perturbationOption.type.rawValue)
+//                .frame(width: 360, height: 0, alignment: .leading)
+//        }
+//    }
+//}
 
 struct MiscOptionsChooser: View {
     
     @Binding var smoothed : Bool
-    //@Binding var perturbationOptions : [PerturbationTypeOption]
     @Binding var selection : PerturbationStrategy
     
     var body: some View {
@@ -39,7 +38,7 @@ struct MiscOptionsChooser: View {
                     }
             }
                     
-            Section(header: Text("perturbation strategy")
+            Section(header: Text("blob perturbation strategy")
                 .foregroundColor(sectionHeaderTextColor)) {
 
                 ForEach(PerturbationStrategy.allCases, id: \.self) { type in

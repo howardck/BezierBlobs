@@ -33,7 +33,7 @@ struct MainScreenUI: View {
                 }
                 else if showMiscOptionsList {
                     // ------------------------------------
-                    let s = CGSize(width: 350, height: 450)
+                    let s = CGSize(width: 365, height: 510)
                     // ------------------------------------
                     HStack {
                         ZStack {

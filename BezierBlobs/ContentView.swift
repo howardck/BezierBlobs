@@ -75,7 +75,7 @@ struct ContentView: View {
                                            fill: .blue,
                                            buttonFace: .green,
                                            buttonEdge: .black,
-                                           baseMarkers: .orange,
+                                           baseMarkers: .red,
                                            vertex0Marker: .green)
             )
         }
