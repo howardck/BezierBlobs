@@ -48,8 +48,8 @@ struct SuperEllipse : Shape {
                     path.addMarker(of: radius)
                 }
                 
-        /*  for normals, even-numbered points are on the inner envelope
-            boundary; the next point is its outermost counterpart.
+        /*  for normals, even-numbered points are on the inner offset
+            curve; the next point is its outer offset counterpart.
          */
             case .normals :
                 if i.isEven() && i < curve.count {

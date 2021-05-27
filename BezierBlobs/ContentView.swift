@@ -54,34 +54,33 @@ struct ContentView: View {
                         Text("\(PageType.circle.rawValue)")
                     }
                 
-                PageView(pageType: PageType.deltaWing,
-                         pageDesc: PageView.descriptions[2],
-                         size: gr.size)
-                    .tabItem {
-                        SFSymbol.tab_3
-                        Text("\(PageType.deltaWing.rawValue)" )
-                    }
-
-                PageView(pageType: PageType.mutantMoth,
-                         pageDesc: PageView.descriptions[3],
-                         size: gr.size)
-                    .tabItem {
-                        SFSymbol.tab_4
-                        Text("\(PageType.mutantMoth.rawValue)" )
-                    }
+//                PageView(pageType: PageType.deltaWing,
+//                         pageDesc: PageView.descriptions[2],
+//                         size: gr.size)
+//                    .tabItem {
+//                        SFSymbol.tab_3
+//                        Text("\(PageType.deltaWing.rawValue)" )
+//                    }
+//
+//                PageView(pageType: PageType.mutantMoth,
+//                         pageDesc: PageView.descriptions[3],
+//                         size: gr.size)
+//                    .tabItem {
+//                        SFSymbol.tab_4
+//                        Text("\(PageType.mutantMoth.rawValue)" )
+//                    }
             }
             
-            .environmentObject(ColorScheme(background: Gray.light,
+            .environmentObject(ColorScheme(background: Gray.light, //Gray.light,
                                            fill: .blue,
-                                           buttonFace: .green,
+                                           buttonFace: .red,
                                            buttonEdge: .black,
                                            allVertices: .green,
-                                           vertex_0: .yellow)
+                                           vertex_0: .red)
             )
         }
     }
 }
-
 
 struct TestPrintSizeView : View {
     

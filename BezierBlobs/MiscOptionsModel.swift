@@ -34,7 +34,7 @@ class MiscOptionsModel: ObservableObject {
     @Published var smoothed = true
 //    @Published var currPerturbationOption = PerturbationType.randomizedZigZags
     
-    @Published var currPerturbStrategy = PerturbationStrategy.randomAnywhereInHalfEnvelope
+    @Published var currPerturbStrategy = PerturbationStrategy.randomRangeFromAlternatingOffsets
     
 // EXPERIMENTAL
 // EXPERIMENTAL

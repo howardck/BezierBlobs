@@ -37,8 +37,8 @@ struct PageView: View {
 // TEMPORARILY REPLACING THIS FOR A SMALL NUMBER FOR Live Preview
 //        (numPoints: 32,
         (numPoints: 32,
-         n: 2.8,
-         axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
+         n: 3.0,
+         axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.7),
          blobLimits: (inner: 1.0, outer: 0.8), false),
         
         // THIS ONE IS GOOD FOR (experimental )
@@ -53,9 +53,15 @@ struct PageView: View {
 //
     // CIRCLE
 //        (numPoints: 14,
-        (numPoints: 20,
+//        (numPoints: 20,
+//         n: 2.0,
+//         axisRelOffsets: (inner: 0.49, baseCurve: 0.75, outer: 1.01),
+//         blobLimits: (inner: 0.6, outer: 0.8),
+//         forceEqualAxes: true),
+        
+        (numPoints: 18,
          n: 2.0,
-         axisRelOffsets: (inner: 0.49, baseCurve: 0.75, outer: 1.01),
+         axisRelOffsets: (inner: 0.44, baseCurve: 0.55, outer: 0.8),
          blobLimits: (inner: 0.6, outer: 0.8),
          forceEqualAxes: true),
 
@@ -85,12 +91,12 @@ struct PageView: View {
     
     // if the timer increment is larger than the
     // animation increment, we get a pause between cycles
-    static let timerTimeIncrement : Double = 2.8
-    static let animationTimeIncrement : Double = 2.7
+    static let timerTimeIncrement : Double = 3.05
+    static let animationTimeIncrement : Double = 2.25
 //  static let animationTimeIncrement : Double = 3.2
     
-//    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
     static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
+//    static let animationStyle = Animation.easeInOut(duration: PageView.animationTimeIncrement)
     
     static let timerInitialTimeIncrement : Double = 0.0
     
