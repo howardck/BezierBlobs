@@ -21,6 +21,7 @@ enum PerturbationStrategy : String, Equatable, CaseIterable {
     case randomizedZigZags = "randomized alternating zig-zags"
     case randomAnywhereInHalfEnvelope = "random in alternating half-envelopes"
     case randomAnywhereInEnvelope = "random anywhere in envelope"
+    case randomRangeFromAlternatingOffsets = "random range at offsets"
 }
 
 //struct PerturbationTypeOption {

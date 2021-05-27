@@ -38,7 +38,7 @@ struct PageView: View {
 //        (numPoints: 32,
         (numPoints: 32,
          n: 2.8,
-         axisRelOffsets: (inner: 0.4, baseCurve: 0.7, outer: 1.0),
+         axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.8),
          blobLimits: (inner: 1.0, outer: 0.8), false),
         
         // THIS ONE IS GOOD FOR (experimental )
@@ -52,17 +52,12 @@ struct PageView: View {
 //         blobLimits: (inner: 1.2, outer: 1.0), false),
 //
     // CIRCLE
-        (numPoints: 14,
+//        (numPoints: 14,
+        (numPoints: 20,
          n: 2.0,
-         axisRelOffsets: (inner: 0.5, baseCurve: 0.75, outer: 1.0),
+         axisRelOffsets: (inner: 0.49, baseCurve: 0.75, outer: 1.01),
          blobLimits: (inner: 0.6, outer: 0.8),
          forceEqualAxes: true),
-//
-//        (numPoints: 30,
-//         n: 2.0,
-//         axisRelOffsets: (inner: 0.5, baseCurve: 0.75, outer: 1.0),
-//         blobLimits: (inner: 0.6, outer: 0.8),
-//         forceEqualAxes: true),
 
     // DELTA WING
         (numPoints: 6,
@@ -91,7 +86,7 @@ struct PageView: View {
     // if the timer increment is larger than the
     // animation increment, we get a pause between cycles
     static let timerTimeIncrement : Double = 2.8
-    static let animationTimeIncrement : Double = 2.0
+    static let animationTimeIncrement : Double = 2.7
 //  static let animationTimeIncrement : Double = 3.2
     
 //    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
@@ -134,13 +129,24 @@ struct PageView: View {
             b = Double(minAxis)
         }
         
+        print("semiMinor axis a: {\(a)} semiMajor axis b: {\(b)}")
+        
         let baseCurveRatio = pageDesc.axisRelOffsets.baseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
+        
+        if Model.DEBUG_ADJUST_PERTURBATION_LIMITS {
+            
+            print("Model.upscale(blobLimits):")
+            print("   baseCurve. ratio: {\(baseCurveRatio.format(fspec: "4.2"))}" +
+                    "-> absolute: {\(baseCurve.format(fspec: "4.2"))}")
+            print("   axisRelativeOffsets: (inner: \(pageDesc.axisRelOffsets.inner.format(fspec: "4.2")), " +
+                "outer: \(pageDesc.axisRelOffsets.outer.format(fspec: "4.2")))")
+        }
         
         model.offsets = (inner: minAxis * pageDesc.axisRelOffsets.inner - baseCurve,
                          outer: minAxis * pageDesc.axisRelOffsets.outer - baseCurve)
         
-        model.blobLimits = model.convert(pageDesc.blobLimits,
+        model.blobLimits = model.upscale(pageDesc.blobLimits,
                                          toMatch: model.offsets)
         
         print("model.calculateSuperEllipse()")
@@ -250,6 +256,10 @@ struct PageView: View {
                     
                 case .randomAnywhereInEnvelope :
                     model.animateToRandomOffsetsAnywhereWithinEnvelope()
+                
+                case .randomRangeFromAlternatingOffsets :
+                
+                    model.animateToRandomizedPerturbationInRange()
                 }
             }
             
@@ -280,10 +290,6 @@ struct PageView: View {
         }
         //MARK: onTapGesture(2)
         .onTapGesture(count: 2) {
-            
-            // testing how to update model & pages when new PageDesc changes
-            // the number of points, if/when we implement that feature
-            model.recalculateFor(newNumPoints: model.numPoints * 2)
             
             withAnimation(Animation.easeInOut(duration: 0.6))
             {

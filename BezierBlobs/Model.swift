@@ -27,8 +27,13 @@ class Model: ObservableObject {
     static let DEBUG_PRINT_BASIC_SE_PARAMS = false
     static let DEBUG_PRINT_VERTEX_NORMALS = false
     static let DEBUG_TRACK_ZIGZAG_PHASING = false
-    static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = false
-    static let DEBUG_ADJUST_PERTURBATION_LIMITS = false
+    static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = true
+    static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
+    
+    //MARK:-
+    
+    
+    //MARK:-
     
     @Published var blobCurve = [CGPoint]()
     @Published var numPoints: Int = 0
@@ -48,10 +53,13 @@ class Model: ObservableObject {
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
     var normalsCurve : [CGPoint] = [CGPoint]()
     var axes : Axes = (1.0, 1.0)
-    var offsets : Offsets = (inner: 0, outer: 0)
+
     var pageType: PageType?
     var blobLimits : ZigZagDeltas = (inner: 0, outer: 0)
     var zigZagger : ZigZagger?
+    
+//    var offsets : Offsets = (inner: 0, outer: 0)
+//    @State var offsetPerturbationsStartToOutside = true
     
     var totallyRandomBlobbyCurve = [CGPoint]()
     
@@ -65,7 +73,7 @@ class Model: ObservableObject {
                 "axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
                 "b: {\((self.axes.b).format(fspec: "6.2"))})")
 
-        self.blobLimits = convert(pageDescription.blobLimits,
+        self.blobLimits = upscale(pageDescription.blobLimits,
                                   toMatch: offsets)
         
         if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
@@ -81,14 +89,13 @@ class Model: ObservableObject {
         }
     }
         
-    func convert(_ blobLimits: ZigZagDeltas,
+    func upscale(_ blobLimits: ZigZagDeltas,
                  toMatch offsets: Offsets) -> ZigZagDeltas
     {
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
-            print("Model.upscale(blobLimits)")
-            print("offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+            print("   offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
             
-            print("blobLimits before upscaling : ( inner: {\(blobLimits.inner.format(fspec: "4.2"))}, " +
+            print("   blobLimits before upscaling : ( inner: {\(blobLimits.inner.format(fspec: "4.2"))}, " +
                     "outer: {\(blobLimits.outer.format(fspec: "4.2"))} ) "
                   )
         }
@@ -96,7 +103,7 @@ class Model: ObservableObject {
                        outer: abs(blobLimits.outer * offsets.outer))
         
         if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
-            print("blobLimits after  upscaling : " +
+            print("   blobLimits after  upscaling : " +
                     "( inner: {+/- \(pLimits.inner.format(fspec: "4.2"))}, " +
                     "outer: {+/- \(pLimits.outer.format(fspec: "4.2"))} ) ")
         }
@@ -187,6 +194,34 @@ class Model: ObservableObject {
             animateToOffsets(offsets.outer, offsets.inner) :
             animateToOffsets(offsets.inner, offsets.outer)
         
+        nextPhaseIsZig.toggle()
+    }
+    
+    //MARK:-
+    //MARK:-
+
+    // this will have been set up by the time we 1st get here...
+    var offsets : Offsets = (inner: 0, outer: 0)
+    var perturbationRange : ClosedRange<CGFloat> = -20...90
+
+    func animateToRandomizedPerturbationInRange() {
+        
+        var isOffsetToOutside = nextPhaseIsZig
+        var curve = [CGPoint]()
+        
+        for (_, vertexTuple) in baseCurve.enumerated() {
+            
+            let offset : CGFloat = isOffsetToOutside ?
+                offsets.outer + CGFloat.random(in: perturbationRange) :
+                offsets.inner + CGFloat.random(in: perturbationRange)
+            
+            let pt = vertexTuple.vertex.newPoint(atOffset: offset,
+                                                 along: vertexTuple.normal)
+            curve += [pt]
+            isOffsetToOutside.toggle()
+        }
+        
+        blobCurve = curve // we update blobCurve; drive the animation
         nextPhaseIsZig.toggle()
     }
     

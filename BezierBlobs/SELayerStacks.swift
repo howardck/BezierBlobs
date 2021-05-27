@@ -18,7 +18,7 @@ enum MarkerType : CaseIterable {
 
 typealias MarkerStyle = (color: Color, radius: CGFloat)
 
-let r: CGFloat = 14
+let r: CGFloat = 15
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r + 2),
     .vertexOrigin :     (color: .green, radius : r + 2),
@@ -63,7 +63,12 @@ struct AnimatingBlob_Filled: View {
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
                     .fill(Gray.dark)
-                    .offset(x: 5, y: 5)
+                    .offset(x: 6, y: 6)
+                
+                SuperEllipse(curve: curve,
+                             smoothed: options.smoothed )
+                    .fill(Gray.light)
+                    .offset(x: 2, y: 2)
                 
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
@@ -130,7 +135,7 @@ struct AnimatingBlob_Markers : View {
             // don't take from markerStyles above
             // but from the environment
 //            .fill(style.color)
-            .fill(colorScheme.baseMarkers)
+            .fill(colorScheme.allVertices)
         SuperEllipse(curve: curve,
                      bezierType: .markers(radius: 3))
             .fill(Color.white)
@@ -174,7 +179,8 @@ struct NormalsPlusMarkers : View {
     // NORMALS
             SuperEllipse(curve: normals,
                          bezierType: .normals)
-                .stroke(Color.init(white: 0.85),
+//                .stroke(Color.init(white: 0.85),
+                .stroke(Color.red,
                         style: StrokeStyle(lineWidth: 5, dash: [0.75,4]))
     // THEIR INNER & OUTER MARKERS
             SuperEllipse(curve: markerCurves.inner,

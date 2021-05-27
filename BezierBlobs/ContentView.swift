@@ -75,8 +75,8 @@ struct ContentView: View {
                                            fill: .blue,
                                            buttonFace: .green,
                                            buttonEdge: .black,
-                                           baseMarkers: .red,
-                                           vertex0Marker: .green)
+                                           allVertices: .green,
+                                           vertex_0: .yellow)
             )
         }
     }
@@ -100,22 +100,22 @@ class ColorScheme : ObservableObject {
     @Published var fill: Color
     @Published var buttonFace: Color
     @Published var buttonEdge: Color
-    @Published var baseMarkers: Color
+    @Published var allVertices: Color
     @Published var vertex0Marker: Color
     
     init(background: Color,
          fill: Color,
          buttonFace: Color,
          buttonEdge: Color,
-         baseMarkers: Color,
-         vertex0Marker: Color) {
+         allVertices: Color,
+         vertex_0: Color) {
         
         self.background = background
         self.fill = fill
         self.buttonFace = buttonFace
         self.buttonEdge = buttonEdge
-        self.baseMarkers = baseMarkers
-        self.vertex0Marker = vertex0Marker
+        self.allVertices = allVertices
+        self.vertex0Marker = vertex_0
     }
 }
 
@@ -138,8 +138,8 @@ struct ContentView_Previews: PreviewProvider {
                                                    fill: Color.orange,
                                                    buttonFace: .green,
                                                    buttonEdge: .white,
-                                                   baseMarkers: .blue,
-                                                   vertex0Marker: .green)
+                                                   allVertices: .blue,
+                                                   vertex_0: .green)
                     )
                                        
                 PageView(pageType: PageType.circle,
@@ -149,8 +149,8 @@ struct ContentView_Previews: PreviewProvider {
                                                    fill: .blue,
                                                    buttonFace: .red,
                                                    buttonEdge: .white,
-                                                   baseMarkers: .green,
-                                                   vertex0Marker: .red)
+                                                   allVertices: .green,
+                                                   vertex_0: .red)
                     )
             }
             .environmentObject(SELayersViewModel())
@@ -164,8 +164,8 @@ struct ContentView_Previews: PreviewProvider {
                                                    fill: Color.orange,
                                                    buttonFace: .red,
                                                    buttonEdge: .black,
-                                                   baseMarkers: .blue,
-                                                   vertex0Marker: .red)
+                                                   allVertices: .blue,
+                                                   vertex_0: .red)
                     )
 
                 PageView(pageType: PageType.circle,
@@ -175,8 +175,8 @@ struct ContentView_Previews: PreviewProvider {
                                                    fill: Color.blue,
                                                    buttonFace: .green,
                                                    buttonEdge: .black,
-                                                   baseMarkers: .orange,
-                                                   vertex0Marker: .red)
+                                                   allVertices: .orange,
+                                                   vertex_0: .red)
                     )
                 //                .tabItem {
                 //                    SFSymbol.tab_1
