@@ -39,7 +39,7 @@ let redGradient = Gradient(colors: [.red, .yellow])
 let highlitRed = Gradient(colors: [.black, .red, .black
 ])
 
-
+//MARK:- AnimatingBlob_Filled
 struct AnimatingBlob_Filled: View {
     
     @EnvironmentObject var layers: SELayersViewModel
@@ -83,7 +83,7 @@ struct AnimatingBlob_Filled: View {
     }
 }
 
-//MARK:-
+//MARK:- AnimatingBlob_Stroked
 struct AnimatingBlob_Stroked: View {
     var curve: [CGPoint]
     
@@ -108,8 +108,7 @@ struct AnimatingBlob_Stroked: View {
     }
 }
 
-//MARK:-
-
+//MARK:- AnimatingBlob_Markers
 struct AnimatingBlob_Markers : View {
     var curve : [CGPoint]
     var style : MarkerStyle
@@ -134,6 +133,7 @@ struct AnimatingBlob_Markers : View {
     }
 }
 
+//MARK:- AnimatingBlob_VertexZeroMarker
 struct AnimatingBlob_VertexZeroMarker: View {
     var animatingCurve: [CGPoint]
     var markerStyle : MarkerStyle
@@ -158,7 +158,7 @@ struct AnimatingBlob_VertexZeroMarker: View {
     }
 }
 
-//MARK:-
+//MARK:- NormalsPlusMarkers
 struct NormalsPlusMarkers : View {
     
     var normals: [CGPoint]
@@ -185,7 +185,7 @@ struct NormalsPlusMarkers : View {
     }
 }
 
-//MARK:-
+//MARK:- BaseCurve
 struct BaseCurve : View {
     var vertices: [CGPoint]
     let strokeStyle = StrokeStyle(lineWidth: 2, dash: [4,3])
@@ -196,7 +196,7 @@ struct BaseCurve : View {
     }
 }
 
-//MARK:-
+//MARK:- BaseCurve_Markers
 struct BaseCurve_Markers : View {
     var curve : [CGPoint]
     var style : MarkerStyle
@@ -217,7 +217,7 @@ struct BaseCurve_Markers : View {
     }
 }
 
-//MARK:-
+//MARK:- EnvelopeBounds
 // AKA Curve Offsets
 struct EnvelopeBounds : View {
     var curves: BoundingCurves
@@ -246,7 +246,7 @@ struct EnvelopeBounds : View {
     }
 }
 
-//MARK:-
+//MARK:- ZigZags
 
 struct ZigZags : View {
     var curves: ZigZagCurves
@@ -289,7 +289,7 @@ struct ZigZags : View {
     }
 }
 
-//MARK:-
+//MARK:- ZigZag_Markers
 struct ZigZag_Markers : View {
     var curves : ZigZagCurves
     var zigStyle : MarkerStyle

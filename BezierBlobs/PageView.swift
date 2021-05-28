@@ -157,7 +157,7 @@ struct PageView: View {
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
-        // just for fun we use an @Environment-injected layers object instead)
+        // just for fun we use an @Environment-injected layers object for this one)
             AnimatingBlob_Filled(curve: model.blobCurve,
                                  layerType: .blob_filled)
             
