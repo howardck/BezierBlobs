@@ -54,27 +54,26 @@ struct ContentView: View {
                         Text("\(PageType.circle.rawValue)")
                     }
                 
-//                PageView(pageType: PageType.deltaWing,
-//                         pageDesc: PageView.descriptions[2],
-//                         size: gr.size)
-//                    .tabItem {
-//                        SFSymbol.tab_3
-//                        Text("\(PageType.deltaWing.rawValue)" )
-//                    }
-//
-//                PageView(pageType: PageType.mutantMoth,
-//                         pageDesc: PageView.descriptions[3],
-//                         size: gr.size)
-//                    .tabItem {
-//                        SFSymbol.tab_4
-//                        Text("\(PageType.mutantMoth.rawValue)" )
-//                    }
+                PageView(pageType: PageType.deltaWing,
+                         pageDesc: PageView.descriptions[2],
+                         size: gr.size)
+                    .tabItem {
+                        SFSymbol.tab_3
+                        Text("\(PageType.deltaWing.rawValue)" )
+                    }
+                
+                PageView(pageType: PageType.mutantMoth,
+                         pageDesc: PageView.descriptions[3],
+                         size: gr.size)
+                    .tabItem {
+                        SFSymbol.tab_4
+                        Text("\(PageType.mutantMoth.rawValue)" )
+                  }
             }
-            
             .environmentObject(ColorScheme(background: Color.init(white: 0.4),
                                            fill: .blue,
                                            buttonFace: .blue,
-                                           buttonEdge: .white,
+                                           buttonEdge: Gray.dark,
                                            allVertices: .green,
                                            vertex_0: .orange)
             )

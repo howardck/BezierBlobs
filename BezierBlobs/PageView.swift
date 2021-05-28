@@ -30,7 +30,7 @@ struct PageView: View {
     // CLASSIC SE
         (numPoints: 32,
          n: 3.0,
-         axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.7),
+         axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.75),
          blobLimits: (inner: 1.0, outer: 0.8), false),
         
     // CIRCLE
@@ -43,7 +43,7 @@ struct PageView: View {
     // DELTA WING
         (numPoints: 6,
          n: 3,
-        axisRelOffsets: (inner: 0.15, baseCurve: 0.6, outer: 0.95),
+        axisRelOffsets: (inner: 0.15, baseCurve: 0.5, outer: 0.8),
         blobLimits: (inner: 0.0, outer: 0.0), false),
         
     // MUTANT MOTH
@@ -141,11 +141,10 @@ struct PageView: View {
         let colors : [Color] = [.init(white: 0.7), .init(white: 0.3)]
         var body : some View {
             
-//            LinearGradient(gradient: Gradient(colors: colors),
-//                           startPoint: .topLeading,
-//                           endPoint: .bottom)
-            
-            Color.orange
+            LinearGradient(gradient: Gradient(colors: colors),
+                           startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
+//            Color.orange
         }
     }
     
@@ -153,11 +152,13 @@ struct PageView: View {
     
         ZStack {
 
-            //PageGradientBackground()
+            PageGradientBackground()
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
-        // just for fun we use an @Environment-injected layers object for this one)
+        // just for fun we use an @Environment-injected
+        // layers object for this one. see one level down)
+            
             AnimatingBlob_Filled(curve: model.blobCurve,
                                  layerType: .blob_filled)
             
@@ -170,34 +171,37 @@ struct PageView: View {
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
+            
              if layers.isVisible(layerWithType: .baseCurve) {
                 BaseCurve(vertices: model.baseCurve.map{$0.vertex})
             }
+            
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
-//            if layers.isVisible(layerWithType: .zigZags_with_markers) {
-//                ZigZag_Markers(curves: model.zigZagCurves,
-//                               zigStyle : markerStyles[.zig]!,
-//                               zagStyle : markerStyles[.zag]!)
-//            }
             Group {
+                
                 if layers.isVisible(layerWithType: .baseCurve_markers) {
                     BaseCurve_Markers(curve: model.baseCurve.map{$0.vertex} ,
                                       style: markerStyles[.baseCurve]!)
                 }
+                
                 if layers.isVisible(layerWithType: .blob_markers) {
                     AnimatingBlob_Markers(curve: model.blobCurve,
                                           style: markerStyles[.blob]!)
                 }
+                
                 if layers.isVisible(layerWithType: .blob_vertex_0_marker) {
                     AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
                                                    markerStyle: markerStyles[.vertexOrigin]!)
                 }
             }
         }
-        .background(colorScheme.background)
+        // an interesting bug occurs if we do this instead of
+        // using PageGradientBackground() and then 'hide all layers'
+        
+        // .background(colorScheme.background)
 
         .onDisappear {
             isAnimating = false
@@ -207,8 +211,6 @@ struct PageView: View {
         //MARK: onReceive()
         .onReceive(timer) { _ in
             
-            //TODO: -- USE AN OPTIONAL FOR options HERE
-            
             withAnimation(PageView.animationStyle) {
                 
                 switch options.currPerturbStrategy {
@@ -216,36 +218,10 @@ struct PageView: View {
                 case .staticZigZags :
                     model.animateToNextFixedZigZag()
                     
-//                    model.animateToNextZigZagPhase(doRandomDeltas: false)
-//
-//                case .randomizedZigZags :
-//                    model.animateToNextZigZagPhase(doRandomDeltas: true)
-//
-//                case .randomAnywhereInHalfEnvelope :
-//                    model.animateToRandomOffsetsInAlternatingQuadrants()
-//
-//                case .randomAnywhereInEnvelope :
-//                    model.animateToRandomOffsetsAnywhereWithinEnvelope()
-//
                 case .randomizedZigZags :
-                
                     model.animateToRandomizedPerturbationInRange()
                 }
             }
-            
-//            withAnimation(PageView.animationStyle)
-//            {
-//                if options.isSelected(perturbationType: .staticZigZags) {
-//                    model.animateToNextZigZagPhase(doRandomDeltas: false)
-//                }
-//                else if options.isSelected(perturbationType: .randomizedZigZags) {
-//                    model.animateToNextZigZagPhase(doRandomDeltas: true)
-//                }
-//                else {
-//                    model.animateToRandomOffsetsAnywhereWithinEnvelope()
-//                }
-////                model.animateToRandomOffsetInAlternateQuadrant()
-//            }
 
             if isFirstTappedCycle {
                 
