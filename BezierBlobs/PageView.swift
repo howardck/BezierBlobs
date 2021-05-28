@@ -28,37 +28,12 @@ struct PageView: View {
     static let descriptions : [PageDescription] =
     [
     // CLASSIC SE
-        
-        // NOTA: THIS ONE IS GOOD FOR (experimental at the moment)
-        //         .zigZagBased pages
-        // we do FEWER points because the arms are generally deeper
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        
-// TEMPORARILY REPLACING THIS FOR A SMALL NUMBER FOR Live Preview
-//        (numPoints: 32,
         (numPoints: 32,
          n: 3.0,
          axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.7),
          blobLimits: (inner: 1.0, outer: 0.8), false),
         
-        // THIS ONE IS GOOD FOR (experimental )
-        //          .envelopeBased pages
-        // we do MORE points b/cause the arms are generally shallower
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        
-//        (numPoints: 66,
-//         n: 3.8,
-//         axisRelativeOffsets: (inner: 0.4, baseCurve: 0.6, outer: 1.0),
-//         blobLimits: (inner: 1.2, outer: 1.0), false),
-//
     // CIRCLE
-//        (numPoints: 14,
-//        (numPoints: 20,
-//         n: 2.0,
-//         axisRelOffsets: (inner: 0.49, baseCurve: 0.75, outer: 1.01),
-//         blobLimits: (inner: 0.6, outer: 0.8),
-//         forceEqualAxes: true),
-        
         (numPoints: 18,
          n: 2.0,
          axisRelOffsets: (inner: 0.44, baseCurve: 0.55, outer: 0.8),
@@ -85,10 +60,11 @@ struct PageView: View {
     @EnvironmentObject var colorScheme : ColorScheme
     
     //MARK:-
-    // if the timer increment is larger than the
-    // animation increment, we get a pause between cycles
-    static let timerTimeIncrement : Double = 2.6
-    static let animationTimeIncrement : Double = 2.2
+    // timerTimeIncrement - animaitonTimeIncrement
+    // == time paused between animations
+    
+    static let timerTimeIncrement : Double = 4.0
+    static let animationTimeIncrement : Double = 3.5
     //MARK:-
     
     static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
@@ -130,25 +106,26 @@ struct PageView: View {
             b = Double(minAxis)
         }
         
-        print("semiMinor axis a: {\(a)} semiMajor axis b: {\(b)}")
+        print("   semiMinorAxis a: {\(a)} semiMajorAxis b: {\(b)}")
         
         let baseCurveRatio = pageDesc.axisRelOffsets.baseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
         
+        let offsets: Offsets = (inner: minAxis * pageDesc.axisRelOffsets.inner - baseCurve,
+                                outer: minAxis * pageDesc.axisRelOffsets.outer - baseCurve)
+        let blobLimits : ZigZagDeltas = (inner: abs(pageDesc.blobLimits.inner * offsets.inner),
+                                         outer: abs(pageDesc.blobLimits.outer * offsets.outer))
+        model.offsets = offsets
+        model.blobLimits = blobLimits
+        
         if Model.DEBUG_ADJUST_PERTURBATION_LIMITS {
-            
-            print("Model.upscale(blobLimits):")
-            print("   baseCurve. ratio: {\(baseCurveRatio.format(fspec: "4.2"))}" +
-                    "-> absolute: {\(baseCurve.format(fspec: "4.2"))}")
-            print("   axisRelativeOffsets: (inner: \(pageDesc.axisRelOffsets.inner.format(fspec: "4.2")), " +
-                "outer: \(pageDesc.axisRelOffsets.outer.format(fspec: "4.2")))")
+            print("   baseCurve.ratio: {\(baseCurveRatio.format(fspec: "4.2"))}" +
+                    " => {\(baseCurve.format(fspec: "4.2"))}")
+            print("   axisRelOffsets: (inner: \(pageDesc.axisRelOffsets.inner.format(fspec: "4.2")), " +
+                "outer: \(pageDesc.axisRelOffsets.outer.format(fspec: "4.2"))) => " +
+                    "(inner: {+/- \(model.blobLimits.inner.format(fspec: "4.2"))}, " +
+                    "outer: {+/- \(model.blobLimits.outer.format(fspec: "4.2"))}) ")
         }
-        
-        model.offsets = (inner: minAxis * pageDesc.axisRelOffsets.inner - baseCurve,
-                         outer: minAxis * pageDesc.axisRelOffsets.outer - baseCurve)
-        
-        model.blobLimits = model.upscale(pageDesc.blobLimits,
-                                         toMatch: model.offsets)
         
         print("model.calculateSuperEllipse()")
         model.calculateSuperEllipse(for: pageType,

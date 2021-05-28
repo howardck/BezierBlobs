@@ -13,6 +13,7 @@ typealias Offsets = (inner: CGFloat, outer: CGFloat)
 typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
+typealias ZigZagDeltas = (inner: CGFloat, outer: CGFloat)
 
 class Model: ObservableObject {
     
@@ -30,21 +31,18 @@ class Model: ObservableObject {
     static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = true
     static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
     
-    //MARK:-
-    
     
     //MARK:-
     
     @Published var blobCurve = [CGPoint]()
     @Published var numPoints: Int = 0
          
-    // at vertex 0:
-    // zig configuration: green vertex[0] marker moves to the outside
-    // zag configuration: green vertex[0] marker moves to the inside
+    // zig vs zag configurations:
+    // zig : green vertex[0] marker moves to the outside
+    // zag : green vertex[0] marker moves to the inside
     
-    var nextPhaseIsZig = true
-    var doRandomDeltas = true
-            
+    @State var nextPhaseIsZig = true
+  
     // MARK:-
     var pageDescription: PageDescription!
     
@@ -55,13 +53,10 @@ class Model: ObservableObject {
     var axes : Axes = (1.0, 1.0)
 
     var pageType: PageType?
+    // this will have been set up by the time we 1st get here...
+    var offsets : Offsets = (inner: 0, outer: 0)
     var blobLimits : ZigZagDeltas = (inner: 0, outer: 0)
     var zigZagger : ZigZagger?
-    
-//    var offsets : Offsets = (inner: 0, outer: 0)
-//    @State var offsetPerturbationsStartToOutside = true
-    
-    var totallyRandomBlobbyCurve = [CGPoint]()
     
     //MARK:-
     func massageParameters(pageType: PageType,
@@ -204,8 +199,6 @@ class Model: ObservableObject {
     //MARK:-
     //MARK:-
 
-    // this will have been set up by the time we 1st get here...
-    var offsets : Offsets = (inner: 0, outer: 0)
     var perturbationRange : ClosedRange<CGFloat> = -20...100
 
     func animateToRandomizedPerturbationInRange() {
