@@ -36,7 +36,7 @@ struct PageView: View {
     // CIRCLE
         (numPoints: 18,
          n: 2.0,
-         axisRelOffsets: (inner: 0.44, baseCurve: 0.55, outer: 0.8),
+         axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.8),
          blobLimits: (inner: 0.6, outer: 0.8),
          forceEqualAxes: true),
 
@@ -121,8 +121,11 @@ struct PageView: View {
         if Model.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("   baseCurve.ratio: {\(baseCurveRatio.format(fspec: "4.2"))}" +
                     " => {\(baseCurve.format(fspec: "4.2"))}")
+            
             print("   axisRelOffsets: (inner: \(pageDesc.axisRelOffsets.inner.format(fspec: "4.2")), " +
-                "outer: \(pageDesc.axisRelOffsets.outer.format(fspec: "4.2"))) => " +
+                "outer: \(pageDesc.axisRelOffsets.outer.format(fspec: "4.2"))) => ")
+            
+            print("   blobLimits : " +
                     "(inner: {+/- \(model.blobLimits.inner.format(fspec: "4.2"))}, " +
                     "outer: {+/- \(model.blobLimits.outer.format(fspec: "4.2"))}) ")
         }

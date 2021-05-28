@@ -59,51 +59,52 @@ class Model: ObservableObject {
     var zigZagger : ZigZagger?
     
     //MARK:-
-    func massageParameters(pageType: PageType,
-                           pageDescription: PageDescription) {
-        self.pageType = pageType
-        self.numPoints = pageDescription.numPoints
+//    func massageParameters(pageType: PageType,
+//                           pageDescription: PageDescription) {
+//        self.pageType = pageType
+//        self.numPoints = pageDescription.numPoints
+//        
+//        print("Model.massageParameters({\"\(pageType.rawValue)\"}) " +
+//                "axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
+//                "b: {\((self.axes.b).format(fspec: "6.2"))})")
+//
+//        self.blobLimits = upscale(pageDescription.blobLimits,
+//                                  toMatch: offsets)
+//        
+//        if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
+//            
+//            print("Basic SuperEllipse params for: (PageType.\(pageType.rawValue))")
+//            print("  numPoints: {\(numPoints)} ")
+//            print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
+//                    "b: {\((self.axes.b).format(fspec: "6.2"))})")
+//
+//            print("  offsets: [NEW STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+//            print("  blobLimits: " +
+//                    "( inner: {+/- \(blobLimits.inner.format(fspec: "4.2"))}, " +
+//                    "outer: {+/- \(blobLimits.outer.format(fspec: "4.2"))} ) ")
+//        }
+//    }
         
-        print("Model.massageParameters({\"\(pageType.rawValue)\"}) " +
-                "axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
-                "b: {\((self.axes.b).format(fspec: "6.2"))})")
-
-        self.blobLimits = upscale(pageDescription.blobLimits,
-                                  toMatch: offsets)
-        
-        if Self.DEBUG_PRINT_BASIC_SE_PARAMS {
-            print("Basic SuperEllipse params for: (PageType.\(pageType.rawValue))")
-            print("  numPoints: {\(numPoints)} ")
-            print("  axes: (a: {\((self.axes.a).format(fspec: "6.2"))}, " +
-                    "b: {\((self.axes.b).format(fspec: "6.2"))})")
-//            print("  offsets: [OLD STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
-            print("  offsets: [NEW STYLE] (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
-            print("  blobLimits: " +
-                    "( inner: {+/- \(blobLimits.inner.format(fspec: "4.2"))}, " +
-                    "outer: {+/- \(blobLimits.outer.format(fspec: "4.2"))} ) ")
-        }
-    }
-        
-    func upscale(_ blobLimits: ZigZagDeltas,
-                 toMatch offsets: Offsets) -> ZigZagDeltas
-    {
-        if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
-            print("   offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
-            
-            print("   blobLimits before upscaling : ( inner: {\(blobLimits.inner.format(fspec: "4.2"))}, " +
-                    "outer: {\(blobLimits.outer.format(fspec: "4.2"))} ) "
-                  )
-        }
-        let pLimits = (inner: abs(blobLimits.inner * offsets.inner),
-                       outer: abs(blobLimits.outer * offsets.outer))
-        
-        if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
-            print("   blobLimits after  upscaling : " +
-                    "( inner: {+/- \(pLimits.inner.format(fspec: "4.2"))}, " +
-                    "outer: {+/- \(pLimits.outer.format(fspec: "4.2"))} ) ")
-        }
-        return pLimits
-    }
+//    func upscale(_ blobLimits: ZigZagDeltas,
+//                 toMatch offsets: Offsets) -> ZigZagDeltas
+//    {
+//        if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
+//            print("   offsets: (inner: \(offsets.inner.format(fspec: "6.2")), outer: \(offsets.outer.format(fspec: "6.2")))")
+//            
+//            print("   blobLimits before upscaling : ( inner: {\(blobLimits.inner.format(fspec: "4.2"))}, " +
+//                    "outer: {\(blobLimits.outer.format(fspec: "4.2"))} ) "
+//                  )
+//        }
+//        let pLimits = (inner: abs(blobLimits.inner * offsets.inner),
+//                       outer: abs(blobLimits.outer * offsets.outer))
+//        
+//        if Self.DEBUG_ADJUST_PERTURBATION_LIMITS {
+//            print("   blobLimits after  upscaling : " +
+//                    "( inner: {+/- \(pLimits.inner.format(fspec: "4.2"))}, " +
+//                    "outer: {+/- \(pLimits.outer.format(fspec: "4.2"))} ) ")
+//        }
+//        return pLimits
+//    }
 
     //MARK:- MAIN SUPERELLIPSE
     func calculateSuperEllipse(for pageType: PageType,
