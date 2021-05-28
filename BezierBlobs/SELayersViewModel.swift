@@ -17,7 +17,8 @@ class SELayersViewModel : ObservableObject {
               visible: true),
         .init(type: .blob_markers, section: .animatingBlobCurves,
               visible: false),
-    // ----------------------------------------------------------------
+ 
+        // ----------------------------------------------------------------
         .init(type: .baseCurve, section: .staticSupportCurves,
               visible: false),
         .init(type: .baseCurve_markers, section: .staticSupportCurves,
@@ -25,8 +26,8 @@ class SELayersViewModel : ObservableObject {
         .init(type: .offsetsEnvelope, section: .staticSupportCurves,
               visible: false),
         .init(type: .normals, section: .staticSupportCurves),
-        .init(type: .zigZags_with_markers, section: .staticSupportCurves),
-    // -----------------------------------------------------------------
+
+        // -----------------------------------------------------------------
         .init(type: .showAll, section: .shortcuts),
         .init(type: .hideAll, section: .shortcuts)
     ]
@@ -41,15 +42,16 @@ class SELayersViewModel : ObservableObject {
               visible: true),
         .init(type: .blob_markers, section: .animatingBlobCurves,
               visible: true),
-    // ----------------------------------------------------------------
+
+        // ----------------------------------------------------------------
         .init(type: .baseCurve, section: .staticSupportCurves,
               visible: true),
         .init(type: .baseCurve_markers, section: .staticSupportCurves,
               visible: true),
         .init(type: .offsetsEnvelope, section: .staticSupportCurves),
         .init(type: .normals, section: .staticSupportCurves),
-        .init(type: .zigZags_with_markers, section: .staticSupportCurves),
-    // -----------------------------------------------------------------
+
+        // -----------------------------------------------------------------
         .init(type: .showAll, section: .shortcuts),
         .init(type: .hideAll, section: .shortcuts)
     ]
@@ -84,7 +86,6 @@ enum LayerType : String {
     case baseCurve_markers = "basecurve markers"
     case offsetsEnvelope = "offsets"
     case normals = "normals"
-    case zigZags_with_markers = "zig-zags"
     
     case showAll = "show All layers"
     case hideAll = "hide All layers"

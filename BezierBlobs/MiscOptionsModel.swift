@@ -17,7 +17,7 @@ import SwiftUI
 
 // the NEW way we're transitioning to
 enum PerturbationStrategy : String, Equatable, CaseIterable {
-    case staticZigZags = "non-randomized zig-zags"
+    case staticZigZags = "static fixed zig-zags"
     case randomizedZigZags = "randomized zig-zags"
 }
 

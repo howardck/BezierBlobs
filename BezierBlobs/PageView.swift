@@ -36,7 +36,7 @@ struct PageView: View {
     // CIRCLE
         (numPoints: 18,
          n: 2.0,
-         axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.8),
+         axisRelOffsets: (inner: 0.35, baseCurve: 0.5, outer: 0.8),
          blobLimits: (inner: 0.6, outer: 0.8),
          forceEqualAxes: true),
 
@@ -60,17 +60,15 @@ struct PageView: View {
     @EnvironmentObject var colorScheme : ColorScheme
     
     //MARK:-
-    // timerTimeIncrement - animaitonTimeIncrement
+    // timerTimeIncrement - animationTimeIncrement
     // == time paused between animations
     
-    static let timerTimeIncrement : Double = 4.0
-    static let animationTimeIncrement : Double = 3.5
-    //MARK:-
-    
+    static let timerTimeIncrement : Double = 3.0
+    static let animationTimeIncrement : Double = 2.6
+    static let timerInitialTimeIncrement : Double = 0.0
     static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
     
-    static let timerInitialTimeIncrement : Double = 0.0
-    
+    //MARK:-
     @State var showLayersList = false
     @State var showMiscOptionsList = false
     
@@ -159,17 +157,14 @@ struct PageView: View {
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
-            // (just for fun this one uses an @Environment-injected
-            // layers object internally to acesss .isVisible)
+        // just for fun we use an @Environment-injected layers object instead)
             AnimatingBlob_Filled(curve: model.blobCurve,
                                  layerType: .blob_filled)
             
             if layers.isVisible(layerWithType: .blob_stroked) {
                 AnimatingBlob_Stroked(curve: model.blobCurve)
             }
-            if layers.isVisible(layerWithType: .zigZags_with_markers) {
-                ZigZags(curves: model.zigZagCurves)
-            }
+
             if layers.isVisible(layerWithType: .normals) {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
@@ -182,11 +177,11 @@ struct PageView: View {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
-            if layers.isVisible(layerWithType: .zigZags_with_markers) {
-                ZigZag_Markers(curves: model.zigZagCurves,
-                               zigStyle : markerStyles[.zig]!,
-                               zagStyle : markerStyles[.zag]!)
-            }
+//            if layers.isVisible(layerWithType: .zigZags_with_markers) {
+//                ZigZag_Markers(curves: model.zigZagCurves,
+//                               zigStyle : markerStyles[.zig]!,
+//                               zagStyle : markerStyles[.zag]!)
+//            }
             Group {
                 if layers.isVisible(layerWithType: .baseCurve_markers) {
                     BaseCurve_Markers(curve: model.baseCurve.map{$0.vertex} ,
@@ -203,14 +198,6 @@ struct PageView: View {
             }
         }
         .background(colorScheme.background)
-        /*  a rather interesting bug:
-         
-            the view PageGradientBackground() will work in a .background(),
-            but all the other remaining views in the PageView.body are
-            conditioned, and if all are set to false the PageView "crashes"
-         
-            .background(PageGradientBackground())
-         */
 
         .onDisappear {
             isAnimating = false
