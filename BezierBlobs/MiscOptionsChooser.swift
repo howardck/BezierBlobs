@@ -8,18 +8,20 @@
 import Combine
 import SwiftUI
 
-//
-//struct PerturbationTypeRow : View {
-//    var perturbationOption : PerturbationTypeOption
-//    var body : some View {
-//        HStack {
-//            CheckBox(checked: perturbationOption.isSelected)
-//            Spacer()
-//            Text(perturbationOption.type.rawValue)
-//                .frame(width: 360, height: 0, alignment: .leading)
-//        }
-//    }
-//}
+//MARK:-
+struct LabeledCheckboxRow : View {
+    var isSelected: Bool
+    var text : String
+    
+    var body: some View {
+        HStack {
+            CheckBox(checked: isSelected)
+            Spacer()
+            Text(text)
+                .frame(width: 360, height: 0, alignment: .leading)
+        }
+    }
+}
 
 struct MiscOptionsChooser: View {
     
@@ -38,7 +40,7 @@ struct MiscOptionsChooser: View {
                     }
             }
                     
-            Section(header: Text("blob perturbation strategy")
+            Section(header: Text("perturbation strategy")
                 .foregroundColor(sectionHeaderTextColor)) {
 
                 ForEach(PerturbationStrategy.allCases, id: \.self) { type in
@@ -65,7 +67,7 @@ struct MiscOptionsChooser: View {
         .listStyle(InsetGroupedListStyle())
         .environment(\.defaultMinListRowHeight, 34)
     }
-    
+
     func bulletedTextItem(_ text: String) -> some View {
         HStack(alignment: .center){
             SFSymbol.diamondBullet

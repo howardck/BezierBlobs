@@ -8,7 +8,7 @@
 import SwiftUI
 
 class EnumBasedListModel : ObservableObject  {
-    @Published var currPerturbationType : PerturbationStrategy = .randomAnywhereInEnvelope
+    @Published var currPerturbationType : PerturbationStrategy = .randomizedZigZags
 }
 
 struct EnumBasedListChooser : View {

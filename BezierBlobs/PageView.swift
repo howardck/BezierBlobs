@@ -68,35 +68,30 @@ struct PageView: View {
     // DELTA WING
         (numPoints: 6,
          n: 3,
-         axisRelOffsets: (inner: 0.15, baseCurve: 0.6, outer: 0.95),
-
-         blobLimits: (inner: 0.0, outer: 0.0), false),
+        axisRelOffsets: (inner: 0.15, baseCurve: 0.6, outer: 0.95),
+        blobLimits: (inner: 0.0, outer: 0.0), false),
         
     // MUTANT MOTH
         (numPoints: 24,
          n: 1,
          axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.9),
-
          blobLimits: (inner: 3.0, outer: 0.8), false)
     ]
             
     @ObservedObject var model = Model()
+    
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
-    
     @EnvironmentObject var colorScheme : ColorScheme
-        
-    // lots of room to play w/ the relative time
-    // increments, as well as the animation curves.
     
+    //MARK:-
     // if the timer increment is larger than the
     // animation increment, we get a pause between cycles
-    static let timerTimeIncrement : Double = 3.05
-    static let animationTimeIncrement : Double = 2.25
-//  static let animationTimeIncrement : Double = 3.2
+    static let timerTimeIncrement : Double = 2.6
+    static let animationTimeIncrement : Double = 2.2
+    //MARK:-
     
     static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
-//    static let animationStyle = Animation.easeInOut(duration: PageView.animationTimeIncrement)
     
     static let timerInitialTimeIncrement : Double = 0.0
     
@@ -252,18 +247,20 @@ struct PageView: View {
                 switch options.currPerturbStrategy {
                 
                 case .staticZigZags :
-                    model.animateToNextZigZagPhase(doRandomDeltas: false)
+                    model.animateToNextFixedZigZag()
                     
+//                    model.animateToNextZigZagPhase(doRandomDeltas: false)
+//
+//                case .randomizedZigZags :
+//                    model.animateToNextZigZagPhase(doRandomDeltas: true)
+//
+//                case .randomAnywhereInHalfEnvelope :
+//                    model.animateToRandomOffsetsInAlternatingQuadrants()
+//
+//                case .randomAnywhereInEnvelope :
+//                    model.animateToRandomOffsetsAnywhereWithinEnvelope()
+//
                 case .randomizedZigZags :
-                    model.animateToNextZigZagPhase(doRandomDeltas: true)
-                    
-                case .randomAnywhereInHalfEnvelope :
-                    model.animateToRandomOffsetsInAlternatingQuadrants()
-                    
-                case .randomAnywhereInEnvelope :
-                    model.animateToRandomOffsetsAnywhereWithinEnvelope()
-                
-                case .randomRangeFromAlternatingOffsets :
                 
                     model.animateToRandomizedPerturbationInRange()
                 }
@@ -335,7 +332,6 @@ struct PageView: View {
         .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
         
         .overlay(
-
             MainScreenUI(showLayersList : $showLayersList,
                          showMiscOptionsList: $showMiscOptionsList)
         )

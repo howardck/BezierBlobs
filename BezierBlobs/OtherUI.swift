@@ -123,21 +123,6 @@ struct CheckBox : View {
 }
 
 //MARK:-
-struct LabeledCheckboxRow : View {
-    var isSelected: Bool
-    var text : String
-    
-    var body: some View {
-        HStack {
-            CheckBox(checked: isSelected)
-            Spacer()
-            Text(text)
-                .frame(width: 360, height: 0, alignment: .leading)
-        }
-    }
-}
-
-//MARK:-
 struct MiscOptionsChooserButton : View {
     
     var iconName: String

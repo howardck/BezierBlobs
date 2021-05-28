@@ -148,61 +148,65 @@ class Model: ObservableObject {
         setInitialBlobCurve()
     }
     
+    func animateToNextFixedZigZag() {
+        
+        print("NYI NYI NYI ")
+    }
 
-    //MARK: - ANIMATING
-    func animateToNextZigZagPhase(doRandomDeltas: Bool) {
-        
-        self.doRandomDeltas = doRandomDeltas
-
-        zigZagCurves = zigZagger!.calculateZigZags(nextPhaseIsZig: nextPhaseIsZig,
-                                                   zigZagCurves: zigZagCurves,
-                                                   randomPerturbations: doRandomDeltas)
-        blobCurve = nextPhaseIsZig ?
-            zigZagCurves.zig :
-            zigZagCurves.zag
-        
-        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.animateToNextZigZagPhase(). { nextPhaseIsZig = \(nextPhaseIsZig) }")
-        }
-        
-        nextPhaseIsZig.toggle()
-    }
-    
-
-    func animateToRandomOffsetsAnywhereWithinEnvelope() {
-        
-        blobCurve = baseCurve.map {
-            let r = CGFloat.random(in: -abs(offsets.inner)...abs(offsets.outer))
-            return $0.newPoint(atOffset: r, along: $1)
-        }
-    }
-    
-    func animateToOffsets( _ evenOffsets: CGFloat,
-                           _ oddOffsets: CGFloat) -> [CGPoint]
-    {
-        baseCurve.enumerated().map {
-            $0.1.0.newPoint(atOffset: $0.0.isEven() ?
-                                CGFloat.random(in: 0...abs(evenOffsets)) :
-                                CGFloat.random(in: -abs(oddOffsets)...0),
-                            along: $0.1.1)
-        }
-    }
-    
-    func animateToRandomOffsetsInAlternatingQuadrants() {
-        
-        blobCurve = nextPhaseIsZig ?
-            animateToOffsets(offsets.outer, offsets.inner) :
-            animateToOffsets(offsets.inner, offsets.outer)
-        
-        nextPhaseIsZig.toggle()
-    }
+//    //MARK: - ANIMATING
+//    func animateToNextZigZagPhase(doRandomDeltas: Bool) {
+//        
+//        self.doRandomDeltas = doRandomDeltas
+//
+//        zigZagCurves = zigZagger!.calculateZigZags(nextPhaseIsZig: nextPhaseIsZig,
+//                                                   zigZagCurves: zigZagCurves,
+//                                                   randomPerturbations: doRandomDeltas)
+//        blobCurve = nextPhaseIsZig ?
+//            zigZagCurves.zig :
+//            zigZagCurves.zag
+//        
+//        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
+//            print("Model.animateToNextZigZagPhase(). { nextPhaseIsZig = \(nextPhaseIsZig) }")
+//        }
+//        
+//        nextPhaseIsZig.toggle()
+//    }
+//    
+//
+//    func animateToRandomOffsetsAnywhereWithinEnvelope() {
+//        
+//        blobCurve = baseCurve.map {
+//            let r = CGFloat.random(in: -abs(offsets.inner)...abs(offsets.outer))
+//            return $0.newPoint(atOffset: r, along: $1)
+//        }
+//    }
+//    
+//    func animateToOffsets( _ evenOffsets: CGFloat,
+//                           _ oddOffsets: CGFloat) -> [CGPoint]
+//    {
+//        baseCurve.enumerated().map {
+//            $0.1.0.newPoint(atOffset: $0.0.isEven() ?
+//                                CGFloat.random(in: 0...abs(evenOffsets)) :
+//                                CGFloat.random(in: -abs(oddOffsets)...0),
+//                            along: $0.1.1)
+//        }
+//    }
+//    
+//    func animateToRandomOffsetsInAlternatingQuadrants() {
+//        
+//        blobCurve = nextPhaseIsZig ?
+//            animateToOffsets(offsets.outer, offsets.inner) :
+//            animateToOffsets(offsets.inner, offsets.outer)
+//        
+//        nextPhaseIsZig.toggle()
+//    }
     
     //MARK:-
     //MARK:-
 
     // this will have been set up by the time we 1st get here...
     var offsets : Offsets = (inner: 0, outer: 0)
-    var perturbationRange : ClosedRange<CGFloat> = -20...90
+    var perturbationRange : ClosedRange<CGFloat> = -20...100
 
     func animateToRandomizedPerturbationInRange() {
         
