@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B0D10EE26609E7900967854 /* ZigZaggery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0D10ED26609E7900967854 /* ZigZaggery.swift */; };
 		3B11D73925CC73450080F72F /* SELayersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B11D73825CC73450080F72F /* SELayersViewModel.swift */; };
 		3B16CA4C2644B13D00B10838 /* PageDesc_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16CA4B2644B13D00B10838 /* PageDesc_TEST.swift */; };
 		3B19B091265D908500F63724 /* MainScreenUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B19B090265D908500F63724 /* MainScreenUI.swift */; };
@@ -40,7 +39,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3B0D10ED26609E7900967854 /* ZigZaggery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZigZaggery.swift; sourceTree = "<group>"; };
 		3B11D73825CC73450080F72F /* SELayersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayersViewModel.swift; sourceTree = "<group>"; };
 		3B16CA4B2644B13D00B10838 /* PageDesc_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageDesc_TEST.swift; sourceTree = "<group>"; };
 		3B19B090265D908500F63724 /* MainScreenUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenUI.swift; sourceTree = "<group>"; };
@@ -122,7 +120,6 @@
 				3BB636A7264F414600BAD9AE /* SFSymbols.swift */,
 				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				5E57D2E0256D5CDB00D6B1C0 /* Model.swift */,
-				3B0D10ED26609E7900967854 /* ZigZaggery.swift */,
 				5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */,
 				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
 				3B19B090265D908500F63724 /* MainScreenUI.swift */,
@@ -237,7 +234,6 @@
 				3BB0F23D25DD70C100725800 /* SEParametrics.swift in Sources */,
 				3B11D73925CC73450080F72F /* SELayersViewModel.swift in Sources */,
 				5E57D2E4256D5CDB00D6B1C0 /* SuperEllipseShape.swift in Sources */,
-				3B0D10EE26609E7900967854 /* ZigZaggery.swift in Sources */,
 				5E57D2EC256D5D1200D6B1C0 /* CGPointVector.swift in Sources */,
 				3BB094B925D9E42D00DE96CF /* EmojiView_TEST.swift in Sources */,
 				3B686E032590091C00466BF5 /* SELayersChooser.swift in Sources */,
