@@ -132,8 +132,9 @@ struct PageView: View {
         let baseCurveRatio = pageDesc.axisRelOffsets.baseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
         
-        let offsets: Offsets = (inner: minAxis * pageDesc.axisRelOffsets.inner - baseCurve,
+        let offsets: Offsets = (inner: baseCurve - (minAxis * pageDesc.axisRelOffsets.inner),
                                 outer: minAxis * pageDesc.axisRelOffsets.outer - baseCurve)
+        
         let blobLimits : ZigZagDeltas = (inner: abs(pageDesc.blobLimits.inner * offsets.inner),
                                          outer: abs(pageDesc.blobLimits.outer * offsets.outer))
         model.offsets = offsets
@@ -143,8 +144,10 @@ struct PageView: View {
             print("   baseCurve.ratio: {\(baseCurveRatio.format(fspec: "4.2"))}" +
                     " => {\(baseCurve.format(fspec: "4.2"))}")
             
-            print("   axisRelOffsets: (inner: \(pageDesc.axisRelOffsets.inner.format(fspec: "4.2")), " +
-                "outer: \(pageDesc.axisRelOffsets.outer.format(fspec: "4.2"))) => ")
+            print("   axisRelativeOffsets: (inner: \(pageDesc.axisRelOffsets.inner.format(fspec: "4.2")), " +
+                "outer: \(pageDesc.axisRelOffsets.outer.format(fspec: "4.2"))) => "
+            
+                + "offsets: {(inner: \(offsets.inner) outer: \(offsets.outer))}")
             
             print("   blobLimits : " +
                     "(inner: {+/- \(model.blobLimits.inner.format(fspec: "4.2"))}, " +
