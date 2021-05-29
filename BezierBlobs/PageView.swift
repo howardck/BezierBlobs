@@ -18,7 +18,8 @@ typealias PageDescription
                 = (numPoints: Int,
                    n: Double,
                    axisRelOffsets: (inner: CGFloat, baseCurve: Double, outer: CGFloat),
-                   blobLimits: ZigZagDeltas,
+                   relativePerturbationDeltas: RelativePerturbationDeltas,
+                   blobLimits: (inner: CGFloat, outer: CGFloat),
                    forceEqualAxes: Bool)
 
 struct PageView: View {
@@ -31,25 +32,47 @@ struct PageView: View {
         (numPoints: 32,
          n: 3.0,
          axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.75),
+         relativePerturbationDeltas: (innerRelRange: 0.0..<0.0,
+                                      outerRelRange: 0.0..<0.0),
          blobLimits: (inner: 1.0, outer: 0.8), false),
         
     // CIRCLE
-        (numPoints: 18,
-         n: 2.0,
-         axisRelOffsets: (inner: 0.35, baseCurve: 0.5, outer: 0.8),
-         blobLimits: (inner: 0.6, outer: 0.8),
-         forceEqualAxes: true),
+//        (numPoints: 18,
+//         n: 2.0,
+//         axisRelOffsets: (inner: 0.35, baseCurve: 0.5, outer: 0.8),
+//         relativePerturbationDeltas: (innerRelRange: -0.5..<0.5,
+//                                      outerRelRange: -0.5..<0.5),
+//         blobLimits: (inner: 0.6, outer: 0.8),
+//         forceEqualAxes: true),
+        
+        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        // CIRCLE
+            (numPoints: 18,
+             n: 2.0,
+             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 1.0),
+             
+             relativePerturbationDeltas: (innerRelRange: 0..<0,
+                                          outerRelRange: 0..<0),
+             blobLimits: (inner: 0.5, outer: 0.5),
+             forceEqualAxes: true),
+        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     // DELTA WING
         (numPoints: 6,
          n: 3,
         axisRelOffsets: (inner: 0.15, baseCurve: 0.5, outer: 0.8),
+        relativePerturbationDeltas: (innerRelRange: 0.0..<0.0,
+                                     outerRelRange: 0.0..<0.0),
         blobLimits: (inner: 0.0, outer: 0.0), false),
         
     // MUTANT MOTH
         (numPoints: 24,
          n: 1,
          axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.9),
+         relativePerturbationDeltas: (innerRelRange: 0..<0,
+                                      outerRelRange: 0..<0),
          blobLimits: (inner: 3.0, outer: 0.8), false)
     ]
             

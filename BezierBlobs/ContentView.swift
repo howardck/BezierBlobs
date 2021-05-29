@@ -7,7 +7,7 @@
     this project has been thru several transmutations. it started life
     as BezierBlob (singular), was then transformed into TabViews (which
     was begun primarily to explore the use of tabs to expand the
-    range of views on display for pedagogic purposes), and now exists
+     of views on display for pedagogic purposes), and now exists
     as what you're looking at.
  */
 
@@ -34,13 +34,13 @@ struct ContentView: View {
         GeometryReader { gr in
             TabView {
 
-                PageView(pageType: PageType.superEllipse,
-                         pageDesc: PageView.descriptions[0],
-                         size: gr.size)
-                    .tabItem {
-                        SFSymbol.tab_1
-                        Text("\(PageType.superEllipse.rawValue)" )
-                    }
+//                PageView(pageType: PageType.superEllipse,
+//                         pageDesc: PageView.descriptions[0],
+//                         size: gr.size)
+//                    .tabItem {
+//                        SFSymbol.tab_1
+//                        Text("\(PageType.superEllipse.rawValue)" )
+//                    }
                 
                 PageView(pageType: PageType.circle,
                          pageDesc: PageView.descriptions[1],
@@ -48,32 +48,32 @@ struct ContentView: View {
 
                     .onAppear{ print("PageView.onAppear(PageType.CIRCLE)\n" +
                                      "         Platform { \(ps.name) }")}
-
                     .tabItem {
                         SFSymbol.tab_2
                         Text("\(PageType.circle.rawValue)")
                     }
                 
-                PageView(pageType: PageType.deltaWing,
-                         pageDesc: PageView.descriptions[2],
-                         size: gr.size)
-                    .tabItem {
-                        SFSymbol.tab_3
-                        Text("\(PageType.deltaWing.rawValue)" )
-                    }
-                
-                PageView(pageType: PageType.mutantMoth,
-                         pageDesc: PageView.descriptions[3],
-                         size: gr.size)
-                    .tabItem {
-                        SFSymbol.tab_4
-                        Text("\(PageType.mutantMoth.rawValue)" )
-                  }
+//                PageView(pageType: PageType.deltaWing,
+//                         pageDesc: PageView.descriptions[2],
+//                         size: gr.size)
+//                    .tabItem {
+//                        SFSymbol.tab_3
+//                        Text("\(PageType.deltaWing.rawValue)" )
+//                    }
+//                
+//                PageView(pageType: PageType.mutantMoth,
+//                         pageDesc: PageView.descriptions[3],
+//                         size: gr.size)
+//                    .tabItem {
+//                        SFSymbol.tab_4
+//                        Text("\(PageType.mutantMoth.rawValue)" )
+//                  }
             }
             .environmentObject(ColorScheme(background: Color.init(white: 0.4),
+                                           stroke: .red,
                                            fill: .blue,
                                            buttonFace: .blue,
-                                           buttonEdge: Gray.dark,
+                                           buttonEdge: .white,
                                            allVertices: .green,
                                            vertex_0: .orange)
             )
@@ -95,6 +95,7 @@ struct TestPrintSizeView : View {
 
 class ColorScheme : ObservableObject {
     @Published var background: Color
+    @Published var stroke: Color
     @Published var fill: Color
     @Published var buttonFace: Color
     @Published var buttonEdge: Color
@@ -102,6 +103,7 @@ class ColorScheme : ObservableObject {
     @Published var vertex0Marker: Color
     
     init(background: Color,
+         stroke: Color,
          fill: Color,
          buttonFace: Color,
          buttonEdge: Color,
@@ -109,6 +111,7 @@ class ColorScheme : ObservableObject {
          vertex_0: Color) {
         
         self.background = background
+        self.stroke = stroke
         self.fill = fill
         self.buttonFace = buttonFace
         self.buttonEdge = buttonEdge
@@ -133,7 +136,8 @@ struct ContentView_Previews: PreviewProvider {
                          pageDesc: PageView.descriptions[0],
                          size: s)
                     .environmentObject(ColorScheme(background: Gray.light,
-                                                   fill: Color.orange,
+                                                   stroke: .green,
+                                                   fill: .orange,
                                                    buttonFace: .green,
                                                    buttonEdge: .white,
                                                    allVertices: .blue,
@@ -144,6 +148,7 @@ struct ContentView_Previews: PreviewProvider {
                          pageDesc: PageView.descriptions[0],
                          size: s)
                     .environmentObject(ColorScheme(background: Gray.light,
+                                                   stroke: .red,
                                                    fill: .blue,
                                                    buttonFace: .red,
                                                    buttonEdge: .white,
@@ -159,6 +164,7 @@ struct ContentView_Previews: PreviewProvider {
                          pageDesc: PageView.descriptions[2],
                          size: s)
                     .environmentObject(ColorScheme(background: Gray.dark,
+                                                   stroke: .blue,
                                                    fill: Color.orange,
                                                    buttonFace: .red,
                                                    buttonEdge: .black,
@@ -170,6 +176,7 @@ struct ContentView_Previews: PreviewProvider {
                          pageDesc: PageView.descriptions[2],
                          size: s)
                     .environmentObject(ColorScheme(background: Gray.dark,
+                                                   stroke: .white,
                                                    fill: Color.blue,
                                                    buttonFace: .green,
                                                    buttonEdge: .black,

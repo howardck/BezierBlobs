@@ -15,7 +15,25 @@ typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 typealias ZigZagDeltas = (inner: CGFloat, outer: CGFloat)
 
+// the first, as a fraction of the baseCurve ratio, gets converted to the second
+typealias RelativePerturbationDeltas = (innerRelRange: Range<CGFloat>, outerRelRange: Range<CGFloat>)
+
+// the innerRange is centred on the innerCurve; the outerRange on the outerCurve
+typealias PerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
+
 class Model: ObservableObject {
+    
+    var relativePerturbationDeltas : RelativePerturbationDeltas
+                                            = (innerRelRange: -0.5..<0.5,
+                                               outerRelRange: -0.5..<0.5)
+    var nilDeltas : PerturbationDeltas = (innerRange: 0..<0,
+                                          outerRange: 0..<0)
+    
+    @State var perturbationDeltas : PerturbationDeltas = (innerRange: 0..<0,
+                                                          outerRange: 0..<0)
+    
+    static let TEST_PERTURB_DELTA : Range<CGFloat> = -0.5..<0.5
+
     
     //MARK:-
     init() {
@@ -55,6 +73,7 @@ class Model: ObservableObject {
     var pageType: PageType?
     // this will have been set up by the time we 1st get here...
     var offsets : Offsets = (inner: 0, outer: 0)
+    
     var blobLimits : ZigZagDeltas = (inner: 0, outer: 0)
 
     //MARK:- MAIN SUPERELLIPSE
@@ -98,7 +117,7 @@ class Model: ObservableObject {
     //MARK:-
     //MARK:-
 
-    var perturbationRange : ClosedRange<CGFloat> = -20...100
+    var perturbationRange : Range<CGFloat> = -20..<100
 
     func animateToRandomizedPerturbationInRange() {
         

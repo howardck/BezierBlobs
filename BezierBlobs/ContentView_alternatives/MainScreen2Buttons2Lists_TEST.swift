@@ -34,10 +34,10 @@ struct PageView_2 : View {
                         if showLayerSelectionList {
                             ZStack {
                                 List {
-                                    Section(header: Text("range 123")) {
+                                    Section(header: Text(" 123")) {
                                         ForEach( range123 ) { i in Text("\(i)") }
                                     }
-                                    Section(header: Text("range 456")) {
+                                    Section(header: Text(" 456")) {
                                         ForEach( range456 ) { j in Text("\(j)") }
                                     }
                                 }

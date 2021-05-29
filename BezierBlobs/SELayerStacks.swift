@@ -20,8 +20,8 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 
 let r: CGFloat = 15
 let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .blue, radius: r + 2),
-    .vertexOrigin :     (color: .green, radius : r + 2),
+    .blob :             (color: .blue, radius: r + 1),
+    .vertexOrigin :     (color: .green, radius : r + 1),
     .envelopeBounds :   (color: .black, radius: r/2.0),
     .baseCurve :        (color: .white, radius: r/2.0),
     .zig :              (color: .red, radius : r - 3),
@@ -61,7 +61,7 @@ struct AnimatingBlob_Filled: View {
                 
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
-                    .fill(Gray.dark)
+                    .fill(Color.init(white: 0.15))
                     .offset(x: 7, y: 7)
                 
                 SuperEllipse(curve: curve,
@@ -88,6 +88,7 @@ struct AnimatingBlob_Stroked: View {
     var curve: [CGPoint]
     
     @EnvironmentObject var options: MiscOptionsModel
+    @EnvironmentObject var colorScheme : ColorScheme
     
     var body : some View {
         
@@ -96,14 +97,15 @@ struct AnimatingBlob_Stroked: View {
         ZStack {
             SuperEllipse(curve: curve,
                          smoothed: isSmoothed)
-                .stroke(Color.red,
-                        style: StrokeStyle(lineWidth: 8, lineJoin: .round))
+                .stroke(colorScheme.stroke,
+                        style: StrokeStyle(lineWidth: 6, lineJoin: .round))
             
+            // white highlight
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
                 .stroke(Color.white,
-                        style: StrokeStyle(lineWidth: 1.0, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
         }
     }
 }
