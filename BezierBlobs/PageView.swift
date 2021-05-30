@@ -50,10 +50,10 @@ struct PageView: View {
         // CIRCLE
             (numPoints: 18,
              n: 2.0,
-             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 1.0),
+             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.5),
              
-             relativePerturbationDeltas: (innerRelRange: 0..<0,
-                                          outerRelRange: 0..<0),
+             relativePerturbationDeltas: (innerRelRange: 0..<0.1,
+                                          outerRelRange: 0.05..<0.1),
              blobLimits: (inner: 0.5, outer: 0.5),
              forceEqualAxes: true),
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -132,13 +132,26 @@ struct PageView: View {
         let baseCurveRatio = pageDesc.axisRelOffsets.baseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
         
-        let offsets: Offsets = (inner: baseCurve - (minAxis * pageDesc.axisRelOffsets.inner),
+        let offsets: Offsets = (inner: (minAxis * pageDesc.axisRelOffsets.inner - baseCurve),
                                 outer: minAxis * pageDesc.axisRelOffsets.outer - baseCurve)
         
         let blobLimits : ZigZagDeltas = (inner: abs(pageDesc.blobLimits.inner * offsets.inner),
                                          outer: abs(pageDesc.blobLimits.outer * offsets.outer))
         model.offsets = offsets
         model.blobLimits = blobLimits
+        
+        let min : CGFloat = -0.5
+        let max : CGFloat = 0.5
+        let range : Range<CGFloat> = min..<max
+        print("RANGE: \(range)")
+        
+        let innerRelRange = pageDesc.relativePerturbationDeltas.innerRelRange
+        let outerRelRange = pageDesc.relativePerturbationDeltas.outerRelRange
+        
+        let innerRange = innerRelRange.lowerBound * minAxis..<innerRelRange.upperBound * minAxis
+        let outerRange = outerRelRange.lowerBound * minAxis..<outerRelRange.upperBound * minAxis
+        let perturbationDeltas : PerturbationDeltas = (innerRange: innerRange,
+                                                       outerRange: outerRange)
         
         if Model.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("   baseCurve.ratio: {\(baseCurveRatio.format(fspec: "4.2"))}" +
