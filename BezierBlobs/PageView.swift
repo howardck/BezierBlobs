@@ -50,10 +50,10 @@ struct PageView: View {
         // CIRCLE
             (numPoints: 18,
              n: 2.0,
-             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.5),
+             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
              
-             relativePerturbationDeltas: (innerRelRange: 0..<0.1,
-                                          outerRelRange: 0.05..<0.1),
+             relativePerturbationDeltas: (innerRelRange: 0..<0.3,
+                                          outerRelRange: -0.3..<0.3),
              blobLimits: (inner: 0.5, outer: 0.5),
              forceEqualAxes: true),
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -139,11 +139,7 @@ struct PageView: View {
                                          outer: abs(pageDesc.blobLimits.outer * offsets.outer))
         model.offsets = offsets
         model.blobLimits = blobLimits
-        
-        let min : CGFloat = -0.5
-        let max : CGFloat = 0.5
-        let range : Range<CGFloat> = min..<max
-        print("RANGE: \(range)")
+
         
         let innerRelRange = pageDesc.relativePerturbationDeltas.innerRelRange
         let outerRelRange = pageDesc.relativePerturbationDeltas.outerRelRange
@@ -152,6 +148,8 @@ struct PageView: View {
         let outerRange = outerRelRange.lowerBound * minAxis..<outerRelRange.upperBound * minAxis
         let perturbationDeltas : PerturbationDeltas = (innerRange: innerRange,
                                                        outerRange: outerRange)
+        
+        model.perturbationRange = perturbationDeltas
         
         if Model.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("   baseCurve.ratio: {\(baseCurveRatio.format(fspec: "4.2"))}" +

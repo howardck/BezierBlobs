@@ -29,8 +29,8 @@ class Model: ObservableObject {
     var nilDeltas : PerturbationDeltas = (innerRange: 0..<0,
                                           outerRange: 0..<0)
     
-    @State var perturbationDeltas : PerturbationDeltas = (innerRange: 0..<0,
-                                                          outerRange: 0..<0)
+    var perturbationRange : PerturbationDeltas = (innerRange: 0..<0,
+                                                   outerRange: 0..<0)
     
     static let TEST_PERTURB_DELTA : Range<CGFloat> = -0.5..<0.5
 
@@ -117,7 +117,7 @@ class Model: ObservableObject {
     //MARK:-
     //MARK:-
 
-    var perturbationRange : Range<CGFloat> = -20..<100
+    //var perturbationRange : Range<CGFloat> = -20..<100
 
     func animateToRandomizedPerturbationInRange() {
         
@@ -127,8 +127,8 @@ class Model: ObservableObject {
         for (_, vertexTuple) in baseCurve.enumerated() {
             
             let offset : CGFloat = isOffsetToOutside ?
-                offsets.outer + CGFloat.random(in: perturbationRange) :
-                offsets.inner + CGFloat.random(in: perturbationRange)
+                offsets.outer + CGFloat.random(in: perturbationRange.outerRange) :
+                offsets.inner + CGFloat.random(in: perturbationRange.innerRange)
             
             let pt = vertexTuple.vertex.newPoint(atOffset: offset,
                                                  along: vertexTuple.normal)
