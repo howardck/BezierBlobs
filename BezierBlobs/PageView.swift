@@ -48,7 +48,7 @@ struct PageView: View {
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         // CIRCLE
-            (numPoints: 18,
+            (numPoints: 22,
              n: 2.0,
              axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
              
@@ -86,7 +86,7 @@ struct PageView: View {
     // timerTimeIncrement - animationTimeIncrement
     // == time paused between animations
     
-    static let timerTimeIncrement : Double = 3.0
+    static let timerTimeIncrement : Double = 2.8
     static let animationTimeIncrement : Double = 2.6
     static let timerInitialTimeIncrement : Double = 0.0
     static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
@@ -193,8 +193,8 @@ struct PageView: View {
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
-        // just for fun we use an @Environment-injected
-        // layers object for this one. see one level down)
+        // just for fun we use an @EnvironmentObject-injected
+        // layers object for this one. see AnimatingBlob_Filled().
             
             AnimatingBlob_Filled(curve: model.blobCurve,
                                  layerType: .blob_filled)

@@ -20,8 +20,8 @@ typealias MarkerStyle = (color: Color, radius: CGFloat)
 
 let r: CGFloat = 15
 let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .blue, radius: r + 1),
-    .vertexOrigin :     (color: .green, radius : r + 1),
+    .blob :             (color: .blue, radius: r - 3),
+    .vertexOrigin :     (color: .green, radius : r - 1),
     .envelopeBounds :   (color: .black, radius: r/2.0),
     .baseCurve :        (color: .white, radius: r/2.0),
     .zig :              (color: .red, radius : r - 3),
@@ -122,16 +122,22 @@ struct AnimatingBlob_Markers : View {
         SuperEllipse(curve: curve,
                      bezierType: .markers(radius: style.radius + 1))
             .fill(Color.black)
+                
         SuperEllipse(curve: curve,
                      bezierType: .markers(radius: style.radius))
-            
-            // don't take from markerStyles above
-            // but from the environment
-//            .fill(style.color)
-            .fill(colorScheme.allVertices)
+            .fill(Gray.dark)
+            .offset(x: 2.5, y: 2.5)
+        
         SuperEllipse(curve: curve,
-                     bezierType: .markers(radius: 3))
-            .fill(Color.white)
+                     bezierType: .markers(radius: style.radius))
+        // NOTA: we now take the fill color from our colorScheme
+        // environment object rather than the MarkerStyle arg
+            .fill(colorScheme.allVertices)
+        
+        SuperEllipse(curve: curve,
+                     bezierType: .markers(radius: 4))
+            .fill(Color.init(white: 0.9))
+            .offset(x: -2, y: -2)
     }
 }
 
@@ -143,20 +149,19 @@ struct AnimatingBlob_VertexZeroMarker: View {
     @EnvironmentObject var colorScheme : ColorScheme
 
     var body : some View {
+        
         SuperEllipse(curve: animatingCurve,
-                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius + 1),
-                     smoothed: false)
+                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius + 1))
             .fill(Color.black)
+
         SuperEllipse(curve: animatingCurve,
-                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius),
-                                               smoothed: false)
-//            .fill(markerStyle.color)
+                     bezierType: .singleMarker(index: 0, radius: markerStyle.radius))
             .fill(colorScheme.vertex0Marker)
 
         SuperEllipse(curve: animatingCurve,
-                     bezierType: .singleMarker(index: 0, radius: 3),
-                                               smoothed: false)
+                     bezierType: .singleMarker(index: 0, radius: 4))
             .fill(Color.white)
+            .offset(x: -2, y: -2)
     }
 }
 

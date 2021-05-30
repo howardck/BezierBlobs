@@ -20,6 +20,8 @@ struct ContentView: View {
     @Environment(\.verticalSizeClass) var vClass
     @Environment(\.horizontalSizeClass) var hClass
     
+    @Environment(\.scenePhase) var scenePhase
+    
     init() {
         print("ContentView.init()")
     }
@@ -69,13 +71,27 @@ struct ContentView: View {
 //                        Text("\(PageType.mutantMoth.rawValue)" )
 //                  }
             }
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase == .inactive {
+                    print( "%%%%%%% INACTIVE")
+                }
+                else if newPhase == .active {
+                    print( "%%%%%%% ACTIVE")
+                }
+                else if newPhase == .background {
+                    print( "%%%%%%% BACKGROUND")
+                }
+                else {
+                    print( "%%%%%%% UNKNOWN SCENE PHASE !!!!!")
+                }
+            }
             .environmentObject(ColorScheme(background: Color.init(white: 0.4),
                                            stroke: .red,
                                            fill: .blue,
                                            buttonFace: .blue,
                                            buttonEdge: .white,
-                                           allVertices: .green,
-                                           vertex_0: .orange)
+                                           allVertices: .red,
+                                           vertex_0: .green)
             )
         }
     }
