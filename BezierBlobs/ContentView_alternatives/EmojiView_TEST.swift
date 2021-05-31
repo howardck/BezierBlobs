@@ -32,9 +32,7 @@ struct EmojiViewTest: View {
     var body: some View {
         
         ZStack {
-            
-            PageGradientBackground()
-            
+                    
             VStack {
                 
                 ZStack {
@@ -98,6 +96,7 @@ struct EmojiViewTest: View {
                     self.degrees += 360
                 }
             }
+            .background( PageGradientBackground_2() )
         }
     }
 }
@@ -113,7 +112,7 @@ struct RotatingImageView : View {
     }
 }
 
-struct PageGradientBackground : View {
+struct PageGradientBackground_2 : View {
     //let colors : [Color] = [.init(white: 0.7), .init(white: 0.3)]
     //let colors : [Color] = [.blue, .yellow]
     let colors : [Color] = [.yellow, .orange, .yellow ]

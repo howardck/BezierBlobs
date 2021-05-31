@@ -189,54 +189,63 @@ struct PageView: View {
     
         ZStack {
 
-            PageGradientBackground()
+            //PageGradientBackground()
+            Gray.light
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
         // just for fun we use an @EnvironmentObject-injected
         // layers object for this one. see AnimatingBlob_Filled().
             
+        // ANIMATING BLOB LAYERS //
+        // --------------------------------------------------------------
             AnimatingBlob_Filled(curve: model.blobCurve,
                                  layerType: .blob_filled)
-            
+
             if layers.isVisible(layerWithType: .blob_stroked) {
                 AnimatingBlob_Stroked(curve: model.blobCurve)
             }
-
+            
+        // SUPPORT LAYERS //
+        // --------------------------------------------------------------
             if layers.isVisible(layerWithType: .normals) {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.envelopeBounds]!)
             }
             
-             if layers.isVisible(layerWithType: .baseCurve) {
-                BaseCurve(vertices: model.baseCurve.map{$0.vertex})
-            }
-            
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
-            Group {
-                
-                if layers.isVisible(layerWithType: .baseCurve_markers) {
-                    BaseCurve_Markers(curve: model.baseCurve.map{$0.vertex} ,
+        
+            
+        // MORE ANIMATING BLOB LAYERS //
+        // --------------------------------------------------------------
+            AnimatingBlob_Filled(curve: model.blobCurve,
+                                 layerType: .blob_filled)
+            
+            if layers.isVisible(layerWithType: .baseCurve_and_markers) {
+                BaseCurve_And_Markers(curve: model.baseCurve.map{$0.vertex},
                                       style: markerStyles[.baseCurve]!)
-                }
-                
-                if layers.isVisible(layerWithType: .blob_markers) {
-                    AnimatingBlob_Markers(curve: model.blobCurve,
-                                          style: markerStyles[.blob]!)
-                }
-                
-                if layers.isVisible(layerWithType: .blob_vertex_0_marker) {
-                    AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
-                                                   markerStyle: markerStyles[.vertexOrigin]!)
-                }
+            }
+//
+//            if layers.isVisible(layerWithType: .blob_stroked) {
+//                AnimatingBlob_Stroked(curve: model.blobCurve)
+//            }
+            
+            if layers.isVisible(layerWithType: .blob_markers) {
+                AnimatingBlob_Markers(curve: model.blobCurve,
+                                      style: markerStyles[.blob]!)
+            }
+            
+            if layers.isVisible(layerWithType: .blob_vertex_0_marker) {
+                AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
+                                               markerStyle: markerStyles[.vertexOrigin]!)
             }
         }
-        // an interesting bug occurs if we do this instead of
-        // using PageGradientBackground() and then 'hide all layers'
+        // an interesting bug occurs if we use .background() instead of
+        // PageGradientBackground as above, and then select 'hide all layers'
         
         // .background(colorScheme.background)
 

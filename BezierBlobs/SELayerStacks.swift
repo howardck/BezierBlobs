@@ -98,14 +98,14 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          smoothed: isSmoothed)
                 .stroke(colorScheme.stroke,
-                        style: StrokeStyle(lineWidth: 6, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 5, lineJoin: .round))
             
             // white highlight
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
-                .stroke(Color.white,
-                        style: StrokeStyle(lineWidth: 0.5, lineJoin: .round))
+                .stroke(Gray.light,
+                        style: StrokeStyle(lineWidth: 0.75, lineJoin: .round))
         }
     }
 }
@@ -178,8 +178,9 @@ struct NormalsPlusMarkers : View {
     // NORMALS
             SuperEllipse(curve: normals,
                          bezierType: .normals)
-                .stroke(Color.init(white: 0.8),
-                        style: StrokeStyle(lineWidth: 6, dash: [0.75,4]))
+                .stroke(Color.init(white: 0.3),
+//                .stroke(Color.orange,
+                        style: StrokeStyle(lineWidth: 5, dash: [1, 4]))
             
     // INNER & OUTER MARKERS
             SuperEllipse(curve: markerCurves.inner,
@@ -192,34 +193,27 @@ struct NormalsPlusMarkers : View {
     }
 }
 
-//MARK:- BaseCurve
-struct BaseCurve : View {
-    var vertices: [CGPoint]
-    let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-    
-    var body: some View {
-        SuperEllipse(curve: vertices)
-        .stroke(Color.white, style: strokeStyle)
-    }
-}
-
-//MARK:- BaseCurve_Markers
-struct BaseCurve_Markers : View {
+//MARK:- BaseCurve_and_Markers
+struct BaseCurve_And_Markers : View {
     var curve : [CGPoint]
     var style : MarkerStyle
+    
+    let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
     
     var body : some View {
         
         ZStack {
+            
+            SuperEllipse(curve: curve)
+                .stroke(Color.white, style: strokeStyle)
+            
              SuperEllipse(curve: curve,
-                         bezierType: .markers(radius: style.radius + 1))
+                          bezierType: .markers(radius: style.radius + 1))
                 .fill(Color.black)
+            
             SuperEllipse(curve: curve,
                          bezierType: .markers(radius: style.radius))
                 .fill(style.color)
-//            SuperEllipse(curve: curve,
-//                         bezierType: .markers(radius: 3))
-//                .fill(Color.black)
         }
     }
 }

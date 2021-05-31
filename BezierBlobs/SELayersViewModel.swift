@@ -10,23 +10,25 @@ class SELayersViewModel : ObservableObject {
     
     static let fillOnlyLayersModel : [Layer] = [
     
-        .init(type: .blob_stroked, section: .animatingBlobCurves),
+    //  ANIMATED BLOB CURVES
+        .init(type: .blob_stroked, section: .animatingBlobCurves,
+              visible: true),
         .init(type: .blob_filled, section: .animatingBlobCurves,
               visible: true),
         .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
               visible: true),
         .init(type: .blob_markers, section: .animatingBlobCurves,
-              visible: false),
+              visible: true),
  
+    // SUPPORT CURVES
         // ----------------------------------------------------------------
-        .init(type: .baseCurve, section: .staticSupportCurves,
-              visible: false),
-        .init(type: .baseCurve_markers, section: .staticSupportCurves,
+        .init(type: .baseCurve_and_markers, section: .staticSupportCurves,
               visible: false),
         .init(type: .offsetsEnvelope, section: .staticSupportCurves,
               visible: false),
         .init(type: .normals, section: .staticSupportCurves),
 
+    // SHORTCUTS
         // -----------------------------------------------------------------
         .init(type: .showAll, section: .shortcuts),
         .init(type: .hideAll, section: .shortcuts)
@@ -44,9 +46,9 @@ class SELayersViewModel : ObservableObject {
               visible: true),
 
         // ----------------------------------------------------------------
-        .init(type: .baseCurve, section: .staticSupportCurves,
-              visible: true),
-        .init(type: .baseCurve_markers, section: .staticSupportCurves,
+//        .init(type: .baseCurve, section: .staticSupportCurves,
+//              visible: true),
+        .init(type: .baseCurve_and_markers, section: .staticSupportCurves,
               visible: true),
         .init(type: .offsetsEnvelope, section: .staticSupportCurves),
         .init(type: .normals, section: .staticSupportCurves),
@@ -82,9 +84,9 @@ enum LayerType : String {
     case blob_vertex_0_marker = "vertex[0]"
     case blob_markers = "all vertex markers"
     
-    case baseCurve = "baseCurve"
-    case baseCurve_markers = "basecurve markers"
-    case offsetsEnvelope = "offsets"
+//    case baseCurve = "baseCurve"
+    case baseCurve_and_markers = "basecurve"
+    case offsetsEnvelope = "offsets envelope"
     case normals = "normals"
     
     case showAll = "show All layers"
