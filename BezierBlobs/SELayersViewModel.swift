@@ -10,15 +10,14 @@ class SELayersViewModel : ObservableObject {
     
     static let fillOnlyLayersModel : [Layer] = [
     
-    //  ANIMATED BLOB CURVES
-        .init(type: .blob_stroked, section: .animatingBlobCurves,
-              visible: true),
+    //  ANIMATING BLOB CURVES
+        .init(type: .blob_stroked, section: .animatingBlobCurves),
         .init(type: .blob_filled, section: .animatingBlobCurves,
               visible: true),
         .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
               visible: true),
         .init(type: .blob_markers, section: .animatingBlobCurves,
-              visible: true),
+              visible: false),
  
     // SUPPORT CURVES
         // ----------------------------------------------------------------

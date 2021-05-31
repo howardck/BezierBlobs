@@ -11,14 +11,14 @@ enum PageType : String {
     case superEllipse = "CLASSIC SE"
     case circle = "CIRCLE"
     case deltaWing = "DELTA WING"
-    case mutantMoth = "MUTANT MOTH"
+    case mutantMoth = "PHANTASM"
 }
 
 typealias PageDescription
                 = (numPoints: Int,
                    n: Double,
                    axisRelOffsets: (inner: CGFloat, baseCurve: Double, outer: CGFloat),
-                   relativePerturbationDeltas: RelativePerturbationDeltas,
+                   relativeDeltas: RelativePerturbationRanges,
                    blobLimits: (inner: CGFloat, outer: CGFloat),
                    forceEqualAxes: Bool)
 
@@ -29,50 +29,36 @@ struct PageView: View {
     static let descriptions : [PageDescription] =
     [
     // CLASSIC SE
-        (numPoints: 32,
+        (numPoints: 28,
          n: 3.0,
-         axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.75),
-         relativePerturbationDeltas: (innerRelRange: 0.0..<0.0,
-                                      outerRelRange: 0.0..<0.0),
+         axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.8),
+         relativeDeltas: (innerRange: -0.1..<0.2,
+                          outerRange: -0.15..<0.15),
          blobLimits: (inner: 1.0, outer: 0.8), false),
         
     // CIRCLE
-//        (numPoints: 18,
-//         n: 2.0,
-//         axisRelOffsets: (inner: 0.35, baseCurve: 0.5, outer: 0.8),
-//         relativePerturbationDeltas: (innerRelRange: -0.5..<0.5,
-//                                      outerRelRange: -0.5..<0.5),
-//         blobLimits: (inner: 0.6, outer: 0.8),
-//         forceEqualAxes: true),
-        
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        // CIRCLE
             (numPoints: 22,
              n: 2.0,
              axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
-             
-             relativePerturbationDeltas: (innerRelRange: 0..<0.3,
-                                          outerRelRange: -0.3..<0.3),
+             relativeDeltas: (innerRange: 0..<0.3,
+                                          outerRange: -0.3..<0.3),
              blobLimits: (inner: 0.5, outer: 0.5),
              forceEqualAxes: true),
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     // DELTA WING
         (numPoints: 6,
          n: 3,
         axisRelOffsets: (inner: 0.15, baseCurve: 0.5, outer: 0.8),
-        relativePerturbationDeltas: (innerRelRange: 0.0..<0.0,
-                                     outerRelRange: 0.0..<0.0),
+        relativeDeltas: (innerRange: 0..<0.3,
+                                     outerRange: -0.3..<0.3),
         blobLimits: (inner: 0.0, outer: 0.0), false),
         
-    // MUTANT MOTH
-        (numPoints: 24,
+    // PHANTASM
+        (numPoints: 22,
          n: 1,
-         axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.9),
-         relativePerturbationDeltas: (innerRelRange: 0..<0,
-                                      outerRelRange: 0..<0),
+         axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.85),
+         relativeDeltas: (innerRange: -0.1..<0.25,
+                                      outerRange: -0.35..<0.2),
          blobLimits: (inner: 3.0, outer: 0.8), false)
     ]
             
@@ -140,16 +126,15 @@ struct PageView: View {
         model.offsets = offsets
         model.blobLimits = blobLimits
 
+        let innerRange = pageDesc.relativeDeltas.innerRange
+        let outerRange = pageDesc.relativeDeltas.outerRange
         
-        let innerRelRange = pageDesc.relativePerturbationDeltas.innerRelRange
-        let outerRelRange = pageDesc.relativePerturbationDeltas.outerRelRange
+        let innerScreenRange = innerRange.lowerBound * minAxis..<innerRange.upperBound * minAxis
+        let outerScreenRange = outerRange.lowerBound * minAxis..<outerRange.upperBound * minAxis
+        let perturbationDeltas : PerturbationRanges = (innerRange: innerScreenRange,
+                                                       outerRange: outerScreenRange)
         
-        let innerRange = innerRelRange.lowerBound * minAxis..<innerRelRange.upperBound * minAxis
-        let outerRange = outerRelRange.lowerBound * minAxis..<outerRelRange.upperBound * minAxis
-        let perturbationDeltas : PerturbationDeltas = (innerRange: innerRange,
-                                                       outerRange: outerRange)
-        
-        model.perturbationRange = perturbationDeltas
+        model.perturbationRanges = perturbationDeltas
         
         if Model.DEBUG_ADJUST_PERTURBATION_LIMITS {
             print("   baseCurve.ratio: {\(baseCurveRatio.format(fspec: "4.2"))}" +
@@ -175,7 +160,7 @@ struct PageView: View {
     }
     
     struct PageGradientBackground : View {
-        let colors : [Color] = [.init(white: 0.7), .init(white: 0.3)]
+        let colors : [Color] = [.init(white: 0.9), .init(white: 0.3)]
         var body : some View {
             
             LinearGradient(gradient: Gradient(colors: colors),
@@ -189,8 +174,8 @@ struct PageView: View {
     
         ZStack {
 
-            //PageGradientBackground()
-            Gray.light
+//            PageGradientBackground()
+            Color.init(white: 0.75)
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
@@ -202,9 +187,12 @@ struct PageView: View {
                                    style: markerStyles[.envelopeBounds]!)
             }
             
+            // OUTSIDE offsets visible as a bottom layer
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 EnvelopeBounds(curves: model.boundingCurves,
-                               style: markerStyles[.envelopeBounds]!)
+                               style: markerStyles[.envelopeBounds]!,
+                               showInnerOffset: false,
+                               showOuterOffset: true)
             }
             
             // ANIMATING BLOB LAYERS //
@@ -223,6 +211,13 @@ struct PageView: View {
             if layers.isVisible(layerWithType: .baseCurve_and_markers) {
                 BaseCurve_And_Markers(curve: model.baseCurve.map{ $0.vertex },
                                       style: markerStyles[.baseCurve]!)
+            }
+            
+            if layers.isVisible(layerWithType: .offsetsEnvelope) {
+                EnvelopeBounds(curves: model.boundingCurves,
+                               style: markerStyles[.envelopeBounds]!,
+                               showInnerOffset: true,
+                               showOuterOffset: false)
             }
             
         // MORE ANIMATING BLOB LAYERS //

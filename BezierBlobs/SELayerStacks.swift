@@ -12,8 +12,8 @@ enum MarkerType : CaseIterable {
     case vertexOrigin
     case envelopeBounds
     case baseCurve
-    case zig
-    case zag
+//    case zig
+//    case zag
 }
 
 typealias MarkerStyle = (color: Color, radius: CGFloat)
@@ -22,10 +22,10 @@ let r: CGFloat = 15
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r - 2),
     .vertexOrigin :     (color: .green, radius : r - 2),
-    .envelopeBounds :   (color: .black, radius: r/2.0),
+    .envelopeBounds :   (color: .black, radius: r/2.0 - 1),
     .baseCurve :        (color: .white, radius: r/2.0),
-    .zig :              (color: .red, radius : r - 3),
-    .zag :              (color: .yellow, radius: r - 3)
+//    .zig :              (color: .red, radius : r - 3),
+//    .zag :              (color: .yellow, radius: r - 3)
 ]
 
 //let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
@@ -98,14 +98,14 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          smoothed: isSmoothed)
                 .stroke(colorScheme.stroke,
-                        style: StrokeStyle(lineWidth: 5, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 7, lineJoin: .round))
             
             // white highlight
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
                 .stroke(Gray.light,
-                        style: StrokeStyle(lineWidth: 0.75, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 1.0, lineJoin: .round))
         }
     }
 }
@@ -178,7 +178,7 @@ struct NormalsPlusMarkers : View {
     // NORMALS
             SuperEllipse(curve: normals,
                          bezierType: .normals)
-                .stroke(Color.init(white: 0.3),
+                .stroke(Color.init(white: 1.0),
 //                .stroke(Color.orange,
                         style: StrokeStyle(lineWidth: 5, dash: [1, 4]))
             
@@ -223,26 +223,33 @@ struct BaseCurve_And_Markers : View {
 struct EnvelopeBounds : View {
     var curves: BoundingCurves
     var style : MarkerStyle
+    var showInnerOffset: Bool
+    var showOuterOffset: Bool
     
     let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
     
     var body: some View {
         
         ZStack {
-            SuperEllipse(curve: curves.inner)
-                .stroke(style.color, style: strokeStyle)
-            SuperEllipse(curve: curves.outer)
-                .stroke(style.color, style: strokeStyle)
-            
-    // markers at the inner and outer ends of our normals.
-    // these are duplicated in the struct NormalsPlusMarkers{}
-            SuperEllipse(curve: curves.inner,
-                         bezierType: .markers(radius: style.radius))
-                .fill(style.color)
-            
-            SuperEllipse(curve: curves.outer,
-                         bezierType: .markers(radius: style.radius))
-                .fill(style.color)
+            if showInnerOffset {
+                SuperEllipse(curve: curves.inner)
+                    .stroke(style.color, style: strokeStyle)
+            }
+            if showOuterOffset {
+                SuperEllipse(curve: curves.outer)
+                    .stroke(style.color, style: strokeStyle)
+            }
+
+            if showInnerOffset {
+                SuperEllipse(curve: curves.inner,
+                             bezierType: .markers(radius: style.radius))
+                    .fill(style.color)
+            }
+            if showOuterOffset {
+                SuperEllipse(curve: curves.outer,
+                             bezierType: .markers(radius: style.radius))
+                    .fill(style.color)
+            }
         }
     }
 }

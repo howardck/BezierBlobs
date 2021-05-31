@@ -77,7 +77,7 @@ struct TwoButtonPanel : View {
     
     @EnvironmentObject var colorScheme : ColorScheme
     
-    var edgeOffset = CGSize(width: 1, height: 1)
+    var edgeOffset = CGSize(width: 1.0, height: 1.0)
     
     var body: some View {
         HStack {
@@ -171,6 +171,7 @@ struct SELayersChooserButton : View {
             // base (ie edge) on the bottom
             LayerStackSymbol(color: edgeColor, size: s)
                 .offset(edgeOffset)
+            
             // and then the face
             LayerStackSymbol(color: faceColor, size: s)
         }

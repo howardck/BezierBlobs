@@ -16,20 +16,17 @@ typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 typealias ZigZagDeltas = (inner: CGFloat, outer: CGFloat)
 
 // the first, as a fraction of the baseCurve ratio, gets converted to the second
-typealias RelativePerturbationDeltas = (innerRelRange: Range<CGFloat>, outerRelRange: Range<CGFloat>)
+typealias RelativePerturbationRanges = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
 
 // the innerRange is centred on the innerCurve; the outerRange on the outerCurve
-typealias PerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
+typealias PerturbationRanges = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
 
 class Model: ObservableObject {
     
-    var relativePerturbationDeltas : RelativePerturbationDeltas
-                                            = (innerRelRange: -0.5..<0.5,
-                                               outerRelRange: -0.5..<0.5)
-    var nilDeltas : PerturbationDeltas = (innerRange: 0..<0,
+    var nilDeltas : PerturbationRanges = (innerRange: 0..<0,
                                           outerRange: 0..<0)
     
-    var perturbationRange : PerturbationDeltas = (innerRange: 0..<0,
+    var perturbationRanges : PerturbationRanges = (innerRange: 0..<0,
                                                    outerRange: 0..<0)
     
     static let TEST_PERTURB_DELTA : Range<CGFloat> = -0.5..<0.5
@@ -127,8 +124,8 @@ class Model: ObservableObject {
         for (_, vertexTuple) in baseCurve.enumerated() {
             
             let offset : CGFloat = isOffsetToOutside ?
-                offsets.outer + CGFloat.random(in: perturbationRange.outerRange) :
-                offsets.inner + CGFloat.random(in: perturbationRange.innerRange)
+                offsets.outer + CGFloat.random(in: perturbationRanges.outerRange) :
+                offsets.inner + CGFloat.random(in: perturbationRanges.innerRange)
             
             let pt = vertexTuple.vertex.newPoint(atOffset: offset,
                                                  along: vertexTuple.normal)
