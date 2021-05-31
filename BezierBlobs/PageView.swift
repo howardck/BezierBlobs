@@ -194,18 +194,6 @@ struct PageView: View {
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
-        // just for fun we use an @EnvironmentObject-injected
-        // layers object for this one. see AnimatingBlob_Filled().
-            
-        // ANIMATING BLOB LAYERS //
-        // --------------------------------------------------------------
-            AnimatingBlob_Filled(curve: model.blobCurve,
-                                 layerType: .blob_filled)
-
-            if layers.isVisible(layerWithType: .blob_stroked) {
-                AnimatingBlob_Stroked(curve: model.blobCurve)
-            }
-            
         // SUPPORT LAYERS //
         // --------------------------------------------------------------
             if layers.isVisible(layerWithType: .normals) {
@@ -218,21 +206,27 @@ struct PageView: View {
                 EnvelopeBounds(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!)
             }
-        
+            
+            // ANIMATING BLOB LAYERS //
+            // --------------------------------------------------------------
+            
+            // just for fun we use an @EnvironmentObject-injected
+            // layers object for this one. see AnimatingBlob_Filled().
+            
+                AnimatingBlob_Filled(curve: model.blobCurve,
+                                     layerType: .blob_filled)
+
+                if layers.isVisible(layerWithType: .blob_stroked) {
+                    AnimatingBlob_Stroked(curve: model.blobCurve)
+                }
+            
+            if layers.isVisible(layerWithType: .baseCurve_and_markers) {
+                BaseCurve_And_Markers(curve: model.baseCurve.map{ $0.vertex },
+                                      style: markerStyles[.baseCurve]!)
+            }
             
         // MORE ANIMATING BLOB LAYERS //
         // --------------------------------------------------------------
-            AnimatingBlob_Filled(curve: model.blobCurve,
-                                 layerType: .blob_filled)
-            
-            if layers.isVisible(layerWithType: .baseCurve_and_markers) {
-                BaseCurve_And_Markers(curve: model.baseCurve.map{$0.vertex},
-                                      style: markerStyles[.baseCurve]!)
-            }
-//
-//            if layers.isVisible(layerWithType: .blob_stroked) {
-//                AnimatingBlob_Stroked(curve: model.blobCurve)
-//            }
             
             if layers.isVisible(layerWithType: .blob_markers) {
                 AnimatingBlob_Markers(curve: model.blobCurve,
@@ -243,10 +237,11 @@ struct PageView: View {
                 AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
                                                markerStyle: markerStyles[.vertexOrigin]!)
             }
+            
         }
-        // an interesting bug occurs if we use .background() instead of
-        // PageGradientBackground as above, and then select 'hide all layers'
         
+        // an interesting bug occurs if we use .background(...) instead of
+        // PageGradientBackground() as above, and then select 'hide all layers'
         // .background(colorScheme.background)
 
         .onDisappear {
