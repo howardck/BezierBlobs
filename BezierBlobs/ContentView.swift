@@ -90,8 +90,8 @@ struct ContentView: View {
                                            fill: .blue,
                                            buttonFace: .blue,
                                            buttonEdge: .black,
-                                           allVertices: .red,
-                                           vertex_0: .green)
+                                           allVertices: .green,
+                                           vertex_0: .yellow)
             )
         }
     }

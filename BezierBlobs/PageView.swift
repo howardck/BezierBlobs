@@ -45,20 +45,20 @@ struct PageView: View {
 
         (numPoints: 22,
          n: 2.0,
-         axisRelOffsets: (inner: 1.333, baseCurve: 0.5, outer: 0.75),
+         axisRelOffsets: (inner: 0.05, baseCurve: 0.5, outer: 1),
          relativeDeltas: (innerRange: NIL_RANGE, // <CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE), //<0.00000001,
-                          outerRange: -0.05..<0.05),
+                          outerRange: -0.5..<0.5),
          blobLimits: (inner: 0.5, outer: 0.5),
          forceEqualAxes: true),
         
         // GOOD ...
-            (numPoints: 22,
-             n: 2.0,
-             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
-             relativeDeltas: (innerRange: 0..<0.3,
-                              outerRange: -0.3..<0.3),
-             blobLimits: (inner: 0.5, outer: 0.5),
-             forceEqualAxes: true),
+//            (numPoints: 22,
+//             n: 2.0,
+//             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
+//             relativeDeltas: (innerRange: 0..<0.3,
+//                              outerRange: -0.3..<0.3),
+//             blobLimits: (inner: 0.5, outer: 0.5),
+//             forceEqualAxes: true),
 
     // DELTA WING
         (numPoints: 6,
