@@ -43,11 +43,12 @@ struct PageView: View {
         // NOTE as well that the upper end of 'nil' ranges MUST be larger
         // than its lower end ...
 
-        (numPoints: 22,
+        // NIL_RANGE : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
+        (numPoints: 16,
          n: 2.0,
-         axisRelOffsets: (inner: 0.05, baseCurve: 0.5, outer: 1),
-         relativeDeltas: (innerRange: NIL_RANGE, // <CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE), //<0.00000001,
-                          outerRange: -0.5..<0.5),
+         axisRelOffsets: (inner: 0.1, baseCurve: 0.5, outer: 1.0),
+         relativeDeltas: (innerRange: -0.1..<0.5,
+                          outerRange: -0.6..<0.4),
          blobLimits: (inner: 0.5, outer: 0.5),
          forceEqualAxes: true),
         

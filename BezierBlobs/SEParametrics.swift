@@ -30,7 +30,7 @@ struct Parametrics {
                 // else dX goes infinite @ theta == 0 & we're forked.
                 // (kludge or clever?)
             }
-            
+
             let inverseN = 2.0/n // not named accurately, but whatever...
 
             let x = axes.a * pow(abs(cosT), inverseN) * sign(cosT)
