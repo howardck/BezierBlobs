@@ -26,6 +26,8 @@ struct PageView: View {
         
     let pageDesc: PageDescription
     
+    static let NIL_RANGE : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
+    
     static let descriptions : [PageDescription] =
     [
     // CLASSIC SE
@@ -37,11 +39,24 @@ struct PageView: View {
          blobLimits: (inner: 1.0, outer: 0.8), false),
         
     // CIRCLE
+        // NOTA: INTERESTING THINGS can happen when axisRelOffsets.inner is > 1.
+        // NOTE as well that the upper end of 'nil' ranges MUST be larger
+        // than its lower end ...
+
+        (numPoints: 22,
+         n: 2.0,
+         axisRelOffsets: (inner: 1.333, baseCurve: 0.5, outer: 0.75),
+         relativeDeltas: (innerRange: NIL_RANGE, // <CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE), //<0.00000001,
+                          outerRange: -0.05..<0.05),
+         blobLimits: (inner: 0.5, outer: 0.5),
+         forceEqualAxes: true),
+        
+        // GOOD ...
             (numPoints: 22,
              n: 2.0,
              axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
              relativeDeltas: (innerRange: 0..<0.3,
-                                          outerRange: -0.3..<0.3),
+                              outerRange: -0.3..<0.3),
              blobLimits: (inner: 0.5, outer: 0.5),
              forceEqualAxes: true),
 

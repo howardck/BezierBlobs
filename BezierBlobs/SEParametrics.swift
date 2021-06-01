@@ -10,12 +10,12 @@ import SwiftUI
 
 struct Parametrics {
     
+    static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001
+
     static func calculateSuperEllipse(for numPoints: Int,
                                n: Double,
                                with axes: Axes) -> BaseCurvePairs
     {
-        let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001
-
         var baseCurve : BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]()
         
         var i = 0
@@ -26,9 +26,9 @@ struct Parametrics {
             var sinT = sin(theta)
 
             if sinT == 0 {
-                sinT = VANISHINGLY_SMALL_DOUBLE
+                sinT = Self.VANISHINGLY_SMALL_DOUBLE
                 // else dX goes infinite @ theta == 0 & we're forked.
-                // kludge or clever?
+                // (kludge or clever?)
             }
             
             let inverseN = 2.0/n // not named accurately, but whatever...
