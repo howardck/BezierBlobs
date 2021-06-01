@@ -20,7 +20,7 @@ struct MainScreenUI: View {
             VStack {
                 Spacer()
                 if showLayersList {
-                    let s = CGSize(width: 250, height: 540)
+                    let s = CGSize(width: 270, height: 520)
                     HStack {
                         ZStack {
                             SELayersChooser(layers: $layers.layers)

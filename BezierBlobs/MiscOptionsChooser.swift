@@ -65,7 +65,7 @@ struct MiscOptionsChooser: View {
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .environment(\.defaultMinListRowHeight, 34)
+        .environment(\.defaultMinListRowHeight, 40)
     }
 
     func bulletedTextItem(_ text: String) -> some View {

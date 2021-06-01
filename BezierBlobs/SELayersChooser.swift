@@ -37,15 +37,15 @@ struct SELayersChooser: View {
             }
             .textCase(.lowercase)
         }
-        .listStyle(InsetGroupedListStyle())
-
         .onAppear() {
             if Self.DEBUG_PRINT_SHOW_LAYER_VISIBILITY {
                 print("LayersSelectionList.onAppear{} ........")
                 DEBUG_printLayerVisibilityFlags()
             }
         }
-        .environment(\.defaultMinListRowHeight, 34)
+        .listStyle(InsetGroupedListStyle())
+        // was initially 34
+        .environment(\.defaultMinListRowHeight, 40)
     }
     
     func rows(in section: SectionType) -> some View {

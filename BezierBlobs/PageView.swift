@@ -15,11 +15,10 @@ enum PageType : String {
 }
 
 typealias PageDescription
-                = (numPoints: Int,
-                   n: Double,
+                = (n: Double,
+                   numPoints: Int,
                    axisRelOffsets: (inner: CGFloat, baseCurve: Double, outer: CGFloat),
-                   relativeDeltas: RelativePerturbationRanges,
-                   blobLimits: (inner: CGFloat, outer: CGFloat),
+                   axisRelDeltas: AxisRelativePerturbationDeltas,
                    forceEqualAxes: Bool)
 
 struct PageView: View {
@@ -31,51 +30,48 @@ struct PageView: View {
     static let descriptions : [PageDescription] =
     [
     // CLASSIC SE
-        (numPoints: 28,
-         n: 3.0,
+        (n: 3.0,
+         numPoints: 28,
          axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.8),
-         relativeDeltas: (innerRange: -0.1..<0.2,
-                          outerRange: -0.15..<0.15),
-         blobLimits: (inner: 1.0, outer: 0.8), false),
-        
+         axisRelDeltas: (innerRange: -0.1..<0.2,
+                         outerRange: -0.15..<0.15),
+         forceEqualAxes: false),
     // CIRCLE
         // NOTA: INTERESTING THINGS can happen when axisRelOffsets.inner is > 1.
         // NOTE as well that the upper end of 'nil' ranges MUST be larger
         // than its lower end ...
 
         // NIL_RANGE : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
-        (numPoints: 16,
-         n: 2.0,
+        (n: 2.0,
+         numPoints: 16,
          axisRelOffsets: (inner: 0.1, baseCurve: 0.5, outer: 1.0),
-         relativeDeltas: (innerRange: -0.1..<0.5,
-                          outerRange: -0.6..<0.4),
-         blobLimits: (inner: 0.5, outer: 0.5),
+         axisRelDeltas: (innerRange: NIL_RANGE,
+                         outerRange: -0.6..<0.4),
          forceEqualAxes: true),
         
         // GOOD ...
-//            (numPoints: 22,
-//             n: 2.0,
+//            (n: 2.0,
+//             numPoints: 22,
 //             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
-//             relativeDeltas: (innerRange: 0..<0.3,
+//             axisRelDeltas: (innerRange: 0..<0.3,
 //                              outerRange: -0.3..<0.3),
-//             blobLimits: (inner: 0.5, outer: 0.5),
 //             forceEqualAxes: true),
 
     // DELTA WING
-        (numPoints: 6,
-         n: 3,
+        (n: 3,
+        numPoints: 6,
         axisRelOffsets: (inner: 0.15, baseCurve: 0.5, outer: 0.8),
-        relativeDeltas: (innerRange: 0..<0.3,
-                                     outerRange: -0.3..<0.3),
-        blobLimits: (inner: 0.0, outer: 0.0), false),
+        axisRelDeltas: (innerRange: 0..<0.3,
+                        outerRange: -0.3..<0.3),
+        forceEqualAxes: false),
         
     // PHANTASM
-        (numPoints: 22,
-         n: 1,
+        (n: 1,
+         numPoints: 22,
          axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.85),
-         relativeDeltas: (innerRange: -0.1..<0.25,
-                                      outerRange: -0.35..<0.2),
-         blobLimits: (inner: 3.0, outer: 0.8), false)
+         axisRelDeltas: (innerRange: -0.1..<0.25,
+                         outerRange: -0.35..<0.2),
+         forceEqualAxes: false)
     ]
             
     @ObservedObject var model = Model()
@@ -128,43 +124,28 @@ struct PageView: View {
             a = Double(minAxis)
             b = Double(minAxis)
         }
-        
-        print("   semiMinorAxis a: {\(a)} semiMajorAxis b: {\(b)}")
-        
+                
         let baseCurveRatio = pageDesc.axisRelOffsets.baseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
-        
-        let offsets: Offsets = (inner: (minAxis * pageDesc.axisRelOffsets.inner - baseCurve),
-                                outer: minAxis * pageDesc.axisRelOffsets.outer - baseCurve)
-        
-        let blobLimits : ZigZagDeltas = (inner: abs(pageDesc.blobLimits.inner * offsets.inner),
-                                         outer: abs(pageDesc.blobLimits.outer * offsets.outer))
-        model.offsets = offsets
-        model.blobLimits = blobLimits
 
-        let innerRange = pageDesc.relativeDeltas.innerRange
-        let outerRange = pageDesc.relativeDeltas.outerRange
+        model.offsets = (inner: (minAxis * pageDesc.axisRelOffsets.inner - baseCurve),
+                         outer: minAxis * pageDesc.axisRelOffsets.outer - baseCurve)
+
+        let relInnerRange = pageDesc.axisRelDeltas.innerRange
+        let relOuterRange = pageDesc.axisRelDeltas.outerRange
         
-        let innerScreenRange = innerRange.lowerBound * minAxis..<innerRange.upperBound * minAxis
-        let outerScreenRange = outerRange.lowerBound * minAxis..<outerRange.upperBound * minAxis
-        let perturbationDeltas : PerturbationRanges = (innerRange: innerScreenRange,
-                                                       outerRange: outerScreenRange)
+        let innerRange = (relInnerRange.lowerBound * minAxis)..<(relInnerRange.upperBound * minAxis)
+        let outerRange = (relOuterRange.lowerBound * minAxis)..<(relOuterRange.upperBound * minAxis)
         
-        model.perturbationRanges = perturbationDeltas
+        let pRanges : PerturbationRanges = (innerRange: innerRange,
+                                            outerRange: outerRange)
+        model.perturbationRanges = pRanges
         
-        if Model.DEBUG_ADJUST_PERTURBATION_LIMITS {
-            print("   baseCurve.ratio: {\(baseCurveRatio.format(fspec: "4.2"))}" +
-                    " => {\(baseCurve.format(fspec: "4.2"))}")
-            
-            print("   axisRelativeOffsets: (inner: \(pageDesc.axisRelOffsets.inner.format(fspec: "4.2")), " +
-                "outer: \(pageDesc.axisRelOffsets.outer.format(fspec: "4.2"))) => "
-            
-                + "offsets: {(inner: \(offsets.inner) outer: \(offsets.outer))}")
-            
-            print("   blobLimits : " +
-                    "(inner: {+/- \(model.blobLimits.inner.format(fspec: "4.2"))}, " +
-                    "outer: {+/- \(model.blobLimits.outer.format(fspec: "4.2"))}) ")
-        }
+        print("   semiMinorAxis a: [\(a)] semiMajorAxis b: [\(b)]")
+        print("   model.offsets : " +
+                "(inner: [\(model.offsets.inner.format(fspec: "4.2"))], " +
+                "outer: [\(model.offsets.outer.format(fspec: "4.2"))]) ")
+                
         
         print("model.calculateSuperEllipse()")
         model.calculateSuperEllipse(for: pageType,
@@ -172,17 +153,17 @@ struct PageView: View {
                                     axes: (a: a * baseCurveRatio,
                                            b: b * baseCurveRatio)
         )
+        
         model.calculateSupportCurves()
     }
     
     struct PageGradientBackground : View {
-        let colors : [Color] = [.init(white: 0.9), .init(white: 0.3)]
+        let colors : [Color] = [.init(white: 0.35), .init(white: 0.9)]
         var body : some View {
             
             LinearGradient(gradient: Gradient(colors: colors),
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-//            Color.orange
+                           startPoint: .bottomLeading,
+                           endPoint: .topTrailing)
         }
     }
     
@@ -190,8 +171,8 @@ struct PageView: View {
     
         ZStack {
 
-//            PageGradientBackground()
-            Color.init(white: 0.75)
+            PageGradientBackground()
+//            Color.init(white: 0.75)
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             

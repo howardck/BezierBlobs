@@ -16,7 +16,7 @@ typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 typealias ZigZagDeltas = (inner: CGFloat, outer: CGFloat)
 
 // the first, as a fraction of the baseCurve ratio, gets converted to the second
-typealias RelativePerturbationRanges = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
+typealias AxisRelativePerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
 
 // the innerRange is centred on the innerCurve; the outerRange on the outerCurve
 typealias PerturbationRanges = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
@@ -25,6 +25,8 @@ class Model: ObservableObject {
     
     var nilDeltas : PerturbationRanges = (innerRange: 0..<0,
                                           outerRange: 0..<0)
+    
+    static let NIL_DELTAS : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
     
     var perturbationRanges : PerturbationRanges = (innerRange: 0..<0,
                                                    outerRange: 0..<0)
@@ -68,10 +70,9 @@ class Model: ObservableObject {
     var axes : Axes = (1.0, 1.0)
 
     var pageType: PageType?
-    // this will have been set up by the time we 1st get here...
+
     var offsets : Offsets = (inner: 0, outer: 0)
-    
-    var blobLimits : ZigZagDeltas = (inner: 0, outer: 0)
+
 
     //MARK:- MAIN SUPERELLIPSE
     func calculateSuperEllipse(for pageType: PageType,

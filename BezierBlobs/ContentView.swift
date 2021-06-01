@@ -88,10 +88,10 @@ struct ContentView: View {
             .environmentObject(ColorScheme(background: Color.init(white: 0.4),
                                            stroke: .red,
                                            fill: .blue,
-                                           buttonFace: .blue,
+                                           buttonFace: .green,
                                            buttonEdge: .black,
-                                           allVertices: .green,
-                                           vertex_0: .red)
+                                           allVertices: .red,
+                                           vertex_0: .green)
             )
         }
     }
