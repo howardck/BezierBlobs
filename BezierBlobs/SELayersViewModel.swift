@@ -85,7 +85,7 @@ enum LayerType : String {
     
 //    case baseCurve = "baseCurve"
     case baseCurve_and_markers = "basecurve"
-    case offsetsEnvelope = "offsets envelope"
+    case offsetsEnvelope = "inner & outer offsets"
     case normals = "normals"
     
     case showAll = "show All layers"
