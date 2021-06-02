@@ -83,7 +83,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3B9A048E25C8642D0097ECC6 /* ContentView_alternatives */ = {
+		3B9A048E25C8642D0097ECC6 /* ContentView_TESTS */ = {
 			isa = PBXGroup;
 			children = (
 				3B16CA4B2644B13D00B10838 /* PageDesc_TEST.swift */,
@@ -94,7 +94,7 @@
 				3B859FEE25BB3B470033DB7A /* MainScreenLayout_TEST.swift */,
 				3B82699B25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift */,
 			);
-			path = ContentView_alternatives;
+			path = ContentView_TESTS;
 			sourceTree = "<group>";
 		};
 		5E57D2A3256D5AD900D6B1C0 = {
@@ -132,7 +132,7 @@
 				3B47B468264AC92A0016E0AA /* MiscOptionsModel.swift */,
 				3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
-				3B9A048E25C8642D0097ECC6 /* ContentView_alternatives */,
+				3B9A048E25C8642D0097ECC6 /* ContentView_TESTS */,
 				5E57D2E6256D5CF900D6B1C0 /* extensions */,
 				5E57D2B3256D5ADD00D6B1C0 /* Assets.xcassets */,
 				5E57D2B8256D5ADD00D6B1C0 /* Info.plist */,

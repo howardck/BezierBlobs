@@ -158,7 +158,7 @@ struct PageView: View {
     }
     
     struct PageGradientBackground : View {
-        let colors : [Color] = [.init(white: 0.35), .init(white: 0.9)]
+        let colors : [Color] = [.init(white: 0.2), .init(white: 0.9)]
         var body : some View {
             
             LinearGradient(gradient: Gradient(colors: colors),
