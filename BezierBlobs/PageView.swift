@@ -8,8 +8,8 @@
 import SwiftUI
 
 enum PageType : String {
-    case superEllipse = "CLASSIC SE"
     case circle = "CIRCLE"
+    case superEllipse = "CLASSIC SE"
     case deltaWing = "DELTA WING"
     case mutantMoth = "PHANTASM"
 }
@@ -29,6 +29,28 @@ struct PageView: View {
     
     static let descriptions : [PageDescription] =
     [
+    // CIRCLE
+        // NOTA: INTERESTING THINGS can happen when axisRelOffsets.inner is > 1.
+        // NOTE as well that the upper end of 'nil' ranges MUST be larger
+        // than its lower end ...
+        
+        // some rather bizarre-type effects. interesting
+        // NIL_RANGE : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
+        //        (n: 2.0,
+        //         numPoints: 16,
+        //         axisRelOffsets: (inner: 0.1, baseCurve: 0.5, outer: 1.0),
+        //         axisRelDeltas: (innerRange: NIL_RANGE,
+        //                         outerRange: -0.6..<0.4),
+        //         forceEqualAxes: true),
+        
+        // GOOD ...
+        (n: 2.0,
+         numPoints: 22,
+         axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
+         axisRelDeltas: (innerRange: 0..<0.3,
+                         outerRange: -0.3..<0.3),
+         forceEqualAxes: true),
+        
     // CLASSIC SE
         (n: 3.0,
          numPoints: 28,
@@ -36,27 +58,6 @@ struct PageView: View {
          axisRelDeltas: (innerRange: -0.1..<0.2,
                          outerRange: -0.15..<0.15),
          forceEqualAxes: false),
-    // CIRCLE
-        // NOTA: INTERESTING THINGS can happen when axisRelOffsets.inner is > 1.
-        // NOTE as well that the upper end of 'nil' ranges MUST be larger
-        // than its lower end ...
-
-        // NIL_RANGE : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
-        // some rather bizarre-type effects. interesting
-//        (n: 2.0,
-//         numPoints: 16,
-//         axisRelOffsets: (inner: 0.1, baseCurve: 0.5, outer: 1.0),
-//         axisRelDeltas: (innerRange: NIL_RANGE,
-//                         outerRange: -0.6..<0.4),
-//         forceEqualAxes: true),
-        
-        // GOOD ...
-            (n: 2.0,
-             numPoints: 22,
-             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
-             axisRelDeltas: (innerRange: 0..<0.3,
-                              outerRange: -0.3..<0.3),
-             forceEqualAxes: true),
 
     // DELTA WING
         (n: 3,

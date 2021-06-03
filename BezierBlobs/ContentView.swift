@@ -36,23 +36,21 @@ struct ContentView: View {
         GeometryReader { gr in
             TabView {
 
+                
+                PageView(pageType: PageType.circle,
+                         descriptors: PageView.descriptions[0],
+                         size: gr.size)
+                    .tabItem {
+                        SFSymbol.tab_2
+                        Text("\(PageType.circle.rawValue)")
+                    }
+                
                 PageView(pageType: PageType.superEllipse,
                          descriptors: PageView.descriptions[0],
                          size: gr.size)
                     .tabItem {
                         SFSymbol.tab_1
                         Text("\(PageType.superEllipse.rawValue)" )
-                    }
-                
-                PageView(pageType: PageType.circle,
-                         descriptors: PageView.descriptions[1],
-                         size: gr.size)
-
-                    .onAppear{ print("PageView.onAppear(PageType.CIRCLE)\n" +
-                                     "         Platform { \(ps.name) }")}
-                    .tabItem {
-                        SFSymbol.tab_2
-                        Text("\(PageType.circle.rawValue)")
                     }
                 
                 PageView(pageType: PageType.deltaWing,
@@ -148,18 +146,7 @@ struct ContentView_Previews: PreviewProvider {
         
         HStack {
             VStack {
-                PageView(pageType: PageType.superEllipse,
-                         descriptors: PageView.descriptions[0],
-                         size: s)
-                    .environmentObject(ColorScheme(background: Gray.light,
-                                                   stroke: .green,
-                                                   fill: .orange,
-                                                   buttonFace: .green,
-                                                   buttonEdge: .white,
-                                                   allVertices: .blue,
-                                                   vertex_0: .green)
-                    )
-                                       
+                
                 PageView(pageType: PageType.circle,
                          descriptors: PageView.descriptions[0],
                          size: s)
@@ -169,11 +156,23 @@ struct ContentView_Previews: PreviewProvider {
                                                    buttonFace: .red,
                                                    buttonEdge: .white,
                                                    allVertices: .green,
-                                                   vertex_0: .red)
-                    )
+                                                   vertex_0: .red))
+                    .environmentObject(SELayersViewModel())
+                    .environmentObject(MiscOptionsModel())
             }
-            .environmentObject(SELayersViewModel())
-            .environmentObject(MiscOptionsModel())
+            
+            PageView(pageType: PageType.superEllipse,
+                     descriptors: PageView.descriptions[0],
+                     size: s)
+                .environmentObject(ColorScheme(background: Gray.light,
+                                               stroke: .green,
+                                               fill: .orange,
+                                               buttonFace: .green,
+                                               buttonEdge: .white,
+                                               allVertices: .blue,
+                                               vertex_0: .green))
+                .environmentObject(SELayersViewModel())
+                .environmentObject(MiscOptionsModel())
             
             VStack {
                 PageView(pageType: PageType.superEllipse,
@@ -185,9 +184,10 @@ struct ContentView_Previews: PreviewProvider {
                                                    buttonFace: .red,
                                                    buttonEdge: .black,
                                                    allVertices: .blue,
-                                                   vertex_0: .red)
-                    )
-
+                                                   vertex_0: .red))
+                    .environmentObject(SELayersViewModel())
+                    .environmentObject(MiscOptionsModel())
+                
                 PageView(pageType: PageType.circle,
                          descriptors: PageView.descriptions[2],
                          size: s)
@@ -197,16 +197,11 @@ struct ContentView_Previews: PreviewProvider {
                                                    buttonFace: .green,
                                                    buttonEdge: .black,
                                                    allVertices: .orange,
-                                                   vertex_0: .red)
-                    )
-                //                .tabItem {
-                //                    SFSymbol.tab_1
-                //                    Text("\(PageType.circle.rawValue)" )
-                //                }
+                                                   vertex_0: .red))
+                    .environmentObject(SELayersViewModel())
+                    .environmentObject(MiscOptionsModel())
+                
             }
-            .environmentObject(SELayersViewModel())
-            .environmentObject(MiscOptionsModel())
         }
     }
-    
 }

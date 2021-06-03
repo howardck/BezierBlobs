@@ -8,22 +8,22 @@ class SELayersViewModel : ObservableObject {
       
     static let DEBUG_PRINT_LAYERS = false
     static func loadDefaultLayers() -> [Layer] {
-        [
-            // ANIMATING BLOB CURVES
-            Layer(type: .blob_stroked, section: .animatingBlobCurves),
-            Layer(type: .blob_filled, section: .animatingBlobCurves, visible: true),
-            Layer(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
-            Layer(type: .blob_markers, section: .animatingBlobCurves, visible: true),
-            
-            // SUPPORT CURVES
-            Layer(type: .baseCurve_and_markers, section: .staticSupportCurves),
-            Layer(type: .offsetsEnvelope, section: .staticSupportCurves, visible: true),
-            Layer(type: .normals, section: .staticSupportCurves, visible: true),
-            
-            // SHORTCUTS
-            Layer(type: .showAll, section: .shortcuts),
-            Layer(type: .hideAll, section: .shortcuts)
-        ]
+    [
+        // ANIMATING BLOB CURVES
+        Layer(type: .blob_stroked, section: .animatingBlobCurves),
+        Layer(type: .blob_filled, section: .animatingBlobCurves, visible: true),
+        Layer(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
+        Layer(type: .blob_markers, section: .animatingBlobCurves),
+        
+        // SUPPORT CURVES
+        Layer(type: .baseCurve_and_markers, section: .staticSupportCurves),
+        Layer(type: .offsetsEnvelope, section: .staticSupportCurves, visible: true),
+        Layer(type: .normals, section: .staticSupportCurves, visible: true),
+        
+        // SHORTCUTS
+        Layer(type: .showAll, section: .shortcuts),
+        Layer(type: .hideAll, section: .shortcuts)
+    ]
     }
     
     @Published var layers : [Layer] = loadDefaultLayers()
