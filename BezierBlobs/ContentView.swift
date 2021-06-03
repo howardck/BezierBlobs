@@ -88,8 +88,8 @@ struct ContentView: View {
             .environmentObject(ColorScheme(background: Color.init(white: 0.4),
                                            stroke: .red,
                                            fill: .blue,
-                                           buttonFace: .green,
-                                           buttonEdge: .black,
+                                           buttonFace: .gray,
+                                           buttonEdge: .white,
                                            allVertices: .red,
                                            vertex_0: .yellow)
             )
@@ -125,7 +125,7 @@ class ColorScheme : ObservableObject {
          buttonEdge: Color,
          allVertices: Color,
          vertex_0: Color) {
-        
+
         self.background = background
         self.stroke = stroke
         self.fill = fill

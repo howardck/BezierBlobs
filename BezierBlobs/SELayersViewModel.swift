@@ -7,59 +7,28 @@ import Combine
 class SELayersViewModel : ObservableObject {
       
     static let DEBUG_PRINT_LAYERS = false
+    static func loadDefaultLayers() -> [Layer] {
+        [
+            // ANIMATING BLOB CURVES
+            Layer(type: .blob_stroked, section: .animatingBlobCurves),
+            Layer(type: .blob_filled, section: .animatingBlobCurves, visible: true),
+            Layer(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
+            Layer(type: .blob_markers, section: .animatingBlobCurves, visible: true),
+            
+            // SUPPORT CURVES
+            Layer(type: .baseCurve_and_markers, section: .staticSupportCurves),
+            Layer(type: .offsetsEnvelope, section: .staticSupportCurves, visible: true),
+            Layer(type: .normals, section: .staticSupportCurves, visible: true),
+            
+            // SHORTCUTS
+            Layer(type: .showAll, section: .shortcuts),
+            Layer(type: .hideAll, section: .shortcuts)
+        ]
+    }
     
-    static let fillOnlyLayersModel : [Layer] = [
-    
-    //  ANIMATING BLOB CURVES
-        .init(type: .blob_stroked, section: .animatingBlobCurves),
-        .init(type: .blob_filled, section: .animatingBlobCurves,
-              visible: true),
-        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
-              visible: true),
-        .init(type: .blob_markers, section: .animatingBlobCurves,
-              visible: false),
- 
-    // SUPPORT CURVES
-        // ----------------------------------------------------------------
-        .init(type: .baseCurve_and_markers, section: .staticSupportCurves,
-              visible: false),
-        .init(type: .offsetsEnvelope, section: .staticSupportCurves,
-              visible: false),
-        .init(type: .normals, section: .staticSupportCurves),
-
-    // SHORTCUTS
-        // -----------------------------------------------------------------
-        .init(type: .showAll, section: .shortcuts),
-        .init(type: .hideAll, section: .shortcuts)
-    ]
-
-    
-    @Published var layers : [Layer] = [
-        
-        .init(type: .blob_stroked, section: .animatingBlobCurves,
-              visible: true),
-        .init(type: .blob_filled, section: .animatingBlobCurves),
-        .init(type: .blob_vertex_0_marker, section: .animatingBlobCurves,
-              visible: true),
-        .init(type: .blob_markers, section: .animatingBlobCurves,
-              visible: true),
-
-        // ----------------------------------------------------------------
-//        .init(type: .baseCurve, section: .staticSupportCurves,
-//              visible: true),
-        .init(type: .baseCurve_and_markers, section: .staticSupportCurves,
-              visible: true),
-        .init(type: .offsetsEnvelope, section: .staticSupportCurves),
-        .init(type: .normals, section: .staticSupportCurves),
-
-        // -----------------------------------------------------------------
-        .init(type: .showAll, section: .shortcuts),
-        .init(type: .hideAll, section: .shortcuts)
-    ]
+    @Published var layers : [Layer] = loadDefaultLayers()
     
     init() {
-        layers = SELayersViewModel.fillOnlyLayersModel
-        
         if SELayersViewModel.DEBUG_PRINT_LAYERS {
             print("initializing class Layers(): layers.count = {\(layers.count)}")
             for (ix, layer) in layers.enumerated() {

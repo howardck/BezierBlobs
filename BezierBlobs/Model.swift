@@ -55,8 +55,8 @@ class Model: ObservableObject {
     @Published var numPoints: Int = 0
          
     // zig vs zag configurations:
-    // zig : green vertex[0] marker moves to the outside
-    // zag : green vertex[0] marker moves to the inside
+    // zig : vertex[0] marker moves to the outside
+    // zag : vertex[0] marker moves to the inside
     
     @State var nextPhaseIsZig = true
   
