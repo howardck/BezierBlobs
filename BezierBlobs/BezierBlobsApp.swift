@@ -17,11 +17,11 @@ struct BezierBlobsApp: App {
                 .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
             
-            //EnumBasedListChooser()
+//            TabViewTest()
+//            //EnumBasedListChooser()
             
             // EmojiViewTest()
             // TimerTest()
-            // TabViewTest()
             // MainScreenLayoutTest()
             // MainScreenTwoButtonsTwoLists()
         }

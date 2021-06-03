@@ -22,13 +22,14 @@ struct MainScreenUI: View {
                 if showLayersList {
                     let s = CGSize(width: 270, height: 520)
                     HStack {
+                        Spacer()
                         ZStack {
                             SELayersChooser(layers: $layers.layers)
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }
                         .padding(30)
-                        Spacer()
+
                     }
                 }
                 else if showMiscOptionsList {
@@ -36,6 +37,7 @@ struct MainScreenUI: View {
                     let s = CGSize(width: 365, height: 510)
                     // ------------------------------------
                     HStack {
+                        Spacer()
                         ZStack {
                             MiscOptionsChooser(
                                 smoothed: $options.smoothed,
@@ -51,17 +53,16 @@ struct MainScreenUI: View {
                             BezelFrame(color: .orange, size: s)
                         }
                         .padding(30)
-                        Spacer()
                     }
                 }
                 else {
                     let s = CGSize(width: 266, height: 130)
                     HStack {
+                        Spacer()
                         TwoButtonPanel(showLayersList: $showLayersList,
                                        showMiscOptionsList: $showMiscOptionsList)
                             .frame(width: s.width)
                             .padding(EdgeInsets(top: 0, leading: 30, bottom: 50, trailing: 0))
-                        Spacer()
                     }
                 }
             }
@@ -69,8 +70,25 @@ struct MainScreenUI: View {
     }
 }
 
+/*
+Previews ERROR MESSAGE:
+"BezierBlobs preview crashed due to missing environment of type: ColorScheme. To resolve this add `.environmentObject(ColorScheme(...))` to the appropriate preview."
+ 
+HOW TO DO THIS ??
+*/
+
 //struct ScreenUI_Previews: PreviewProvider {
+//    @State static var showLayersList = false
+//    @State static var showMiscOptionsList = false
+//
+//    @EnvironmentObject var layers : SELayersViewModel
+//    @EnvironmentObject var options : MiscOptionsModel
+//
+//    @EnvironmentObject var colorScheme : ColorScheme
+//
 //    static var previews: some View {
-//        ScreenUI()
+//
+//        MainScreenUI(showLayersList : $showLayersList,
+//                     showMiscOptionsList: $showMiscOptionsList)
 //    }
 //}

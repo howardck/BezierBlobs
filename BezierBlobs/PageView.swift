@@ -172,16 +172,6 @@ struct PageView: View {
         model.calculateSupportCurves()
     }
     
-    struct PageGradientBackground : View {
-        let colors : [Color] = [.init(white: 0.2), .init(white: 0.9)]
-        var body : some View {
-            
-            LinearGradient(gradient: Gradient(colors: colors),
-                           startPoint: .bottomLeading,
-                           endPoint: .topTrailing)
-        }
-    }
-    
     var body: some View {
     
         ZStack {
@@ -360,6 +350,16 @@ struct DropShadowedText : View {
                     .foregroundColor(foreColor)
             }
         }
+    }
+}
+
+struct PageGradientBackground : View {
+    let colors : [Color] = [.init(white: 0.2), .init(white: 0.9)]
+    var body : some View {
+        
+        LinearGradient(gradient: Gradient(colors: colors),
+                       startPoint: .bottomLeading,
+                       endPoint: .topTrailing)
     }
 }
 
