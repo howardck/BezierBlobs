@@ -23,9 +23,9 @@ typealias PageDescription
 
 struct PageView: View {
         
-    let pageDesc: PageDescription
+    let descriptors: PageDescription
     
-    static let NIL_RANGE : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
+    static let NIL_RANGE : Range<CGFloat> = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
     static let descriptions : [PageDescription] =
     [
@@ -42,20 +42,21 @@ struct PageView: View {
         // than its lower end ...
 
         // NIL_RANGE : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
-        (n: 2.0,
-         numPoints: 16,
-         axisRelOffsets: (inner: 0.1, baseCurve: 0.5, outer: 1.0),
-         axisRelDeltas: (innerRange: NIL_RANGE,
-                         outerRange: -0.6..<0.4),
-         forceEqualAxes: true),
+        // some rather bizarre-type effects. interesting
+//        (n: 2.0,
+//         numPoints: 16,
+//         axisRelOffsets: (inner: 0.1, baseCurve: 0.5, outer: 1.0),
+//         axisRelDeltas: (innerRange: NIL_RANGE,
+//                         outerRange: -0.6..<0.4),
+//         forceEqualAxes: true),
         
         // GOOD ...
-//            (n: 2.0,
-//             numPoints: 22,
-//             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
-//             axisRelDeltas: (innerRange: 0..<0.3,
-//                              outerRange: -0.3..<0.3),
-//             forceEqualAxes: true),
+            (n: 2.0,
+             numPoints: 22,
+             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
+             axisRelDeltas: (innerRange: 0..<0.3,
+                              outerRange: -0.3..<0.3),
+             forceEqualAxes: true),
 
     // DELTA WING
         (n: 3,
@@ -103,10 +104,22 @@ struct PageView: View {
         
     var pageType: PageType
     
+    //MARK:-
+    func axesFor(size: CGSize, forceEqualAxes: Bool) -> (a: Double, b: Double) {
+        var a = Double(size.width/2)
+        var b = Double(size.height/2)
+        if forceEqualAxes {
+            a = min(a, b)
+            b = min(a, b)
+        }
+        return (a, b)
+    }
+    
     //MARK:- PageView.INIT
-    init(pageType: PageType, pageDesc: PageDescription, size: CGSize) {
+    init(pageType: PageType, descriptors: PageDescription, size: CGSize) {
         
-        print("PageView.init(): {PageType.\(pageType)} numPoints: {\(pageDesc.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
+        print("PageView.init( {PageType.\(pageType)} ): \n" +
+                "   numPoints: {\(descriptors.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
         
         if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
             print("PageView.init(pageType.\(pageType.rawValue))")
@@ -115,27 +128,22 @@ struct PageView: View {
         }
         
         self.pageType = pageType
-        self.pageDesc = pageDesc
+        self.descriptors = descriptors
         
-        var a = Double(size.width/2)
-        var b = Double(size.height/2)
-        let minAxis = CGFloat(min(a, b))
-        if pageDesc.forceEqualAxes {
-            a = Double(minAxis)
-            b = Double(minAxis)
-        }
+        let (a, b) = axesFor(size: size, forceEqualAxes: descriptors.forceEqualAxes)
                 
-        let baseCurveRatio = pageDesc.axisRelOffsets.baseCurve
+        let minAxis = CGFloat(min(a, b))
+        let baseCurveRatio = descriptors.axisRelOffsets.baseCurve
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
 
-        model.offsets = (inner: (minAxis * pageDesc.axisRelOffsets.inner - baseCurve),
-                         outer: minAxis * pageDesc.axisRelOffsets.outer - baseCurve)
+        model.offsets = (inner: (minAxis * descriptors.axisRelOffsets.inner - baseCurve),
+                         outer: minAxis * descriptors.axisRelOffsets.outer - baseCurve)
 
-        let relInnerRange = pageDesc.axisRelDeltas.innerRange
-        let relOuterRange = pageDesc.axisRelDeltas.outerRange
+        let relInRange = descriptors.axisRelDeltas.innerRange
+        let relOutRange = descriptors.axisRelDeltas.outerRange
         
-        let innerRange = (relInnerRange.lowerBound * minAxis)..<(relInnerRange.upperBound * minAxis)
-        let outerRange = (relOuterRange.lowerBound * minAxis)..<(relOuterRange.upperBound * minAxis)
+        let innerRange = (relInRange.lowerBound * minAxis)..<(relInRange.upperBound * minAxis)
+        let outerRange = (relOutRange.lowerBound * minAxis)..<(relOutRange.upperBound * minAxis)
         
         let pRanges : PerturbationRanges = (innerRange: innerRange,
                                             outerRange: outerRange)
@@ -143,13 +151,19 @@ struct PageView: View {
         
         print("   semiMinorAxis a: [\(a)] semiMajorAxis b: [\(b)]")
         print("   model.offsets : " +
-                "(inner: [\(model.offsets.inner.format(fspec: "4.2"))], " +
+                "(inner: [\(model.offsets.inner.format(fspec: "4.2"))] <—-|-—> " +
                 "outer: [\(model.offsets.outer.format(fspec: "4.2"))]) ")
+        
+        print("   perturbationRanges: inner: (\(innerRange.lowerBound)..< \(innerRange.upperBound)) <—-|-—> " +
+              "outer: (\(outerRange.lowerBound)..< \(outerRange.upperBound))")
                 
+//        print("   perturbRanges: inner: (\(innerRange.lowerBound) ..< \(innerRange.upperBound) )\n" +
+//              "                  outer: (\(outerRange.lowerBound) ..< \(outerRange.upperBound) )")
         
         print("model.calculateSuperEllipse()")
         model.calculateSuperEllipse(for: pageType,
-                                    pageDescription: pageDesc,
+                                    n: descriptors.n,
+                                    numPoints: descriptors.numPoints,
                                     axes: (a: a * baseCurveRatio,
                                            b: b * baseCurveRatio)
         )
@@ -315,10 +329,10 @@ struct PageView: View {
     
     func displaySuperEllipseMetrics() -> some View {
         VStack(spacing: 10) {
-            DropShadowedText(text: "numPoints: \(pageDesc.numPoints)",
+            DropShadowedText(text: "numPoints: \(descriptors.numPoints)",
                              foreColor: .white,
                              backColor: .init(white: 0.2))
-            DropShadowedText(text: "n: \(pageDesc.n.format(fspec: "3.1"))",
+            DropShadowedText(text: "n: \(descriptors.n.format(fspec: "3.1"))",
                              foreColor: .white,
                              backColor: .init(white: 0.2))
         }
@@ -352,6 +366,6 @@ struct DropShadowedText : View {
 
 struct PageView_Previews: PreviewProvider {
     static var previews: some View {
-        PageView(pageType: PageType.circle, pageDesc: PageView.descriptions[0], size: CGSize(width: 650, height: 550))
+        PageView(pageType: PageType.circle, descriptors: PageView.descriptions[0], size: CGSize(width: 650, height: 550))
     }
 }

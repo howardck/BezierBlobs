@@ -37,7 +37,7 @@ struct ContentView: View {
             TabView {
 
                 PageView(pageType: PageType.superEllipse,
-                         pageDesc: PageView.descriptions[0],
+                         descriptors: PageView.descriptions[0],
                          size: gr.size)
                     .tabItem {
                         SFSymbol.tab_1
@@ -45,7 +45,7 @@ struct ContentView: View {
                     }
                 
                 PageView(pageType: PageType.circle,
-                         pageDesc: PageView.descriptions[1],
+                         descriptors: PageView.descriptions[1],
                          size: gr.size)
 
                     .onAppear{ print("PageView.onAppear(PageType.CIRCLE)\n" +
@@ -56,7 +56,7 @@ struct ContentView: View {
                     }
                 
                 PageView(pageType: PageType.deltaWing,
-                         pageDesc: PageView.descriptions[2],
+                         descriptors: PageView.descriptions[2],
                          size: gr.size)
                     .tabItem {
                         SFSymbol.tab_3
@@ -64,7 +64,7 @@ struct ContentView: View {
                     }
                 
                 PageView(pageType: PageType.mutantMoth,
-                         pageDesc: PageView.descriptions[3],
+                         descriptors: PageView.descriptions[3],
                          size: gr.size)
                     .tabItem {
                         SFSymbol.tab_4
@@ -91,7 +91,7 @@ struct ContentView: View {
                                            buttonFace: .green,
                                            buttonEdge: .black,
                                            allVertices: .red,
-                                           vertex_0: .green)
+                                           vertex_0: .yellow)
             )
         }
     }
@@ -149,7 +149,7 @@ struct ContentView_Previews: PreviewProvider {
         HStack {
             VStack {
                 PageView(pageType: PageType.superEllipse,
-                         pageDesc: PageView.descriptions[0],
+                         descriptors: PageView.descriptions[0],
                          size: s)
                     .environmentObject(ColorScheme(background: Gray.light,
                                                    stroke: .green,
@@ -161,7 +161,7 @@ struct ContentView_Previews: PreviewProvider {
                     )
                                        
                 PageView(pageType: PageType.circle,
-                         pageDesc: PageView.descriptions[0],
+                         descriptors: PageView.descriptions[0],
                          size: s)
                     .environmentObject(ColorScheme(background: Gray.light,
                                                    stroke: .red,
@@ -177,7 +177,7 @@ struct ContentView_Previews: PreviewProvider {
             
             VStack {
                 PageView(pageType: PageType.superEllipse,
-                         pageDesc: PageView.descriptions[2],
+                         descriptors: PageView.descriptions[2],
                          size: s)
                     .environmentObject(ColorScheme(background: Gray.dark,
                                                    stroke: .blue,
@@ -189,7 +189,7 @@ struct ContentView_Previews: PreviewProvider {
                     )
 
                 PageView(pageType: PageType.circle,
-                         pageDesc: PageView.descriptions[2],
+                         descriptors: PageView.descriptions[2],
                          size: s)
                     .environmentObject(ColorScheme(background: Gray.dark,
                                                    stroke: .white,

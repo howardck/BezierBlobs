@@ -26,7 +26,7 @@ class Model: ObservableObject {
     var nilDeltas : PerturbationRanges = (innerRange: 0..<0,
                                           outerRange: 0..<0)
     
-    static let NIL_DELTAS : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
+    static let NIL_DELTAS : Range<CGFloat> = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
     var perturbationRanges : PerturbationRanges = (innerRange: 0..<0,
                                                    outerRange: 0..<0)
@@ -36,7 +36,7 @@ class Model: ObservableObject {
     
     //MARK:-
     init() {
-        print("Model.init()")
+        print("\nModel.init()")
     }
     
     //MARK:-
@@ -61,7 +61,7 @@ class Model: ObservableObject {
     @State var nextPhaseIsZig = true
   
     // MARK:-
-    var pageDescription: PageDescription!
+    //var pageDescription: PageDescription!
     
     var baseCurve : BaseCurvePairs = [(CGPoint, CGVector)]()
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
@@ -76,26 +76,16 @@ class Model: ObservableObject {
 
     //MARK:- MAIN SUPERELLIPSE
     func calculateSuperEllipse(for pageType: PageType,
-                               pageDescription: PageDescription,
+                               n: Double,
+                               numPoints: Int,
                                axes: Axes) {
-        self.pageDescription = pageDescription
-        
-        self.axes = axes
-        self.numPoints = pageDescription.numPoints
         self.pageType = pageType
+        self.axes = axes
+        self.numPoints = numPoints
          
-        baseCurve = Parametrics.calculateSuperEllipse(for: numPoints,
-                                                      n: pageDescription.n,
-                                                      with: axes)
-    }
-    
-    func recalculateFor(newNumPoints: Int) {
-        
-        self.numPoints = newNumPoints
-        baseCurve = Parametrics.calculateSuperEllipse(for: self.numPoints,
-                                                      n: self.pageDescription.n,
-                                                      with: self.axes)
-        calculateSupportCurves()
+        baseCurve = SEParametrics.calculateSuperEllipse(for: numPoints,
+                                                        n: n,
+                                                        with: axes)
     }
     
     //MARK:- SUPPORT CURVES

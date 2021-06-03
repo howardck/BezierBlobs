@@ -1,5 +1,5 @@
 //
-//  SEShape.swift
+//  SuperEllipseShape.swift
 //  TabViews
 //
 //  Created by Howard Katz on 2020-10-31.
@@ -48,8 +48,8 @@ struct SuperEllipse : Shape {
                     path.addMarker(of: radius)
                 }
                 
-        /*  for normals, even-numbered points are on the inner offset
-            curve; the next point is its outer offset counterpart.
+        /*  for normals, even-numbered points lie on the inner offset.
+            the next point is its outer offset counterpart.
          */
             case .normals :
                 if i.isEven() && i < curve.count {
@@ -62,11 +62,14 @@ struct SuperEllipse : Shape {
             path = path.smoothed(numInterpolated: SuperEllipse.NUM_INTERPOLATED)
         }
         
-        // NOTA BUG: This produces an oddly heavier dashed line for
-        // the last normal drawn if we DO close the path. but if
-        // we don't closeSubpath(), no other paths get closed.
+        // we could simply do s path.closeSubPath() instead of the following,
+        // but the last normal before returning to the origin draws a little strangely
         
-        path.closeSubpath()
+        if bezierType != .normals {
+            path.addLine(to: curve[0])
+        }
+        
+        //path.closeSubpath()
         return path.offsetBy(dx: rect.width/2, dy: rect.height/2)
     }
 }
