@@ -9,18 +9,18 @@ class SELayersViewModel : ObservableObject {
     static let DEBUG_PRINT_LAYERS = false
     static func loadDefaultLayers() -> [Layer] {
     [
-        // ANIMATING BLOB CURVES
+    // ANIMATING BLOB CURVES
         Layer(type: .blob_stroked, section: .animatingBlobCurves),
         Layer(type: .blob_filled, section: .animatingBlobCurves, visible: true),
         Layer(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
         Layer(type: .blob_markers, section: .animatingBlobCurves),
         
-        // SUPPORT CURVES
+    // SUPPORT CURVES
         Layer(type: .baseCurve_and_markers, section: .staticSupportCurves),
         Layer(type: .offsetsEnvelope, section: .staticSupportCurves, visible: true),
         Layer(type: .normals, section: .staticSupportCurves, visible: true),
         
-        // SHORTCUTS
+    // SHORTCUTS
         Layer(type: .showAll, section: .shortcuts),
         Layer(type: .hideAll, section: .shortcuts)
     ]

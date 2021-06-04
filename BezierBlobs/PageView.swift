@@ -11,7 +11,7 @@ enum PageType : String {
     case circle = "CIRCLE"
     case superEllipse = "CLASSIC SE"
     case deltaWing = "DELTA WING"
-    case mutantMoth = "PHANTASM"
+    case mutantMoth = "RORSCHACH"
 }
 
 typealias PageDescription
@@ -25,7 +25,8 @@ struct PageView: View {
         
     let descriptors: PageDescription
     
-    static let NIL_RANGE : Range<CGFloat> = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
+    static let NIL_RANGE : Range<CGFloat>
+                = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
     static let descriptions : [PageDescription] =
     [
@@ -44,35 +45,27 @@ struct PageView: View {
         //         forceEqualAxes: true),
         
         // GOOD ...
-        (n: 2.0,
-         numPoints: 22,
+        (n: 2.0, numPoints: 22,
          axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
-         axisRelDeltas: (innerRange: 0..<0.3,
-                         outerRange: -0.3..<0.3),
+         axisRelDeltas: (innerRange: 0..<0.3, outerRange: -0.3..<0.3),
          forceEqualAxes: true),
         
     // CLASSIC SE
-        (n: 3.0,
-         numPoints: 28,
+        (n: 3.0, numPoints: 28,
          axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.8),
-         axisRelDeltas: (innerRange: -0.1..<0.2,
-                         outerRange: -0.15..<0.15),
+         axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.15..<0.15),
          forceEqualAxes: false),
 
     // DELTA WING
-        (n: 3,
-        numPoints: 6,
+        (n: 3, numPoints: 6,
         axisRelOffsets: (inner: 0.15, baseCurve: 0.5, outer: 0.8),
-        axisRelDeltas: (innerRange: 0..<0.3,
-                        outerRange: -0.3..<0.3),
+        axisRelDeltas: (innerRange: 0..<0.3, outerRange: -0.3..<0.3),
         forceEqualAxes: false),
         
-    // PHANTASM
-        (n: 1,
-         numPoints: 22,
+    // RORSCHACH
+        (n: 1, numPoints: 22,
          axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.85),
-         axisRelDeltas: (innerRange: -0.1..<0.25,
-                         outerRange: -0.35..<0.2),
+         axisRelDeltas: (innerRange: -0.1..<0.25, outerRange: -0.35..<0.2),
          forceEqualAxes: false)
     ]
             
@@ -83,8 +76,7 @@ struct PageView: View {
     @EnvironmentObject var colorScheme : ColorScheme
     
     //MARK:-
-    // timerTimeIncrement - animationTimeIncrement
-    // == time paused between animations
+    // timerTimeInc - animationTimeInc == time paused between animations
     
     static let timerTimeIncrement : Double = 2.8
     static let animationTimeIncrement : Double = 2.6
@@ -161,7 +153,6 @@ struct PageView: View {
 //        print("   perturbRanges: inner: (\(innerRange.lowerBound) ..< \(innerRange.upperBound) )\n" +
 //              "                  outer: (\(outerRange.lowerBound) ..< \(outerRange.upperBound) )")
         
-        print("model.calculateSuperEllipse()")
         model.calculateSuperEllipse(for: pageType,
                                     n: descriptors.n,
                                     numPoints: descriptors.numPoints,
@@ -353,8 +344,9 @@ struct DropShadowedText : View {
     }
 }
 
+//MARK:-
 struct PageGradientBackground : View {
-    let colors : [Color] = [.init(white: 0.2), .init(white: 0.9)]
+    let colors : [Color] = [.init(white: 0.3), .init(white: 0.95)]
     var body : some View {
         
         LinearGradient(gradient: Gradient(colors: colors),

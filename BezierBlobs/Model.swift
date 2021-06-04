@@ -52,7 +52,6 @@ class Model: ObservableObject {
     //MARK:-
     
     @Published var blobCurve = [CGPoint]()
-    @Published var numPoints: Int = 0
          
     // zig vs zag configurations:
     // zig : vertex[0] marker moves to the outside
@@ -80,9 +79,9 @@ class Model: ObservableObject {
                                numPoints: Int,
                                axes: Axes) {
         self.pageType = pageType
-        self.axes = axes
-        self.numPoints = numPoints
-         
+        
+        print("Model.calculateSuperEllipse()")
+        
         baseCurve = SEParametrics.calculateSuperEllipse(for: numPoints,
                                                         n: n,
                                                         with: axes)
@@ -102,7 +101,6 @@ class Model: ObservableObject {
         print("NYI NYI NYI ")
     }
     
-    //MARK:-
     //MARK:-
 
     //var perturbationRange : Range<CGFloat> = -20..<100
@@ -152,7 +150,7 @@ class Model: ObservableObject {
     
     func calculateNormals() -> [CGPoint] {
         var normals = [CGPoint]()
-        for i in 0..<numPoints {
+        for i in 0..<baseCurve.count {
             normals.append(boundingCurves.inner[i])
             normals.append(boundingCurves.outer[i])
         }

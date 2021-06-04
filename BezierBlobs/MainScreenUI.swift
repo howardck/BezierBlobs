@@ -9,6 +9,9 @@ import SwiftUI
 
 struct MainScreenUI: View {
     
+    static let TWO_BUTTON_PADDING : CGFloat = 60
+    static let TWO_BUTTON_PANEL_ON_LEFT = false
+    
     @Binding var showLayersList: Bool
     @Binding var showMiscOptionsList : Bool
     
@@ -22,13 +25,21 @@ struct MainScreenUI: View {
                 if showLayersList {
                     let s = CGSize(width: 270, height: 520)
                     HStack {
-                        Spacer()
+                        
+                        if !MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
+                            Spacer()
+                        }
+                        
                         ZStack {
                             SELayersChooser(layers: $layers.layers)
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }
-                        .padding(30)
+                        .padding(MainScreenUI.TWO_BUTTON_PADDING)
+                        
+                        if MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
+                            Spacer()
+                        }
 
                     }
                 }
@@ -37,7 +48,9 @@ struct MainScreenUI: View {
                     let s = CGSize(width: 365, height: 510)
                     // ------------------------------------
                     HStack {
-                        Spacer()
+                        if !MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
+                            Spacer()
+                        }
                         ZStack {
                             MiscOptionsChooser(
                                 smoothed: $options.smoothed,
@@ -52,17 +65,26 @@ struct MainScreenUI: View {
                                 .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }
-                        .padding(30)
+                        .padding(MainScreenUI.TWO_BUTTON_PADDING)
+                        
+                        if MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
+                            Spacer()
+                        }
                     }
                 }
                 else {
-                    let s = CGSize(width: 266, height: 130)
+                    let s = CGSize(width: 220, height: 130)
                     HStack {
-                        Spacer()
+                        if !MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
+                            Spacer()
+                        }
                         TwoButtonPanel(showLayersList: $showLayersList,
                                        showMiscOptionsList: $showMiscOptionsList)
                             .frame(width: s.width)
-                            .padding(EdgeInsets(top: 0, leading: 30, bottom: 50, trailing: 0))
+                            .padding(MainScreenUI.TWO_BUTTON_PADDING)
+                        if MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
+                            Spacer()
+                        }
                     }
                 }
             }
@@ -72,6 +94,7 @@ struct MainScreenUI: View {
 
 /*
 Previews ERROR MESSAGE:
+ 
 "BezierBlobs preview crashed due to missing environment of type: ColorScheme. To resolve this add `.environmentObject(ColorScheme(...))` to the appropriate preview."
  
 HOW TO DO THIS ??

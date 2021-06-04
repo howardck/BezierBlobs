@@ -1,6 +1,5 @@
-//
-//  SuperEllipseShape.swift
-//  TabViews
+//  BezierBlobs
+//  SuperEllipseTheShape.swift
 //
 //  Created by Howard Katz on 2020-10-31.
 //

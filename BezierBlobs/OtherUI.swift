@@ -80,11 +80,17 @@ struct TwoButtonPanel : View {
     var edgeOffset = CGSize(width: 1.0, height: 1.0)
     
     var body: some View {
+        
+        let locationDependentEdgeColor = MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT ?
+                                            Gray.light :
+                                            Gray.dark
+        
         HStack {
             Spacer()
+            
         
             SELayersChooserButton(faceColor: colorScheme.buttonFace,
-                                  edgeColor: colorScheme.buttonEdge,
+                                  edgeColor: locationDependentEdgeColor,
                                   edgeOffset: edgeOffset)
                 .onTapGesture {
                     showLayersList.toggle()
@@ -93,14 +99,13 @@ struct TwoButtonPanel : View {
             
             MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                      faceColor: colorScheme.buttonFace,
-                                     edgeColor: colorScheme.buttonEdge,
+                                     edgeColor: locationDependentEdgeColor,
                                      edgeOffset: edgeOffset)
                 .onTapGesture {
                     showMiscOptionsList.toggle()
                 }
-            Spacer()
         }
-        .scaleEffect(1.2)
+        .scaleEffect(1.1)
     }
 }
 
@@ -185,7 +190,6 @@ struct PencilSymbol {
     static let PENCIL_AND_ELLIPSIS = "rectangle.and.pencil.and.ellipsis"
     static let PENCIL_AND_OUTLINE = "pencil.and.outline"
 }
-
 
 //MARK:-
 struct ScreenButtons_Previews: PreviewProvider {

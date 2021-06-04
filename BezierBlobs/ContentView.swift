@@ -71,8 +71,27 @@ struct ContentView: View {
                 
                 ZStack {
                     PageGradientBackground()
-                    Color.red
-                        .frame(width: 100, height: 100, alignment: .center)
+                    HStack {
+                        
+                        if !MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
+                            // push everything to the right
+                            Spacer()
+                        }
+                        
+                        VStack {
+                            Spacer() // and down
+                            Color.white
+                                .frame(width: 300, height: 400, alignment: .center)
+                                .border(Color.red, width: 2)
+                        }
+                        
+                        if MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
+                            // push everything to the left
+                            Spacer()
+                        }
+                    }
+                    //.padding(EdgeInsets(top: 0, leading: 0, bottom: 50, trailing: 70))
+                    .padding(40)
                 }
                 .tabItem {
                     Text("READ ME")
