@@ -36,7 +36,6 @@ struct ContentView: View {
         GeometryReader { gr in
             TabView {
 
-                
                 PageView(pageType: PageType.circle,
                          descriptors: PageView.descriptions[0],
                          size: gr.size)
@@ -45,29 +44,29 @@ struct ContentView: View {
                         Text("\(PageType.circle.rawValue)")
                     }
                 
-                PageView(pageType: PageType.superEllipse,
-                         descriptors: PageView.descriptions[1],
-                         size: gr.size)
-                    .tabItem {
-                        SFSymbol.tab_2
-                        Text("\(PageType.superEllipse.rawValue)" )
-                    }
-                
-                PageView(pageType: PageType.deltaWing,
-                         descriptors: PageView.descriptions[2],
-                         size: gr.size)
-                    .tabItem {
-                        SFSymbol.tab_3
-                        Text("\(PageType.deltaWing.rawValue)" )
-                    }
-                
-                PageView(pageType: PageType.mutantMoth,
-                         descriptors: PageView.descriptions[3],
-                         size: gr.size)
-                    .tabItem {
-                        SFSymbol.tab_4
-                        Text("\(PageType.mutantMoth.rawValue)" )
-                  }
+//                PageView(pageType: PageType.superEllipse,
+//                         descriptors: PageView.descriptions[1],
+//                         size: gr.size)
+//                    .tabItem {
+//                        SFSymbol.tab_2
+//                        Text("\(PageType.superEllipse.rawValue)" )
+//                    }
+//                
+//                PageView(pageType: PageType.deltaWing,
+//                         descriptors: PageView.descriptions[2],
+//                         size: gr.size)
+//                    .tabItem {
+//                        SFSymbol.tab_3
+//                        Text("\(PageType.deltaWing.rawValue)" )
+//                    }
+//                
+//                PageView(pageType: PageType.mutantMoth,
+//                         descriptors: PageView.descriptions[3],
+//                         size: gr.size)
+//                    .tabItem {
+//                        SFSymbol.tab_4
+//                        Text("\(PageType.mutantMoth.rawValue)" )
+//                  }
                 
                 ZStack {
                     PageGradientBackground()

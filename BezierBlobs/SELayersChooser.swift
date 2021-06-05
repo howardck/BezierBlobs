@@ -22,7 +22,7 @@ struct SELayersChooser: View {
     var body: some View
     {
         List {
-            Section(header: Text("Animating Blob Layers").textCase(.uppercase)) {
+            Section(header: Text("Animating Layers").textCase(.uppercase)) {
                 rows(in: .animatingBlobCurves)
             }
             .textCase(.lowercase)

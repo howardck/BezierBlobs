@@ -111,7 +111,8 @@ struct PageView: View {
     //MARK:- PageView.INIT
     init(pageType: PageType, descriptors: PageDescription, size: CGSize) {
         
-        print("PageView.init( {PageType.\(pageType)} ): \n" +
+        print("\n")
+        print("PageView.init( {PageType.\(pageType)} ) --------------------------------------- \n" +
                 "   numPoints: {\(descriptors.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
         
         if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
@@ -138,11 +139,11 @@ struct PageView: View {
         let innerRange = (relInRange.lowerBound * minAxis)..<(relInRange.upperBound * minAxis)
         let outerRange = (relOutRange.lowerBound * minAxis)..<(relOutRange.upperBound * minAxis)
         
-        let pRanges : PerturbationRanges = (innerRange: innerRange,
+        let pRanges : PerturbationDeltas = (innerRange: innerRange,
                                             outerRange: outerRange)
-        model.perturbationRanges = pRanges
+        model.perturbationDeltas = pRanges
         
-        print("   semiMinorAxis a: [\(a)] semiMajorAxis b: [\(b)]")
+        print("   semiMinorAxis a: [\(a)] semiMajorAxis b: [\(b)]\n")
         print("   model.offsets : " +
                 "(inner: [\(model.offsets.inner.format(fspec: "4.2"))] <—-|-—> " +
                 "outer: [\(model.offsets.outer.format(fspec: "4.2"))]) ")

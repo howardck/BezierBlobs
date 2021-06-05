@@ -12,6 +12,8 @@ typealias Offsets = (inner: CGFloat, outer: CGFloat)
 
 typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
+
+// DO I WANT TO KEEP/USE KEEP THESE ???????????????
 typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
 typealias ZigZagDeltas = (inner: CGFloat, outer: CGFloat)
 
@@ -19,16 +21,16 @@ typealias ZigZagDeltas = (inner: CGFloat, outer: CGFloat)
 typealias AxisRelativePerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
 
 // the innerRange is centred on the innerCurve; the outerRange on the outerCurve
-typealias PerturbationRanges = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
+typealias PerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
 
 class Model: ObservableObject {
     
-    var nilDeltas : PerturbationRanges = (innerRange: 0..<0,
-                                          outerRange: 0..<0)
-    
+    // it's be easier to say a nilDelta == 0..<0, but that's a crasher
     static let NIL_DELTAS : Range<CGFloat> = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
-    var perturbationRanges : PerturbationRanges = (innerRange: 0..<0,
+    
+    var offsets : Offsets = (inner: 0, outer: 0)
+    var perturbationDeltas : PerturbationDeltas = (innerRange: 0..<0,
                                                    outerRange: 0..<0)
     
     static let TEST_PERTURB_DELTA : Range<CGFloat> = -0.5..<0.5
@@ -36,7 +38,7 @@ class Model: ObservableObject {
     
     //MARK:-
     init() {
-        print("\nModel.init()")
+        // print("\nModel.init()")
     }
     
     //MARK:-
@@ -60,18 +62,23 @@ class Model: ObservableObject {
     @State var nextPhaseIsZig = true
   
     // MARK:-
-    //var pageDescription: PageDescription!
-    
+
+    // our supporting cast
     var baseCurve : BaseCurvePairs = [(CGPoint, CGVector)]()
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
+    
+    // EXPERIMENTAL ...
+    var deltaExtremas = (innerExtrema: [CGPoint](), outerExtrema: [CGPoint]())
+    
+    // DITTO THE ABOVE. ie
+    // DO I WANT TO KEEP/USE KEEP THESE ???????????????
+
     var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
+    
     var normalsCurve : [CGPoint] = [CGPoint]()
     var axes : Axes = (1.0, 1.0)
 
     var pageType: PageType?
-
-    var offsets : Offsets = (inner: 0, outer: 0)
-
 
     //MARK:- MAIN SUPERELLIPSE
     func calculateSuperEllipse(for pageType: PageType,
@@ -80,7 +87,7 @@ class Model: ObservableObject {
                                axes: Axes) {
         self.pageType = pageType
         
-        print("Model.calculateSuperEllipse()")
+        //print("Model.calculateSuperEllipse()")
         
         baseCurve = SEParametrics.calculateSuperEllipse(for: numPoints,
                                                         n: n,
@@ -92,6 +99,8 @@ class Model: ObservableObject {
         
         boundingCurves = calculateBoundingCurves(using: offsets)
         normalsCurve = calculateNormals()
+        
+        
 
         setInitialBlobCurve()
     }
@@ -113,8 +122,8 @@ class Model: ObservableObject {
         for (_, vertexTuple) in baseCurve.enumerated() {
             
             let offset : CGFloat = isOffsetToOutside ?
-                offsets.outer + CGFloat.random(in: perturbationRanges.outerRange) :
-                offsets.inner + CGFloat.random(in: perturbationRanges.innerRange)
+                offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange) :
+                offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange)
             
             let pt = vertexTuple.vertex.newPoint(atOffset: offset,
                                                  along: vertexTuple.normal)

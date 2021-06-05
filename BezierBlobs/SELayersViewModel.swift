@@ -47,8 +47,8 @@ class SELayersViewModel : ObservableObject {
 
 enum LayerType : String {
     
-    case blob_stroked = "stroked"
-    case blob_filled = "filled"
+    case blob_stroked = "blob stroked"
+    case blob_filled = "blob filled"
     case blob_vertex_0_marker = "vertex[0]"
     case blob_markers = "all vertex markers"
     
