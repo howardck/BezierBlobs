@@ -112,7 +112,7 @@ struct PageView: View {
     init(pageType: PageType, descriptors: PageDescription, size: CGSize) {
         
         print("\n")
-        print("PageView.init( {PageType.\(pageType)} ) --------------------------------------- \n" +
+        print("PageView.init( {PageType.\(pageType)} ): \n" +
                 "   numPoints: {\(descriptors.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
         
         if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
@@ -183,7 +183,7 @@ struct PageView: View {
             
             // OUTSIDE offsets visible as a bottom layer
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
-                EnvelopeBounds(curves: model.boundingCurves,
+                OffsetsEnvelope(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!,
                                showInnerOffset: false,
                                showOuterOffset: true)
@@ -208,7 +208,7 @@ struct PageView: View {
             }
             
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
-                EnvelopeBounds(curves: model.boundingCurves,
+                OffsetsEnvelope(curves: model.boundingCurves,
                                style: markerStyles[.envelopeBounds]!,
                                showInnerOffset: true,
                                showOuterOffset: false)

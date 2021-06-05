@@ -59,7 +59,7 @@ struct ContentView: View {
 //                        SFSymbol.tab_3
 //                        Text("\(PageType.deltaWing.rawValue)" )
 //                    }
-//                
+//
 //                PageView(pageType: PageType.mutantMoth,
 //                         descriptors: PageView.descriptions[3],
 //                         size: gr.size)
@@ -112,7 +112,7 @@ struct ContentView: View {
                 }
             }
             .environmentObject(ColorScheme(background: Color.init(white: 0.4),
-                                           stroke: .red,
+                                           stroke: .orange,
                                            fill: .blue,
                                            buttonFace: .red,
                                            buttonEdge: .black,

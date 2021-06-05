@@ -101,8 +101,8 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
-                .stroke(Color.white,
-                        style: StrokeStyle(lineWidth: 0.75, lineJoin: .round))
+                .stroke(Color.yellow,
+                        style: StrokeStyle(lineWidth: 5, lineJoin: .round))
         }
     }
 }
@@ -217,7 +217,7 @@ struct BaseCurve_And_Markers : View {
 
 //MARK:- EnvelopeBounds
 // AKA Curve Offsets
-struct EnvelopeBounds : View {
+struct OffsetsEnvelope : View {
     var curves: BoundingCurves
     var style : MarkerStyle
     var showInnerOffset: Bool
