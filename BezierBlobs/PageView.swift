@@ -223,10 +223,12 @@ struct PageView: View {
                                showOuterOffset: false)
             }
             
-            if layers.isVisible(layerWithType: .normals) {
-                NormalsPlusMarkers(normals: model.normalsCurve,
-                                   markerCurves: model.boundingCurves,
-                                   style: markerStyles[.offsets]!)
+            if Model.DEBUG_OVERLAY_SECOND_COPY_OF_NORMALS_PLUS_MARKERS {
+                if layers.isVisible(layerWithType: .normals) {
+                    NormalsPlusMarkers(normals: model.normalsCurve,
+                                       markerCurves: model.boundingCurves,
+                                       style: markerStyles[.offsets]!)
+                }
             }
             
             
@@ -246,30 +248,30 @@ struct PageView: View {
             }
             
             // EXPERIMENTAL
+            if Model.DEBUG_SHOW_EXPERIMENTAL_INNER_AND_OUTER_PERTURBATION_BANDS {
+                Group {
+                    SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_inside,
+                                 bezierType: .lineSegments,
+                                 smoothed: false)
+                        .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
                     
-            Group {
-                SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_inside,
-                             bezierType: .lineSegments,
-                             smoothed: false)
-                    .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
-                
-                SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_outside,
-                             bezierType: .lineSegments,
-                             smoothed: false)
-                    .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
-                
-                
-                SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_inside,
-                             bezierType: .lineSegments,
-                             smoothed: false)
-                    .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
-                
-                SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_outside,
-                             bezierType: .lineSegments,
-                             smoothed: false)
-                    .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
+                    SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_outside,
+                                 bezierType: .lineSegments,
+                                 smoothed: false)
+                        .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
+                    
+                    
+                    SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_inside,
+                                 bezierType: .lineSegments,
+                                 smoothed: false)
+                        .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
+                    
+                    SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_outside,
+                                 bezierType: .lineSegments,
+                                 smoothed: false)
+                        .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
+                }
             }
-            
         }
         
         // an interesting bug occurs if we use .background(...) instead of
@@ -292,7 +294,7 @@ struct PageView: View {
                     model.animateToNextFixedPerturbationDelta()
                     
                 case .randomizedZigZags :
-                    model.animateToRandomizedPerturbationDelta()
+                    model.animateToRandomizedPerturbation()
                 }
             }
 
@@ -390,7 +392,7 @@ struct DropShadowedText : View {
 
 //MARK:-
 struct PageGradientBackground : View {
-    let colors : [Color] = [.init(white: 0.3), .init(white: 0.95)]
+    let colors : [Color] = [.init(white: 0.9), .init(white: 0.3)]
     var body : some View {
         
         LinearGradient(gradient: Gradient(colors: colors),

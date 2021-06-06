@@ -95,14 +95,14 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          smoothed: isSmoothed)
                 .stroke(colorScheme.stroke,
-                        style: StrokeStyle(lineWidth: 7, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 8, lineJoin: .round))
             
             // white highlight
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
-                .stroke(Color.yellow,
-                        style: StrokeStyle(lineWidth: 5, lineJoin: .round))
+                .stroke(Color.orange,
+                        style: StrokeStyle(lineWidth: 7, lineJoin: .round))
         }
     }
 }

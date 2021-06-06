@@ -13,6 +13,7 @@ class SELayersViewModel : ObservableObject {
         Layer(type: .blob_stroked, section: .animatingBlobCurves),
         Layer(type: .blob_filled, section: .animatingBlobCurves, visible: true),
         Layer(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
+        Layer(type: .blob_even_numbered_vertex_markers, section: .animatingBlobCurves, visible: false),
         Layer(type: .blob_markers, section: .animatingBlobCurves),
         
     // SUPPORT CURVES
@@ -50,6 +51,7 @@ enum LayerType : String {
     case blob_stroked = "blob stroked"
     case blob_filled = "blob filled"
     case blob_vertex_0_marker = "vertex[0]"
+    case blob_even_numbered_vertex_markers = "even-numbered vertex markers"
     case blob_markers = "all vertex markers"
     
 //    case baseCurve = "baseCurve"

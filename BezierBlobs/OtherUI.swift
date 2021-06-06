@@ -82,13 +82,12 @@ struct TwoButtonPanel : View {
     var body: some View {
         
         let locationDependentEdgeColor = MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT ?
-                                            Gray.light :
-                                            Gray.dark
+                                            Gray.dark :
+                                            Gray.light
         
         HStack {
             Spacer()
             
-        
             SELayersChooserButton(faceColor: colorScheme.buttonFace,
                                   edgeColor: locationDependentEdgeColor,
                                   edgeOffset: edgeOffset)

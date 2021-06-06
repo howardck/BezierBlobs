@@ -112,12 +112,12 @@ struct ContentView: View {
                 }
             }
             .environmentObject(ColorScheme(background: Color.init(white: 0.4),
-                                           stroke: .black,
+                                           stroke: Gray.dark,
                                            fill: .blue,
                                            buttonFace: .red,
                                            buttonEdge: .black,
-                                           allVertices: .red,
-                                           vertex_0: .green))
+                                           allVertices: .green,
+                                           vertex_0: .red))
         }
     }
 }

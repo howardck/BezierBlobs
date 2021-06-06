@@ -23,7 +23,7 @@ struct MainScreenUI: View {
             VStack {
                 Spacer()
                 if showLayersList {
-                    let s = CGSize(width: 270, height: 520)
+                    let s = CGSize(width: 370, height: 560)
                     HStack {
                         
                         if !MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
@@ -48,9 +48,11 @@ struct MainScreenUI: View {
                     let s = CGSize(width: 365, height: 510)
                     // ------------------------------------
                     HStack {
+                        
                         if !MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
                             Spacer()
                         }
+                        
                         ZStack {
                             MiscOptionsChooser(
                                 smoothed: $options.smoothed,
@@ -78,10 +80,12 @@ struct MainScreenUI: View {
                         if !MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
                             Spacer()
                         }
+                        
                         TwoButtonPanel(showLayersList: $showLayersList,
                                        showMiscOptionsList: $showMiscOptionsList)
                             .frame(width: s.width)
                             .padding(MainScreenUI.TWO_BUTTON_PADDING)
+                        
                         if MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
                             Spacer()
                         }
