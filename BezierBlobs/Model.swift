@@ -151,27 +151,48 @@ class Model: ObservableObject {
         nextPhaseIsZig.toggle()
     }
     
-    func offset(for pointIsMovingToOutside: Bool) -> CGFloat {
-        let newOffset = pointIsMovingToOutside ?
-            offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange) :
-            offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange)
-        pointMovingOutside.toggle()
+    var pointMovingOutside = true
+    
+    func offset(for pointMovingOutside: Bool) -> CGFloat {
+        
+        let newOffset = pointMovingOutside ?
+            offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange) :
+            offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange)
+        self.pointMovingOutside.toggle()
+        
         return newOffset
     }
     
-    var pointMovingOutside = true
+    func animateToRandomizedPerturbation_3() {
+        var curve = [CGPoint]()
+        
+        for (i, vertextNormal) in baseCurve.enumerated() {
+            let offset = i % 2 == 0 ?
+                offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange) :
+                offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange)
+            let point = vertextNormal.vertex.newPoint(atOffset: offset, along: vertextNormal.normal)
+            curve += [point]
+        }
+        blobCurve = curve
+    }
     
-    func animateToRandomizedPerturbationDelta_2() -> [CGPoint] {
-        baseCurve.map {
+    func animateToRandomizedPerturbationDelta_2() {
+        
+        self.pointMovingOutside = true
+        
+        blobCurve = baseCurve.map {
             $0.0.newPoint(atOffset: offset(for: pointMovingOutside), along: $0.1) }
     }
     
     func animateToRandomizedPerturbationDelta() {
+        self.pointMovingOutside = true
+        
         var curve = [CGPoint]()
         for vertexTuple in baseCurve {
             let pt = vertexTuple.vertex.newPoint( atOffset: offset(for: pointMovingOutside),
                                                   along: vertexTuple.normal)
             curve += [pt]
+            pointMovingOutside.toggle()
         }
         blobCurve = curve
     }
