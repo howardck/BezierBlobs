@@ -112,7 +112,7 @@ struct ContentView: View {
                 }
             }
             .environmentObject(ColorScheme(background: Color.init(white: 0.4),
-                                           stroke: .orange,
+                                           stroke: .black,
                                            fill: .blue,
                                            buttonFace: .red,
                                            buttonEdge: .black,

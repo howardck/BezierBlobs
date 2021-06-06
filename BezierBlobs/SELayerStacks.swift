@@ -10,7 +10,7 @@ import SwiftUI
 enum MarkerType : CaseIterable {
     case blob
     case vertexOrigin
-    case envelopeBounds
+    case offsets
     case baseCurve
 //    case zig
 //    case zag
@@ -22,7 +22,7 @@ let r: CGFloat = 15
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r - 1),
     .vertexOrigin :     (color: .green, radius : r - 1),
-    .envelopeBounds :   (color: .black, radius: r/2.0 - 1),
+    .offsets :   (color: .black, radius: r/2.0 - 1),
     .baseCurve :        (color: .white, radius: r/2.0),
 ]
 
@@ -95,7 +95,7 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          smoothed: isSmoothed)
                 .stroke(colorScheme.stroke,
-                        style: StrokeStyle(lineWidth: 6, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 7, lineJoin: .round))
             
             // white highlight
             SuperEllipse(curve: curve,

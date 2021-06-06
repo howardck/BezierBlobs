@@ -28,7 +28,6 @@ class Model: ObservableObject {
     // it's be easier to say a nilDelta == 0..<0, but that's a crasher
     static let NIL_DELTAS : Range<CGFloat> = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
-    
     var offsets : Offsets = (inner: 0, outer: 0)
     var perturbationDeltas : PerturbationDeltas = (innerRange: 0..<0,
                                                    outerRange: 0..<0)
@@ -59,7 +58,8 @@ class Model: ObservableObject {
     // zig : vertex[0] marker moves to the outside
     // zag : vertex[0] marker moves to the inside
     
-    @State var nextPhaseIsZig = true
+   // @State
+    var nextPhaseIsZig = true
   
     // MARK:-
 
@@ -100,21 +100,37 @@ class Model: ObservableObject {
         boundingCurves = calculateBoundingCurves(using: offsets)
         normalsCurve = calculateNormals()
         
+        fixedInnerPerturbationBandCurves = EXPERIMENTAL_calculateFixedPerturbationBandsInner()
         
-
+        fixedOuterPerturbationBandCurves = EXPERIMENTAL_calculateFixedPerturbationBandsOuter()
+        
         setInitialBlobCurve()
     }
     
-    func animateToNextFixedZigZag() {
+    typealias PerturbationBandCurves = (outer_inside: [CGPoint], outer_outside: [CGPoint])
+    
+    var fixedInnerPerturbationBandCurves = ( inner_inside: [CGPoint](), inner_outside: [CGPoint]() )
+    var fixedOuterPerturbationBandCurves = ( outer_inside: [CGPoint](), outer_outside: [CGPoint]() )
+    
+    func EXPERIMENTAL_calculateFixedPerturbationBandsInner() -> ( inner_inside: [CGPoint], inner_outside: [CGPoint] )
+    {
+        let insideBound = perturbationDeltas.innerRange.lowerBound
+        let outsideBound = perturbationDeltas.innerRange.upperBound
         
-        print("NYI NYI NYI ")
+        return (inner_inside: baseCurve.map{ $0.newPoint(atOffset: offsets.inner + insideBound, along: $1)},
+         inner_outside: baseCurve.map{ $0.newPoint(atOffset: offsets.inner + outsideBound, along: $1)})
     }
     
+    func EXPERIMENTAL_calculateFixedPerturbationBandsOuter() -> PerturbationBandCurves
+    {
+        let insideBound = perturbationDeltas.outerRange.lowerBound
+        let outsideBound = perturbationDeltas.outerRange.upperBound
+        return (outer_inside: baseCurve.map{ $0.newPoint(atOffset: offsets.outer + insideBound, along: $1)},
+         outer_outside: baseCurve.map{ $0.newPoint(atOffset: offsets.outer + outsideBound, along: $1)})
+    }
+
     //MARK:-
-
-    //var perturbationRange : Range<CGFloat> = -20..<100
-
-    func animateToRandomizedPerturbationInRange() {
+    func animateToNextFixedPerturbationDelta() {
         
         var isOffsetToOutside = nextPhaseIsZig
         var curve = [CGPoint]()
@@ -122,8 +138,8 @@ class Model: ObservableObject {
         for (_, vertexTuple) in baseCurve.enumerated() {
             
             let offset : CGFloat = isOffsetToOutside ?
-                offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange) :
-                offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange)
+                offsets.outer + perturbationDeltas.outerRange.upperBound :
+                offsets.inner + perturbationDeltas.innerRange.upperBound
             
             let pt = vertexTuple.vertex.newPoint(atOffset: offset,
                                                  along: vertexTuple.normal)
@@ -133,6 +149,31 @@ class Model: ObservableObject {
         
         blobCurve = curve // we update blobCurve; drive the animation
         nextPhaseIsZig.toggle()
+    }
+    
+    func offset(for pointIsMovingToOutside: Bool) -> CGFloat {
+        let newOffset = pointIsMovingToOutside ?
+            offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange) :
+            offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange)
+        pointMovingOutside.toggle()
+        return newOffset
+    }
+    
+    var pointMovingOutside = true
+    
+    func animateToRandomizedPerturbationDelta_2() -> [CGPoint] {
+        baseCurve.map {
+            $0.0.newPoint(atOffset: offset(for: pointMovingOutside), along: $0.1) }
+    }
+    
+    func animateToRandomizedPerturbationDelta() {
+        var curve = [CGPoint]()
+        for vertexTuple in baseCurve {
+            let pt = vertexTuple.vertex.newPoint( atOffset: offset(for: pointMovingOutside),
+                                                  along: vertexTuple.normal)
+            curve += [pt]
+        }
+        blobCurve = curve
     }
     
     //MARK:-

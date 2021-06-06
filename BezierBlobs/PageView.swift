@@ -35,7 +35,7 @@ struct PageView: View {
         // NOTE as well that the upper end of 'nil' ranges MUST be larger
         // than its lower end ...
         
-        // some rather bizarre-type effects. interesting
+        // some rather BIZARRE-type effects. interesting
         // NIL_RANGE : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
         //        (n: 2.0,
         //         numPoints: 16,
@@ -44,11 +44,19 @@ struct PageView: View {
         //                         outerRange: -0.6..<0.4),
         //         forceEqualAxes: true),
         
+        
         // GOOD ...
         (n: 2.0, numPoints: 22,
          axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
          axisRelDeltas: (innerRange: 0..<0.3, outerRange: -0.3..<0.3),
          forceEqualAxes: true),
+        
+        // TESTING VISUAL DISPLAY OF PERTURBATION DELTA "BANDING"
+        
+//        (n: 2.0, numPoints: 8,
+//         axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
+//         axisRelDeltas: (innerRange: -0.15..<0.1, outerRange: -0.2..<0.2),
+//         forceEqualAxes: true),
         
     // CLASSIC SE
         (n: 3.0, numPoints: 28,
@@ -170,6 +178,7 @@ struct PageView: View {
 
             PageGradientBackground()
 //            Color.init(white: 0.75)
+             
                         
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
@@ -178,13 +187,13 @@ struct PageView: View {
             if layers.isVisible(layerWithType: .normals) {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
-                                   style: markerStyles[.envelopeBounds]!)
+                                   style: markerStyles[.offsets]!)
             }
             
             // OUTSIDE offsets visible as a bottom layer
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 OffsetsEnvelope(curves: model.boundingCurves,
-                               style: markerStyles[.envelopeBounds]!,
+                               style: markerStyles[.offsets]!,
                                showInnerOffset: false,
                                showOuterOffset: true)
             }
@@ -209,22 +218,56 @@ struct PageView: View {
             
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 OffsetsEnvelope(curves: model.boundingCurves,
-                               style: markerStyles[.envelopeBounds]!,
+                               style: markerStyles[.offsets]!,
                                showInnerOffset: true,
                                showOuterOffset: false)
             }
             
+            if layers.isVisible(layerWithType: .normals) {
+                NormalsPlusMarkers(normals: model.normalsCurve,
+                                   markerCurves: model.boundingCurves,
+                                   style: markerStyles[.offsets]!)
+            }
+            
+            
         // MORE ANIMATING BLOB LAYERS //
         // --------------------------------------------------------------
             
-            if layers.isVisible(layerWithType: .blob_markers) {
-                AnimatingBlob_Markers(curve: model.blobCurve,
-                                      style: markerStyles[.blob]!)
+            Group {
+                if layers.isVisible(layerWithType: .blob_markers) {
+                    AnimatingBlob_Markers(curve: model.blobCurve,
+                                          style: markerStyles[.blob]!)
+                }
+                
+                if layers.isVisible(layerWithType: .blob_vertex_0_marker) {
+                    AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
+                                                   markerStyle: markerStyles[.vertexOrigin]!)
+                }
             }
             
-            if layers.isVisible(layerWithType: .blob_vertex_0_marker) {
-                AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
-                                               markerStyle: markerStyles[.vertexOrigin]!)
+            // EXPERIMENTAL
+                    
+            Group {
+                SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_inside,
+                             bezierType: .lineSegments,
+                             smoothed: false)
+                    .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
+                
+                SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_outside,
+                             bezierType: .lineSegments,
+                             smoothed: false)
+                    .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
+                
+                
+                SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_inside,
+                             bezierType: .lineSegments,
+                             smoothed: false)
+                    .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
+                
+                SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_outside,
+                             bezierType: .lineSegments,
+                             smoothed: false)
+                    .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
             }
             
         }
@@ -246,10 +289,10 @@ struct PageView: View {
                 switch options.currPerturbStrategy {
                 
                 case .staticZigZags :
-                    model.animateToNextFixedZigZag()
+                    model.animateToNextFixedPerturbationDelta()
                     
                 case .randomizedZigZags :
-                    model.animateToRandomizedPerturbationInRange()
+                    model.animateToRandomizedPerturbationDelta()
                 }
             }
 
