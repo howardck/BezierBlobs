@@ -142,15 +142,17 @@ struct AnimatingBlob_Markers : View {
 
 struct AnimatingBlob_EvenNumberedVertexMarkers : View {
     var curve : [CGPoint]
+    var vertices: Set<Int>
     var markerStyle : MarkerStyle
 
     var body : some View {
         SuperEllipse(curve: curve,
-                     bezierType: .someMarkers(indexSet: [0, 2, 4, 6],
+                     bezierType: .someMarkers(indexSet: vertices,
                                               radius: markerStyle.radius))
             .fill(Color.orange)
     }
 }
+
 
 //MARK:- AnimatingBlob_VertexZeroMarker
 struct AnimatingBlob_VertexZeroMarker: View {

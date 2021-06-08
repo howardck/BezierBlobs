@@ -10,10 +10,12 @@ import SwiftUI
 @main
 struct BezierBlobsApp: App {
     
+
     var body: some Scene {
         WindowGroup {
             
             ContentView()
+
                 .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
             

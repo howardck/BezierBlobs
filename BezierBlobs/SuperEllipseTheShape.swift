@@ -9,7 +9,7 @@ import SwiftUI
 enum BezierType : Equatable {
     case lineSegments
     case singleMarker(index: Int, radius: CGFloat)
-    case someMarkers(indexSet: IndexSet, radius: CGFloat)
+    case someMarkers(indexSet: Set<Int>, radius: CGFloat)
     case allMarkers(radius: CGFloat)
     case normals
 }
@@ -38,15 +38,23 @@ struct SuperEllipse : Shape {
                     path.move(to: point) :
                     path.addLine(to: point)
                 
-            case .allMarkers(let radius) :
-                path.move(to: point)
-                path.addMarker(of: radius)
-                
             case .singleMarker(let index, let radius) :
                 if i == index {
                     path.move(to: point)
                     path.addMarker(of: radius)
                 }
+                
+            case .someMarkers(let indexSet, let radius) :
+                
+                if indexSet.contains(i) {
+                    path.move(to: point)
+                    path.addMarker(of: radius)
+                }
+                
+            case .allMarkers(let radius) :
+                path.move(to: point)
+                path.addMarker(of: radius)
+                
                 
         /*  for normals, even-numbered points lie on the inner offset.
             the next point is its outer offset counterpart.
@@ -56,11 +64,6 @@ struct SuperEllipse : Shape {
                     path.move(to: point)
                     path.addLine(to: curve[i+1])
                 }
-               
-            case .someMarkers(let indexSet, let radius) :
-                
-                print("\(indexSet.count) points passed to SuperEllipse Shape")
-            
             }
         }
         if smoothed {

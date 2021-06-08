@@ -119,19 +119,34 @@ class Model: ObservableObject {
         let insideBound = perturbationDeltas.innerRange.lowerBound
         let outsideBound = perturbationDeltas.innerRange.upperBound
         
-        return (inner_inside: baseCurve.map{ $0.newPoint(atOffset: offsets.inner + insideBound, along: $1)},
-         inner_outside: baseCurve.map{ $0.newPoint(atOffset: offsets.inner + outsideBound, along: $1)})
+        return (inner_inside: baseCurve.map{ $0.newPoint(at: offsets.inner + insideBound, along: $1)},
+         inner_outside: baseCurve.map{ $0.newPoint(at: offsets.inner + outsideBound, along: $1)})
     }
     
     func EXPERIMENTAL_calculateFixedPerturbationBandsOuter() -> PerturbationBandCurves
     {
         let insideBound = perturbationDeltas.outerRange.lowerBound
         let outsideBound = perturbationDeltas.outerRange.upperBound
-        return (outer_inside: baseCurve.map{ $0.newPoint(atOffset: offsets.outer + insideBound, along: $1)},
-         outer_outside: baseCurve.map{ $0.newPoint(atOffset: offsets.outer + outsideBound, along: $1)})
+        return (outer_inside: baseCurve.map{ $0.newPoint(at: offsets.outer + insideBound, along: $1)},
+         outer_outside: baseCurve.map{ $0.newPoint(at: offsets.outer + outsideBound, along: $1)})
+    }
+    
+    func evenNumberedIntegers(for curve: [CGPoint]) -> Set<Int>
+    {
+        let integers = (0..<curve.count)
+            .map{ $0 }
+            .filter{ $0 % 2 == 0}
+        return Set(integers)
+    }
+    
+    //MARK:- MISC FUNCTIONALITY
+    func getEvenNumberedIndices(for curve: [CGPoint]) -> IndexSet {
+        
+        
+        return IndexSet([0, 2, 4, 6])
     }
 
-    //MARK:-
+    //MARK:- CALLS TO ANIMATE
     func animateToNextFixedPerturbationDelta() {
         
         var isOffsetToOutside = nextPhaseIsZig
@@ -143,7 +158,7 @@ class Model: ObservableObject {
                 offsets.outer + perturbationDeltas.outerRange.upperBound :
                 offsets.inner + perturbationDeltas.innerRange.upperBound
             
-            let pt = vertexTuple.vertex.newPoint(atOffset: offset,
+            let pt = vertexTuple.vertex.newPoint(at: offset,
                                                  along: vertexTuple.normal)
             curve += [pt]
             isOffsetToOutside.toggle()
@@ -156,11 +171,12 @@ class Model: ObservableObject {
     func animateToRandomizedPerturbation() {
         var curve = [CGPoint]()
         
-        for (i, vertextNormal) in baseCurve.enumerated() {
-            let offset = (i % 2) == 0 ?
+        for (i, bcTuple) in baseCurve.enumerated() {
+            let offset = i.isEven() ?
                 offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange) :
                 offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange)
-            let point = vertextNormal.vertex.newPoint(atOffset: offset, along: vertextNormal.normal)
+            let point = bcTuple.vertex.newPoint(at: offset,
+                                                along: bcTuple.normal)
             curve += [point]
         }
         blobCurve = curve
@@ -184,8 +200,8 @@ class Model: ObservableObject {
     // MARK:- OTHER CURVES
     
     func calculateBoundingCurves(using offsets: Offsets) -> BoundingCurves {
-        (inner: baseCurve.map{ $0.newPoint(atOffset: offsets.inner, along: $1)},
-         outer: baseCurve.map{ $0.newPoint(atOffset: offsets.outer, along: $1)})
+        (inner: baseCurve.map{ $0.newPoint(at: offsets.inner, along: $1)},
+         outer: baseCurve.map{ $0.newPoint(at: offsets.outer, along: $1)})
     }
     
     func calculateNormals() -> [CGPoint] {
