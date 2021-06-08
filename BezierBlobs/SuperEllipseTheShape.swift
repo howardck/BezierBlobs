@@ -8,8 +8,9 @@ import SwiftUI
 
 enum BezierType : Equatable {
     case lineSegments
-    case markers(radius: CGFloat)
     case singleMarker(index: Int, radius: CGFloat)
+    case someMarkers(indexSet: IndexSet, radius: CGFloat)
+    case allMarkers(radius: CGFloat)
     case normals
 }
 
@@ -37,7 +38,7 @@ struct SuperEllipse : Shape {
                     path.move(to: point) :
                     path.addLine(to: point)
                 
-            case .markers(let radius) :
+            case .allMarkers(let radius) :
                 path.move(to: point)
                 path.addMarker(of: radius)
                 
@@ -53,16 +54,21 @@ struct SuperEllipse : Shape {
             case .normals :
                 if i.isEven() && i < curve.count {
                     path.move(to: point)
-                    path.addLine(to: curve[i + 1])
+                    path.addLine(to: curve[i+1])
                 }
+               
+            case .someMarkers(let indexSet, let radius) :
+                
+                print("\(indexSet.count) points passed to SuperEllipse Shape")
+            
             }
         }
         if smoothed {
             path = path.smoothed(numInterpolated: SuperEllipse.NUM_INTERPOLATED)
         }
         
-        // we could simply do s path.closeSubPath() instead of the following,
-        // but the last normal before returning to the origin draws a little strangely
+        // we could simply do a path.closeSubPath() instead of the following,
+        // but the last normal before returning to the origin draws a bit strangely
         
         if bezierType != .normals {
             path.addLine(to: curve[0])

@@ -53,30 +53,49 @@ struct MiscOptionsChooser: View {
                 }
             }
             
-            Section(header: Text("driving the tap-driven highway")
+            Section(header: Text("HOW-TO")
                         .foregroundColor(sectionHeaderTextColor)) {
-                VStack {
-                    bulletedTextItem("tap screen: dismisses dialog")
-                    bulletedTextItem("tap 1x: start animating")
-                    bulletedTextItem("tap 1x: stop animating")
-                    bulletedTextItem("tap 2x: revert to original shape")
-                    bulletedTextItem("rinse/repeat")
-                }
+        
+                howTo()
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .environment(\.defaultMinListRowHeight, 40)
+        .environment(\.defaultMinListRowHeight, 36)
+    }
+    
+    func howTo() -> some View {
+
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Driving the tap-driven highway")
+                .underline()
+                .font(.system(size: 18))
+                .fontWeight(.light)
+                .frame(height: 38)
+                
+            HStack {
+                Spacer()
+                    .frame(width: 5)
+                VStack(alignment: .center) {
+                    bulletedTextItem("Tap the screen to dismiss this")
+                    bulletedTextItem("Tap 1x to start animating")
+                    bulletedTextItem("Tap again to stop animating")
+                    bulletedTextItem("Tap 2x to revert to base shape")
+                    bulletedTextItem("Repeat as desired")
+                }
+            }
+        }
     }
 
     func bulletedTextItem(_ text: String) -> some View {
-        HStack(alignment: .center){
-            SFSymbol.diamondBullet
-                .font(.footnote)
-                //.scaleEffect..(0.7)
-                .foregroundColor(.orange)
-            Spacer(minLength: 6)
+        HStack(alignment: .center) {
+            SFSymbol.oval_filled
+                .font(.system(size: 7))
+                .foregroundColor(.blue)
+            Spacer(minLength: 4)
             Text(text)
-                .frame(width: 360, height: 34, alignment: .leading)
+                .font(.system(size: 18))
+                .fontWeight(.light)
+                .frame(width: 360, height: 32, alignment: .leading)
         }
     }
 }

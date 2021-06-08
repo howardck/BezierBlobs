@@ -50,8 +50,8 @@ enum LayerType : String {
     
     case blob_stroked = "blob stroked"
     case blob_filled = "blob filled"
-    case blob_vertex_0_marker = "vertex[0]"
-    case blob_even_numbered_vertex_markers = "even-numbered vertex markers"
+    case blob_vertex_0_marker = "vertex[0] marker"
+    case blob_even_numbered_vertex_markers = "even-numbered markers"
     case blob_markers = "all vertex markers"
     
 //    case baseCurve = "baseCurve"

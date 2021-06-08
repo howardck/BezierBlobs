@@ -65,36 +65,32 @@ struct ContentView: View {
 //                         size: gr.size)
 //                    .tabItem {
 //                        SFSymbol.tab_4
-//                        Text("\(PageType.mutantMoth.rawValue)" )
+//                        Text("\(PageType.rorschach.rawValue)" )
 //                  }
                 
                 ZStack {
                     PageGradientBackground()
-                    HStack {
-                        
-                        if !MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
-                            // push everything to the right
-                            Spacer()
-                        }
-                        
-                        VStack {
-                            Spacer() // and down
-                            Color.white
-                                .frame(width: 300, height: 400, alignment: .center)
-                                .border(Color.red, width: 2)
-                        }
-                        
-                        if MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
-                            // push everything to the left
-                            Spacer()
-                        }
-                    }
-                    //.padding(EdgeInsets(top: 0, leading: 0, bottom: 50, trailing: 70))
-                    .padding(40)
+                    
+                        .overlay(
+                            ZStack {
+                                
+                                Color.white
+                                
+                                VStack {
+                                    Text("Welcome. Enjoy!")
+                                    Spacer()
+                                        .frame(height: 10)
+                                    Text("(yep, that's it)")
+                                }
+                                
+                            }
+                            .frame(width: 300, height: 300)
+                            .border(Color.black, width: 1)
+                        )
                 }
                 .tabItem {
-                    Text("READ ME")
                     SFSymbol.HAND_WAVE_FILL
+                    Text("READ ME")
                 }
             }
             .onChange(of: scenePhase) { newPhase in
@@ -202,7 +198,6 @@ struct ContentView_Previews: PreviewProvider {
                     .environmentObject(MiscOptionsModel())
             }
             //------------------------------------------------------------
-
             
             HStack {
             //------------------------------------------------------------

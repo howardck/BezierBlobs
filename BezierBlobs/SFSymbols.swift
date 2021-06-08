@@ -3,7 +3,7 @@
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-05-14.
-//  idea from Stewart Lynch video, "Two SwiftUI Enum Use Cases"
+//  from Stewart Lynch video, "Two SwiftUI Enum Use Cases"
 
 import SwiftUI
 
@@ -36,7 +36,11 @@ enum SFSymbol: String, View {
     
     // not usable with LayerStackSymbol body code. not sure why ...
     case layerStackIcon = "square.stack.3d.up"
+    
     case diamondBullet = "diamond.fill"
+    case circle_bullet = "circle.fill"
+    case circle = "circle"
+    case oval_filled = "oval.fill"
     
     // stewart's example
 //    case edit = "square.and.pencil"

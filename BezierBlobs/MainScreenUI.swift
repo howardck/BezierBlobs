@@ -10,7 +10,7 @@ import SwiftUI
 struct MainScreenUI: View {
     
     static let TWO_BUTTON_PADDING : CGFloat = 60
-    static let TWO_BUTTON_PANEL_ON_LEFT = false
+    static let TWO_BUTTON_PANEL_ON_LEFT = true
     
     @Binding var showLayersList: Bool
     @Binding var showMiscOptionsList : Bool
@@ -23,7 +23,9 @@ struct MainScreenUI: View {
             VStack {
                 Spacer()
                 if showLayersList {
-                    let s = CGSize(width: 370, height: 560)
+                    // ------------------------------------
+                    let s = CGSize(width: 330, height: 560)
+                    // ------------------------------------
                     HStack {
                         
                         if !MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
@@ -32,9 +34,9 @@ struct MainScreenUI: View {
                         
                         ZStack {
                             SELayersChooser(layers: $layers.layers)
-                                .frame(width: s.width, height: s.height)
                             BezelFrame(color: .orange, size: s)
                         }
+                        .frame(width: s.width, height: s.height)
                         .padding(MainScreenUI.TWO_BUTTON_PADDING)
                         
                         if MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT {
@@ -45,7 +47,7 @@ struct MainScreenUI: View {
                 }
                 else if showMiscOptionsList {
                     // ------------------------------------
-                    let s = CGSize(width: 365, height: 510)
+                    let s = CGSize(width: 330, height: 500)
                     // ------------------------------------
                     HStack {
                         

@@ -162,6 +162,19 @@ struct LayerStackSymbol: View {
     }
 }
 
+struct BulletedTextItem : View {
+    var text: String = ""
+    
+    var body: some View {
+        SFSymbol.circle
+            .font(.system(size: 8))
+            .foregroundColor(.black)
+        Spacer(minLength: 5)
+        Text(text)
+            .frame(width: 360, height: 32, alignment: .leading)
+    }
+}
+
 //MARK:-
 struct SELayersChooserButton : View {
     var faceColor: Color

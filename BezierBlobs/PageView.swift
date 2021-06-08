@@ -11,7 +11,7 @@ enum PageType : String {
     case circle = "CIRCLE"
     case superEllipse = "CLASSIC SE"
     case deltaWing = "DELTA WING"
-    case mutantMoth = "RORSCHACH"
+    case rorschach = "RORSCHACH"
 }
 
 typealias PageDescription
@@ -158,9 +158,6 @@ struct PageView: View {
         
         print("   perturbationRanges: inner: (\(innerRange.lowerBound)..< \(innerRange.upperBound)) <—-|-—> " +
               "outer: (\(outerRange.lowerBound)..< \(outerRange.upperBound))")
-                
-//        print("   perturbRanges: inner: (\(innerRange.lowerBound) ..< \(innerRange.upperBound) )\n" +
-//              "                  outer: (\(outerRange.lowerBound) ..< \(outerRange.upperBound) )")
         
         model.calculateSuperEllipse(for: pageType,
                                     n: descriptors.n,
@@ -183,14 +180,14 @@ struct PageView: View {
     //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
             
         // SUPPORT LAYERS //
-        // --------------------------------------------------------------
+        // ---------------------------------------------------------
             if layers.isVisible(layerWithType: .normals) {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    style: markerStyles[.offsets]!)
             }
             
-            // OUTSIDE offsets visible as a bottom layer
+            // OUTSIDE offsets is a bottom layer
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 OffsetsEnvelope(curves: model.boundingCurves,
                                style: markerStyles[.offsets]!,
@@ -199,21 +196,23 @@ struct PageView: View {
             }
             
             // ANIMATING BLOB LAYERS //
-            // --------------------------------------------------------------
+            // -----------------------------------------------------
             
             // just for fun we use an @EnvironmentObject-injected
             // layers object for this one. see AnimatingBlob_Filled().
             
-                AnimatingBlob_Filled(curve: model.blobCurve,
-                                     layerType: .blob_filled)
+            AnimatingBlob_Filled(curve: model.blobCurve,
+                                 layerType: .blob_filled)
 
+            Group {
                 if layers.isVisible(layerWithType: .blob_stroked) {
                     AnimatingBlob_Stroked(curve: model.blobCurve)
                 }
-            
-            if layers.isVisible(layerWithType: .baseCurve_and_markers) {
-                BaseCurve_And_Markers(curve: model.baseCurve.map{ $0.vertex },
-                                      style: markerStyles[.baseCurve]!)
+                
+                if layers.isVisible(layerWithType: .baseCurve_and_markers) {
+                    BaseCurve_And_Markers(curve: model.baseCurve.map{ $0.vertex },
+                                          style: markerStyles[.baseCurve]!)
+                }
             }
             
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
@@ -235,43 +234,42 @@ struct PageView: View {
         // MORE ANIMATING BLOB LAYERS //
         // --------------------------------------------------------------
             
-            Group {
+
                 if layers.isVisible(layerWithType: .blob_markers) {
-                    AnimatingBlob_Markers(curve: model.blobCurve,
-                                          style: markerStyles[.blob]!)
+                    AnimatingBlob_Markers(curve: model.blobCurve, markerStyle: markerStyles[.blob]!)
                 }
                 
                 if layers.isVisible(layerWithType: .blob_vertex_0_marker) {
                     AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
                                                    markerStyle: markerStyles[.vertexOrigin]!)
                 }
-            }
+
             
             // EXPERIMENTAL
-            if Model.DEBUG_SHOW_EXPERIMENTAL_INNER_AND_OUTER_PERTURBATION_BANDS {
-                Group {
-                    SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_inside,
-                                 bezierType: .lineSegments,
-                                 smoothed: false)
-                        .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
-                    
-                    SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_outside,
-                                 bezierType: .lineSegments,
-                                 smoothed: false)
-                        .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
-                    
-                    
-                    SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_inside,
-                                 bezierType: .lineSegments,
-                                 smoothed: false)
-                        .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
-                    
-                    SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_outside,
-                                 bezierType: .lineSegments,
-                                 smoothed: false)
-                        .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
-                }
-            }
+//            if Model.DEBUG_SHOW_EXPERIMENTAL_INNER_AND_OUTER_PERTURBATION_BANDS {
+//                Group {
+//                    SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_inside,
+//                                 bezierType: .lineSegments,
+//                                 smoothed: false)
+//                        .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
+//
+//                    SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_outside,
+//                                 bezierType: .lineSegments,
+//                                 smoothed: false)
+//                        .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
+//
+//
+//                    SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_inside,
+//                                 bezierType: .lineSegments,
+//                                 smoothed: false)
+//                        .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
+//
+//                    SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_outside,
+//                                 bezierType: .lineSegments,
+//                                 smoothed: false)
+//                        .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
+//                }
+//            }
         }
         
         // an interesting bug occurs if we use .background(...) instead of
@@ -302,7 +300,7 @@ struct PageView: View {
                 
                 print("\nFIRST TAPPED CYCLE!\n")
                 isFirstTappedCycle = false
-                
+            
                 timer.connect().cancel()
                 timer = Timer.publish(every: PageView.timerTimeIncrement,
                                       on: .main, in: .common)
