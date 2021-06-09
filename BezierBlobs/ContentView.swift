@@ -74,11 +74,11 @@ struct ContentView: View {
                         .overlay(
                             ZStack {
                                 
-                                Color.blue
+                                Color.orange
                                 
                                 VStack {
                                     Text("Welcome. Enjoy.")
-                                    Text("I hope it's useful.")
+                                    Text("I hope this is useful.")
                                     Text("Howard Katz")
                                     Spacer()
                                         .frame(height: 10)
@@ -88,7 +88,7 @@ struct ContentView: View {
                                 .foregroundColor(.white)
                                 
                             }
-                            .frame(width: 300, height: 300)
+                            .frame(width: 340, height: 300)
                             .border(Color.white, width: 1)
                         )
                 }
@@ -116,9 +116,9 @@ struct ContentView: View {
                                            fill: .blue,
                                            buttonFace: .green,
                                            buttonEdge: Gray.dark,
-                                           allVertices: .green,
+                                           allVertices: Gray.dark,
                                            evenNumberedVertices: .red,
-                                           vertex_0: .orange))
+                                           vertex_0: .green))
         }
     }
 }

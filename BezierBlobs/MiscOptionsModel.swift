@@ -9,8 +9,8 @@ import Combine
 import SwiftUI
 
 enum PerturbationStrategy : String, Equatable, CaseIterable {
-    case staticZigZags = "static fixed zig-zags"
-    case randomizedZigZags = "randomized zig-zags"
+    case staticZigZags = "fixed perturbations"
+    case randomizedZigZags = "randomized perturbations"
 }
 
 class MiscOptionsModel: ObservableObject {

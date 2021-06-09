@@ -25,7 +25,7 @@ struct MainScreenUI: View {
                 Spacer()
                 if showLayersList {
                     // ------------------------------------
-                    let s = CGSize(width: 330, height: 560)
+                    let s = CGSize(width: 280, height: 560)
                     // ------------------------------------
                     HStack {
                         

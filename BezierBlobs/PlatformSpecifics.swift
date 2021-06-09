@@ -13,7 +13,14 @@ import SwiftUI
 typealias Specifics = (name: String,
                        numPoints: Int)
 
+
 struct PlatformSpecifics {
+    
+    enum SizeClass {
+        case compact
+        case regular
+    }
+    
     static let COMPACT : Specifics = (
         name: "COMPACT",
         numPoints: 22
