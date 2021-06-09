@@ -77,19 +77,18 @@ struct TwoButtonPanel : View {
     
     @EnvironmentObject var colorScheme : ColorScheme
     
-    var edgeOffset = CGSize(width: 1.0, height: 1.0)
+    var edgeOffset = CGSize(width: 2.0, height: 2.0)
     
     var body: some View {
         
-        let locationDependentEdgeColor = MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT ?
-                                            Gray.dark :
-                                            Gray.light
-        
+//        let locationDependentEdgeColor = MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT ?
+//                                            Gray.dark :
+//                                            Gray.light
         HStack {
             Spacer()
             
             SELayersChooserButton(faceColor: colorScheme.buttonFace,
-                                  edgeColor: locationDependentEdgeColor,
+                                  edgeColor: colorScheme.buttonEdge,
                                   edgeOffset: edgeOffset)
                 .onTapGesture {
                     showLayersList.toggle()
@@ -98,7 +97,7 @@ struct TwoButtonPanel : View {
             
             MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                      faceColor: colorScheme.buttonFace,
-                                     edgeColor: locationDependentEdgeColor,
+                                     edgeColor: colorScheme.buttonEdge,
                                      edgeOffset: edgeOffset)
                 .onTapGesture {
                     showMiscOptionsList.toggle()

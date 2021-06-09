@@ -17,6 +17,7 @@ struct MainScreenUI: View {
     
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
+    @EnvironmentObject var colorScheme : ColorScheme
     
     var body: some View {
         

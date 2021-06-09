@@ -74,46 +74,51 @@ struct ContentView: View {
                         .overlay(
                             ZStack {
                                 
-                                Color.white
+                                Color.blue
                                 
                                 VStack {
-                                    Text("Welcome. Enjoy!")
+                                    Text("Welcome. Enjoy.")
+                                    Text("I hope it's useful.")
+                                    Text("Howard Katz")
                                     Spacer()
                                         .frame(height: 10)
-                                    Text("(yep, that's it)")
+                                    Text("(yep, that's it!)")
                                 }
+                                .font(.title2)
+                                .foregroundColor(.white)
                                 
                             }
                             .frame(width: 300, height: 300)
-                            .border(Color.black, width: 1)
+                            .border(Color.white, width: 1)
                         )
                 }
                 .tabItem {
                     SFSymbol.HAND_WAVE_FILL
-                    Text("READ ME")
+                    Text("WELCOME")
                 }
             }
-            .onChange(of: scenePhase) { newPhase in
-                if newPhase == .inactive {
-                    print( "%%%%%%% INACTIVE")
-                }
-                else if newPhase == .active {
-                    print( "%%%%%%% ACTIVE")
-                }
-                else if newPhase == .background {
-                    print( "%%%%%%% BACKGROUND")
-                }
-                else {
-                    print( "%%%%%%% UNKNOWN SCENE PHASE !!!!!")
-                }
-            }
+//            .onChange(of: scenePhase) { newPhase in
+//                if newPhase == .inactive {
+//                    print( "%%%%%%% INACTIVE")
+//                }
+//                else if newPhase == .active {
+//                    print( "%%%%%%% ACTIVE")
+//                }
+//                else if newPhase == .background {
+//                    print( "%%%%%%% BACKGROUND")
+//                }
+//                else {
+//                    print( "%%%%%%% UNKNOWN SCENE PHASE !!!!!")
+//                }
+//            }
             .environmentObject(ColorScheme(background: Color.init(white: 0.4),
                                            stroke: Gray.dark,
                                            fill: .blue,
-                                           buttonFace: .red,
-                                           buttonEdge: .black,
+                                           buttonFace: .green,
+                                           buttonEdge: Gray.dark,
                                            allVertices: .green,
-                                           vertex_0: .red))
+                                           evenNumberedVertices: .red,
+                                           vertex_0: .orange))
         }
     }
 }
@@ -137,6 +142,7 @@ class ColorScheme : ObservableObject {
     @Published var buttonFace: Color
     @Published var buttonEdge: Color
     @Published var allVertices: Color
+    @Published var evenNumberedVertices: Color
     @Published var vertex0Marker: Color
     
     init(background: Color,
@@ -145,6 +151,7 @@ class ColorScheme : ObservableObject {
          buttonFace: Color,
          buttonEdge: Color,
          allVertices: Color,
+         evenNumberedVertices: Color,
          vertex_0: Color) {
 
         self.background = background
@@ -153,6 +160,7 @@ class ColorScheme : ObservableObject {
         self.buttonFace = buttonFace
         self.buttonEdge = buttonEdge
         self.allVertices = allVertices
+        self.evenNumberedVertices = evenNumberedVertices
         self.vertex0Marker = vertex_0
     }
 }
@@ -180,6 +188,7 @@ struct ContentView_Previews: PreviewProvider {
                                                    buttonFace: .red,
                                                    buttonEdge: .white,
                                                    allVertices: .green,
+                                                   evenNumberedVertices: .green,
                                                    vertex_0: .red))
                     .environmentObject(SELayersViewModel())
                     .environmentObject(MiscOptionsModel())
@@ -193,6 +202,7 @@ struct ContentView_Previews: PreviewProvider {
                                                    buttonFace: .green,
                                                    buttonEdge: .white,
                                                    allVertices: .blue,
+                                                   evenNumberedVertices: .red,
                                                    vertex_0: .green))
                     .environmentObject(SELayersViewModel())
                     .environmentObject(MiscOptionsModel())
@@ -206,10 +216,11 @@ struct ContentView_Previews: PreviewProvider {
                          size: s)
                     .environmentObject(ColorScheme(background: Gray.dark,
                                                    stroke: .blue,
-                                                   fill: Color.orange,
+                                                   fill: .orange,
                                                    buttonFace: .red,
                                                    buttonEdge: .black,
                                                    allVertices: .blue,
+                                                   evenNumberedVertices: .yellow,
                                                    vertex_0: .red))
                     .environmentObject(SELayersViewModel())
                     .environmentObject(MiscOptionsModel())
@@ -223,6 +234,7 @@ struct ContentView_Previews: PreviewProvider {
                                                    buttonFace: .green,
                                                    buttonEdge: .black,
                                                    allVertices: .orange,
+                                                   evenNumberedVertices: .green,
                                                    vertex_0: .red))
                     .environmentObject(SELayersViewModel())
                     .environmentObject(MiscOptionsModel())

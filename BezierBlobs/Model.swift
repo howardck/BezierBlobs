@@ -22,6 +22,17 @@ typealias AxisRelativePerturbationDeltas = (innerRange: Range<CGFloat>, outerRan
 
 // the innerRange is centred on the innerCurve; the outerRange on the outerCurve
 typealias PerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
+/*
+    Nomenclature is a bitch. at times I've referred to:
+ 
+        o perturbation ranges
+        o perturbation deltas
+        o perturbation bands
+        o perturbation limits
+        o perturbation band curves
+ 
+    and various combinations of the same. what can i say? it's hard!
+ */
 
 class Model: ObservableObject {
     
@@ -127,57 +138,46 @@ class Model: ObservableObject {
     {
         let insideBound = perturbationDeltas.outerRange.lowerBound
         let outsideBound = perturbationDeltas.outerRange.upperBound
-        return (outer_inside: baseCurve.map{ $0.newPoint(at: offsets.outer + insideBound, along: $1)},
-         outer_outside: baseCurve.map{ $0.newPoint(at: offsets.outer + outsideBound, along: $1)})
-    }
-    
-    func evenNumberedIntegers(for curve: [CGPoint]) -> Set<Int>
-    {
-        let integers = (0..<curve.count)
-            .map{ $0 }
-            .filter{ $0 % 2 == 0}
-        return Set(integers)
+        return
+            (outer_inside: baseCurve.map{ $0.newPoint(at: offsets.outer + insideBound, along: $1) },
+             outer_outside: baseCurve.map{ $0.newPoint(at: offsets.outer + outsideBound, along: $1) })
     }
     
     //MARK:- MISC FUNCTIONALITY
-    func getEvenNumberedIndices(for curve: [CGPoint]) -> IndexSet {
-        
-        
-        return IndexSet([0, 2, 4, 6])
+    func evenNumberedVertices(for curve: [CGPoint]) -> Set<Int>
+    {
+        let evens = (0..<curve.count).map{ $0 }.filter{ $0 % 2 == 0 }
+        return Set(evens)
     }
 
     //MARK:- CALLS TO ANIMATE
     func animateToNextFixedPerturbationDelta() {
-        
         var isOffsetToOutside = nextPhaseIsZig
         var curve = [CGPoint]()
         
-        for (_, vertexTuple) in baseCurve.enumerated() {
-            
+        for vertexTuple in baseCurve {
             let offset : CGFloat = isOffsetToOutside ?
                 offsets.outer + perturbationDeltas.outerRange.upperBound :
                 offsets.inner + perturbationDeltas.innerRange.upperBound
             
-            let pt = vertexTuple.vertex.newPoint(at: offset,
-                                                 along: vertexTuple.normal)
-            curve += [pt]
+            curve += [vertexTuple.vertex.newPoint(at: offset,
+                                                 along: vertexTuple.normal)]
             isOffsetToOutside.toggle()
         }
-        
-        blobCurve = curve // we update blobCurve; drive the animation
+        blobCurve = curve // we update blobCurve; this drives the animation
         nextPhaseIsZig.toggle()
     }
     
     func animateToRandomizedPerturbation() {
         var curve = [CGPoint]()
         
-        for (i, bcTuple) in baseCurve.enumerated() {
+        for (i, vertexTuple) in baseCurve.enumerated() {
             let offset = i.isEven() ?
                 offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange) :
                 offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange)
-            let point = bcTuple.vertex.newPoint(at: offset,
-                                                along: bcTuple.normal)
-            curve += [point]
+            
+            curve += [vertexTuple.vertex.newPoint(at: offset,
+                                                  along: vertexTuple.normal)]
         }
         blobCurve = curve
     }

@@ -235,13 +235,16 @@ struct PageView: View {
         // --------------------------------------------------------------
             
 
-            if layers.isVisible(layerWithType: .blob_markers) {
+            if layers.isVisible(layerWithType: .blob_all_markers) {
                 AnimatingBlob_Markers(curve: model.blobCurve, markerStyle: markerStyles[.blob]!)
             }
             
-            AnimatingBlob_EvenNumberedVertexMarkers(curve: model.baseCurve.map{ $0.vertex },
-                                                    vertices: model.evenNumberedIntegers(for: model.baseCurve.map{$0.vertex}),
-                                                    markerStyle: markerStyles[.blob]!)
+            if layers.isVisible(layerWithType: .blob_outer_markers) {
+                AnimatingBlob_EvenNumberedVertexMarkers(curve: model.blobCurve,
+                                                        vertices: model.evenNumberedVertices(
+                                                            for: model.blobCurve),
+                                                        markerStyle: markerStyles[.blob]!)
+            }
             
             if layers.isVisible(layerWithType: .blob_vertex_0_marker) {
                 AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,

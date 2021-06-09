@@ -10,10 +10,9 @@ import SwiftUI
 enum MarkerType : CaseIterable {
     case blob
     case vertexOrigin
+    case innerMarkers
     case offsets
     case baseCurve
-//    case zig
-//    case zag
 }
 
 typealias MarkerStyle = (color: Color, radius: CGFloat)
@@ -22,6 +21,7 @@ let r: CGFloat = 15
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r - 1),
     .vertexOrigin :     (color: .green, radius : r - 1),
+    .innerMarkers : (color: .red, radius : r - 1),
     .offsets :   (color: .black, radius: r/2.0 - 1),
     .baseCurve :        (color: .white, radius: r/2.0 + 2),
 ]
@@ -144,12 +144,26 @@ struct AnimatingBlob_EvenNumberedVertexMarkers : View {
     var curve : [CGPoint]
     var vertices: Set<Int>
     var markerStyle : MarkerStyle
+    
+    @EnvironmentObject var colorScheme : ColorScheme
 
     var body : some View {
+        
+        SuperEllipse(curve: curve,
+                     bezierType: .someMarkers(indexSet: vertices,
+                                             radius: markerStyle.radius + 1))
+            .fill(Color.black)
+        
         SuperEllipse(curve: curve,
                      bezierType: .someMarkers(indexSet: vertices,
                                               radius: markerStyle.radius))
-            .fill(Color.orange)
+            .fill(colorScheme.evenNumberedVertices)
+        
+        SuperEllipse(curve: curve,
+                     bezierType: .someMarkers(indexSet: vertices,
+                                               radius: 4))
+            .fill(Color.white)
+            .offset(x: -2, y: -2)
     }
 }
 
