@@ -9,23 +9,27 @@ import SwiftUI
 
 @main
 struct BezierBlobsApp: App {
-    
 
     var body: some Scene {
         WindowGroup {
             
             ContentView()
-
                 .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
-            
+                .environmentObject(ColorScheme(background: Color.init(white: 0.4),
+                                               stroke: Gray.dark,
+                                               fill: .blue,
+                                               buttonFace: .green,
+                                               buttonEdge: Gray.dark,
+                                               allVertices: .green,
+                                               evenNumberedVertices: .red,
+                                               vertex_0: .yellow))
 //            TabViewTest()
-//            //EnumBasedListChooser()
-            
-            // EmojiViewTest()
-            // TimerTest()
-            // MainScreenLayoutTest()
-            // MainScreenTwoButtonsTwoLists()
+//            EnumBasedListChooser()
+//            EmojiViewTest()
+//            TimerTest()
+//            MainScreenLayoutTest()
+//            MainScreenTwoButtonsTwoLists()
         }
     }
 }

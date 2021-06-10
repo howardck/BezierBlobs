@@ -24,6 +24,7 @@ typealias PageDescription
 struct PageView: View {
         
     let descriptors: PageDescription
+    //@State var numPoints
     
     static let NIL_RANGE : Range<CGFloat>
                 = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
@@ -81,6 +82,7 @@ struct PageView: View {
     
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
+    
     @EnvironmentObject var colorScheme : ColorScheme
     
     //MARK:-
@@ -117,11 +119,16 @@ struct PageView: View {
     }
     
     //MARK:- PageView.INIT
-    init(pageType: PageType, descriptors: PageDescription, size: CGSize) {
+    init(pageType: PageType,
+         descriptors: PageDescription,
+         size: CGSize,
+         deviceType: PlatformSpecifics.SizeClass) {
         
-        print("\n")
+        //print("\n")
         print("PageView.init( {PageType.\(pageType)} ): \n" +
                 "   numPoints: {\(descriptors.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
+        
+        print("PageView.deviceType: {\(deviceType)}")
         
         if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
             print("PageView.init(pageType.\(pageType.rawValue))")
@@ -132,7 +139,8 @@ struct PageView: View {
         self.pageType = pageType
         self.descriptors = descriptors
         
-        let (a, b) = axesFor(size: size, forceEqualAxes: descriptors.forceEqualAxes)
+        let (a, b) = axesFor(size: size,
+                             forceEqualAxes: descriptors.forceEqualAxes)
                 
         let minAxis = CGFloat(min(a, b))
         let baseCurveRatio = descriptors.axisRelOffsets.baseCurve
@@ -151,7 +159,7 @@ struct PageView: View {
                                             outerRange: outerRange)
         model.perturbationDeltas = pRanges
         
-        print("   semiMinorAxis a: [\(a)] semiMajorAxis b: [\(b)]\n")
+        print("   semiMinorAxis a: [\(a)] semiMajorAxis b: [\(b)]")
         print("   model.offsets : " +
                 "(inner: [\(model.offsets.inner.format(fspec: "4.2"))] <—-|-—> " +
                 "outer: [\(model.offsets.outer.format(fspec: "4.2"))]) ")
@@ -159,13 +167,19 @@ struct PageView: View {
         print("   perturbationRanges: inner: (\(innerRange.lowerBound)..< \(innerRange.upperBound)) <—-|-—> " +
               "outer: (\(outerRange.lowerBound)..< \(outerRange.upperBound))")
         
+        //FIXME: NEW numPoints DOESN'T UPDATE OVERLAY
+    
+        var numPoints = descriptors.numPoints
+        if deviceType == .compact && pageType == .circle {
+            numPoints = numPoints * 3 / 6
+        }
+
         model.calculateSuperEllipse(for: pageType,
                                     n: descriptors.n,
-                                    numPoints: descriptors.numPoints,
+                                    numPoints: numPoints,
                                     axes: (a: a * baseCurveRatio,
                                            b: b * baseCurveRatio)
         )
-        
         model.calculateSupportCurves()
     }
     
@@ -177,7 +191,8 @@ struct PageView: View {
 //            Color.init(white: 0.75)
              
                         
-    //MARK:- DISPLAY THE FOLLOWING LAYERS IF FLAGGED
+    //MARK:- START { if layerType.isVisible() LIST
+    //MARK:∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙
             
         // SUPPORT LAYERS //
         // ---------------------------------------------------------
@@ -195,8 +210,8 @@ struct PageView: View {
                                showOuterOffset: true)
             }
             
-            // ANIMATING BLOB LAYERS //
-            // -----------------------------------------------------
+        // ANIMATING BLOB LAYERS //
+        // -----------------------------------------------------
             
             // just for fun we use an @EnvironmentObject-injected
             // layers object for this one. see AnimatingBlob_Filled().
@@ -230,10 +245,8 @@ struct PageView: View {
                 }
             }
             
-            
         // MORE ANIMATING BLOB LAYERS //
         // --------------------------------------------------------------
-            
 
             if layers.isVisible(layerWithType: .blob_all_markers) {
                 AnimatingBlob_Markers(curve: model.blobCurve, markerStyle: markerStyles[.blob]!)
@@ -250,9 +263,6 @@ struct PageView: View {
                 AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
                                                markerStyle: markerStyles[.vertexOrigin]!)
             }
-            
-            
-
             
             // EXPERIMENTAL
 //            if Model.DEBUG_SHOW_EXPERIMENTAL_INNER_AND_OUTER_PERTURBATION_BANDS {
@@ -279,12 +289,18 @@ struct PageView: View {
 //                        .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
 //                }
 //            }
+            //MARK: END }   if layerType.isVisible() LIST
         }
         
         // an interesting bug occurs if we use .background(...) instead of
         // PageGradientBackground() as above, and then select 'hide all layers'
         // .background(colorScheme.background)
 
+        //MARK:- onAppear()
+        .onAppear {
+            print("\nPageView.onAppear{ PageType.\(pageType) }")
+        }
+        
         .onDisappear {
             isAnimating = false
             timer.connect().cancel()
@@ -292,6 +308,8 @@ struct PageView: View {
     
         //MARK: onReceive()
         .onReceive(timer) { _ in
+            
+            print("\nPageView.onReceive(timer){ PageType.\(pageType) }")
             
             withAnimation(PageView.animationStyle) {
                 
@@ -331,6 +349,8 @@ struct PageView: View {
         //MARK: onTapGesture(1)
         .onTapGesture(count: 1)
         {
+            print("PageView.onTapGesture(1) { PageType.\(pageType) }")
+            
             if showLayersList || showMiscOptionsList {
                 showLayersList = false
                 showMiscOptionsList = false
@@ -409,9 +429,4 @@ struct PageGradientBackground : View {
 }
 
 //MARK:-
-
-struct PageView_Previews: PreviewProvider {
-    static var previews: some View {
-        PageView(pageType: PageType.circle, descriptors: PageView.descriptions[0], size: CGSize(width: 650, height: 550))
-    }
-}
+//;

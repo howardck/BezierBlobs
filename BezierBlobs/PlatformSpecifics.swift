@@ -10,10 +10,6 @@
 
 import SwiftUI
 
-typealias Specifics = (name: String,
-                       numPoints: Int)
-
-
 struct PlatformSpecifics {
     
     enum SizeClass {
@@ -21,21 +17,12 @@ struct PlatformSpecifics {
         case regular
     }
     
-    static let COMPACT : Specifics = (
-        name: "COMPACT",
-        numPoints: 22
-    )
-    static let REGULAR : Specifics = (
-        name: "REGULAR",
-        numPoints: 40
-    )
-    
-    static func forSizeClasses(vSizeClass: UserInterfaceSizeClass,
-                               hSizeClass: UserInterfaceSizeClass) -> Specifics
-    {
-        vSizeClass == .compact || hSizeClass == .compact ?
-            PlatformSpecifics.COMPACT :
-            PlatformSpecifics.REGULAR
+    static func sizeClassForDevice(_ vSizeClass: UserInterfaceSizeClass,
+                                   _ hSizeClass: UserInterfaceSizeClass) -> SizeClass {
+
+            vSizeClass == .compact || hSizeClass == .compact ?
+                SizeClass.compact :
+                SizeClass.regular
     }
 }
 
