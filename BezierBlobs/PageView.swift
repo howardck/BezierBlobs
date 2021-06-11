@@ -168,11 +168,11 @@ struct PageView: View {
         print("   perturbationRanges: inner: (\(innerRange.lowerBound)..< \(innerRange.upperBound)) <—-|-—> " +
               "outer: (\(outerRange.lowerBound)..< \(outerRange.upperBound))")
         
-        //FIXME: NEW numPoints DOESN'T UPDATE OVERLAY
-    
         numPoints = descriptors.numPoints
         
         // WARNING: KLUDGE AHEAD!
+        // WARNING: KLUDGE AHEAD!
+
         if deviceType == .compact && pageType == .circle {
             numPoints = Int(Double(numPoints) * 0.8)
         }
@@ -196,7 +196,7 @@ struct PageView: View {
             PageGradientBackground()
             //Color.init(white: 0.75)
             
-            SELayersVisibilityToggles(model: self.model)
+            SELayersVisibilityOnOff(model: self.model)
         }
         //MARK:- onAppear()
         .onAppear {

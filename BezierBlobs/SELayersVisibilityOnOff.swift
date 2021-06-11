@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SELayersVisibilityToggles: View {
+struct SELayersVisibilityOnOff: View {
     
     @ObservedObject var model: Model
     @EnvironmentObject var layers : SELayersViewModel
@@ -91,6 +91,6 @@ struct SELayersVisibilityToggles: View {
 struct SELayersVisibilityToggles_Previews: PreviewProvider {
     static var previews: some View {
         
-        SELayersVisibilityToggles(model: Model())
+        SELayersVisibilityOnOff(model: Model())
     }
 }
