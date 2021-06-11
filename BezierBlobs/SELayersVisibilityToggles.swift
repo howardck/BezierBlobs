@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SELayersVisibilityToggles: View {
     
-    var model: Model
+    @ObservedObject var model: Model
     
     @EnvironmentObject var layers : SELayersViewModel
 

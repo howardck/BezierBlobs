@@ -189,8 +189,9 @@ struct PageView: View {
             PageGradientBackground()
 //            Color.init(white: 0.75)
             
-            SEL
+            SELayersVisibilityToggles(model: self.model)
              
+/*
                         
     //MARK:- START { if layerType.isVisible() LIST
     //MARK:∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙
@@ -291,7 +292,10 @@ struct PageView: View {
 //                }
 //            }
             //MARK: END }   if layerType.isVisible() LIST
+                 
+    */
         }
+        
         
         // an interesting bug occurs if we use .background(...) instead of
         // PageGradientBackground() as above, and then select 'hide all layers'
@@ -317,9 +321,11 @@ struct PageView: View {
                 switch options.currPerturbStrategy {
                 
                 case .staticZigZags :
+                    print("PageView.onReceive(): calling model.animateToNextFixedPerturbationDelta()")
                     model.animateToNextFixedPerturbationDelta()
                     
                 case .randomizedZigZags :
+                    print("PageView.onReceive(): calling model.animateToRandomizedPerturbation()")
                     model.animateToRandomizedPerturbation()
                 }
             }
