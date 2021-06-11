@@ -25,6 +25,7 @@
 		3BB0F23D25DD70C100725800 /* SuperEllipseTheCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0F23C25DD70C100725800 /* SuperEllipseTheCurve.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* OtherUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* OtherUI.swift */; };
 		3BB636A8264F414600BAD9AE /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB636A7264F414600BAD9AE /* SFSymbols.swift */; };
+		3BB6692D2673BB7F00C57603 /* SELayersVisibilityToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6692C2673BB7F00C57603 /* SELayersVisibilityToggles.swift */; };
 		3BD421C325D635650034CE7D /* NOTES.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BD421C225D635650034CE7D /* NOTES.txt */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
 		5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */; };
@@ -58,6 +59,7 @@
 		3BB0F23C25DD70C100725800 /* SuperEllipseTheCurve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseTheCurve.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* OtherUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUI.swift; sourceTree = "<group>"; };
 		3BB636A7264F414600BAD9AE /* SFSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbols.swift; sourceTree = "<group>"; };
+		3BB6692C2673BB7F00C57603 /* SELayersVisibilityToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayersVisibilityToggles.swift; sourceTree = "<group>"; };
 		3BD421C225D635650034CE7D /* NOTES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NOTES.txt; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierBlobsApp.swift; sourceTree = "<group>"; };
@@ -123,10 +125,11 @@
 				3BB636A7264F414600BAD9AE /* SFSymbols.swift */,
 				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				5E57D2E0256D5CDB00D6B1C0 /* Model.swift */,
-				5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */,
-				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
 				3B19B090265D908500F63724 /* MainScreenUI.swift */,
 				3BB48CC12581A2CD005DEBB8 /* OtherUI.swift */,
+				5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */,
+				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
+				3BB6692C2673BB7F00C57603 /* SELayersVisibilityToggles.swift */,
 				3BB0F23C25DD70C100725800 /* SuperEllipseTheCurve.swift */,
 				5E57D2E1256D5CDB00D6B1C0 /* SuperEllipseTheShape.swift */,
 				3B779D252587CD5C00C5BC85 /* SELayerStacks.swift */,
@@ -236,6 +239,7 @@
 				3BA4072A2658864900349ECE /* VDSP_AnimatableVector.swift in Sources */,
 				3BB0F23D25DD70C100725800 /* SuperEllipseTheCurve.swift in Sources */,
 				3B11D73925CC73450080F72F /* SELayersViewModel.swift in Sources */,
+				3BB6692D2673BB7F00C57603 /* SELayersVisibilityToggles.swift in Sources */,
 				5E57D2E4256D5CDB00D6B1C0 /* SuperEllipseTheShape.swift in Sources */,
 				5E57D2EC256D5D1200D6B1C0 /* CGPointVector.swift in Sources */,
 				3BB094B925D9E42D00DE96CF /* EmojiView_TEST.swift in Sources */,
