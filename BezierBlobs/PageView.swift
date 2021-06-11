@@ -117,6 +117,8 @@ struct PageView: View {
         return (a, b)
     }
     
+    var numPoints : Int = 0
+    
     //MARK:- PageView.INIT
     init(pageType: PageType,
          descriptors: PageDescription,
@@ -168,9 +170,14 @@ struct PageView: View {
         
         //FIXME: NEW numPoints DOESN'T UPDATE OVERLAY
     
-        var numPoints = descriptors.numPoints
+        numPoints = descriptors.numPoints
+        
+        // WARNING: KLUDGE AHEAD!
         if deviceType == .compact && pageType == .circle {
-            numPoints = numPoints * 3 / 6
+            numPoints = Int(Double(numPoints) * 0.8)
+        }
+        else if deviceType == .compact && pageType == .superEllipse {
+            numPoints = Int(Double(numPoints) * 0.8)
         }
 
         model.calculateSuperEllipse(for: pageType,
@@ -187,120 +194,10 @@ struct PageView: View {
         ZStack {
 
             PageGradientBackground()
-//            Color.init(white: 0.75)
+            //Color.init(white: 0.75)
             
             SELayersVisibilityToggles(model: self.model)
-             
-/*
-                        
-    //MARK:- START { if layerType.isVisible() LIST
-    //MARK:∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙
-            
-        // SUPPORT LAYERS //
-        // ---------------------------------------------------------
-            if layers.isVisible(layerWithType: .normals) {
-                NormalsPlusMarkers(normals: model.normalsCurve,
-                                   markerCurves: model.boundingCurves,
-                                   style: markerStyles[.offsets]!)
-            }
-            
-            // OUTSIDE offsets is a bottom layer
-            if layers.isVisible(layerWithType: .offsetsEnvelope) {
-                OffsetsEnvelope(curves: model.boundingCurves,
-                               style: markerStyles[.offsets]!,
-                               showInnerOffset: false,
-                               showOuterOffset: true)
-            }
-            
-        // ANIMATING BLOB LAYERS //
-        // -----------------------------------------------------
-            
-            // just for fun we use an @EnvironmentObject-injected
-            // layers object for this one. see AnimatingBlob_Filled().
-            
-            AnimatingBlob_Filled(curve: model.blobCurve,
-                                 layerType: .blob_filled)
-
-            Group {
-                if layers.isVisible(layerWithType: .blob_stroked) {
-                    AnimatingBlob_Stroked(curve: model.blobCurve)
-                }
-                
-                if layers.isVisible(layerWithType: .baseCurve_and_markers) {
-                    BaseCurve_And_Markers(curve: model.baseCurve.map{ $0.vertex },
-                                          style: markerStyles[.baseCurve]!)
-                }
-            }
-            
-            if layers.isVisible(layerWithType: .offsetsEnvelope) {
-                OffsetsEnvelope(curves: model.boundingCurves,
-                               style: markerStyles[.offsets]!,
-                               showInnerOffset: true,
-                               showOuterOffset: false)
-            }
-            
-            if Model.DEBUG_OVERLAY_SECOND_COPY_OF_NORMALS_PLUS_MARKERS {
-                if layers.isVisible(layerWithType: .normals) {
-                    NormalsPlusMarkers(normals: model.normalsCurve,
-                                       markerCurves: model.boundingCurves,
-                                       style: markerStyles[.offsets]!)
-                }
-            }
-            
-        // MORE ANIMATING BLOB LAYERS //
-        // --------------------------------------------------------------
-
-            if layers.isVisible(layerWithType: .blob_all_markers) {
-                AnimatingBlob_Markers(curve: model.blobCurve, markerStyle: markerStyles[.blob]!)
-            }
-            
-            if layers.isVisible(layerWithType: .blob_outer_markers) {
-                AnimatingBlob_EvenNumberedVertexMarkers(curve: model.blobCurve,
-                                                        vertices: model.evenNumberedVertices(
-                                                            for: model.blobCurve),
-                                                        markerStyle: markerStyles[.blob]!)
-            }
-            
-            if layers.isVisible(layerWithType: .blob_vertex_0_marker) {
-                AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
-                                               markerStyle: markerStyles[.vertexOrigin]!)
-            }
-            
-            // EXPERIMENTAL
-//            if Model.DEBUG_SHOW_EXPERIMENTAL_INNER_AND_OUTER_PERTURBATION_BANDS {
-//                Group {
-//                    SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_inside,
-//                                 bezierType: .lineSegments,
-//                                 smoothed: false)
-//                        .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
-//
-//                    SuperEllipse(curve: model.fixedInnerPerturbationBandCurves.inner_outside,
-//                                 bezierType: .lineSegments,
-//                                 smoothed: false)
-//                        .stroke(Color.yellow, style: StrokeStyle(lineWidth: 2.0))
-//
-//
-//                    SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_inside,
-//                                 bezierType: .lineSegments,
-//                                 smoothed: false)
-//                        .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
-//
-//                    SuperEllipse(curve: model.fixedOuterPerturbationBandCurves.outer_outside,
-//                                 bezierType: .lineSegments,
-//                                 smoothed: false)
-//                        .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0))
-//                }
-//            }
-            //MARK: END }   if layerType.isVisible() LIST
-                 
-    */
         }
-        
-        
-        // an interesting bug occurs if we use .background(...) instead of
-        // PageGradientBackground() as above, and then select 'hide all layers'
-        // .background(colorScheme.background)
-
         //MARK:- onAppear()
         .onAppear {
             print("\nPageView.onAppear{ PageType.\(pageType) }")
@@ -380,7 +277,7 @@ struct PageView: View {
                 }
             }
         }
-        .overlay(displaySuperEllipseMetrics())
+        .overlay(displaySuperEllipseMetrics(numPoints: numPoints))
         
         .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
         
@@ -390,9 +287,9 @@ struct PageView: View {
         )
     }
     
-    func displaySuperEllipseMetrics() -> some View {
+    func displaySuperEllipseMetrics(numPoints: Int) -> some View {
         VStack(spacing: 10) {
-            DropShadowedText(text: "numPoints: \(descriptors.numPoints)",
+            DropShadowedText(text: "numPoints: \(numPoints)",
                              foreColor: .white,
                              backColor: .init(white: 0.2))
             DropShadowedText(text: "n: \(descriptors.n.format(fspec: "3.1"))",
