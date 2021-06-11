@@ -149,6 +149,16 @@ class Model: ObservableObject {
         let evens = (0..<curve.count).map{ $0 }.filter{ $0 % 2 == 0 }
         return Set(evens)
     }
+    
+    func animateToRandomOffsetWithinExtendedEnvelope() {
+        let innerLimit = offsets.inner + perturbationDeltas.innerRange.lowerBound
+        let outerLimit = offsets.outer + perturbationDeltas.outerRange.upperBound
+        
+        blobCurve = baseCurve.map {
+            let randomOffset = CGFloat.random(in: -abs(innerLimit)...abs(outerLimit))
+            return $0.newPoint(at: randomOffset, along: $1)
+        }
+    }
 
     //MARK:- CALLS TO ANIMATE
     func animateToNextFixedPerturbationDelta() {

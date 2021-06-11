@@ -203,7 +203,7 @@ struct PageView: View {
             print("\nPageView.onAppear{ PageType.\(pageType) }")
         }
         
-        .onDisappear {
+        .onDisappear { 
             isAnimating = false
             timer.connect().cancel()
         }
@@ -211,20 +211,20 @@ struct PageView: View {
         //MARK: onReceive()
         .onReceive(timer) { _ in
             
-            print("\nPageView.onReceive(timer){ PageType.\(pageType) }")
-            
             withAnimation(PageView.animationStyle) {
                 
-                switch options.currPerturbStrategy {
+                model.animateToRandomOffsetWithinExtendedEnvelope()
                 
-                case .staticZigZags :
-                    print("PageView.onReceive(): calling model.animateToNextFixedPerturbationDelta()")
-                    model.animateToNextFixedPerturbationDelta()
-                    
-                case .randomizedZigZags :
-                    print("PageView.onReceive(): calling model.animateToRandomizedPerturbation()")
-                    model.animateToRandomizedPerturbation()
-                }
+//                switch options.currPerturbStrategy {
+//
+//                case .staticZigZags :
+//                    print("PageView.onReceive(): calling model.animateToNextFixedPerturbationDelta()")
+//                    model.animateToNextFixedPerturbationDelta()
+//
+//                case .randomizedZigZags :
+//                    print("PageView.onReceive(): calling model.animateToRandomizedPerturbation()")
+//                    model.animateToRandomizedPerturbation()
+//                }
             }
 
             if isFirstTappedCycle {
