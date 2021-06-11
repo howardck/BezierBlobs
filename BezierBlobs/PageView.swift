@@ -82,7 +82,6 @@ struct PageView: View {
     
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
-    
     @EnvironmentObject var colorScheme : ColorScheme
     
     //MARK:-
@@ -374,6 +373,7 @@ struct PageView: View {
             }
         }
         .overlay(displaySuperEllipseMetrics())
+        
         .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
         
         .overlay(

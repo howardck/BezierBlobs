@@ -29,8 +29,8 @@ struct ContentView: View {
         
     var body: some View {
                 
-        let deviceType = PlatformSpecifics.sizeClassForDevice(vSizeClass!,
-                                                              hSizeClass!)
+        let deviceType : PlatformSpecifics.SizeClass = PlatformSpecifics.sizeClassForDevice(vSizeClass!,
+                                                                                            hSizeClass!)
         GeometryReader { gr in
             TabView {
 
@@ -72,14 +72,11 @@ struct ContentView: View {
                 
                 ZStack {
                     PageGradientBackground()
-                    
                         .overlay(
                             ZStack {
-                                
                                 Color.orange
-                                
                                 VStack {
-                                    Text("Welcome. Enjoy.")
+                                    Text("Welcome. Enjoy!")
                                     Text("I hope this is useful.")
                                     Text("Howard Katz")
                                     Spacer()
