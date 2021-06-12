@@ -92,6 +92,24 @@ class Model: ObservableObject {
     var axes : Axes = (1.0, 1.0)
 
     var pageType: PageType?
+    
+    func calculatePerturbationDeltas(descriptors: PageDescription, minAxis: CGFloat) {
+        let relInRange = descriptors.axisRelDeltas.innerRange
+        let relOutRange = descriptors.axisRelDeltas.outerRange
+        
+        let innerRange = (relInRange.lowerBound * minAxis)..<(relInRange.upperBound * minAxis)
+        let outerRange = (relOutRange.lowerBound * minAxis)..<(relOutRange.upperBound * minAxis)
+
+        perturbationDeltas = (innerRange: innerRange,
+                              outerRange: outerRange)
+        
+        print("   model.offsets : " +
+                "(inner: [\(offsets.inner.format(fspec: "4.2"))] <—-|-—> " +
+                "outer: [\(offsets.outer.format(fspec: "4.2"))]) ")
+        
+        print("   perturbationRanges: inner: (\(innerRange.lowerBound)..< \(innerRange.upperBound)) <—-|-—> " +
+              "outer: (\(outerRange.lowerBound)..< \(outerRange.upperBound))")
+    }
 
     //MARK:- MAIN SUPERELLIPSE
     func calculateSuperEllipse(for pageType: PageType,
@@ -99,8 +117,6 @@ class Model: ObservableObject {
                                numPoints: Int,
                                axes: Axes) {
         self.pageType = pageType
-        
-        //print("Model.calculateSuperEllipse()")
         
         baseCurve = SEParametrics.calculateSuperEllipse(for: numPoints,
                                                         n: n,
@@ -149,6 +165,9 @@ class Model: ObservableObject {
         let evens = (0..<curve.count).map{ $0 }.filter{ $0 % 2 == 0 }
         return Set(evens)
     }
+    
+    // not currently implemented. it looks interesting but requires a much larger
+    // value of numPoints to look good, which requires some architectural changes.
     
     func animateToRandomOffsetWithinExtendedEnvelope() {
         let innerLimit = offsets.inner + perturbationDeltas.innerRange.lowerBound

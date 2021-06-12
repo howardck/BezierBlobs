@@ -32,38 +32,33 @@ struct PageView: View {
     static let descriptions : [PageDescription] =
     [
     // CIRCLE
-        // NOTA: INTERESTING THINGS can happen when axisRelOffsets.inner is > 1.
-        // NOTE as well that the upper end of 'nil' ranges MUST be larger
-        // than its lower end ...
-        
-        // some rather BIZARRE-type effects. interesting
-        // NIL_RANGE : Range<CGFloat> = 0..<CGFloat(Parametrics.VANISHINGLY_SMALL_DOUBLE)
-        //        (n: 2.0,
-        //         numPoints: 16,
-        //         axisRelOffsets: (inner: 0.1, baseCurve: 0.5, outer: 1.0),
-        //         axisRelDeltas: (innerRange: NIL_RANGE,
-        //                         outerRange: -0.6..<0.4),
-        //         forceEqualAxes: true),
-        
-        
-        // GOOD ...
-        (n: 2.0, numPoints: 22,
-         axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
-         axisRelDeltas: (innerRange: 0..<0.3, outerRange: -0.3..<0.3),
-         forceEqualAxes: true),
-        
-        // TESTING VISUAL DISPLAY OF PERTURBATION DELTA "BANDING"
-        
-//        (n: 2.0, numPoints: 8,
-//         axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.75),
-//         axisRelDeltas: (innerRange: -0.15..<0.1, outerRange: -0.2..<0.2),
+        // NOTA: interesting things can happen when axisRelOffsets.inner is > 1.
+        // NOTE as well that the upper end of 'nil' ranges
+        // must be larger than the lower end.
+        // also interesting:
+//        (n: 2.0,
+//         numPoints: 16,
+//         axisRelOffsets: (inner: 0.1, baseCurve: 0.5, outer: 1.0),
+//         axisRelDeltas: (innerRange: NIL_RANGE,
+//                         outerRange: -0.6..<0.4),
 //         forceEqualAxes: true),
         
+    // CIRCLE
+        (n: 2.0, numPoints: 22,
+         axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
+         axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
+         forceEqualAxes: true),
+        
     // CLASSIC SE
-        (n: 3.0, numPoints: 28,
-         axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.8),
-         axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.15..<0.15),
+        (n: 3.0, numPoints: 42,
+         axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.7),
+         axisRelDeltas: (innerRange: -0.15..<0.2, outerRange: -0.15..<0.25),
          forceEqualAxes: false),
+        
+//        (n: 3.0, numPoints: 28,
+//         axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.8),
+//         axisRelDeltas: (innerRange: -0.15..<0.2, outerRange: -0.15..<0.15),
+//         forceEqualAxes: false),
 
     // DELTA WING
         (n: 3, numPoints: 6,
@@ -87,9 +82,11 @@ struct PageView: View {
     //MARK:-
     // timerTimeInc - animationTimeInc == time paused between animations
     
-    static let timerTimeIncrement : Double = 2.8
+
+    static let timerTimeIncrement : Double = 2.6
     static let animationTimeIncrement : Double = 2.6
     static let timerInitialTimeIncrement : Double = 0.0
+    
     static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
     
     //MARK:-
@@ -125,16 +122,19 @@ struct PageView: View {
          size: CGSize,
          deviceType: PlatformSpecifics.SizeClass) {
         
-        //print("\n")
         print("PageView.init( {PageType.\(pageType)} ): \n" +
-                "   numPoints: {\(descriptors.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
+                "   numPoints: {\(descriptors.numPoints)} {" +
+                "w: \((size.width).format(fspec: "4.2")), " +
+                "h: \((size.height).format(fspec: "4.2"))}")
         
         print("PageView.deviceType: {\(deviceType)}")
         
         if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
             print("PageView.init(pageType.\(pageType.rawValue))")
-            print ("PageView.init(). screen size   = W: {\(size.width)}, H: {\(size.height)}")
-            print ("PageView.init(). semiAxis size = W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
+            print ("PageView.init(). screen size   = " +
+                    "W: {\(size.width)}, H: {\(size.height)}")
+            print ("PageView.init(). semiAxis size = " +
+                    "W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
         }
         
         self.pageType = pageType
@@ -143,36 +143,22 @@ struct PageView: View {
         let (a, b) = axesFor(size: size,
                              forceEqualAxes: descriptors.forceEqualAxes)
                 
-        let minAxis = CGFloat(min(a, b))
-        let baseCurveRatio = descriptors.axisRelOffsets.baseCurve
-        let baseCurve = minAxis * CGFloat(baseCurveRatio)
+        print("   semiMinorAxis a: [\(a)] semiMajorAxis b: [\(b)]")
 
+        let baseCurveRatio = descriptors.axisRelOffsets.baseCurve
+        let minAxis = CGFloat(min(a, b))
+        let baseCurve = minAxis * CGFloat(baseCurveRatio)
+        
         model.offsets = (inner: (minAxis * descriptors.axisRelOffsets.inner - baseCurve),
                          outer: minAxis * descriptors.axisRelOffsets.outer - baseCurve)
 
-        let relInRange = descriptors.axisRelDeltas.innerRange
-        let relOutRange = descriptors.axisRelDeltas.outerRange
+        model.calculatePerturbationDeltas(descriptors: descriptors, minAxis: minAxis)
         
-        let innerRange = (relInRange.lowerBound * minAxis)..<(relInRange.upperBound * minAxis)
-        let outerRange = (relOutRange.lowerBound * minAxis)..<(relOutRange.upperBound * minAxis)
-        
-        let pRanges : PerturbationDeltas = (innerRange: innerRange,
-                                            outerRange: outerRange)
-        model.perturbationDeltas = pRanges
-        
-        print("   semiMinorAxis a: [\(a)] semiMajorAxis b: [\(b)]")
-        print("   model.offsets : " +
-                "(inner: [\(model.offsets.inner.format(fspec: "4.2"))] <—-|-—> " +
-                "outer: [\(model.offsets.outer.format(fspec: "4.2"))]) ")
-        
-        print("   perturbationRanges: inner: (\(innerRange.lowerBound)..< \(innerRange.upperBound)) <—-|-—> " +
-              "outer: (\(outerRange.lowerBound)..< \(outerRange.upperBound))")
+        // WARNING: KLUDGE AHEAD
+        // we should be loading descriptors from a dict keyed on shape type AND deviceType
         
         numPoints = descriptors.numPoints
         
-        // WARNING: KLUDGE AHEAD!
-        // WARNING: KLUDGE AHEAD!
-
         if deviceType == .compact && pageType == .circle {
             numPoints = Int(Double(numPoints) * 0.8)
         }
@@ -183,10 +169,27 @@ struct PageView: View {
         model.calculateSuperEllipse(for: pageType,
                                     n: descriptors.n,
                                     numPoints: numPoints,
-                                    axes: (a: a * baseCurveRatio,
-                                           b: b * baseCurveRatio)
+                                    axes: (a * baseCurveRatio, b * baseCurveRatio)
         )
+        
         model.calculateSupportCurves()
+    }
+    
+    func DEBUG_printDescriptors(_ pageType: PageType,
+                                _ descriptors: PageDescription,
+                                _ size: CGSize,
+                                _ deviceType: PlatformSpecifics.SizeClass) {
+
+        print("PageView.init( {PageType.\(pageType)} ): \n" +
+                "   numPoints: {\(descriptors.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
+        
+        print("PageView.deviceType: {\(deviceType)}")
+        
+        if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
+            print("PageView.init(pageType.\(pageType.rawValue))")
+            print ("PageView.init(). screen size   = W: {\(size.width)}, H: {\(size.height)}")
+            print ("PageView.init(). semiAxis size = W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
+        }
     }
     
     var body: some View {
@@ -213,18 +216,17 @@ struct PageView: View {
             
             withAnimation(PageView.animationStyle) {
                 
-                model.animateToRandomOffsetWithinExtendedEnvelope()
+                // see note attached to the function def in Model
+                //model.animateToRandomOffsetWithinExtendedEnvelope()
                 
-//                switch options.currPerturbStrategy {
-//
-//                case .staticZigZags :
-//                    print("PageView.onReceive(): calling model.animateToNextFixedPerturbationDelta()")
-//                    model.animateToNextFixedPerturbationDelta()
-//
-//                case .randomizedZigZags :
-//                    print("PageView.onReceive(): calling model.animateToRandomizedPerturbation()")
-//                    model.animateToRandomizedPerturbation()
-//                }
+                switch options.currPerturbStrategy {
+
+                case .staticZigZags :
+                    model.animateToNextFixedPerturbationDelta()
+
+                case .randomizedZigZags :
+                    model.animateToRandomizedPerturbation()
+                }
             }
 
             if isFirstTappedCycle {
@@ -278,7 +280,6 @@ struct PageView: View {
             }
         }
         .overlay(displaySuperEllipseMetrics(numPoints: numPoints))
-        
         .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
         
         .overlay(
