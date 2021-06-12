@@ -21,9 +21,9 @@ let r: CGFloat = 15
 let markerStyles : [MarkerType : MarkerStyle] = [
     .blob :             (color: .blue, radius: r - 1),
     .vertexOrigin :     (color: .green, radius : r - 1),
-    .innerMarkers : (color: .red, radius : r - 1),
-    .offsets :   (color: .black, radius: r/2.0 - 1),
-    .baseCurve :        (color: .white, radius: r/2.0 + 2),
+    .innerMarkers :     (color: .red, radius : r - 1),
+    .offsets :          (color: .black, radius: r/2.0 - 1),
+    .baseCurve :        (color: .white, radius: r/2.0 - 1),
 ]
 
 //let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
@@ -70,7 +70,6 @@ struct AnimatingBlob_Filled: View {
                              smoothed: options.smoothed )
                     .stroke(Color.black,
                             style: StrokeStyle(lineWidth: 0.75, lineJoin: .round))
-                    //.offset(x: 0, y: 0)
                 
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
@@ -230,6 +229,8 @@ struct BaseCurve_And_Markers : View {
     
     let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
     
+    @EnvironmentObject var colorScheme : ColorScheme
+    
     var body : some View {
         
         ZStack {
@@ -239,11 +240,11 @@ struct BaseCurve_And_Markers : View {
             
              SuperEllipse(curve: curve,
                           bezierType: .allMarkers(radius: style.radius + 1))
-                .fill(Color.black)
+                .fill(colorScheme.baseCurveMarkers)
             
             SuperEllipse(curve: curve,
                          bezierType: .allMarkers(radius: style.radius))
-                .fill(style.color)
+                .fill(colorScheme.baseCurveMarkers)
         }
     }
 }
@@ -257,7 +258,8 @@ struct OffsetsEnvelope : View {
     var showOuterOffset: Bool
     
     let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
-    
+    @EnvironmentObject var colorScheme : ColorScheme
+
     var body: some View {
         
         ZStack {
@@ -273,12 +275,12 @@ struct OffsetsEnvelope : View {
             if showInnerOffset {
                 SuperEllipse(curve: curves.inner,
                              bezierType: .allMarkers(radius: style.radius))
-                    .fill(style.color)
+                    .fill(colorScheme.offsetMarkers)
             }
             if showOuterOffset {
                 SuperEllipse(curve: curves.outer,
                              bezierType: .allMarkers(radius: style.radius))
-                    .fill(style.color)
+                    .fill(colorScheme.offsetMarkers)
             }
         }
     }

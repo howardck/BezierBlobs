@@ -9,7 +9,7 @@ import SwiftUI
 
 enum PageType : String {
     case circle = "CIRCLE"
-    case superEllipse = "CLASSIC SE"
+    case classicSE = "CLASSIC SE"
     case deltaWing = "DELTA WING"
     case rorschach = "RORSCHACH"
 }
@@ -154,16 +154,11 @@ struct PageView: View {
 
         model.calculatePerturbationDeltas(descriptors: descriptors, minAxis: minAxis)
         
-        // WARNING: KLUDGE AHEAD
-        // we should be loading descriptors from a dict keyed on shape type AND deviceType
-        
-        numPoints = descriptors.numPoints
-        
-        if deviceType == .compact && pageType == .circle {
+        if deviceType == .compact && (pageType == .circle || pageType == .classicSE) {
             numPoints = Int(Double(numPoints) * 0.8)
         }
-        else if deviceType == .compact && pageType == .superEllipse {
-            numPoints = Int(Double(numPoints) * 0.8)
+        else {
+            numPoints = descriptors.numPoints
         }
 
         model.calculateSuperEllipse(for: pageType,

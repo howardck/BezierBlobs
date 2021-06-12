@@ -23,7 +23,9 @@ struct BezierBlobsApp: App {
                                                buttonEdge: Gray.dark,
                                                allVertices: .green,
                                                evenNumberedVertices: .red,
-                                               vertex_0: .yellow))
+                                               vertex_0: .yellow,
+                                               offsetMarkers: .orange,
+                                               baseCurveMarkers: .white))
 //            TabViewTest()
 //            EnumBasedListChooser()
 //            EmojiViewTest()

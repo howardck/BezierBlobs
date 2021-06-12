@@ -30,7 +30,7 @@ struct ContentView: View {
     var body: some View {
                 
         let deviceType : PlatformSpecifics.SizeClass = PlatformSpecifics.sizeClassForDevice(vSizeClass!,
-                                                                                            hSizeClass!)
+                                                hSizeClass!)
         GeometryReader { gr in
             TabView {
 
@@ -43,13 +43,13 @@ struct ContentView: View {
                         Text("\(PageType.circle.rawValue)")
                     }
                 
-                PageView(pageType: PageType.superEllipse,
+                PageView(pageType: PageType.classicSE,
                          descriptors: PageView.descriptions[1],
                          size: gr.size,
                          deviceType: deviceType)
                     .tabItem {
                         SFSymbol.tab_2
-                        Text("\(PageType.superEllipse.rawValue)" )
+                        Text("\(PageType.classicSE.rawValue)" )
                     }
 
                 PageView(pageType: PageType.deltaWing,
@@ -135,6 +135,8 @@ class ColorScheme : ObservableObject {
     @Published var allVertices: Color
     @Published var evenNumberedVertices: Color
     @Published var vertex0Marker: Color
+    @Published var offsetMarkers: Color
+    @Published var baseCurveMarkers: Color
     
     init(background: Color,
          stroke: Color,
@@ -143,7 +145,9 @@ class ColorScheme : ObservableObject {
          buttonEdge: Color,
          allVertices: Color,
          evenNumberedVertices: Color,
-         vertex_0: Color) {
+         vertex_0: Color,
+         offsetMarkers: Color,
+         baseCurveMarkers: Color) {
 
         self.background = background
         self.stroke = stroke
@@ -153,6 +157,8 @@ class ColorScheme : ObservableObject {
         self.allVertices = allVertices
         self.evenNumberedVertices = evenNumberedVertices
         self.vertex0Marker = vertex_0
+        self.offsetMarkers = offsetMarkers
+        self.baseCurveMarkers = baseCurveMarkers
     }
 }
 
