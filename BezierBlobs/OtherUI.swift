@@ -77,7 +77,9 @@ struct TwoButtonPanel : View {
     
     @EnvironmentObject var colorScheme : ColorScheme
     
-    var edgeOffset = CGSize(width: 2.0, height: 2.0)
+    var baseOffset = CGSize(width: 2.25, height: 2.25)
+    var edgeOffset = CGSize(width: 2, height: 2)
+    let buttonSize = CGSize(width: 80, height: 60)
     
     var body: some View {
         
@@ -87,17 +89,21 @@ struct TwoButtonPanel : View {
         HStack {
             Spacer()
             
-            SELayersChooserButton(faceColor: colorScheme.buttonFace,
+            SELayersChooserButton(buttonSize: buttonSize,
+                                  faceColor: colorScheme.buttonFace,
                                   edgeColor: colorScheme.buttonEdge,
+                                  baseOffset: baseOffset,
                                   edgeOffset: edgeOffset)
                 .onTapGesture {
                     showLayersList.toggle()
                 }
             Spacer()
             
-            MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+            MiscOptionsChooserButton(buttonSize: buttonSize,
+                                     iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                      faceColor: colorScheme.buttonFace,
                                      edgeColor: colorScheme.buttonEdge,
+                                     baseOffset: baseOffset,
                                      edgeOffset: edgeOffset)
                 .onTapGesture {
                     showMiscOptionsList.toggle()
@@ -121,29 +127,6 @@ struct CheckBox : View {
                 SFSymbol.checkbox_checked
                     .font(.headline) .foregroundColor(.green)
             }
-        }
-    }
-}
-
-//MARK:-
-struct MiscOptionsChooserButton : View {
-    
-    var iconName: String
-    var faceColor: Color
-    var edgeColor: Color
-    var edgeOffset: CGSize
-
-    let s = CGSize(width: 70, height: 50)
-    
-    var body : some View {
-        ZStack {
-            // the highlight
-            PencilSymbolView(name: iconName, color: edgeColor, size: s)
-                .offset(edgeOffset)
-
-            //  and then the face
-            PencilSymbolView(name: iconName, color: faceColor, size: s)
-            
         }
     }
 }
@@ -175,21 +158,52 @@ struct BulletedTextItem : View {
 }
 
 //MARK:-
-struct SELayersChooserButton : View {
+struct MiscOptionsChooserButton : View {
+    
+    var buttonSize: CGSize
+    var iconName: String
     var faceColor: Color
     var edgeColor: Color
+    var baseOffset: CGSize
     var edgeOffset: CGSize
-    
-    let s = CGSize(width: 70, height: 50)
     
     var body : some View {
         ZStack {
-            // base (ie edge) on the bottom
-            LayerStackSymbol(color: edgeColor, size: s)
+            // the base
+            PencilSymbolView(name: iconName, color: Gray.dark, size: buttonSize)
+                .offset(baseOffset)
+            
+            // the highlight
+            PencilSymbolView(name: iconName, color: edgeColor, size: buttonSize)
+                .offset(edgeOffset)
+
+            //  and then the face
+            PencilSymbolView(name: iconName, color: faceColor, size: buttonSize)
+            
+        }
+    }
+}
+
+//MARK:-
+struct SELayersChooserButton : View {
+    var buttonSize: CGSize
+    var faceColor: Color
+    var edgeColor: Color
+    var baseOffset: CGSize
+    var edgeOffset: CGSize
+    
+    var body : some View {
+        ZStack {
+            // the base
+            LayerStackSymbol(color: Gray.dark, size: buttonSize)
+                .offset(baseOffset)
+            
+            // the highlight
+            LayerStackSymbol(color: edgeColor, size: buttonSize)
                 .offset(edgeOffset)
             
             // and then the face
-            LayerStackSymbol(color: faceColor, size: s)
+            LayerStackSymbol(color: faceColor, size: buttonSize)
         }
     }
 }
@@ -206,29 +220,39 @@ struct PencilSymbol {
 struct ScreenButtons_Previews: PreviewProvider {
     static var previews: some View {
         
+        var baseOffset = CGSize(width: 2, height: 2)
         let edgeOffset = CGSize(width: 1, height: 1)
+        let buttonSize = CGSize(width: 80, height: 60)
         
         ZStack {
             Color.init(white: 0.4)
             VStack {
-                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL,
+                MiscOptionsChooserButton(buttonSize: buttonSize,
+                                         iconName: PencilSymbol.PENCIL,
                                          faceColor: .blue,
                                          edgeColor: .pink,
+                                         baseOffset:  baseOffset,
                                          edgeOffset: edgeOffset)
                     .border(Color.black, width: 0.25)
-                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
+                MiscOptionsChooserButton(buttonSize: buttonSize,
+                                         iconName: PencilSymbol.PENCIL_AND_SQUARE,
                                          faceColor: .blue,
                                          edgeColor: .pink,
+                                         baseOffset: baseOffset,
                                          edgeOffset: edgeOffset)
                     .border(Color.black, width: 0.25)
-                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
+                MiscOptionsChooserButton(buttonSize: buttonSize,
+                                         iconName: PencilSymbol.PENCIL_AND_OUTLINE,
                                          faceColor: .blue,
                                          edgeColor: .orange,
+                                         baseOffset: baseOffset,
                                          edgeOffset: edgeOffset)
                     .border(Color.white, width: 0.25)
-                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                MiscOptionsChooserButton(buttonSize: buttonSize,
+                                         iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                          faceColor: .blue,
                                          edgeColor: .orange,
+                                         baseOffset: baseOffset,
                                          edgeOffset: edgeOffset)
                     .border(Color.white, width: 0.25)
             }

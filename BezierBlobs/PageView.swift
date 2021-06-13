@@ -45,14 +45,14 @@ struct PageView: View {
         
     // CIRCLE
         (n: 2.0, numPoints: 22,
-         axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
+         axisRelOffsets: (inner: 0.25, baseCurve: 0.6, outer: 0.7),
          axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
          forceEqualAxes: true),
         
     // CLASSIC SE
-        (n: 3.0, numPoints: 42,
+        (n: 3.5, numPoints: 36,
          axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.7),
-         axisRelDeltas: (innerRange: -0.15..<0.2, outerRange: -0.15..<0.25),
+         axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.15..<0.2),
          forceEqualAxes: false),
         
 //        (n: 3.0, numPoints: 28,
@@ -67,10 +67,14 @@ struct PageView: View {
         forceEqualAxes: false),
         
     // RORSCHACH
-        (n: 1, numPoints: 22,
-         axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.85),
+        (n: 0.8, numPoints: 26,
+         axisRelOffsets: (inner: 0.4, baseCurve: 0.7, outer: 0.9),
          axisRelDeltas: (innerRange: -0.1..<0.25, outerRange: -0.35..<0.2),
          forceEqualAxes: false)
+//        (n: 1, numPoints: 22,
+//         axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.85),
+//         axisRelDeltas: (innerRange: -0.1..<0.25, outerRange: -0.35..<0.2),
+//         forceEqualAxes: false)
     ]
             
     @ObservedObject var model = Model()
@@ -193,9 +197,9 @@ struct PageView: View {
 
             PageGradientBackground()
             
-            // layer visibility turned on & off from settings
-            // in the layers view model, which are in turn
-            // set by the user in the layers chooser
+            // per-layer visibility turned on & off according to settings
+            // in the layers view model, these in responding to
+            // selections make by the suer in the layers chooser.
             
             SELayersVisibilityStack(model: self.model)
         }

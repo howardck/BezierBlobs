@@ -77,13 +77,17 @@ struct DrawingAndLayeringButtons : View {
     @Binding var showDrawingOptionsList : Bool
     @Binding var showLayerSelectionList : Bool
     
+    let baseOffset = CGSize(width: 2, height: 2)
     var edgeOffset = CGSize(width: 1, height: 1)
+    let buttonSize = CGSize(width: 80, height: 60)
         
         var body: some View {
             HStack {
-                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL,
+                MiscOptionsChooserButton(buttonSize: buttonSize,
+                                         iconName: PencilSymbol.PENCIL,
                                          faceColor: .blue,
                                          edgeColor: .orange,
+                                         baseOffset: baseOffset,
                                          edgeOffset: edgeOffset)
                     .onTapGesture {
                         print("DrawingOptions Button tapped")
@@ -140,29 +144,40 @@ struct LayerSelectionListButton_2 : View {
 struct MainScreenTwoButtonsTwoLists_Previews: PreviewProvider {
     static var previews: some View {
 
+        let baseOffset = CGSize(width: 2, height: 2)
         let edgeOffset = CGSize(width: 1, height: 1)
-
+        let buttonSize = CGSize(width: 80, height: 60)
+        
         ZStack {
             Color.init(white: 0.4)
             VStack {
-                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL,
+                MiscOptionsChooserButton(buttonSize: buttonSize,
+                                         iconName: PencilSymbol.PENCIL,
                                          faceColor: .blue,
                                          edgeColor: .pink,
+                                         baseOffset: baseOffset,
                                          edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
-                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_SQUARE,
+                MiscOptionsChooserButton(buttonSize: buttonSize,
+                                         
+                                         iconName: PencilSymbol.PENCIL_AND_SQUARE,
                                          faceColor: .blue,
                                          edgeColor: .pink,
+                                         baseOffset: baseOffset,
                                          edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
-                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_OUTLINE,
+                MiscOptionsChooserButton(buttonSize: buttonSize,
+                                         iconName: PencilSymbol.PENCIL_AND_OUTLINE,
                                          faceColor: .blue,
                                          edgeColor: .orange,
+                                         baseOffset: baseOffset,
                                          edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
-                MiscOptionsChooserButton(iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
+                MiscOptionsChooserButton(buttonSize: buttonSize,
+                                         iconName: PencilSymbol.PENCIL_AND_ELLIPSIS,
                                          faceColor: .blue,
                                          edgeColor: .orange,
+                                         baseOffset: baseOffset,
                                          edgeOffset: edgeOffset)
                     .border(Color.pink, width: 0.5)
             }
