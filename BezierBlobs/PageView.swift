@@ -192,9 +192,12 @@ struct PageView: View {
         ZStack {
 
             PageGradientBackground()
-            //Color.init(white: 0.75)
             
-            SELayersVisibilityOnOff(model: self.model)
+            // layer visibility turned on & off from settings
+            // in the layers view model, which are in turn
+            // set by the user in the layers chooser
+            
+            SELayersVisibilityStack(model: self.model)
         }
         //MARK:- onAppear()
         .onAppear {

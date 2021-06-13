@@ -7,16 +7,8 @@
 
 import SwiftUI
 
-//typealias Descriptors = [SEType : (order: Double, numPoints: Int)]
-//typealias XYZ = [DeviceType : Descriptors]
-
 
 struct PageDescriptors {
-
-    enum DeviceType : Int {
-        case compact
-        case regular
-    }
     
     let descriptorsForPagesDictionary :
         
