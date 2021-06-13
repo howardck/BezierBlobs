@@ -18,7 +18,33 @@ struct PageDescriptors {
         case regular
     }
     
-    let descriptorsForDevice : [DeviceType:
+    let desc : [ PageType : (order: Double, numPoints: Int,
+                             axisRelOffsets: (inner: CGFloat, baseCurve: CGFloat, outer: CGFloat),
+                             axisRelDeltas : (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>),
+                             forceEqualAxes: Bool) ] =
+        
+        [ .circle: (order: 2.0, numPoints: 22,
+                    axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
+                    axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
+                    forceEqualAxes: true),
+          
+          .classicSE: (order: 2.0, numPoints: 22,
+                       axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
+                       axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
+                       forceEqualAxes: true),
+          
+          .deltaWing: (order: 2.0, numPoints: 22,
+                       axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
+                       axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
+                       forceEqualAxes: true),
+          
+          .rorschach: (order: 2.0, numPoints: 22,
+                       axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
+                       axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
+                       forceEqualAxes: true)
+        ]
+    
+    let descriptorsForPage : [DeviceType :
             [PageType: (order: Double, numPoints: Int,
                         axisRelOffsets: (inner: CGFloat, baseCurve: CGFloat, outer: CGFloat),
                         axisRelDeltas : (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>),
