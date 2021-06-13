@@ -8,22 +8,22 @@
 import SwiftUI
 
 enum MarkerType : CaseIterable {
-    case blob
+    case blobAllMarkers
     case vertexOrigin
     case innerMarkers
     case offsets
     case baseCurve
 }
 
-typealias MarkerStyle = (color: Color, radius: CGFloat)
+//typealias MarkerRadius = CGFloat
 
 let r: CGFloat = 15
-let markerStyles : [MarkerType : MarkerStyle] = [
-    .blob :             (color: .blue, radius: r - 1),
-    .vertexOrigin :     (color: .green, radius : r - 1),
-    .innerMarkers :     (color: .red, radius : r - 1),
-    .offsets :          (color: .black, radius: r/2.0 - 1),
-    .baseCurve :        (color: .white, radius: r/2.0 - 1),
+let markerStyles : [MarkerType : CGFloat] = [
+    .blobAllMarkers :   r - 1,
+    .vertexOrigin :     r - 1,
+    .innerMarkers :     r - 1,
+    .offsets :          r/2.0 - 1,
+    .baseCurve :        r/2.0,
 ]
 
 //let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
@@ -109,23 +109,23 @@ struct AnimatingBlob_Stroked: View {
 //MARK:- AnimatingBlob_Markers
 struct AnimatingBlob_Markers : View {
     var curve : [CGPoint]
-    var markerStyle : MarkerStyle
+    var markerRadius : CGFloat
     
     @EnvironmentObject var colorScheme : ColorScheme
     
     var body : some View {
         
         SuperEllipse(curve: curve,
-                     bezierType: .allMarkers(radius: markerStyle.radius + 1))
+                     bezierType: .allMarkers(radius: markerRadius + 1))
             .fill(Color.black)
                 
         SuperEllipse(curve: curve,
-                     bezierType: .allMarkers(radius: markerStyle.radius))
+                     bezierType: .allMarkers(radius: markerRadius))
             .fill(Gray.dark)
             .offset(x: 2.5, y: 2.5)
         
         SuperEllipse(curve: curve,
-                     bezierType: .allMarkers(radius: markerStyle.radius))
+                     bezierType: .allMarkers(radius: markerRadius))
         // NOTA: we now take the fill color from our colorScheme
         // environment object rather than the MarkerStyle arg
             .fill(colorScheme.allVertices)
@@ -142,7 +142,7 @@ struct AnimatingBlob_Markers : View {
 struct AnimatingBlob_EvenNumberedVertexMarkers : View {
     var curve : [CGPoint]
     var vertices: Set<Int>
-    var markerStyle : MarkerStyle
+    var markerRadius : CGFloat
     
     @EnvironmentObject var colorScheme : ColorScheme
 
@@ -150,12 +150,12 @@ struct AnimatingBlob_EvenNumberedVertexMarkers : View {
         
         SuperEllipse(curve: curve,
                      bezierType: .someMarkers(indexSet: vertices,
-                                             radius: markerStyle.radius + 1))
+                                             radius: markerRadius + 1))
             .fill(Color.black)
         
         SuperEllipse(curve: curve,
                      bezierType: .someMarkers(indexSet: vertices,
-                                              radius: markerStyle.radius))
+                                              radius: markerRadius))
             .fill(colorScheme.evenNumberedVertices)
         
         SuperEllipse(curve: curve,
@@ -170,7 +170,7 @@ struct AnimatingBlob_EvenNumberedVertexMarkers : View {
 //MARK:- AnimatingBlob_VertexZeroMarker
 struct AnimatingBlob_VertexZeroMarker: View {
     var animatingCurve: [CGPoint]
-    var markerStyle : MarkerStyle
+    var markerRadius : CGFloat
     
     @EnvironmentObject var colorScheme : ColorScheme
 
@@ -178,12 +178,12 @@ struct AnimatingBlob_VertexZeroMarker: View {
         
         SuperEllipse(curve: animatingCurve,
                      bezierType: .singleMarker(index: 0,
-                                               radius: markerStyle.radius + 1))
+                                               radius: markerRadius + 1))
             .fill(Color.black)
 
         SuperEllipse(curve: animatingCurve,
                      bezierType: .singleMarker(index: 0,
-                                               radius: markerStyle.radius))
+                                               radius: markerRadius))
             .fill(colorScheme.vertex0Marker)
 
         SuperEllipse(curve: animatingCurve,
@@ -199,7 +199,7 @@ struct NormalsPlusMarkers : View {
     
     var normals: [CGPoint]
     var markerCurves: BoundingCurves
-    var style : MarkerStyle
+    var markerRadius : CGFloat
     
     var body: some View {
         
@@ -213,10 +213,10 @@ struct NormalsPlusMarkers : View {
             
     // INNER & OUTER MARKERS
             SuperEllipse(curve: markerCurves.inner,
-                         bezierType: .allMarkers(radius: style.radius))
+                         bezierType: .allMarkers(radius: markerRadius))
                 .fill(Color.black)
             SuperEllipse(curve: markerCurves.outer,
-                         bezierType: .allMarkers(radius: style.radius))
+                         bezierType: .allMarkers(radius: markerRadius))
                 .fill(Color.black)
         }
     }
@@ -225,7 +225,7 @@ struct NormalsPlusMarkers : View {
 //MARK:- BaseCurve_and_Markers
 struct BaseCurve_And_Markers : View {
     var curve : [CGPoint]
-    var style : MarkerStyle
+    var markerRadius : CGFloat
     
     let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
     
@@ -239,11 +239,11 @@ struct BaseCurve_And_Markers : View {
                 .stroke(Color.white, style: strokeStyle)
             
              SuperEllipse(curve: curve,
-                          bezierType: .allMarkers(radius: style.radius + 1))
+                          bezierType: .allMarkers(radius: markerRadius + 1))
                 .fill(colorScheme.baseCurveMarkers)
             
             SuperEllipse(curve: curve,
-                         bezierType: .allMarkers(radius: style.radius))
+                         bezierType: .allMarkers(radius: markerRadius))
                 .fill(colorScheme.baseCurveMarkers)
         }
     }
@@ -253,7 +253,7 @@ struct BaseCurve_And_Markers : View {
 // AKA Curve Offsets
 struct OffsetsEnvelope : View {
     var curves: BoundingCurves
-    var style : MarkerStyle
+    var markerRadius : CGFloat
     var showInnerOffset: Bool
     var showOuterOffset: Bool
     
@@ -265,101 +265,24 @@ struct OffsetsEnvelope : View {
         ZStack {
             if showInnerOffset {
                 SuperEllipse(curve: curves.inner)
-                    .stroke(style.color, style: strokeStyle)
+                    .stroke(colorScheme.offsetMarkers, style: strokeStyle)
             }
             if showOuterOffset {
                 SuperEllipse(curve: curves.outer)
-                    .stroke(style.color, style: strokeStyle)
+                    .stroke(colorScheme.offsetMarkers, style: strokeStyle)
             }
 
             if showInnerOffset {
                 SuperEllipse(curve: curves.inner,
-                             bezierType: .allMarkers(radius: style.radius))
+                             bezierType: .allMarkers(radius: markerRadius))
                     .fill(colorScheme.offsetMarkers)
             }
             if showOuterOffset {
                 SuperEllipse(curve: curves.outer,
-                             bezierType: .allMarkers(radius: style.radius))
+                             bezierType: .allMarkers(radius: markerRadius))
                     .fill(colorScheme.offsetMarkers)
             }
         }
-    }
-}
-
-//MARK:- ZigZags
-
-struct ZigZags : View {
-    var curves: ZigZagCurves
-    
-    // an interesting effect that IMO makes things just a bit too
-    // busy looking; it's here just in case you think it's worth a look.
-    
-    static let SHOW_SMOOTHED_CURVES_TOO = false
-    
-    var body: some View {
-        ZStack {
-            
-    // ZIG
-            SuperEllipse(curve: curves.zig)
-                .stroke(Color.red, style: StrokeStyle(lineWidth: 2.0, dash: [4,3]))
-            if ZigZags.SHOW_SMOOTHED_CURVES_TOO
-            {
-                SuperEllipse(curve: curves.zig,
-                             smoothed: true)
-                    .stroke(Color.init(white: 0.6), style: StrokeStyle(lineWidth: 8, dash: [4,2]))
-                
-                SuperEllipse(curve: curves.zig,
-                             smoothed: true)
-                    .stroke(Color.red, style: StrokeStyle(lineWidth: 1.5))
-            }
-    // ZAG
-            SuperEllipse(curve: curves.zag)
-                .stroke(Color.yellow, style: StrokeStyle(lineWidth: 1.5, dash: [4,3]))
-            if ZigZags.SHOW_SMOOTHED_CURVES_TOO
-            {
-                SuperEllipse(curve: curves.zag,
-                             smoothed: true)
-                    .stroke(Color.init(white: 0.6), style: StrokeStyle(lineWidth: 8, dash: [4,2]))
-                
-                SuperEllipse(curve: curves.zag,
-                             smoothed: true)
-                    .stroke(Color.yellow, style: StrokeStyle(lineWidth: 1.5))
-            }
-        }
-    }
-}
-
-//MARK:- ZigZag_Markers
-struct ZigZag_Markers : View {
-    var curves : ZigZagCurves
-    var zigStyle : MarkerStyle
-    var zagStyle : MarkerStyle
-    
-    var body : some View {
-        
-        SuperEllipse(curve: curves.zig,
-                     bezierType: .allMarkers(radius: zigStyle.radius + 1))
-            .fill(Color.init(white: 0.2))
-        
-        SuperEllipse(curve: curves.zig,
-                     bezierType: .allMarkers(radius: zigStyle.radius))
-            .fill(zigStyle.color)
-        
-//        SuperEllipse(curve: curves.zig,
-//                     bezierType: .markers(radius: 1.5))
-//            .fill(Color.black)
-        
-        SuperEllipse(curve: curves.zag,
-                     bezierType: .allMarkers(radius: zagStyle.radius + 1))
-            .fill(Color.init(white: 0.2))
-        
-        SuperEllipse(curve: curves.zag,
-                     bezierType: .allMarkers(radius: zagStyle.radius))
-            .fill(zagStyle.color)
-        
-//        SuperEllipse(curve: curves.zag,
-//                     bezierType: .markers(radius: 1.5))
-//            .fill(Color.white)
     }
 }
 

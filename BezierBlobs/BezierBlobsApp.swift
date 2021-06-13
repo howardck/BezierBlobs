@@ -19,12 +19,12 @@ struct BezierBlobsApp: App {
                 .environmentObject(ColorScheme(background: Color.init(white: 0.4),
                                                stroke: Gray.dark,
                                                fill: .blue,
-                                               buttonFace: .green,
+                                               buttonFace: .orange,
                                                buttonEdge: Gray.dark,
                                                allVertices: .green,
                                                evenNumberedVertices: .red,
                                                vertex_0: .yellow,
-                                               offsetMarkers: .orange,
+                                               offsetMarkers: .black,
                                                baseCurveMarkers: .white))
 //            TabViewTest()
 //            EnumBasedListChooser()

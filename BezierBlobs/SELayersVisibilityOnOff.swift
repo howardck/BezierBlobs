@@ -22,11 +22,11 @@ struct SELayersVisibilityOnOff: View {
             if layers.isVisible(layerWithType: .normals) {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
-                                   style: markerStyles[.offsets]!)
+                                   markerRadius: markerStyles[.offsets]!)
             }
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 OffsetsEnvelope(curves: model.boundingCurves,
-                                style: markerStyles[.offsets]!,
+                                markerRadius: markerStyles[.offsets]!,
                                 showInnerOffset: false,
                                 showOuterOffset: true)
             }
@@ -49,11 +49,11 @@ struct SELayersVisibilityOnOff: View {
         Group {  // STATIC MID-LEVEL LAYERS}
             if layers.isVisible(layerWithType: .baseCurve_and_markers) {
                 BaseCurve_And_Markers(curve: model.baseCurve.map{ $0.vertex },
-                                      style: markerStyles[.baseCurve]!)
+                                      markerRadius: markerStyles[.baseCurve]!)
             }
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 OffsetsEnvelope(curves: model.boundingCurves,
-                                style: markerStyles[.offsets]!,
+                                markerRadius: markerStyles[.offsets]!,
                                 showInnerOffset: true,
                                 showOuterOffset: false)
             }
@@ -61,7 +61,7 @@ struct SELayersVisibilityOnOff: View {
                 if layers.isVisible(layerWithType: .normals) {
                     NormalsPlusMarkers(normals: model.normalsCurve,
                                        markerCurves: model.boundingCurves,
-                                       style: markerStyles[.offsets]!)
+                                       markerRadius: markerStyles[.offsets]!)
                 }
             }
         }
@@ -70,17 +70,18 @@ struct SELayersVisibilityOnOff: View {
         Group { // FRONTMOST ANINMATING VERTEX MARKERS
             
             if layers.isVisible(layerWithType: .blob_all_markers) {
-                AnimatingBlob_Markers(curve: model.blobCurve, markerStyle: markerStyles[.blob]!)
+                AnimatingBlob_Markers(curve: model.blobCurve,
+                                      markerRadius: markerStyles[.blobAllMarkers]!)
             }
             if layers.isVisible(layerWithType: .blob_outer_markers) {
                 AnimatingBlob_EvenNumberedVertexMarkers(curve: model.blobCurve,
                                                         vertices: model.evenNumberedVertices(
                                                             for: model.blobCurve),
-                                                        markerStyle: markerStyles[.blob]!)
+                                                        markerRadius: markerStyles[.blobAllMarkers]!)
             }
             if layers.isVisible(layerWithType: .blob_vertex_0_marker) {
                 AnimatingBlob_VertexZeroMarker(animatingCurve: model.blobCurve,
-                                               markerStyle: markerStyles[.vertexOrigin]!)
+                                               markerRadius: markerStyles[.vertexOrigin]!)
             }
         }
         // ----------------------------------------------------------
