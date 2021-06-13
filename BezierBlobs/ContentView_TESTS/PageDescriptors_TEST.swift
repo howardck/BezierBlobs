@@ -18,10 +18,12 @@ struct PageDescriptors {
         case regular
     }
     
-    let desc : [ PageType : (order: Double, numPoints: Int,
-                             axisRelOffsets: (inner: CGFloat, baseCurve: CGFloat, outer: CGFloat),
-                             axisRelDeltas : (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>),
-                             forceEqualAxes: Bool) ] =
+    let descriptorsForPagesDictionary :
+        
+        [ PageType : (order: Double, numPoints: Int,
+                      axisRelOffsets: (inner: CGFloat, baseCurve: CGFloat, outer: CGFloat),
+                      axisRelDeltas : (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>),
+                      forceEqualAxes: Bool) ] =
         
         [ .circle: (order: 2.0, numPoints: 22,
                     axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
