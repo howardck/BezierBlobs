@@ -126,6 +126,7 @@ struct PageView: View {
          size: CGSize,
          deviceType: PlatformSpecifics.SizeClass) {
         
+        //TODO: TODO: move to a separate DEBUG function invoked here
         print("PageView.init( {PageType.\(pageType)} ): \n" +
                 "   numPoints: {\(descriptors.numPoints)} {" +
                 "w: \((size.width).format(fspec: "4.2")), " +
@@ -157,14 +158,10 @@ struct PageView: View {
                          outer: minAxis * descriptors.axisRelOffsets.outer - baseCurve)
 
         model.calculatePerturbationDeltas(descriptors: descriptors, minAxis: minAxis)
-        
-        if deviceType == .compact && (pageType == .circle || pageType == .classicSE) {
-            numPoints = Int(Double(numPoints) * 0.8)
-        }
-        else {
-            numPoints = descriptors.numPoints
-        }
 
+        // KLUDGEY? easier than setting up a parallel descriptors dict for iphones
+        numPoints = numPointsAdjustedForCompactSizeDevices(descriptors: descriptors,
+                                                           deviceType: deviceType)
         model.calculateSuperEllipse(for: pageType,
                                     n: descriptors.n,
                                     numPoints: numPoints,
@@ -172,6 +169,14 @@ struct PageView: View {
         )
         
         model.calculateSupportCurves()
+    }
+    
+    func numPointsAdjustedForCompactSizeDevices(descriptors: PageDescription,
+                                                deviceType: PlatformSpecifics.SizeClass) -> Int {
+        if deviceType == .compact && (pageType == .circle || pageType == .classicSE) {
+            return Int(Double(descriptors.numPoints) * 0.85)
+        }
+        return descriptors.numPoints
     }
     
     func DEBUG_printDescriptors(_ pageType: PageType,
