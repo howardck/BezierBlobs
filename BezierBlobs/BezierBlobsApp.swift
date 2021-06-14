@@ -13,6 +13,10 @@ struct BezierBlobsApp: App {
     var body: some Scene {
         WindowGroup {
             
+//            PageView(pageType: .deltaWing,
+//                     descriptors: PageView.descriptions[2],
+//                     size: CGSize(width: 1200, height: 800),
+//                     deviceType: PlatformSpecifics.SizeClass.regular)
             ContentView()
                 .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
@@ -20,9 +24,9 @@ struct BezierBlobsApp: App {
                                                stroke: Gray.dark,
                                                fill: .blue,
                                                buttonFace: .blue,
-                                               buttonEdge: Color.init(white: 1.0),
-                                               allVertices: .green,
-                                               evenNumberedVertices: .red,
+                                               buttonEdge: .orange, //Color.init(white: 1.0),
+                                               allVertices: .red,
+                                               evenNumberedVertices: .green,
                                                vertex_0: .orange,
                                                offsetMarkers: .black,
                                                baseCurveMarkers: .white))

@@ -22,9 +22,20 @@ typealias PageDescription
                    forceEqualAxes: Bool)
 
 struct PageView: View {
+    
+    enum ZigZagPhase {
+        case zig
+        case zag
+    }
+    
+    // on a .zig phase vertex[0] moves outward
+    // each successive vertex alternates
+    // on a .zag phase vertex[0] move inwared
+    // each successive vertex alternates
+    
+    @State var zigZagPhase : ZigZagPhase = .zig
         
     let descriptors: PageDescription
-    //@State var numPoints
     
     static let NIL_RANGE : Range<CGFloat>
                 = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
@@ -44,15 +55,22 @@ struct PageView: View {
 //         forceEqualAxes: true),
         
     // CIRCLE
-        (n: 2.0, numPoints: 22,
-         axisRelOffsets: (inner: 0.25, baseCurve: 0.6, outer: 0.7),
-         axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
+        (n: 2.0, numPoints: 30,
+         axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.8),
+         axisRelDeltas: (innerRange: -0.1..<0.1, outerRange: -0.25..<0.1),
          forceEqualAxes: true),
         
     // CLASSIC SE
-        (n: 3.5, numPoints: 36,
-         axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.7),
-         axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.15..<0.2),
+//        (n: 3.5, numPoints: 36,
+//         axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.7),
+//         axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.2..<0.2),
+//         forceEqualAxes: false),
+        
+        // rel offsets & deltas calc'ed/brought over from nice-looking
+        // BezierBlob example
+        (n: 3.2, numPoints: 34,
+         axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.8),
+         axisRelDeltas: (innerRange: -0.1..<0.15, outerRange: -0.15..<0.1),
          forceEqualAxes: false),
         
 //        (n: 3.0, numPoints: 28,
@@ -62,13 +80,13 @@ struct PageView: View {
 
     // DELTA WING
         (n: 3, numPoints: 6,
-        axisRelOffsets: (inner: 0.15, baseCurve: 0.5, outer: 0.8),
-        axisRelDeltas: (innerRange: 0..<0.3, outerRange: -0.3..<0.3),
+        axisRelOffsets: (inner: 0.2, baseCurve: 0.4, outer: 0.75),
+        axisRelDeltas: (innerRange: -0.1..<0.1, outerRange: -0.25..<0.25),
         forceEqualAxes: false),
         
     // RORSCHACH
         (n: 0.8, numPoints: 26,
-         axisRelOffsets: (inner: 0.4, baseCurve: 0.7, outer: 0.9),
+         axisRelOffsets: (inner: 0.4, baseCurve: 0.65, outer: 0.9),
          axisRelDeltas: (innerRange: -0.1..<0.25, outerRange: -0.35..<0.2),
          forceEqualAxes: false)
 //        (n: 1, numPoints: 22,
@@ -87,8 +105,8 @@ struct PageView: View {
     // timerTimeInc - animationTimeInc == time paused between animations
     
 
-    static let timerTimeIncrement : Double = 2.6
-    static let animationTimeIncrement : Double = 2.6
+    static let timerTimeIncrement : Double = 3.2
+    static let animationTimeIncrement : Double = 2.2
     static let timerInitialTimeIncrement : Double = 0.0
     
     static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
@@ -159,7 +177,7 @@ struct PageView: View {
 
         model.calculatePerturbationDeltas(descriptors: descriptors, minAxis: minAxis)
 
-        // KLUDGEY? easier than setting up a parallel descriptors dict for iphones
+        // KLUDGE? easier than setting up a parallel descriptors dict for iphone
         numPoints = numPointsAdjustedForCompactSizeDevices(descriptors: descriptors,
                                                            deviceType: deviceType)
         model.calculateSuperEllipse(for: pageType,
@@ -232,7 +250,14 @@ struct PageView: View {
                     model.animateToNextFixedPerturbationDelta()
 
                 case .randomizedZigZags :
-                    model.animateToRandomizedPerturbation()
+                    print("animation start. zigZag = \(zigZagPhase)")
+                    model.animateToRandomizedPerturbation(phase: self.zigZagPhase)
+                    self.zigZagPhase =
+                            zigZagPhase == ZigZagPhase.zig ?
+                                                ZigZagPhase.zag :
+                                                ZigZagPhase.zig
+                    
+                        print("AFTER phase change, zigZag = \(zigZagPhase)")
                 }
             }
 

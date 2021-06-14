@@ -18,6 +18,7 @@ struct ContentView: View {
     var ps: PlatformSpecifics!
     var sizeClass : PlatformSpecifics.SizeClass!
     
+    // can't get any higher up in the view hierarchy than here
     @Environment(\.verticalSizeClass) var vSizeClass
     @Environment(\.horizontalSizeClass) var hSizeClass
     
@@ -29,8 +30,8 @@ struct ContentView: View {
         
     var body: some View {
                 
-        let deviceType : PlatformSpecifics.SizeClass = PlatformSpecifics.sizeClassForDevice(vSizeClass!,
-                                                hSizeClass!)
+        let deviceType = PlatformSpecifics.sizeClassForDevice(vSizeClass!,
+                                                              hSizeClass!)
         GeometryReader { gr in
             TabView {
 
@@ -77,13 +78,13 @@ struct ContentView: View {
                                 Color.orange
                                 VStack {
                                     Text("Welcome. Enjoy!")
-                                    Text("I hope this is useful.")
+                                    Text("ほかに言う事あるか")
                                     Text("Howard Katz")
                                     Spacer()
                                         .frame(height: 10)
-                                    Text("(yep, that's it!)")
+                                    Text("(No, that’s probably it)")
                                 }
-                                .font(.title2)
+                                .font(.title3)
                                 .foregroundColor(.white)
                                 
                             }

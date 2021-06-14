@@ -197,13 +197,22 @@ class Model: ObservableObject {
         nextPhaseIsZig.toggle()
     }
     
-    func animateToRandomizedPerturbation() {
+    func animateToRandomizedPerturbation(phase: PageView.ZigZagPhase) {
         var curve = [CGPoint]()
+        var offset : CGFloat
         
         for (i, vertexTuple) in baseCurve.enumerated() {
-            let offset = i.isEven() ?
-                offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange) :
-                offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange)
+            
+            if phase == .zig {
+                offset = i.isEven() ?
+                    offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange) :
+                    offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange)
+            }
+            else {
+                offset = i.isEven() ?
+                    offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange) :
+                    offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange)
+            }
             
             curve += [vertexTuple.vertex.newPoint(at: offset,
                                                   along: vertexTuple.normal)]
