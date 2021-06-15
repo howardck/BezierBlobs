@@ -12,7 +12,7 @@ typealias Offsets = (inner: CGFloat, outer: CGFloat)
 
 typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
-
+ 
 // the first form, given as relative percentages of the semiMinorAxis,
 // gets converted to the second form, as absolute screen distances
 typealias AxisRelativePerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
