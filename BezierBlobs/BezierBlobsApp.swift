@@ -24,7 +24,7 @@ struct BezierBlobsApp: App {
                                                stroke: Gray.dark,
                                                fill: .blue,
                                                buttonFace: .blue,
-                                               buttonEdge: .orange, //Color.init(white: 1.0),
+                                               buttonEdge: Color.init(white: 0.95),
                                                allVertices: .red,
                                                evenNumberedVertices: .green,
                                                vertex_0: .orange,
