@@ -23,23 +23,19 @@ typealias PageDescription
 
 struct PageView: View {
     
-    enum ZigZagPhase {
-        case zig
-        case zag
-    }
-    
-    // on a .zig phase vertex[0] moves outward
-    // each successive vertex alternates
-    // on a .zag phase vertex[0] move inwared
-    // each successive vertex alternates
-    
-    @State var zigZagPhase : ZigZagPhase = .zig
-        
-    let descriptors: PageDescription
+    //MARK:-
+    // timerTimeInc - animationTimeInc == time paused between animations
+    static let timerTimeIncrement : Double = 3.8
+    static let animationTimeIncrement : Double = 2.4
+    static let timerInitialTimeIncrement : Double = 0.0
+
+    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
     
     static let NIL_RANGE : Range<CGFloat>
                 = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
+    let descriptors: PageDescription
+
     static let descriptions : [PageDescription] =
     [
     // CIRCLE
@@ -57,7 +53,7 @@ struct PageView: View {
     // CIRCLE
         (n: 2.0, numPoints: 30,
          axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.8),
-         axisRelDeltas: (innerRange: -0.1..<0.1, outerRange: -0.25..<0.1),
+         axisRelDeltas: (innerRange: -0.1..<0.15, outerRange: -0.3..<0.1),
          forceEqualAxes: true),
         
     // CLASSIC SE
@@ -68,9 +64,9 @@ struct PageView: View {
         
         // rel offsets & deltas calc'ed/brought over from nice-looking
         // BezierBlob example
-        (n: 3.2, numPoints: 34,
-         axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.8),
-         axisRelDeltas: (innerRange: -0.1..<0.15, outerRange: -0.15..<0.1),
+        (n: 2.8, numPoints: 34,
+         axisRelOffsets: (inner: 0.45, baseCurve: 0.6, outer: 0.85),
+         axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.2..<0.1),
          forceEqualAxes: false),
         
 //        (n: 3.0, numPoints: 28,
@@ -105,16 +101,6 @@ struct PageView: View {
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
     @EnvironmentObject var colorScheme : ColorScheme
-    
-    //MARK:-
-    // timerTimeInc - animationTimeInc == time paused between animations
-    
-
-    static let timerTimeIncrement : Double = 3.2
-    static let animationTimeIncrement : Double = 2.2
-    static let timerInitialTimeIncrement : Double = 0.0
-    
-    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
     
     //MARK:-
     @State var showLayersList = false
@@ -246,23 +232,15 @@ struct PageView: View {
             
             withAnimation(PageView.animationStyle) {
                 
-                // see note attached to the function def in Model
-                //model.animateToRandomOffsetWithinExtendedEnvelope()
-                
                 switch options.currPerturbStrategy {
 
                 case .staticZigZags :
+                    
                     model.animateToNextFixedPerturbationDelta()
 
                 case .randomizedZigZags :
-                    print("animation start. zigZag = \(zigZagPhase)")
-                    model.animateToRandomizedPerturbation(phase: self.zigZagPhase)
-                    self.zigZagPhase =
-                            zigZagPhase == ZigZagPhase.zig ?
-                                                ZigZagPhase.zag :
-                                                ZigZagPhase.zig
-                    
-                        print("AFTER phase change, zigZag = \(zigZagPhase)")
+
+                    model.animateToNextRandomizedPerturbationDelta()
                 }
             }
 

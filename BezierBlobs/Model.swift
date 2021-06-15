@@ -13,14 +13,11 @@ typealias Offsets = (inner: CGFloat, outer: CGFloat)
 typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
 
-// DO I WANT TO KEEP/USE KEEP THESE ???????????????
-typealias ZigZagCurves = (zig: [CGPoint], zag: [CGPoint])
-typealias ZigZagDeltas = (inner: CGFloat, outer: CGFloat)
-
-// the first, as a fraction of the baseCurve ratio, gets converted to the second
+// the first form, given as relative percentages of the semiMinorAxis,
+// gets converted to the second form, as absolute screen distances
 typealias AxisRelativePerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
 
-// the innerRange is centred on the innerCurve; the outerRange on the outerCurve
+// the innerRange is centred (more or less) on the inner curve; the outerRange on the outer
 typealias PerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
 /*
     Nomenclature is a bitch. at times I've referred to:
@@ -31,7 +28,7 @@ typealias PerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CG
         o perturbation limits
         o perturbation band curves
  
-    and various combinations of the same. what can i say? it's hard!
+    and various combinations of the same. yikes! :-)
  */
 
 class Model: ObservableObject {
@@ -42,9 +39,6 @@ class Model: ObservableObject {
     var offsets : Offsets = (inner: 0, outer: 0)
     var perturbationDeltas : PerturbationDeltas = (innerRange: 0..<0,
                                                    outerRange: 0..<0)
-    
-    static let TEST_PERTURB_DELTA : Range<CGFloat> = -0.5..<0.5
-
     
     //MARK:-
     init() {
@@ -71,7 +65,6 @@ class Model: ObservableObject {
     // zig : vertex[0] marker moves to the outside
     // zag : vertex[0] marker moves to the inside
     
-   // @State
     var nextPhaseIsZig = true
   
     // MARK:-
@@ -79,15 +72,6 @@ class Model: ObservableObject {
     // our supporting cast
     var baseCurve : BaseCurvePairs = [(CGPoint, CGVector)]()
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
-    
-    // EXPERIMENTAL ...
-    var deltaExtremas = (innerExtrema: [CGPoint](), outerExtrema: [CGPoint]())
-    
-    // DITTO THE ABOVE. ie
-    // DO I WANT TO KEEP/USE KEEP THESE ???????????????
-
-    var zigZagCurves : ZigZagCurves = (zig: [CGPoint](), zag: [CGPoint]())
-    
     var normalsCurve : [CGPoint] = [CGPoint]()
     var axes : Axes = (1.0, 1.0)
 
@@ -130,7 +114,6 @@ class Model: ObservableObject {
         normalsCurve = calculateNormals()
         
         fixedInnerPerturbationBandCurves = EXPERIMENTAL_calculateFixedPerturbationBandsInner()
-        
         fixedOuterPerturbationBandCurves = EXPERIMENTAL_calculateFixedPerturbationBandsOuter()
         
         setInitialBlobCurve()
@@ -166,8 +149,8 @@ class Model: ObservableObject {
         return Set(evens)
     }
     
-    // not currently implemented. it looks interesting but requires a much larger
-    // value of numPoints to look good, which requires some architectural changes.
+    // not currently implemented. looks interesting but requires a much larger
+    // value of numPoints to look good, which in turn requires some architectural changes.
     
     func animateToRandomOffsetWithinExtendedEnvelope() {
         let innerLimit = offsets.inner + perturbationDeltas.innerRange.lowerBound
@@ -181,43 +164,40 @@ class Model: ObservableObject {
 
     //MARK:- CALLS TO ANIMATE
     func animateToNextFixedPerturbationDelta() {
-        var isOffsetToOutside = nextPhaseIsZig
+        
+        var movingToOutside = self.nextPhaseIsZig
         var curve = [CGPoint]()
         
         for vertexTuple in baseCurve {
-            let offset : CGFloat = isOffsetToOutside ?
+            
+            let offset : CGFloat = movingToOutside ?
                 offsets.outer + perturbationDeltas.outerRange.upperBound :
                 offsets.inner + perturbationDeltas.innerRange.upperBound
             
+            movingToOutside.toggle()
             curve += [vertexTuple.vertex.newPoint(at: offset,
                                                  along: vertexTuple.normal)]
-            isOffsetToOutside.toggle()
         }
         blobCurve = curve // we update blobCurve; this drives the animation
-        nextPhaseIsZig.toggle()
+        self.nextPhaseIsZig.toggle()
     }
     
-    func animateToRandomizedPerturbation(phase: PageView.ZigZagPhase) {
+    func animateToNextRandomizedPerturbationDelta() {
         var curve = [CGPoint]()
-        var offset : CGFloat
+        var movingToOutside = self.nextPhaseIsZig
         
-        for (i, vertexTuple) in baseCurve.enumerated() {
+        for vertexTuple in baseCurve {
             
-            if phase == .zig {
-                offset = i.isEven() ?
-                    offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange) :
-                    offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange)
-            }
-            else {
-                offset = i.isEven() ?
-                    offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange) :
-                    offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange)
-            }
+            let offset = movingToOutside ?
+                offsets.outer + CGFloat.random(in: perturbationDeltas.outerRange) :
+                offsets.inner + CGFloat.random(in: perturbationDeltas.innerRange)
             
+            movingToOutside.toggle()
             curve += [vertexTuple.vertex.newPoint(at: offset,
                                                   along: vertexTuple.normal)]
         }
         blobCurve = curve
+        self.nextPhaseIsZig.toggle()
     }
     
     //MARK:-
