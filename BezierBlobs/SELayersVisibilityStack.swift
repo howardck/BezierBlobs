@@ -13,29 +13,23 @@ struct SELayersVisibilityStack: View {
     @EnvironmentObject var layers : SELayersViewModel
 
     var body: some View {
-        Text("OVERLAY!").font(.title).fontWeight(.heavy).foregroundColor(.blue)
-        
-        // ----------------------------------------------------------
 
-        Group { // STATIC BACKDROP
-            
+    // STATIC SUPPORT CURVES BACKDROP
+        Group {
             if layers.isVisible(layerWithType: .normals) {
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
                                    markerRadius: markerStyles[.offsets]!)
             }
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
-                OffsetsEnvelope(curves: model.boundingCurves,
-                                markerRadius: markerStyles[.offsets]!,
-                                showInnerOffset: false,
-                                showOuterOffset: true)
+                OffsetCurves(curves: model.boundingCurves,
+                             markerRadius: markerStyles[.offsets]!,
+                             showOffsets: (inner: false, outer: true))
             }
         }
         
-        // ----------------------------------------------------------
-        
-        Group { // ANIMATING STROKE & FILL
-            
+    // ANIMATING STROKE & FILL
+        Group {
             if layers.isVisible(layerWithType: .blob_filled) {
                 AnimatingBlob_Filled(curve: model.blobCurve,
                                      layerType: .blob_filled)
@@ -44,18 +38,17 @@ struct SELayersVisibilityStack: View {
                 AnimatingBlob_Stroked(curve: model.blobCurve)
             }
         }
-        // ----------------------------------------------------------
 
-        Group {  // STATIC MID-LEVEL LAYERS}
+    // STATIC MID-LEVEL SUPPORT CURVES
+        Group {
             if layers.isVisible(layerWithType: .baseCurve_and_markers) {
                 BaseCurve_And_Markers(curve: model.baseCurve.map{ $0.vertex },
                                       markerRadius: markerStyles[.baseCurve]!)
             }
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
-                OffsetsEnvelope(curves: model.boundingCurves,
-                                markerRadius: markerStyles[.offsets]!,
-                                showInnerOffset: true,
-                                showOuterOffset: false)
+                OffsetCurves(curves: model.boundingCurves,
+                             markerRadius: markerStyles[.offsets]!,
+                             showOffsets: (inner: true, outer: false))
             }
             if Model.DEBUG_OVERLAY_SECOND_COPY_OF_NORMALS_PLUS_MARKERS {
                 if layers.isVisible(layerWithType: .normals) {
@@ -66,9 +59,8 @@ struct SELayersVisibilityStack: View {
             }
         }
         
-        // ----------------------------------------------------------
-        Group { // FRONTMOST ANINMATING VERTEX MARKERS
-            
+    // FRONTMOST ANINMATING VERTEX MARKERS
+        Group {
             if layers.isVisible(layerWithType: .blob_all_markers) {
                 AnimatingBlob_Markers(curve: model.blobCurve,
                                       markerRadius: markerStyles[.blobAllMarkers]!)
@@ -84,8 +76,6 @@ struct SELayersVisibilityStack: View {
                                                markerRadius: markerStyles[.vertexOrigin]!)
             }
         }
-        // ----------------------------------------------------------
-
     }
 }
 

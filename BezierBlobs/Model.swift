@@ -8,10 +8,12 @@
 import SwiftUI
 
 typealias Axes = (a: Double, b: Double)
-typealias Offsets = (inner: CGFloat, outer: CGFloat)
+//typealias Offsets = (inner: CGFloat, outer: CGFloat)
 
 typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
+
+typealias Offsets = (inner: CGFloat, outer: CGFloat)
  
 // the first form, given as relative percentages of the semiMinorAxis,
 // gets converted to the second form, as absolute screen distances
@@ -74,6 +76,7 @@ class Model: ObservableObject {
     var boundingCurves : BoundingCurves = (inner: [CGPoint](), outer: [CGPoint]())
     var normalsCurve : [CGPoint] = [CGPoint]()
     var axes : Axes = (1.0, 1.0)
+    
 
     var pageType: PageType?
     

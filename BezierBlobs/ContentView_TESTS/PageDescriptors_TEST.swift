@@ -6,20 +6,6 @@
 //
 
 import SwiftUI
-//
-//struct TestPageDescriptors : View {
-//    
-//    var body : some View {
-//        
-//        TabView {
-//            
-//            PageView( pageType: .circle,
-//                      descriptors: PageDescriptors.descriptorsForPagesDictionary[PageType.circle])
-//        }
-//        
-//    }
-//}
-
 
 struct PageDescriptors {
     

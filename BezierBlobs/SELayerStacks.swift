@@ -251,36 +251,37 @@ struct BaseCurve_And_Markers : View {
 
 //MARK:- EnvelopeBounds
 // AKA Curve Offsets
-struct OffsetsEnvelope : View {
+struct OffsetCurves : View {
     var curves: BoundingCurves
     var markerRadius : CGFloat
-    var showInnerOffset: Bool
-    var showOuterOffset: Bool
+    var showOffsets: (inner: Bool, outer: Bool)
     
     let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+    
     @EnvironmentObject var colorScheme : ColorScheme
 
     var body: some View {
         
         ZStack {
-            if showInnerOffset {
-                SuperEllipse(curve: curves.inner)
-                    .stroke(colorScheme.offsetMarkers, style: strokeStyle)
-            }
-            if showOuterOffset {
-                SuperEllipse(curve: curves.outer)
-                    .stroke(colorScheme.offsetMarkers, style: strokeStyle)
-            }
-
-            if showInnerOffset {
+            
+            if showOffsets.inner == true {
+                
                 SuperEllipse(curve: curves.inner,
                              bezierType: .allMarkers(radius: markerRadius))
                     .fill(colorScheme.offsetMarkers)
+                
+                SuperEllipse(curve: curves.inner)
+                    .stroke(colorScheme.offsetMarkers, style: strokeStyle)
             }
-            if showOuterOffset {
+            
+            if showOffsets.outer == true {
+                
                 SuperEllipse(curve: curves.outer,
                              bezierType: .allMarkers(radius: markerRadius))
                     .fill(colorScheme.offsetMarkers)
+                
+                SuperEllipse(curve: curves.outer)
+                    .stroke(colorScheme.offsetMarkers, style: strokeStyle)
             }
         }
     }

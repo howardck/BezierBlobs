@@ -296,7 +296,6 @@ struct PageView: View {
         }
         .overlay(displaySuperEllipseMetrics(numPoints: numPoints))
         .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
-        
         .overlay(
             MainScreenUI(showLayersList : $showLayersList,
                          showMiscOptionsList: $showMiscOptionsList)
