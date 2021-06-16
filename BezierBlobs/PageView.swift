@@ -83,7 +83,9 @@ struct PageView: View {
     // RORSCHACH
         (n: 0.8, numPoints: 26,
          axisRelOffsets: (inner: 0.35, baseCurve: 0.6, outer: 0.8),
-         axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.3..<0.2),
+         axisRelDeltas: (innerRange: 0.1..<0.10001, outerRange: -0.25..<0.25),
+//         axisRelOffsets: (inner: 0.4, baseCurve: 0.65, outer: 0.9),
+//         axisRelDeltas: (innerRange: 0..<0.4, outerRange: -0.4..<0.4),
          forceEqualAxes: false)
       
 //        axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),

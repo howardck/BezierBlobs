@@ -175,7 +175,7 @@ class Model: ObservableObject {
             
             let offset : CGFloat = movingToOutside ?
                 offsets.outer + perturbationDeltas.outerRange.upperBound :
-                offsets.inner + perturbationDeltas.innerRange.upperBound
+                offsets.inner + perturbationDeltas.innerRange.lowerBound
             
             movingToOutside.toggle()
             curve += [vertexTuple.vertex.newPoint(at: offset,
@@ -200,6 +200,8 @@ class Model: ObservableObject {
                                                   along: vertexTuple.normal)]
         }
         blobCurve = curve
+        // export the zigzag state so that the next cycle
+        // picks that up and starts in the proper 'direction'
         self.nextPhaseIsZig.toggle()
     }
     

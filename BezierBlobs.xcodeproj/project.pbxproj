@@ -92,6 +92,7 @@
 		3B9A048E25C8642D0097ECC6 /* ContentView_TESTS */ = {
 			isa = PBXGroup;
 			children = (
+				3B89711B267546E70018B721 /* PageDescriptors_TEST.swift */,
 				3B11CD3A266722D300EF266B /* Path.strokedPath_TEST.swift */,
 				3B16CA4B2644B13D00B10838 /* PageDesc_TEST.swift */,
 				3B47B46A264ACC8C0016E0AA /* EnumBasedListChooser_TEST.swift */,
@@ -100,7 +101,6 @@
 				3B5A4BD325B90BB800CC5C26 /* TabView_TEST.swift */,
 				3B859FEE25BB3B470033DB7A /* MainScreenLayout_TEST.swift */,
 				3B82699B25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift */,
-				3B89711B267546E70018B721 /* PageDescriptors_TEST.swift */,
 			);
 			path = ContentView_TESTS;
 			sourceTree = "<group>";
