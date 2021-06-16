@@ -34,7 +34,7 @@ struct MainScreenUI: View {
                         }
                         
                         ZStack {
-                            SELayersChooser(layers: $layers.layers)
+                            SELayerGroupsChooser(layers: $layers.layers)
                             BezelFrame(color: .orange, size: s)
                         }
                         .frame(width: s.width, height: s.height)
