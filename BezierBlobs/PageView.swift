@@ -77,7 +77,7 @@ struct PageView: View {
     // DELTA WING
         (n: 3, numPoints: 6,
         axisRelOffsets: (inner: 0.2, baseCurve: 0.4, outer: 0.75),
-        axisRelDeltas: (innerRange: -0.1..<0.1, outerRange: -0.25..<0.25),
+        axisRelDeltas: (innerRange: -0.05..<0.1, outerRange: -0.25..<0.25),
         forceEqualAxes: false),
         
     // RORSCHACH
