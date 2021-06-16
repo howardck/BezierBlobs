@@ -13,18 +13,18 @@ struct BezierBlobsApp: App {
     var body: some Scene {
         WindowGroup {
             
-            SinglePage_TEST()
+//            SinglePage_TEST()
                 
-//            ContentView()
+            ContentView()
                 
                 .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
                 .environmentObject(ColorScheme(background: Color.init(white: 0.4),
-                                               stroke: Gray.dark,
+                                               stroke: .red,
                                                fill: .blue,
                                                buttonFace: .blue,
                                                buttonEdge: Color.init(white: 0.95),
-                                               allVertices: .red,
+                                               allVertices: .yellow,
                                                evenNumberedVertices: .green,
                                                vertex_0: .orange,
                                                offsetMarkers: .black,

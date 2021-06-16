@@ -19,7 +19,7 @@ struct Descriptor {
     var pageType: Descriptor.PageType
     var order: Double
     var numPoints: Int
-    var axisRelOffsets: (inner: CGFloat, baseCurve: CGFloat, outer: CGFloat)
+    var axisRelOffsets: (inner: CGFloat, baseCurve: Double, outer: CGFloat)
     var axisRelDeltas: (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
     var forceEqualAxes : Bool? = false
     

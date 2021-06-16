@@ -11,7 +11,7 @@ struct SinglePage_TEST: View {
     var body: some View {
         
 //        PageView(pageType: PageType.deltaWing,
-//                 descriptors: PageView.descriptions[2],
+//                 descriptors: PageView.desdescriptions[2],
 //                 size: CGSize(width: 1400, height: 1000),
 //                 deviceType: PlatformSpecifics.SizeClass.regular)
         TabView {

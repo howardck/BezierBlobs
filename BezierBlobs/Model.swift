@@ -80,7 +80,7 @@ class Model: ObservableObject {
 
     var pageType: PageType?
     
-    func calculatePerturbationDeltas(descriptors: PageDescription, minAxis: CGFloat) {
+    func calculatePerturbationDeltas(descriptors: Descriptor, minAxis: CGFloat) {
         let relInRange = descriptors.axisRelDeltas.innerRange
         let relOutRange = descriptors.axisRelDeltas.outerRange
         

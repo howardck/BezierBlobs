@@ -35,17 +35,15 @@ struct ContentView: View {
         GeometryReader { gr in
             TabView {
 
-                PageView(pageType: PageType.circle,
-                         descriptors: PageView.descriptions[0],
+                PageView(descriptors: Descriptor.circle,
                          size: gr.size,
                          deviceType: deviceType)
                     .tabItem {
                         SFSymbol.tab_1
-                        Text("\(PageType.circle.rawValue)")
+                        Text("\(Descriptor.circle.pageType.rawValue)")
                     }
                 
-                PageView(pageType: PageType.classicSE,
-                         descriptors: PageView.descriptions[1],
+                PageView(descriptors: Descriptor.classicSE,
                          size: gr.size,
                          deviceType: deviceType)
                     .tabItem {
@@ -53,8 +51,7 @@ struct ContentView: View {
                         Text("\(PageType.classicSE.rawValue)" )
                     }
 
-                PageView(pageType: PageType.deltaWing,
-                         descriptors: PageView.descriptions[2],
+                PageView(descriptors: Descriptor.deltaWing,
                          size: gr.size,
                          deviceType: deviceType)
                     .tabItem {
@@ -62,8 +59,7 @@ struct ContentView: View {
                         Text("\(PageType.deltaWing.rawValue)" )
                     }
 
-                PageView(pageType: PageType.rorschach,
-                         descriptors: PageView.descriptions[3],
+                PageView(descriptors: Descriptor.rorschach,
                          size: gr.size,
                          deviceType: deviceType)
                     .tabItem {

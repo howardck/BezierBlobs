@@ -25,7 +25,7 @@ struct PageView: View {
     
     //MARK:-
     // timerTimeInc - animationTimeInc == time paused between animations
-    static let timerTimeIncrement : Double = 3.8
+    static let timerTimeIncrement : Double = 3.6
     static let animationTimeIncrement : Double = 2.4
     static let timerInitialTimeIncrement : Double = 0.0
 
@@ -34,7 +34,7 @@ struct PageView: View {
     static let NIL_RANGE : Range<CGFloat>
                 = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
-    let descriptors: PageDescription
+    let descriptors: Descriptor
 
     static let descriptions : [PageDescription] =
     [
@@ -114,7 +114,7 @@ struct PageView: View {
     @State var isAnimating = false
     @State var isFirstTappedCycle = true
         
-    var pageType: PageType
+    var pageType: Descriptor.PageType
     
     //MARK:-
     func axesFor(size: CGSize, forceEqualAxes: Bool) -> (a: Double, b: Double) {
@@ -130,10 +130,11 @@ struct PageView: View {
     var numPoints : Int = 0
     
     //MARK:- PageView.INIT
-    init(pageType: PageType,
-         descriptors: PageDescription,
+    init(descriptors: Descriptor,
          size: CGSize,
          deviceType: PlatformSpecifics.SizeClass) {
+        
+        self.pageType = descriptors.pageType
         
         //TODO: TODO: move to a separate DEBUG function invoked here
         print("PageView.init( {PageType.\(pageType)} ): \n" +
@@ -151,11 +152,10 @@ struct PageView: View {
                     "W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
         }
         
-        self.pageType = pageType
         self.descriptors = descriptors
         
         let (a, b) = axesFor(size: size,
-                             forceEqualAxes: descriptors.forceEqualAxes)
+                             forceEqualAxes: descriptors.forceEqualAxes!)
                 
         print("   semiMinorAxis a: [\(a)] semiMajorAxis b: [\(b)]")
 
@@ -171,13 +171,13 @@ struct PageView: View {
         // KLUDGE? easier than setting up a parallel descriptors dict for iphone
         numPoints = numPointsAdjustedForCompactSizeDevices(descriptors: descriptors,
                                                            deviceType: deviceType)
-        model.calculateSuperEllipse(n: descriptors.n,
+        model.calculateSuperEllipse(n: descriptors.order,
                                     numPoints: numPoints,
                                     axes: (a * baseCurveRatio, b * baseCurveRatio) )
         model.calculateSupportCurves()
     }
     
-    func numPointsAdjustedForCompactSizeDevices(descriptors: PageDescription,
+    func numPointsAdjustedForCompactSizeDevices(descriptors: Descriptor,
                                                 deviceType: PlatformSpecifics.SizeClass) -> Int {
         if deviceType == .compact && (pageType == .circle || pageType == .classicSE) {
             return Int(Double(descriptors.numPoints) * 0.85)
@@ -212,7 +212,7 @@ struct PageView: View {
             // in the layers view model, these in responding to
             // selections make by the suer in the layers chooser.
             
-            SELayersVisibilityStack(model: self.model)
+            SELayerGroupsVisibility(model: self.model)
         }
         //MARK:- onAppear()
         .onAppear {
@@ -304,7 +304,7 @@ struct PageView: View {
             DropShadowedText(text: "numPoints: \(numPoints)",
                              foreColor: .white,
                              backColor: .init(white: 0.2))
-            DropShadowedText(text: "n: \(descriptors.n.format(fspec: "3.1"))",
+            DropShadowedText(text: "n: \(descriptors.order.format(fspec: "3.1"))",
                              foreColor: .white,
                              backColor: .init(white: 0.2))
         }
