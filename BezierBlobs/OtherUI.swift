@@ -220,7 +220,7 @@ struct PencilSymbol {
 struct ScreenButtons_Previews: PreviewProvider {
     static var previews: some View {
         
-        var baseOffset = CGSize(width: 2, height: 2)
+        let baseOffset = CGSize(width: 2, height: 2)
         let edgeOffset = CGSize(width: 1, height: 1)
         let buttonSize = CGSize(width: 80, height: 60)
         

@@ -171,12 +171,9 @@ struct PageView: View {
         // KLUDGE? easier than setting up a parallel descriptors dict for iphone
         numPoints = numPointsAdjustedForCompactSizeDevices(descriptors: descriptors,
                                                            deviceType: deviceType)
-        model.calculateSuperEllipse(for: pageType,
-                                    n: descriptors.n,
+        model.calculateSuperEllipse(n: descriptors.n,
                                     numPoints: numPoints,
-                                    axes: (a * baseCurveRatio, b * baseCurveRatio)
-        )
-        
+                                    axes: (a * baseCurveRatio, b * baseCurveRatio) )
         model.calculateSupportCurves()
     }
     

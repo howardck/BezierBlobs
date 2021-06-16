@@ -99,11 +99,9 @@ class Model: ObservableObject {
     }
 
     //MARK:- MAIN SUPERELLIPSE
-    func calculateSuperEllipse(for pageType: PageType,
-                               n: Double,
+    func calculateSuperEllipse(n: Double,
                                numPoints: Int,
                                axes: Axes) {
-        self.pageType = pageType
         
         baseCurve = SEParametrics.calculateSuperEllipse(for: numPoints,
                                                         n: n,
