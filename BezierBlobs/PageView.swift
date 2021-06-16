@@ -113,8 +113,6 @@ struct PageView: View {
                                             on: .main, in: .common)
     @State var isAnimating = false
     @State var isFirstTappedCycle = true
-    
-    var randomPermutations = true
         
     var pageType: PageType
     

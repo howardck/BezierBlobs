@@ -13,11 +13,10 @@ struct BezierBlobsApp: App {
     var body: some Scene {
         WindowGroup {
             
-//            PageView(pageType: .deltaWing,
-//                     descriptors: PageView.descriptions[2],
-//                     size: CGSize(width: 1200, height: 800),
-//                     deviceType: PlatformSpecifics.SizeClass.regular)
-            ContentView()
+            SinglePage_TEST()
+                
+//            ContentView()
+                
                 .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
                 .environmentObject(ColorScheme(background: Color.init(white: 0.4),
