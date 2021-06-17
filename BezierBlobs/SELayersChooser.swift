@@ -1,11 +1,11 @@
 //
-//  LayersSelectionList.swift -- BezierBlobs
+//  SELayersChooser.swift -- BezierBlobs
 //  Created by Howard Katz on 2020-12-20
 
 
 import SwiftUI
 
-struct SELayerGroupsChooser: View {
+struct SELayersChooser: View {
     
     static let DEBUG_PRINT_SHOW_LAYER_VISIBILITY = false
     static let DEBUG_PRINT_LAYER_LIST_TAPPING = false

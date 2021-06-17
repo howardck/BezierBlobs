@@ -35,68 +35,6 @@ struct PageView: View {
                 = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
     let descriptors: Descriptor
-
-    static let descriptions : [PageDescription] =
-    [
-    // CIRCLE
-        // NOTA: interesting things can happen when axisRelOffsets.inner is > 1.
-        // NOTE as well that the upper end of 'nil' ranges
-        // must be larger than the lower end.
-        // also interesting:
-//        (n: 2.0,
-//         numPoints: 16,
-//         axisRelOffsets: (inner: 0.1, baseCurve: 0.5, outer: 1.0),
-//         axisRelDeltas: (innerRange: NIL_RANGE,
-//                         outerRange: -0.6..<0.4),
-//         forceEqualAxes: true),
-        
-    // CIRCLE
-        (n: 2.0, numPoints: 30,
-         axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.8),
-         axisRelDeltas: (innerRange: -0.1..<0.15, outerRange: -0.3..<0.1),
-         forceEqualAxes: true),
-        
-    // CLASSIC SE
-//        (n: 3.5, numPoints: 36,
-//         axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.7),
-//         axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.2..<0.2),
-//         forceEqualAxes: false),
-        
-        // rel offsets & deltas calc'ed/brought over from nice-looking
-        // BezierBlob example
-        (n: 2.8, numPoints: 34,
-         axisRelOffsets: (inner: 0.45, baseCurve: 0.6, outer: 0.85),
-         axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.2..<0.1),
-         forceEqualAxes: false),
-        
-//        (n: 3.0, numPoints: 28,
-//         axisRelOffsets: (inner: 0.4, baseCurve: 0.5, outer: 0.8),
-//         axisRelDeltas: (innerRange: -0.15..<0.2, outerRange: -0.15..<0.15),
-//         forceEqualAxes: false),
-
-    // DELTA WING
-        (n: 3, numPoints: 6,
-        axisRelOffsets: (inner: 0.2, baseCurve: 0.4, outer: 0.75),
-        axisRelDeltas: (innerRange: -0.05..<0.1, outerRange: -0.25..<0.25),
-        forceEqualAxes: false),
-        
-    // RORSCHACH
-        (n: 0.8, numPoints: 26,
-         axisRelOffsets: (inner: 0.35, baseCurve: 0.6, outer: 0.8),
-         axisRelDeltas: (innerRange: 0.1..<0.10001, outerRange: -0.25..<0.25),
-//         axisRelOffsets: (inner: 0.4, baseCurve: 0.65, outer: 0.9),
-//         axisRelDeltas: (innerRange: 0..<0.4, outerRange: -0.4..<0.4),
-         forceEqualAxes: false)
-      
-//        axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
-//        axisRelDeltas: (innerRange: -0.1..<0.3, outerRange: -0.3..<0.3),
-//        forceEqualAxes: false)
-        
-//        (n: 1, numPoints: 22,
-//         axisRelOffsets: (inner: 0.5, baseCurve: 0.6, outer: 0.85),
-//         axisRelDeltas: (innerRange: -0.1..<0.25, outerRange: -0.35..<0.2),
-//         forceEqualAxes: false)
-    ]
             
     @ObservedObject var model = Model()
     
@@ -141,16 +79,16 @@ struct PageView: View {
                 "   numPoints: {\(descriptors.numPoints)} {" +
                 "w: \((size.width).format(fspec: "4.2")), " +
                 "h: \((size.height).format(fspec: "4.2"))}")
-        
-        print("PageView.deviceType: {\(deviceType)}")
-        
-        if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
-            print("PageView.init(pageType.\(pageType.rawValue))")
-            print ("PageView.init(). screen size   = " +
-                    "W: {\(size.width)}, H: {\(size.height)}")
-            print ("PageView.init(). semiAxis size = " +
-                    "W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
-        }
+//
+//        print("PageView.deviceType: {\(deviceType)}")
+//
+//        if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
+//            print("PageView.init(pageType.\(pageType.rawValue))")
+//            print ("PageView.init(). screen size   = " +
+//                    "W: {\(size.width)}, H: {\(size.height)}")
+//            print ("PageView.init(). semiAxis size = " +
+//                    "W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
+//        }
         
         self.descriptors = descriptors
         
@@ -168,7 +106,7 @@ struct PageView: View {
 
         model.calculatePerturbationDeltas(descriptors: descriptors, minAxis: minAxis)
 
-        // KLUDGE? easier than setting up a parallel descriptors dict for iphone
+        // KLUDGE? easier than setting up a parallel descriptors dict for compact devices
         numPoints = numPointsAdjustedForCompactSizeDevices(descriptors: descriptors,
                                                            deviceType: deviceType)
         model.calculateSuperEllipse(n: descriptors.order,
