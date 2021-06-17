@@ -10,8 +10,8 @@ class SELayersViewModel : ObservableObject {
     static func loadDefaultLayers() -> [Layer] {
     [
     // ANIMATING BLOB CURVES
-        Layer(type: .blob_stroked, section: .animatingBlobCurves),
         Layer(type: .blob_filled, section: .animatingBlobCurves, visible: true),
+        Layer(type: .blob_stroked, section: .animatingBlobCurves),
         Layer(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
         Layer(type: .blob_outer_markers, section: .animatingBlobCurves, visible: true),
         Layer(type: .blob_all_markers, section: .animatingBlobCurves),

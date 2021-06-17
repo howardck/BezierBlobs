@@ -15,20 +15,20 @@ struct SinglePage_TEST: View {
 //                 size: CGSize(width: 1400, height: 1000),
 //                 deviceType: PlatformSpecifics.SizeClass.regular)
         TabView {
-            NewPageView(descriptor: Descriptor.deltaWing,
+            NewPageView(descriptor: PageDescriptors.deltaWing,
                         size: CGSize(width: 1200, height: 800),
                         deviceType: PlatformSpecifics.SizeClass.regular)
                 .tabItem {
                     SFSymbol.tab_1
-                    Text("\(Descriptor.deltaWing.pageType.rawValue)")
+                    Text("\(PageDescriptors.deltaWing.pageType.rawValue)")
                 }
             
-            NewPageView(descriptor: Descriptor.circle,
+            NewPageView(descriptor: PageDescriptors.circle,
                         size: CGSize(width: 1200, height: 800),
                         deviceType: PlatformSpecifics.SizeClass.regular)
                 .tabItem {
                     SFSymbol.tab_2
-                    Text("\(Descriptor.circle.pageType.rawValue)")
+                    Text("\(PageDescriptors.circle.pageType.rawValue)")
                 }
         }
 
@@ -37,7 +37,7 @@ struct SinglePage_TEST: View {
 
 struct NewPageView : View {
     
-    var descriptor: Descriptor
+    var descriptor: PageDescriptors
     var size: CGSize
     var deviceType: PlatformSpecifics.SizeClass
     

@@ -35,36 +35,36 @@ struct ContentView: View {
         GeometryReader { gr in
             TabView {
 
-                PageView(descriptors: Descriptor.circle,
+                PageView(descriptors: PageDescriptors.circle,
                          size: gr.size,
                          deviceType: deviceType)
                     .tabItem {
                         SFSymbol.tab_1
-                        Text("\(Descriptor.circle.pageType.rawValue)")
+                        Text("\(PageDescriptors.circle.pageType.rawValue)")
                     }
                 
-                PageView(descriptors: Descriptor.classicSE,
+                PageView(descriptors: PageDescriptors.classicSE,
                          size: gr.size,
                          deviceType: deviceType)
                     .tabItem {
                         SFSymbol.tab_2
-                        Text("\(PageType.classicSE.rawValue)" )
+                        Text("\(PageDescriptors.classicSE.pageType.rawValue)" )
                     }
 
-                PageView(descriptors: Descriptor.deltaWing,
+                PageView(descriptors: PageDescriptors.deltaWing,
                          size: gr.size,
                          deviceType: deviceType)
                     .tabItem {
                         SFSymbol.tab_3
-                        Text("\(PageType.deltaWing.rawValue)" )
+                        Text("\(PageDescriptors.deltaWing.pageType.rawValue)" )
                     }
 
-                PageView(descriptors: Descriptor.rorschach,
+                PageView(descriptors: PageDescriptors.rorschach,
                          size: gr.size,
                          deviceType: deviceType)
                     .tabItem {
                         SFSymbol.tab_4
-                        Text("\(PageType.rorschach.rawValue)" )
+                        Text("\(PageDescriptors.rorschach.pageType.rawValue)" )
                   }
                 
                 ZStack {

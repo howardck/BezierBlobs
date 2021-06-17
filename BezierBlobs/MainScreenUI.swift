@@ -47,8 +47,9 @@ struct MainScreenUI: View {
                     }
                 }
                 else if showMiscOptionsList {
+                    // this numbers work for my iPhone Xs
                     // ------------------------------------
-                    let s = CGSize(width: 330, height: 500)
+                    let s = CGSize(width: 340, height: 490)
                     // ------------------------------------
                     HStack {
                         

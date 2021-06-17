@@ -76,7 +76,7 @@ struct MiscOptionsChooser: View {
                 Spacer()
                     .frame(width: 5)
                 VStack(alignment: .center) {
-                    bulletedTextItem("Tap the screen to dismiss this")
+                    bulletedTextItem("Tap screen to dismiss this list")
                     bulletedTextItem("Tap 1x to start animating")
                     bulletedTextItem("Tap again to stop animating")
                     bulletedTextItem("Tap 2x to revert to base shape")

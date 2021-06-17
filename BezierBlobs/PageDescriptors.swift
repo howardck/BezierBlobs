@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Descriptor {
+struct PageDescriptors {
     
     enum PageType : String {
         case circle = "CIRCLE"
@@ -16,14 +16,14 @@ struct Descriptor {
         case rorschach = "RORSCHACH"
     }
     
-    var pageType: Descriptor.PageType
+    var pageType: PageDescriptors.PageType
     var order: Double
     var numPoints: Int
     var axisRelOffsets: (inner: CGFloat, baseCurve: Double, outer: CGFloat)
     var axisRelDeltas: (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
     var forceEqualAxes : Bool? = false
     
-    static let allDescriptors : [Descriptor] = [
+    static let allDescriptors : [PageDescriptors] = [
         .circle,
         .classicSE,
         .deltaWing,
@@ -53,40 +53,40 @@ struct Descriptor {
     an alternative approach (not pursued) using the PageType enum as a dict key
  */
 
-struct PageDescriptors {
-    
-    static let descriptorsForPagesDictionary :
-        
-        [ PageType : (order: Double, numPoints: Int,
-                      axisRelOffsets: (inner: CGFloat, baseCurve: CGFloat, outer: CGFloat),
-                      axisRelDeltas : (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>),
-                      forceEqualAxes: Bool) ] =
-        
-        [ .circle:
-            (order: 2.0, numPoints: 22,
-             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
-             axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
-             forceEqualAxes: true),
-          
-          .classicSE:
-            (order: 2.0, numPoints: 22,
-             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
-             axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
-             forceEqualAxes: true),
-          
-          .deltaWing:
-            (order: 2.0, numPoints: 22,
-             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
-             axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
-             forceEqualAxes: true),
-          
-          .rorschach:
-            (order: 2.0, numPoints: 22,
-             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
-             axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
-             forceEqualAxes: true)
-        ]
-}
+//struct DictBasedPageDescriptors {
+//    
+//    static let descriptorsForPagesDictionary :
+//        
+//        [ PageType : (order: Double, numPoints: Int,
+//                      axisRelOffsets: (inner: CGFloat, baseCurve: CGFloat, outer: CGFloat),
+//                      axisRelDeltas : (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>),
+//                      forceEqualAxes: Bool) ] =
+//        
+//        [ .circle:
+//            (order: 2.0, numPoints: 22,
+//             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
+//             axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
+//             forceEqualAxes: true),
+//          
+//          .classicSE:
+//            (order: 2.0, numPoints: 22,
+//             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
+//             axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
+//             forceEqualAxes: true),
+//          
+//          .deltaWing:
+//            (order: 2.0, numPoints: 22,
+//             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
+//             axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
+//             forceEqualAxes: true),
+//          
+//          .rorschach:
+//            (order: 2.0, numPoints: 22,
+//             axisRelOffsets: (inner: 0.25, baseCurve: 0.5, outer: 0.7),
+//             axisRelDeltas: (innerRange: 0.1..<0.3, outerRange: -0.3..<0.3),
+//             forceEqualAxes: true)
+//        ]
+//}
 
 struct PageDescriptors_TEST: View {
     var body: some View {

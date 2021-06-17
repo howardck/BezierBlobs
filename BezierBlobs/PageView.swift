@@ -7,26 +7,12 @@
 
 import SwiftUI
 
-enum PageType : String {
-    case circle = "CIRCLE"
-    case classicSE = "CLASSIC SE"
-    case deltaWing = "DELTA WING"
-    case rorschach = "RORSCHACH"
-}
-
-typealias PageDescription
-                = (n: Double,
-                   numPoints: Int,
-                   axisRelOffsets: (inner: CGFloat, baseCurve: Double, outer: CGFloat),
-                   axisRelDeltas: AxisRelativePerturbationDeltas,
-                   forceEqualAxes: Bool)
-
 struct PageView: View {
     
     //MARK:-
     // timerTimeInc - animationTimeInc == time paused between animations
-    static let timerTimeIncrement : Double = 3.6
-    static let animationTimeIncrement : Double = 2.4
+    static let timerTimeIncrement : Double = 3.2
+    static let animationTimeIncrement : Double = 2.0
     static let timerInitialTimeIncrement : Double = 0.0
 
     static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
@@ -34,7 +20,7 @@ struct PageView: View {
     static let NIL_RANGE : Range<CGFloat>
                 = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
-    let descriptors: Descriptor
+    let descriptors: PageDescriptors
             
     @ObservedObject var model = Model()
     
@@ -52,7 +38,7 @@ struct PageView: View {
     @State var isAnimating = false
     @State var isFirstTappedCycle = true
         
-    var pageType: Descriptor.PageType
+    var pageType: PageDescriptors.PageType
     
     //MARK:-
     func axesFor(size: CGSize, forceEqualAxes: Bool) -> (a: Double, b: Double) {
@@ -68,7 +54,7 @@ struct PageView: View {
     var numPoints : Int = 0
     
     //MARK:- PageView.INIT
-    init(descriptors: Descriptor,
+    init(descriptors: PageDescriptors,
          size: CGSize,
          deviceType: PlatformSpecifics.SizeClass) {
         
@@ -115,7 +101,7 @@ struct PageView: View {
         model.calculateSupportCurves()
     }
     
-    func numPointsAdjustedForCompactSizeDevices(descriptors: Descriptor,
+    func numPointsAdjustedForCompactSizeDevices(descriptors: PageDescriptors,
                                                 deviceType: PlatformSpecifics.SizeClass) -> Int {
         if deviceType == .compact && (pageType == .circle || pageType == .classicSE) {
             return Int(Double(descriptors.numPoints) * 0.85)
@@ -123,8 +109,8 @@ struct PageView: View {
         return descriptors.numPoints
     }
     
-    func DEBUG_printDescriptors(_ pageType: PageType,
-                                _ descriptors: PageDescription,
+    func DEBUG_printDescriptors(_ pageType: PageDescriptors.PageType,
+                                _ descriptors: PageDescriptors,
                                 _ size: CGSize,
                                 _ deviceType: PlatformSpecifics.SizeClass) {
 

@@ -55,6 +55,7 @@
 		3B779D252587CD5C00C5BC85 /* SELayerGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayerGroups.swift; sourceTree = "<group>"; };
 		3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscOptionsChooser.swift; sourceTree = "<group>"; };
 		3B82699B25D75C81002B11E4 /* MainScreen2Buttons2Lists_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen2Buttons2Lists_TEST.swift; sourceTree = "<group>"; };
+		3B832831267ADBF900DF476C /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		3B859FEE25BB3B470033DB7A /* MainScreenLayout_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenLayout_TEST.swift; sourceTree = "<group>"; };
 		3B89711B267546E70018B721 /* PageDescriptors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageDescriptors.swift; sourceTree = "<group>"; };
 		3B9A048A25C7C94D0097ECC6 /* Timer_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_TEST.swift; sourceTree = "<group>"; };
@@ -127,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				3BD421C225D635650034CE7D /* NOTES.txt */,
+				3B832831267ADBF900DF476C /* TODO.txt */,
 				3BB636A7264F414600BAD9AE /* SFSymbols.swift */,
 				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				5E57D2E0256D5CDB00D6B1C0 /* Model.swift */,
