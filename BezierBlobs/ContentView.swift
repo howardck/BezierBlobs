@@ -18,11 +18,8 @@ struct ContentView: View {
     var ps: PlatformSpecifics!
     var sizeClass : PlatformSpecifics.SizeClass!
     
-    // can't get any higher up in the view hierarchy than here
     @Environment(\.verticalSizeClass) var vSizeClass
     @Environment(\.horizontalSizeClass) var hSizeClass
-    
-    @Environment(\.scenePhase) var scenePhase
     
     init() {
         print("ContentView.init()")
@@ -43,29 +40,29 @@ struct ContentView: View {
                         Text("\(PageDescriptors.circle.pageType.rawValue)")
                     }
                 
-                PageView(descriptors: PageDescriptors.classicSE,
-                         size: gr.size,
-                         deviceType: deviceType)
-                    .tabItem {
-                        SFSymbol.tab_2
-                        Text("\(PageDescriptors.classicSE.pageType.rawValue)" )
-                    }
-
-                PageView(descriptors: PageDescriptors.deltaWing,
-                         size: gr.size,
-                         deviceType: deviceType)
-                    .tabItem {
-                        SFSymbol.tab_3
-                        Text("\(PageDescriptors.deltaWing.pageType.rawValue)" )
-                    }
-
-                PageView(descriptors: PageDescriptors.rorschach,
-                         size: gr.size,
-                         deviceType: deviceType)
-                    .tabItem {
-                        SFSymbol.tab_4
-                        Text("\(PageDescriptors.rorschach.pageType.rawValue)" )
-                  }
+//                PageView(descriptors: PageDescriptors.classicSE,
+//                         size: gr.size,
+//                         deviceType: deviceType)
+//                    .tabItem {
+//                        SFSymbol.tab_2
+//                        Text("\(PageDescriptors.classicSE.pageType.rawValue)" )
+//                    }
+//
+//                PageView(descriptors: PageDescriptors.deltaWing,
+//                         size: gr.size,
+//                         deviceType: deviceType)
+//                    .tabItem {
+//                        SFSymbol.tab_3
+//                        Text("\(PageDescriptors.deltaWing.pageType.rawValue)" )
+//                    }
+//
+//                PageView(descriptors: PageDescriptors.rorschach,
+//                         size: gr.size,
+//                         deviceType: deviceType)
+//                    .tabItem {
+//                        SFSymbol.tab_4
+//                        Text("\(PageDescriptors.rorschach.pageType.rawValue)" )
+//                  }
                 
                 ZStack {
                     PageGradientBackground()
@@ -93,20 +90,6 @@ struct ContentView: View {
                     Text("WELCOME")
                 }
             }
-//            .onChange(of: scenePhase) { newPhase in
-//                if newPhase == .inactive {
-//                    print( "%%%%%%% INACTIVE")
-//                }
-//                else if newPhase == .active {
-//                    print( "%%%%%%% ACTIVE")
-//                }
-//                else if newPhase == .background {
-//                    print( "%%%%%%% BACKGROUND")
-//                }
-//                else {
-//                    print( "%%%%%%% UNKNOWN SCENE PHASE !!!!!")
-//                }
-//            }
         }
     }
 }
