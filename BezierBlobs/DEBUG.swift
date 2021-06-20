@@ -21,6 +21,20 @@ struct DEBUG {
         print("   semiMinorAxis {a: \(axes.a)} semiMajorAxis {b: \(axes.b)}")
     }
     
+    static func printOffsetAndPerturbationData(pageType: PageDescriptors.PageType,
+                                               offsets: Offsets,
+                                               ranges: PerturbationDeltas) {
+    
+        print("PageView.init( {PageType.\(pageType)} ): \n" +
+                "   model.offsets : " +
+                "(inner: [\(offsets.inner.format(fspec: "4.2"))] <—-|-—> " +
+                "outer: [\(offsets.outer.format(fspec: "4.2"))]) ")
+        
+        print("   perturbationRanges: inner: (\(ranges.innerRange.lowerBound)..< \(ranges.innerRange.upperBound)) <—-|-—> " +
+                "outer: (\(ranges.outerRange.lowerBound)..< \(ranges.outerRange.upperBound))")
+    
+    }
+    
     static func printNormalsInfo(i: Int,
                                  theta: Double,
                                  vertex: CGPoint,

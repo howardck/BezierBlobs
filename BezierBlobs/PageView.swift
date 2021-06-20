@@ -59,49 +59,44 @@ struct PageView: View {
          deviceType: PlatformSpecifics.SizeClass) {
         
         self.pageType = descriptors.pageType
-        
-        //TODO: TODO: move to a separate DEBUG function invoked here
-        print("PageView.init( {PageType.\(pageType)} ): \n" +
-                "   numPoints: {\(descriptors.numPoints)} {" +
-                "w: \((size.width).format(fspec: "4.2")), " +
-                "h: \((size.height).format(fspec: "4.2"))}")
-//
-//        print("PageView.deviceType: {\(deviceType)}")
-//
-//        if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
-//            print("PageView.init(pageType.\(pageType.rawValue))")
-//            print ("PageView.init(). screen size   = " +
-//                    "W: {\(size.width)}, H: {\(size.height)}")
-//            print ("PageView.init(). semiAxis size = " +
-//                    "W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
-//        }
-        
         self.descriptors = descriptors
         
         let (a, b) = axesFor(size: size,
                              forceEqualAxes: descriptors.forceEqualAxes!)
-                
-        print("   semiMinorAxis a: [\(a)] semiMajorAxis b: [\(b)]")
+        
+        if Model.DEBUG_PRINT_BASIC_PAGE_INFO {
+            DEBUG.printBasicPageInfo(pageType: pageType,
+                                     numPoints: descriptors.numPoints,
+                                     size: size,
+                                     axes: (a, b))
+        }
 
         let baseCurveRatio = descriptors.axisRelOffsets.baseCurve
         let minAxis = CGFloat(min(a, b))
         let baseCurve = minAxis * CGFloat(baseCurveRatio)
         
-        model.offsets = (inner: (minAxis * descriptors.axisRelOffsets.inner - baseCurve),
+        // convert from semiminor-axis-relative ratios to absolute screen distances
+        model.offsets = (inner: minAxis * descriptors.axisRelOffsets.inner - baseCurve,
                          outer: minAxis * descriptors.axisRelOffsets.outer - baseCurve)
 
         model.calculatePerturbationDeltas(descriptors: descriptors, minAxis: minAxis)
+        
+        if Model.DEBUG_PRINT_OFFSET_AND_PERTURBATION_DATA {
+            DEBUG.printOffsetAndPerturbationData(pageType: descriptors.pageType,
+                                                 offsets: model.offsets,
+                                                 ranges: model.perturbationDeltas)
+        }
 
-        // KLUDGE? easier than setting up a parallel descriptors dict for compact devices
-        numPoints = numPointsAdjustedForCompactSizeDevices(descriptors: descriptors,
-                                                           deviceType: deviceType)
+        // KLUDGEY? easier than setting up a parallel descriptors dict for compact devices
+        numPoints = numPointsDownsizedForCompactSizeDevices(descriptors: descriptors,
+                                                            deviceType: deviceType)
         model.calculateSuperEllipse(n: descriptors.order,
                                     numPoints: numPoints,
                                     axes: (a * baseCurveRatio, b * baseCurveRatio) )
         model.calculateSupportCurves()
     }
     
-    func numPointsAdjustedForCompactSizeDevices(descriptors: PageDescriptors,
+    func numPointsDownsizedForCompactSizeDevices(descriptors: PageDescriptors,
                                                 deviceType: PlatformSpecifics.SizeClass) -> Int {
         if deviceType == .compact && (pageType == .circle || pageType == .classicSE) {
             return Int(Double(descriptors.numPoints) * 0.85)
@@ -109,22 +104,22 @@ struct PageView: View {
         return descriptors.numPoints
     }
     
-    func DEBUG_printDescriptors(_ pageType: PageDescriptors.PageType,
-                                _ descriptors: PageDescriptors,
-                                _ size: CGSize,
-                                _ deviceType: PlatformSpecifics.SizeClass) {
-
-        print("PageView.init( {PageType.\(pageType)} ): \n" +
-                "   numPoints: {\(descriptors.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
-        
-        print("PageView.deviceType: {\(deviceType)}")
-        
-        if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
-            print("PageView.init(pageType.\(pageType.rawValue))")
-            print ("PageView.init(). screen size   = W: {\(size.width)}, H: {\(size.height)}")
-            print ("PageView.init(). semiAxis size = W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
-        }
-    }
+//    func DEBUG_printDescriptors(_ pageType: PageDescriptors.PageType,
+//                                _ descriptors: PageDescriptors,
+//                                _ size: CGSize,
+//                                _ deviceType: PlatformSpecifics.SizeClass) {
+//
+//        print("PageView.init( {PageType.\(pageType)} ): \n" +
+//                "   numPoints: {\(descriptors.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
+//
+//        print("PageView.deviceType: {\(deviceType)}")
+//
+//        if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
+//            print("PageView.init(pageType.\(pageType.rawValue))")
+//            print ("PageView.init(). screen size   = W: {\(size.width)}, H: {\(size.height)}")
+//            print ("PageView.init(). semiAxis size = W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
+//        }
+//    }
     
     var body: some View {
     
