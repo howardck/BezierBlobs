@@ -42,7 +42,7 @@ struct PageDescriptors {
     static let deltaWing = Self(pageType: .deltaWing,
                                 order: 3.0, numPoints: 6,
                                 axisRelOffsets: (inner: 0.2, baseCurve: 0.4, outer: 0.75),
-                                axisRelDeltas: (innerRange: -0.1..<0.1, outerRange: -0.25..<0.25))
+                                axisRelDeltas: (innerRange: -0.05..<0.1, outerRange: -0.25..<0.25))
     static let rorschach = Self(pageType: .rorschach,
                                 order: 0.8, numPoints: 26,
                                 axisRelOffsets: (inner: 0.35, baseCurve: 0.6, outer: 0.8),

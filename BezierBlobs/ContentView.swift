@@ -40,29 +40,29 @@ struct ContentView: View {
                         Text("\(PageDescriptors.circle.pageType.rawValue)")
                     }
                 
-//                PageView(descriptors: PageDescriptors.classicSE,
-//                         size: gr.size,
-//                         deviceType: deviceType)
-//                    .tabItem {
-//                        SFSymbol.tab_2
-//                        Text("\(PageDescriptors.classicSE.pageType.rawValue)" )
-//                    }
-//
-//                PageView(descriptors: PageDescriptors.deltaWing,
-//                         size: gr.size,
-//                         deviceType: deviceType)
-//                    .tabItem {
-//                        SFSymbol.tab_3
-//                        Text("\(PageDescriptors.deltaWing.pageType.rawValue)" )
-//                    }
-//
-//                PageView(descriptors: PageDescriptors.rorschach,
-//                         size: gr.size,
-//                         deviceType: deviceType)
-//                    .tabItem {
-//                        SFSymbol.tab_4
-//                        Text("\(PageDescriptors.rorschach.pageType.rawValue)" )
-//                  }
+                PageView(descriptors: PageDescriptors.classicSE,
+                         size: gr.size,
+                         deviceType: deviceType)
+                    .tabItem {
+                        SFSymbol.tab_2
+                        Text("\(PageDescriptors.classicSE.pageType.rawValue)" )
+                    }
+
+                PageView(descriptors: PageDescriptors.deltaWing,
+                         size: gr.size,
+                         deviceType: deviceType)
+                    .tabItem {
+                        SFSymbol.tab_3
+                        Text("\(PageDescriptors.deltaWing.pageType.rawValue)" )
+                    }
+
+                PageView(descriptors: PageDescriptors.rorschach,
+                         size: gr.size,
+                         deviceType: deviceType)
+                    .tabItem {
+                        SFSymbol.tab_4
+                        Text("\(PageDescriptors.rorschach.pageType.rawValue)" )
+                  }
                 
                 ZStack {
                     PageGradientBackground()

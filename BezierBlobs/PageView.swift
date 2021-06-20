@@ -22,7 +22,8 @@ struct PageView: View {
                 = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
     let descriptors: PageDescriptors
-            
+    let pageType: PageDescriptors.PageType
+    
     @ObservedObject var model = Model()
     
     @EnvironmentObject var layers : SELayersViewModel
@@ -37,9 +38,6 @@ struct PageView: View {
                             = Timer.publish(every: PageView.timerTimeIncrement,
                                             on: .main, in: .common)
     @State var isAnimating = false
-    //@State var isFirstTappedCycle = true
-        
-    var pageType: PageDescriptors.PageType
     
     //MARK:-
     func axesFor(size: CGSize, forceEqualAxes: Bool) -> (a: Double, b: Double) {
@@ -112,7 +110,7 @@ struct PageView: View {
             
             // per-layer visibility turned on & off according to settings
             // in the layers view model, these in turn responding to
-            // selections make by the user in the layers chooser.
+            // selections made by the user in the layers chooser.
             
             SELayerGroupsVisibility(model: self.model)
         }
@@ -142,17 +140,10 @@ struct PageView: View {
                     model.animateToNextRandomizedPerturbationDelta()
                 }
             }
-
-            //if isFirstTappedCycle {
-                
-                //print("\nFIRST TAPPED CYCLE!\n")
-                //isFirstTappedCycle = false
-            
-                timer.connect().cancel()
-                timer = Timer.publish(every: PageView.timerTimeIncrement,
-                                      on: .main, in: .common)
-                _ = timer.connect()
-            //}
+            timer.connect().cancel()
+            timer = Timer.publish(every: PageView.timerTimeIncrement,
+                                  on: .main, in: .common)
+            _ = timer.connect()
         }
         //MARK: onTapGesture(2)
         .onTapGesture(count: 2) {
@@ -178,11 +169,7 @@ struct PageView: View {
             else {
                 if !isAnimating {
                     isAnimating = true
-                    
-                    // we've never tapped before and we're not yet animating.
-                    // ie we've done nothing to date; start the animation.
-            
-                    //isFirstTappedCycle = true
+
                     timer = Timer.publish(every: PageView.timerInitialTimeIncrement,
                                           on: .main, in: .common)
                     _ = timer.connect()
