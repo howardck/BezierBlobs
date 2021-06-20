@@ -7,34 +7,27 @@
 
 import SwiftUI
 
-typealias Axes = (a: Double, b: Double)
-//typealias Offsets = (inner: CGFloat, outer: CGFloat)
+extension Model {
+    static let DEBUG_PRINT_BASIC_PAGE_INFO = true
+    static let DEBUG_OVERLAY_SECOND_COPY_OF_NORMALS_PLUS_MARKERS = false
+    static let DEBUG_PRINT_VERTEX_NORMALS = false
+}
 
+typealias Axes = (a: Double, b: Double)
 typealias BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]
 typealias BoundingCurves = (inner: [CGPoint], outer: [CGPoint])
-
 typealias Offsets = (inner: CGFloat, outer: CGFloat)
  
 // the first form, given as relative percentages of the semiMinorAxis,
-// gets converted to the second form, as absolute screen distances
+// gets converted to the second form, in absolute screen distances
 typealias AxisRelativePerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
 
-// the innerRange is centred (more or less) on the inner curve; the outerRange on the outer
+// the innerRange is centred (more or less) on the inner curve, the outerRange on the outer
 typealias PerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CGFloat>)
-/*
-    Nomenclature is a bitch. at times I've referred to:
- 
-        o perturbation ranges
-        o perturbation deltas
-        o perturbation bands
-        o perturbation limits
-        o perturbation band curves
- 
-    and various combinations of the same. yikes! :-)
- */
+
 
 class Model: ObservableObject {
-    
+
     // it's be easier to say a nilDelta == 0..<0, but that's a crasher
     static let NIL_DELTAS : Range<CGFloat> = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
@@ -48,19 +41,6 @@ class Model: ObservableObject {
     }
     
     //MARK:-
-    
-    static let DEBUG_OVERLAY_SECOND_COPY_OF_NORMALS_PLUS_MARKERS = false
-    static let DEBUG_SHOW_EXPERIMENTAL_INNER_AND_OUTER_PERTURBATION_BANDS = false
-    static let DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS = false
-    static let DEBUG_PRINT_BASIC_SE_PARAMS = false
-    static let DEBUG_PRINT_VERTEX_NORMALS = false
-    static let DEBUG_TRACK_ZIGZAG_PHASING = false
-    static let DEBUG_PRINT_RANDOMIZED_OFFSET_CALCS = true
-    static let DEBUG_ADJUST_PERTURBATION_LIMITS = true
-    
-    
-    //MARK:-
-    
     @Published var blobCurve = [CGPoint]()
          
     // zig vs zag configurations:
@@ -206,9 +186,6 @@ class Model: ObservableObject {
     //MARK:-
     func setInitialBlobCurve() {
         
-        if Self.DEBUG_TRACK_ZIGZAG_PHASING {
-            print("Model.setInitialBlobCurve(PageType.\(pageType!.rawValue))" )
-        }
         blobCurve = baseCurve.map{ $0.vertex }
         nextPhaseIsZig = true
     }
