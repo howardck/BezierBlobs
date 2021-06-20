@@ -12,9 +12,7 @@ struct BezierBlobsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            
-//            SinglePage_TEST()
-                
+
             ContentView()
                 
                 .environmentObject(SELayersViewModel())

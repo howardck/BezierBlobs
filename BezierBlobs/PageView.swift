@@ -12,11 +12,12 @@ struct PageView: View {
     //MARK:-
     // timerTimeInc - animationTimeInc == time paused between animations
     static let timerTimeIncrement : Double = 3.2
-    static let animationTimeIncrement : Double = 2.0
+    static let animationTimeIncrement : Double = 1.6
     static let timerInitialTimeIncrement : Double = 0.0
 
     static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
     
+    // might be useful later for fixed perturbation ranges
     static let NIL_RANGE : Range<CGFloat>
                 = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
     
@@ -103,23 +104,6 @@ struct PageView: View {
         return descriptors.numPoints
     }
     
-//    func DEBUG_printDescriptors(_ pageType: PageDescriptors.PageType,
-//                                _ descriptors: PageDescriptors,
-//                                _ size: CGSize,
-//                                _ deviceType: PlatformSpecifics.SizeClass) {
-//
-//        print("PageView.init( {PageType.\(pageType)} ): \n" +
-//                "   numPoints: {\(descriptors.numPoints)} {w: \((size.width).format(fspec: "4.2")), h: \((size.height).format(fspec: "4.2"))}")
-//
-//        print("PageView.deviceType: {\(deviceType)}")
-//
-//        if Model.DEBUG_PRINT_PAGEVIEW_INIT_BASIC_AXIS_PARAMS {
-//            print("PageView.init(pageType.\(pageType.rawValue))")
-//            print ("PageView.init(). screen size   = W: {\(size.width)}, H: {\(size.height)}")
-//            print ("PageView.init(). semiAxis size = W: {\((size.width/2).format(fspec: "4.2"))} H: {\((size.height/2).format(fspec: "4.2"))}")
-//        }
-//    }
-    
     var body: some View {
     
         ZStack {
@@ -127,8 +111,8 @@ struct PageView: View {
             PageGradientBackground()
             
             // per-layer visibility turned on & off according to settings
-            // in the layers view model, these in responding to
-            // selections make by the suer in the layers chooser.
+            // in the layers view model, these in turn responding to
+            // selections make by the user in the layers chooser.
             
             SELayerGroupsVisibility(model: self.model)
         }
