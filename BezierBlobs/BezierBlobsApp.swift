@@ -20,12 +20,12 @@ struct BezierBlobsApp: App {
                 .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
                 .environmentObject(ColorScheme(background: Color.init(white: 0.4),
-                                               stroke: .red,
+                                               stroke: .orange,
                                                fill: .blue,
                                                buttonFace: .blue,
                                                buttonEdge: Color.init(white: 0.95),
-                                               allVertices: .yellow,
-                                               evenNumberedVertices: .green,
+                                               allVertices: .green,
+                                               evenNumberedVertices: .red,
                                                vertex_0: .orange,
                                                offsetMarkers: .black,
                                                baseCurveMarkers: .white))
