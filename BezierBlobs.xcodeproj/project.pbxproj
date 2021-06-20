@@ -15,6 +15,7 @@
 		3B47B469264AC92A0016E0AA /* MiscOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47B468264AC92A0016E0AA /* MiscOptionsModel.swift */; };
 		3B47B46B264ACC8C0016E0AA /* EnumBasedListChooser_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47B46A264ACC8C0016E0AA /* EnumBasedListChooser_TEST.swift */; };
 		3B5A4BD425B90BB800CC5C26 /* TabView_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5A4BD325B90BB800CC5C26 /* TabView_TEST.swift */; };
+		3B67A9C9267BC5B7003F163E /* DEBUG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67A9C8267BC5B7003F163E /* DEBUG.swift */; };
 		3B686E032590091C00466BF5 /* SELayersChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B686E022590091C00466BF5 /* SELayersChooser.swift */; };
 		3B779D262587CD5C00C5BC85 /* SELayerGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B779D252587CD5C00C5BC85 /* SELayerGroups.swift */; };
 		3B81690525D56C9A0068010B /* MiscOptionsChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */; };
@@ -51,6 +52,7 @@
 		3B47B468264AC92A0016E0AA /* MiscOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscOptionsModel.swift; sourceTree = "<group>"; };
 		3B47B46A264ACC8C0016E0AA /* EnumBasedListChooser_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumBasedListChooser_TEST.swift; sourceTree = "<group>"; };
 		3B5A4BD325B90BB800CC5C26 /* TabView_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView_TEST.swift; sourceTree = "<group>"; };
+		3B67A9C8267BC5B7003F163E /* DEBUG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEBUG.swift; sourceTree = "<group>"; };
 		3B686E022590091C00466BF5 /* SELayersChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayersChooser.swift; sourceTree = "<group>"; };
 		3B779D252587CD5C00C5BC85 /* SELayerGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayerGroups.swift; sourceTree = "<group>"; };
 		3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscOptionsChooser.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			children = (
 				3BD421C225D635650034CE7D /* NOTES.txt */,
 				3B832831267ADBF900DF476C /* TODO.txt */,
+				3B67A9C8267BC5B7003F163E /* DEBUG.swift */,
 				3BB636A7264F414600BAD9AE /* SFSymbols.swift */,
 				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				5E57D2E0256D5CDB00D6B1C0 /* Model.swift */,
@@ -245,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BA4072A2658864900349ECE /* VDSP_AnimatableVector.swift in Sources */,
+				3B67A9C9267BC5B7003F163E /* DEBUG.swift in Sources */,
 				3BB0F23D25DD70C100725800 /* SuperEllipseParametricCurves.swift in Sources */,
 				3B11D73925CC73450080F72F /* SELayersModel.swift in Sources */,
 				3B89711C267546E70018B721 /* PageDescriptors.swift in Sources */,
