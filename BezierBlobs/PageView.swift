@@ -37,7 +37,7 @@ struct PageView: View {
                             = Timer.publish(every: PageView.timerTimeIncrement,
                                             on: .main, in: .common)
     @State var isAnimating = false
-    @State var isFirstTappedCycle = true
+    //@State var isFirstTappedCycle = true
         
     var pageType: PageDescriptors.PageType
     
@@ -143,16 +143,16 @@ struct PageView: View {
                 }
             }
 
-            if isFirstTappedCycle {
+            //if isFirstTappedCycle {
                 
-                print("\nFIRST TAPPED CYCLE!\n")
-                isFirstTappedCycle = false
+                //print("\nFIRST TAPPED CYCLE!\n")
+                //isFirstTappedCycle = false
             
                 timer.connect().cancel()
                 timer = Timer.publish(every: PageView.timerTimeIncrement,
                                       on: .main, in: .common)
                 _ = timer.connect()
-            }
+            //}
         }
         //MARK: onTapGesture(2)
         .onTapGesture(count: 2) {
@@ -182,7 +182,7 @@ struct PageView: View {
                     // we've never tapped before and we're not yet animating.
                     // ie we've done nothing to date; start the animation.
             
-                    isFirstTappedCycle = true
+                    //isFirstTappedCycle = true
                     timer = Timer.publish(every: PageView.timerInitialTimeIncrement,
                                           on: .main, in: .common)
                     _ = timer.connect()
