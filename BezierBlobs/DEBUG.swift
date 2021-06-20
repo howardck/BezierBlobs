@@ -9,9 +9,24 @@ import SwiftUI
 
 struct DEBUG {
     
-    static func printNormalsInfo(i: Int, theta: Double, vertex: CGPoint, normal: CGVector) {
+    static func printBasicPageInfo(pageType: PageDescriptors.PageType,
+                                   numPoints: Int,
+                                   size: CGSize,
+                                   axes: (a: Double, b: Double)) {
         
-        print( "[\((i).format(fspec: "2"))]  " +
+        print("PageView.init( {PageType.\(pageType)} ): \n" +
+                "   numPoints: {\(numPoints)} {" +
+                "W: \((size.width).format(fspec: "4.2")), " +
+                "H: \((size.height).format(fspec: "4.2"))}")
+        print("   semiMinorAxis {a: \(axes.a)} semiMajorAxis {b: \(axes.b)}")
+    }
+    
+    static func printNormalsInfo(i: Int,
+                                 theta: Double,
+                                 vertex: CGPoint,
+                                 normal: CGVector) {
+        
+        print( "[\((i).format(fspec: "2"))] " +
                 "theta: {\(theta.format(fspec: "5.3"))}  {" +
                 "x: \(vertex.x.format(fspec: "7.2")), " +
                 "y: \(vertex.y.format(fspec: "7.2"))},  {" +
@@ -19,7 +34,7 @@ struct DEBUG {
                 "dY: \(normal.dy.format(fspec: "5.3"))}")
         
             /*
-                alternatively:
+            alternatively:
                 let i_s = "\(i.format(fspec: "2"))"
                 let theta_s = "\(theta.format(fspec: "5.3"))"
                 let x_s = "\(vertex.x.format(fspec:" 7.2"))"
