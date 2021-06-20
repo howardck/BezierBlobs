@@ -50,6 +50,7 @@ struct SELayerGroupsVisibility: View {
                              markerRadius: markerStyles[.offsets]!,
                              showOffsets: (inner: true, outer: false))
             }
+            
             if Model.DEBUG_OVERLAY_SECOND_COPY_OF_NORMALS_PLUS_MARKERS {
                 if layers.isVisible(layerWithType: .normals) {
                     NormalsPlusMarkers(normals: model.normalsCurve,
