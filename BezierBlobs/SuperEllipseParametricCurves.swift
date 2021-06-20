@@ -17,7 +17,7 @@ struct SEParametrics {
     {
         var baseCurve : BaseCurvePairs = [(vertex: CGPoint, normal: CGVector)]()
         
-        if Model.DEBUG_PRINT_VERTEX_NORMALS { print("Vertex + Normals:") }
+        if DEBUG.PRINT_VERTEX_NORMALS { print("Vertex + Normals:") }
         
         var i = 0
         for theta in stride(from: 0,
@@ -54,7 +54,7 @@ struct SEParametrics {
 
             baseCurve += [(vertex: vertex, normal: normal)]
             
-            if Model.DEBUG_PRINT_VERTEX_NORMALS {
+            if DEBUG.PRINT_VERTEX_NORMALS {
                 DEBUG.printNormalsInfo(i: i, theta: theta, vertex: vertex, normal: normal)
                 i += 1
             }

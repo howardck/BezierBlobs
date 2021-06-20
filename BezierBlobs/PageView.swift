@@ -64,7 +64,7 @@ struct PageView: View {
         let (a, b) = axesFor(size: size,
                              forceEqualAxes: descriptors.forceEqualAxes!)
         
-        if Model.DEBUG_PRINT_BASIC_PAGE_INFO {
+        if DEBUG.PRINT_BASIC_PAGE_INFO {
             DEBUG.printBasicPageInfo(pageType: pageType,
                                      numPoints: descriptors.numPoints,
                                      size: size,
@@ -81,22 +81,21 @@ struct PageView: View {
 
         model.calculatePerturbationDeltas(descriptors: descriptors, minAxis: minAxis)
         
-        if Model.DEBUG_PRINT_OFFSET_AND_PERTURBATION_DATA {
+        if DEBUG.PRINT_OFFSET_AND_PERTURBATION_DATA {
             DEBUG.printOffsetAndPerturbationData(pageType: descriptors.pageType,
                                                  offsets: model.offsets,
                                                  ranges: model.perturbationDeltas)
         }
-
         // KLUDGEY? easier than setting up a parallel descriptors dict for compact devices
-        numPoints = numPointsDownsizedForCompactSizeDevices(descriptors: descriptors,
-                                                            deviceType: deviceType)
+        numPoints = downsizeNumPointsForCompactSizeDevices(descriptors: descriptors,
+                                                           deviceType: deviceType)
         model.calculateSuperEllipse(n: descriptors.order,
                                     numPoints: numPoints,
                                     axes: (a * baseCurveRatio, b * baseCurveRatio) )
         model.calculateSupportCurves()
     }
     
-    func numPointsDownsizedForCompactSizeDevices(descriptors: PageDescriptors,
+    func downsizeNumPointsForCompactSizeDevices(descriptors: PageDescriptors,
                                                 deviceType: PlatformSpecifics.SizeClass) -> Int {
         if deviceType == .compact && (pageType == .circle || pageType == .classicSE) {
             return Int(Double(descriptors.numPoints) * 0.85)

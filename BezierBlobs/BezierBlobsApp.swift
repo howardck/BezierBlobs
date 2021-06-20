@@ -19,11 +19,16 @@ struct BezierBlobsApp: App {
                 
                 .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
+                
+            /*  I started using this terminology before discovering Apple's
+                built-in light & dark mode support. this isn't that, and I'll
+                leave this nomenclature in place until I need the former (if ever).
+             */
                 .environmentObject(ColorScheme(background: Color.init(white: 0.4),
                                                stroke: .orange,
                                                fill: .blue,
-                                               buttonFace: .blue,
-                                               buttonEdge: Color.init(white: 0.95),
+                                               buttonFace: .orange,
+                                               buttonEdge: Color.init(white: 0.1),
                                                allVertices: .green,
                                                evenNumberedVertices: .red,
                                                vertex_0: .orange,
