@@ -25,11 +25,11 @@ struct BezierBlobsApp: App {
                 .environmentObject(ColorScheme(background: Color.init(white: 0.4),
                                                stroke: .orange,
                                                fill: .blue,
-                                               buttonFace: .orange,
-                                               buttonEdge: Color.init(white: 0.1),
+                                               buttonFace: .green,
+                                               buttonEdge: Color.init(white: 0.25),
                                                allVertices: .green,
                                                evenNumberedVertices: .red,
-                                               vertex_0: .orange,
+                                               vertex_0: .yellow,
                                                offsetMarkers: .black,
                                                baseCurveMarkers: .white))
 //            TabViewTest()

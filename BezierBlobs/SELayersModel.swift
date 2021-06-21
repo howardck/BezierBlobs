@@ -17,7 +17,7 @@ class SELayersViewModel : ObservableObject {
         Layer(type: .blob_all_markers, section: .animatingBlobCurves),
         
     // SUPPORT CURVES
-        Layer(type: .baseCurve_and_markers, section: .staticSupportCurves),
+        Layer(type: .baseCurve_and_markers, section: .staticSupportCurves, visible: true),
         Layer(type: .offsetsEnvelope, section: .staticSupportCurves, visible: true),
         Layer(type: .normals, section: .staticSupportCurves, visible: true),
         
