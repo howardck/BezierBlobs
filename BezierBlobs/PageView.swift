@@ -78,6 +78,7 @@ struct PageView: View {
         model.offsets = (inner: minAxis * descriptors.axisRelOffsets.inner - baseCurve,
                          outer: minAxis * descriptors.axisRelOffsets.outer - baseCurve)
 
+        // do the same for relative perturbationDeltas -> absolute pDeltas
         model.calculatePerturbationDeltas(descriptors: descriptors, minAxis: minAxis)
         
         if DEBUG.PRINT_OFFSET_AND_PERTURBATION_DATA {
