@@ -8,14 +8,8 @@
 import SwiftUI
 
 struct PageView: View {
-    
-    //MARK:-
-    // timerTimeInc - animationTimeInc == time paused between animations
-    static let timerTimeIncrement : Double = 3.2
-    static let animationTimeIncrement : Double = 1.6
-    static let timerInitialTimeIncrement : Double = 0.0
 
-    static let animationStyle = Animation.easeOut(duration: PageView.animationTimeIncrement)
+    static let animationStyle = Animation.easeOut(duration: AnimationTimer.animationTimeIncrement)
     
     // might be useful later for fixed perturbation ranges
     static let NIL_RANGE : Range<CGFloat>
@@ -24,20 +18,24 @@ struct PageView: View {
     let descriptors: PageDescriptors
     let pageType: PageDescriptors.PageType
     
-    @ObservedObject var model = Model()
+    var numPoints : Int = 0
     
+    //MARK:- @ObservedObject
+    
+    @ObservedObject var model = Model()
+    @ObservedObject var animationTimer = AnimationTimer()
+    
+    //MARK:- @EnvironmentObject
+
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
     @EnvironmentObject var colorScheme : ColorScheme
     
-    //MARK:-
+    //MARK:- @State
+    
     @State var showLayersList = false
     @State var showMiscOptionsList = false
     
-    @State var timer: Timer.TimerPublisher
-                            = Timer.publish(every: PageView.timerTimeIncrement,
-                                            on: .main, in: .common)
-    @State var isAnimating = false
     
     //MARK:-
     func axesFor(size: CGSize, forceEqualAxes: Bool) -> (a: Double, b: Double) {
@@ -49,8 +47,6 @@ struct PageView: View {
         }
         return (a, b)
     }
-    
-    var numPoints : Int = 0
     
     //MARK:- PageView.INIT
     init(descriptors: PageDescriptors,
@@ -92,6 +88,7 @@ struct PageView: View {
         model.calculateSuperEllipse(n: descriptors.order,
                                     numPoints: numPoints,
                                     axes: (a * baseCurveRatio, b * baseCurveRatio) )
+        
         model.calculateSupportCurves()
     }
     
@@ -120,40 +117,34 @@ struct PageView: View {
             print("\nPageView.onAppear{ PageType.\(pageType) }")
         }
         
-        .onDisappear { 
-            isAnimating = false
-            timer.connect().cancel()
+        .onDisappear {
+            animationTimer.cancel()
         }
     
         //MARK: onReceive()
-        .onReceive(timer) { _ in
+        .onReceive(animationTimer.timer) { _ in
             
             withAnimation(PageView.animationStyle) {
                 
                 switch options.currPerturbStrategy {
-
-                case .staticZigZags :
                     
-                    model.animateToNextFixedPerturbationDelta()
-
-                case .randomizedZigZags :
-
-                    model.animateToNextRandomizedPerturbationDelta()
+                    case .staticZigZags :
+                        model.animateToNextFixedPerturbationDelta()
+                        
+                    case .randomizedZigZags :
+                        model.animateToNextRandomizedPerturbationDelta()
                 }
             }
-            timer.connect().cancel()
-            timer = Timer.publish(every: PageView.timerTimeIncrement,
-                                  on: .main, in: .common)
-            _ = timer.connect()
+            
+            animationTimer.restart()
         }
+        
         //MARK: onTapGesture(2)
         .onTapGesture(count: 2) {
             
             withAnimation(Animation.easeInOut(duration: 0.6))
             {
-                isAnimating = false
-                timer.connect().cancel()
-                
+                animationTimer.cancel()
                 model.returnToInitialConfiguration()
             }
         }
@@ -168,16 +159,11 @@ struct PageView: View {
                 showMiscOptionsList = false
             }
             else {
-                if !isAnimating {
-                    isAnimating = true
-
-                    timer = Timer.publish(every: PageView.timerInitialTimeIncrement,
-                                          on: .main, in: .common)
-                    _ = timer.connect()
+                if !animationTimer.isAnimating {
+                    animationTimer.start()
                 }
                 else {
-                    isAnimating = false
-                    timer.connect().cancel()
+                    animationTimer.cancel()
                 }
             }
         }
