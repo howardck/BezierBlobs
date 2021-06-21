@@ -38,7 +38,7 @@ struct PageDescriptors {
                                 axisRelDeltas: (innerRange: 0..<0.1, outerRange: -0.25..<0.25))
     static let rorschach = Self(pageType: .rorschach,
                                 order: 0.8, numPoints: 26,
-                                axisRelOffsets: (inner: 0.45, baseCurve: 0.7, outer: 0.9),
+                                axisRelOffsets: (inner: 0.4, baseCurve: 0.7, outer: 1.1),
                                 axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.3..<0.2))
 }
 
