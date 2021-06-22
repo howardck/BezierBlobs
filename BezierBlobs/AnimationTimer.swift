@@ -9,18 +9,19 @@ import Foundation
 
 class AnimationTimer: ObservableObject {
     
-    // timeIncrement - animationTimeIncrement == pause between animations
+    // timeIncrement - animationTimeIncrement
+    //   == pause between animations
 
     static let timeIncrement : Double = 3.2
-    static let animationTimeIncrement : Double = 1.2
+    static let animationTimeIncrement : Double = 1.6
     
-    @Published var isAnimating : Bool = false
+    @Published var isAnimating = false
     
     var timer: Timer.TimerPublisher
-                        = Timer.publish(every: AnimationTimer.timeIncrement,
-                                        on: .main, in: .common)
+                       
     init() {
-        print("AnimationTimer.init()")
+        timer = Timer.publish(every: AnimationTimer.timeIncrement,
+                              on: .main, in: .common)
     }
     
     func start(timeIncrement : Double = 0) {

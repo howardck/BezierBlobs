@@ -10,18 +10,14 @@ import SwiftUI
 enum MarkerType : CaseIterable {
     case blobAllMarkers
     case vertexOrigin
-    case innerMarkers
     case offsets
     case baseCurve
 }
-
-//typealias MarkerRadius = CGFloat
 
 let r: CGFloat = 15
 let markerStyles : [MarkerType : CGFloat] = [
     .blobAllMarkers :   r - 1,
     .vertexOrigin :     r - 1,
-    .innerMarkers :     r - 1,
     .offsets :          r/2.0 - 1,
     .baseCurve :        r/2.0,
 ]
@@ -30,10 +26,8 @@ let markerStyles : [MarkerType : CGFloat] = [
 //let orangeish = Gradient(colors: [.white, .orange, .red, .white])
 //let orangeish = Gradient(colors: [.white, .orange, .red, .black])
 let orangeish = Gradient(colors: [.white, .orange, .red, .white, Color.init(white: 0)])
-let blueGradient = Gradient(colors: [.blue, .init(white: 0.45)])
+let blueGradient = Gradient(colors: [.init(white: 0.2), .blue, .init(white: 0.9)])
 let redGradient = Gradient(colors: [.red, .yellow])
-
-//let someG = Gradient(colors: [.blue, .white, .blue])
 let highlitRed = Gradient(colors: [.black, .red, .black])
 
 //MARK:- AnimatingBlob_Filled
@@ -46,9 +40,7 @@ struct AnimatingBlob_Filled: View {
     var curve: [CGPoint]
     var layerType : LayerType
         
-//  another look ...
-//  let gradient = LinearGradient(gradient: highlitRed,
-    let gradient = LinearGradient(gradient: orangeish,
+    let gradient = LinearGradient(gradient: blueGradient,
                                   startPoint: .topLeading,
                                   endPoint: .bottomTrailing)
     var body : some View {
@@ -73,7 +65,8 @@ struct AnimatingBlob_Filled: View {
                 
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
-                    .fill(colorScheme.fill)
+                    .fill(gradient)
+                    //.fill(colorScheme.fill)
             }
         }
     }

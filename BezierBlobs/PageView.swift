@@ -135,7 +135,6 @@ struct PageView: View {
                         model.animateToNextRandomizedPerturbationDelta()
                 }
             }
-            
             animationTimer.restart()
         }
         
@@ -155,8 +154,7 @@ struct PageView: View {
             print("PageView.onTapGesture(1) { PageType.\(pageType) }")
             
             if showLayersList || showMiscOptionsList {
-                showLayersList = false
-                showMiscOptionsList = false
+                showLayersList = false; showMiscOptionsList = false
             }
             else {
                 if !animationTimer.isAnimating {
@@ -170,11 +168,13 @@ struct PageView: View {
         .overlay(displaySuperEllipseMetrics(numPoints: numPoints))
         .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
         .overlay(
+            
             MainScreenUI(showLayersList : $showLayersList,
                          showMiscOptionsList: $showMiscOptionsList)
         )
     }
     
+    //MARK:-
     func displaySuperEllipseMetrics(numPoints: Int) -> some View {
         VStack(spacing: 10) {
             DropShadowedText(text: "numPoints: \(numPoints)",
