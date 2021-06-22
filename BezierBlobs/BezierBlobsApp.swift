@@ -18,18 +18,18 @@ struct BezierBlobsApp: App {
                 .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
                 
-            /*  I started using this terminology before discovering Apple's
-                built-in light & dark mode support. this isn't that, and I'll
-                leave this nomenclature in place until I need the former (if ever).
-             */
+        /*  I started using this nomenclature before discovering Apple's
+            built-in light & dark mode support. this isn't that, and I'll
+            leave this nomenclature in place until I need the former (if ever).
+         */
                 .environmentObject(ColorScheme(background: Color.init(white: 0.4),
                                                stroke: .orange,
                                                fill: .blue,
-                                               buttonFace: Color.init(white: 0.1),
+                                               buttonFace: .black,
                                                buttonEdge: .orange,
                                                allVertices: .green,
                                                evenNumberedVertices: .red,
-                                               vertex_0: .yellow,
+                                               vertex_0: .orange,
                                                offsetMarkers: .black,
                                                baseCurveMarkers: .white))
 //            TabViewTest()

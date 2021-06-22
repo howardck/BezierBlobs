@@ -77,8 +77,12 @@ struct TwoButtonPanel : View {
     
     @EnvironmentObject var colorScheme : ColorScheme
     
-    var baseOffset = CGSize(width: 2.25, height: 2.25)
-    var edgeOffset = CGSize(width: 2, height: 2)
+//    var baseOffset = CGSize(width: 2, height: 2)
+//    var edgeOffset = CGSize(width: 1, height: 1)
+//    let buttonSize = CGSize(width: 80, height: 60)
+    
+    var baseOffset = CGSize(width: 2, height: 2)
+    var edgeOffset = CGSize(width: 1, height: 1)
     let buttonSize = CGSize(width: 80, height: 60)
     
     var body: some View {

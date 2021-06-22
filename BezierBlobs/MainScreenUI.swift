@@ -9,15 +9,14 @@ import SwiftUI
 
 struct MainScreenUI: View {
     
-    static let TWO_BUTTON_PADDING : CGFloat = 80
-    static let TWO_BUTTON_PANEL_ON_LEFT = false
+    static let TWO_BUTTON_PADDING : CGFloat = 70
+    static let TWO_BUTTON_PANEL_ON_LEFT = true
     
     @Binding var showLayersList: Bool
     @Binding var showMiscOptionsList : Bool
     
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
-    @EnvironmentObject var colorScheme : ColorScheme
     
     var body: some View {
         
@@ -47,7 +46,7 @@ struct MainScreenUI: View {
                     }
                 }
                 else if showMiscOptionsList {
-                    // this numbers work for my iPhone Xs
+                    // these numbers work for my iPhone Xs
                     // ------------------------------------
                     let s = CGSize(width: 340, height: 490)
                     // ------------------------------------
@@ -58,17 +57,10 @@ struct MainScreenUI: View {
                         }
                         
                         ZStack {
-                            MiscOptionsChooser(
-                                smoothed: $options.smoothed,
-                                // OLD STYLE: display the options out of an array
-                                // perturbationOptions: $options.perturbationOptions,
-                                
-                                // NEW STYLE: the ForEach knows all the options
-                                // from a static .allCases, so only the curr
-                                // value of the enum is needed to show selection
-                                selection: $options.currPerturbStrategy)
-                                
+                            MiscOptionsChooser(smoothed: $options.smoothed,
+                                               selection: $options.currPerturbStrategy)
                                 .frame(width: s.width, height: s.height)
+                            
                             BezelFrame(color: .orange, size: s)
                         }
                         .padding(MainScreenUI.TWO_BUTTON_PADDING)
@@ -96,7 +88,6 @@ struct MainScreenUI: View {
                     }
                 }
             }
-        
     }
 }
 
@@ -108,18 +99,99 @@ Previews ERROR MESSAGE:
 HOW TO DO THIS ??
 */
 
-//struct ScreenUI_Previews: PreviewProvider {
-//    @State static var showLayersList = false
-//    @State static var showMiscOptionsList = false
-//
-//    @EnvironmentObject var layers : SELayersViewModel
-//    @EnvironmentObject var options : MiscOptionsModel
-//
-//    @EnvironmentObject var colorScheme : ColorScheme
-//
-//    static var previews: some View {
-//
-//        MainScreenUI(showLayersList : $showLayersList,
-//                     showMiscOptionsList: $showMiscOptionsList)
-//    }
-//}
+struct ScreenUI_Previews: PreviewProvider {
+    @State static var showLayersList = false
+    @State static var showMiscOptionsList = false
+
+    @EnvironmentObject var layers : SELayersViewModel
+    @EnvironmentObject var options : MiscOptionsModel
+
+    static var previews: some View {
+        
+        VStack {
+            let s = CGSize(width: 300, height: 0)
+            TwoButtonPanel(showLayersList: $showLayersList,
+                           showMiscOptionsList: $showMiscOptionsList)
+                .frame(width: s.width)
+                .border(Color.red)
+                .padding(MainScreenUI.TWO_BUTTON_PADDING)
+                .environmentObject(ColorScheme(background: Color.init(white: 0.4),
+                                               stroke: .orange,
+                                               fill: .blue,
+                                               buttonFace: Color.init(white: 0.1),
+                                               buttonEdge: .orange,
+                                               allVertices: .green,
+                                               evenNumberedVertices: .red,
+                                               vertex_0: .yellow,
+                                               offsetMarkers: .black,
+                                               baseCurveMarkers: .white))
+            
+            TwoButtonPanel(showLayersList: $showLayersList,
+                           showMiscOptionsList: $showMiscOptionsList)
+                .frame(width: s.width)
+                .border(Color.red)
+                .padding(MainScreenUI.TWO_BUTTON_PADDING)
+                .environmentObject(ColorScheme(background: Color.init(white: 0.4),
+                                               stroke: .orange,
+                                               fill: .blue,
+                                               buttonFace: Color.init(white: 0.1),
+                                               buttonEdge: .white,
+                                               allVertices: .green,
+                                               evenNumberedVertices: .red,
+                                               vertex_0: .yellow,
+                                               offsetMarkers: .black,
+                                               baseCurveMarkers: .white))
+            
+            TwoButtonPanel(showLayersList: $showLayersList,
+                           showMiscOptionsList: $showMiscOptionsList)
+                .frame(width: s.width)
+                .border(Color.red)
+                .padding(MainScreenUI.TWO_BUTTON_PADDING)
+                .environmentObject(ColorScheme(background: Color.init(white: 0.4),
+                                               stroke: .orange,
+                                               fill: .blue,
+                                               buttonFace: .red,
+                                               buttonEdge: .yellow,
+                                               allVertices: .green,
+                                               evenNumberedVertices: .red,
+                                               vertex_0: .yellow,
+                                               offsetMarkers: .black,
+                                               baseCurveMarkers: .white))
+            
+            TwoButtonPanel(showLayersList: $showLayersList,
+                           showMiscOptionsList: $showMiscOptionsList)
+                .frame(width: s.width)
+                .border(Color.red)
+                .padding(MainScreenUI.TWO_BUTTON_PADDING)
+                .environmentObject(ColorScheme(background: Color.init(white: 0.4),
+                                               stroke: .orange,
+                                               fill: .blue,
+                                               buttonFace: Color(UIColor.red),
+                                               buttonEdge: .yellow,
+                                               allVertices: .green,
+                                               evenNumberedVertices: .red,
+                                               vertex_0: .yellow,
+                                               offsetMarkers: .black,
+                                               baseCurveMarkers: .white))
+            
+            TwoButtonPanel(showLayersList: $showLayersList,
+                           showMiscOptionsList: $showMiscOptionsList)
+                .frame(width: s.width)
+                .border(Color.red)
+                .padding(MainScreenUI.TWO_BUTTON_PADDING)
+                .environmentObject(ColorScheme(background: Color.init(white: 0.4),
+                                               stroke: .orange,
+                                               fill: .blue,
+                                               buttonFace: Color.init(white: 0.1),
+                                               buttonEdge: .red,
+                                               allVertices: .green,
+                                               evenNumberedVertices: .red,
+                                               vertex_0: .yellow,
+                                               offsetMarkers: .black,
+                                               baseCurveMarkers: .white))
+            
+            Spacer()
+        }
+        .background(Color.gray)
+    }
+}
