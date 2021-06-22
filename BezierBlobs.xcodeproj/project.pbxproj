@@ -26,7 +26,7 @@
 		3B9A048B25C7C94D0097ECC6 /* Timer_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9A048A25C7C94D0097ECC6 /* Timer_TEST.swift */; };
 		3BA4072A2658864900349ECE /* VDSP_AnimatableVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA407292658864900349ECE /* VDSP_AnimatableVector.swift */; };
 		3BB094B925D9E42D00DE96CF /* EmojiView_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB094B825D9E42D00DE96CF /* EmojiView_TEST.swift */; };
-		3BB0F23D25DD70C100725800 /* SuperEllipseParametricCurves.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0F23C25DD70C100725800 /* SuperEllipseParametricCurves.swift */; };
+		3BB0F23D25DD70C100725800 /* SuperEllipseParametrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0F23C25DD70C100725800 /* SuperEllipseParametrics.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* OtherUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* OtherUI.swift */; };
 		3BB636A8264F414600BAD9AE /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB636A7264F414600BAD9AE /* SFSymbols.swift */; };
 		3BB6692D2673BB7F00C57603 /* SELayerGroupsVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6692C2673BB7F00C57603 /* SELayerGroupsVisibility.swift */; };
@@ -65,7 +65,7 @@
 		3B9A048A25C7C94D0097ECC6 /* Timer_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_TEST.swift; sourceTree = "<group>"; };
 		3BA407292658864900349ECE /* VDSP_AnimatableVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDSP_AnimatableVector.swift; sourceTree = "<group>"; };
 		3BB094B825D9E42D00DE96CF /* EmojiView_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView_TEST.swift; sourceTree = "<group>"; };
-		3BB0F23C25DD70C100725800 /* SuperEllipseParametricCurves.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseParametricCurves.swift; sourceTree = "<group>"; };
+		3BB0F23C25DD70C100725800 /* SuperEllipseParametrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseParametrics.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* OtherUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUI.swift; sourceTree = "<group>"; };
 		3BB636A7264F414600BAD9AE /* SFSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbols.swift; sourceTree = "<group>"; };
 		3BB6692C2673BB7F00C57603 /* SELayerGroupsVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayerGroupsVisibility.swift; sourceTree = "<group>"; };
@@ -136,15 +136,15 @@
 				3B67A9C8267BC5B7003F163E /* DEBUG.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
 				5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */,
+				5E57D2E0256D5CDB00D6B1C0 /* Model.swift */,
 				5E57D2DF256D5CDB00D6B1C0 /* PageView.swift */,
+				3B922D4A2680CB6800310585 /* AnimationTimer.swift */,
 				5E57D2DC256D5CBB00D6B1C0 /* PlatformSpecifics.swift */,
 				3B89711B267546E70018B721 /* PageDescriptors.swift */,
-				5E57D2E0256D5CDB00D6B1C0 /* Model.swift */,
 				3B19B090265D908500F63724 /* MainScreenUI.swift */,
 				3BB48CC12581A2CD005DEBB8 /* OtherUI.swift */,
 				3BB636A7264F414600BAD9AE /* SFSymbols.swift */,
-				3B922D4A2680CB6800310585 /* AnimationTimer.swift */,
-				3BB0F23C25DD70C100725800 /* SuperEllipseParametricCurves.swift */,
+				3BB0F23C25DD70C100725800 /* SuperEllipseParametrics.swift */,
 				5E57D2E1256D5CDB00D6B1C0 /* SuperEllipseShape.swift */,
 				3B779D252587CD5C00C5BC85 /* SELayerGroups.swift */,
 				3BB6692C2673BB7F00C57603 /* SELayerGroupsVisibility.swift */,
@@ -252,7 +252,7 @@
 			files = (
 				3BA4072A2658864900349ECE /* VDSP_AnimatableVector.swift in Sources */,
 				3B67A9C9267BC5B7003F163E /* DEBUG.swift in Sources */,
-				3BB0F23D25DD70C100725800 /* SuperEllipseParametricCurves.swift in Sources */,
+				3BB0F23D25DD70C100725800 /* SuperEllipseParametrics.swift in Sources */,
 				3B11D73925CC73450080F72F /* SELayersModel.swift in Sources */,
 				3B89711C267546E70018B721 /* PageDescriptors.swift in Sources */,
 				3BB6692D2673BB7F00C57603 /* SELayerGroupsVisibility.swift in Sources */,

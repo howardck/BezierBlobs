@@ -77,19 +77,12 @@ struct TwoButtonPanel : View {
     
     @EnvironmentObject var colorScheme : ColorScheme
     
-//    var baseOffset = CGSize(width: 2, height: 2)
-//    var edgeOffset = CGSize(width: 1, height: 1)
-//    let buttonSize = CGSize(width: 80, height: 60)
-    
     var baseOffset = CGSize(width: 2, height: 2)
     var edgeOffset = CGSize(width: 1, height: 1)
     let buttonSize = CGSize(width: 80, height: 60)
     
     var body: some View {
         
-//        let locationDependentEdgeColor = MainScreenUI.TWO_BUTTON_PANEL_ON_LEFT ?
-//                                            Gray.dark :
-//                                            Gray.light
         HStack {
             Spacer()
             

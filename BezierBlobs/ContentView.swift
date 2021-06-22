@@ -71,11 +71,12 @@ struct ContentView: View {
                                 Color.orange
                                 VStack {
                                     Text("Welcome. Enjoy!")
-                                    Text("ほかに言う事あるか")
                                     Text("Howard Katz")
+                                    
                                     Spacer()
-                                        .frame(height: 10)
-                                    Text("(No, that’s probably it)")
+                                        .frame(height: 20)
+                                    Text("ほかに言う事あるか")
+                                    Text("No, that’s probably it")
                                 }
                                 .font(.title3)
                                 .foregroundColor(.white)

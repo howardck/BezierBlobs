@@ -110,6 +110,9 @@ struct ScreenUI_Previews: PreviewProvider {
         
         VStack {
             let s = CGSize(width: 300, height: 0)
+            
+            Spacer()
+            
             TwoButtonPanel(showLayersList: $showLayersList,
                            showMiscOptionsList: $showMiscOptionsList)
                 .frame(width: s.width)
@@ -192,6 +195,7 @@ struct ScreenUI_Previews: PreviewProvider {
             
             Spacer()
         }
+        .frame(width: 400, height: 800)
         .background(Color.gray)
     }
 }

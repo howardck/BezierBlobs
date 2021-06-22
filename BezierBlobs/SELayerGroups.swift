@@ -89,7 +89,6 @@ struct AnimatingBlob_Stroked: View {
                 .stroke(Gray.dark,
                         style: StrokeStyle(lineWidth: 8, lineJoin: .round))
             
-            // white highlight
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
