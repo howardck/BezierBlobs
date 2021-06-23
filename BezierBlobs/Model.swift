@@ -80,33 +80,7 @@ class Model: ObservableObject {
         boundingCurves = calculateBoundingCurves(using: offsets)
         normalsCurve = calculateNormals()
         
-        fixedInnerPerturbationBandCurves = EXPERIMENTAL_calculateFixedPerturbationBandsInner()
-        fixedOuterPerturbationBandCurves = EXPERIMENTAL_calculateFixedPerturbationBandsOuter()
-        
         setInitialBlobCurve()
-    }
-    
-    typealias PerturbationBandCurves = (outer_inside: [CGPoint], outer_outside: [CGPoint])
-    
-    var fixedInnerPerturbationBandCurves = ( inner_inside: [CGPoint](), inner_outside: [CGPoint]() )
-    var fixedOuterPerturbationBandCurves = ( outer_inside: [CGPoint](), outer_outside: [CGPoint]() )
-    
-    func EXPERIMENTAL_calculateFixedPerturbationBandsInner() -> ( inner_inside: [CGPoint], inner_outside: [CGPoint] )
-    {
-        let insideBound = perturbationDeltas.innerRange.lowerBound
-        let outsideBound = perturbationDeltas.innerRange.upperBound
-        
-        return (inner_inside: baseCurve.map{ $0.newPoint(at: offsets.inner + insideBound, along: $1)},
-         inner_outside: baseCurve.map{ $0.newPoint(at: offsets.inner + outsideBound, along: $1)})
-    }
-    
-    func EXPERIMENTAL_calculateFixedPerturbationBandsOuter() -> PerturbationBandCurves
-    {
-        let insideBound = perturbationDeltas.outerRange.lowerBound
-        let outsideBound = perturbationDeltas.outerRange.upperBound
-        return
-            (outer_inside: baseCurve.map{ $0.newPoint(at: offsets.outer + insideBound, along: $1) },
-             outer_outside: baseCurve.map{ $0.newPoint(at: offsets.outer + outsideBound, along: $1) })
     }
     
     //MARK:- MISC FUNCTIONALITY
