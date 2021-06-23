@@ -16,7 +16,7 @@ import SwiftUI
 struct ContentView: View {
     
     var ps: PlatformSpecifics!
-    var sizeClass : PlatformSpecifics.SizeClass!
+    //let deviceType : PlatformSpecifics.SizeClass!
     
     @Environment(\.verticalSizeClass) var vSizeClass
     @Environment(\.horizontalSizeClass) var hSizeClass
@@ -26,15 +26,15 @@ struct ContentView: View {
     }
         
     var body: some View {
-                
-        let deviceType = PlatformSpecifics.sizeClassForDevice(vSizeClass!,
+
+        let sizeClass = PlatformSpecifics.sizeClassForDevice(vSizeClass!,
                                                               hSizeClass!)
         GeometryReader { gr in
             TabView {
 
                 PageView(descriptors: PageDescriptors.circle,
                          size: gr.size,
-                         deviceType: deviceType)
+                         deviceSizeClass: sizeClass)
                     .tabItem {
                         SFSymbol.tab_1
                         Text("\(PageDescriptors.circle.pageType.rawValue)")
@@ -42,7 +42,7 @@ struct ContentView: View {
                 
                 PageView(descriptors: PageDescriptors.classicSE,
                          size: gr.size,
-                         deviceType: deviceType)
+                         deviceSizeClass: sizeClass)
                     .tabItem {
                         SFSymbol.tab_2
                         Text("\(PageDescriptors.classicSE.pageType.rawValue)" )
@@ -50,7 +50,7 @@ struct ContentView: View {
 
                 PageView(descriptors: PageDescriptors.deltaWing,
                          size: gr.size,
-                         deviceType: deviceType)
+                         deviceSizeClass: sizeClass)
                     .tabItem {
                         SFSymbol.tab_3
                         Text("\(PageDescriptors.deltaWing.pageType.rawValue)" )
@@ -58,7 +58,7 @@ struct ContentView: View {
 
                 PageView(descriptors: PageDescriptors.rorschach,
                          size: gr.size,
-                         deviceType: deviceType)
+                         deviceSizeClass: sizeClass)
                     .tabItem {
                         SFSymbol.tab_4
                         Text("\(PageDescriptors.rorschach.pageType.rawValue)" )

@@ -17,7 +17,7 @@ struct PlatformSpecifics {
         case regular
     }
     
-    static func baseMarkerSizeForDevice(deviceSize: SizeClass) -> CGFloat {
+    static func baseMarkerRadiusFor(deviceSize: SizeClass) -> CGFloat {
         return 10
     }
     

@@ -17,7 +17,7 @@ struct PageView: View {
     
     let descriptors: PageDescriptors
     let pageType: PageDescriptors.PageType
-    let deviceType : PlatformSpecifics.SizeClass
+    let deviceSizeClass : PlatformSpecifics.SizeClass
         
     var numPoints : Int = 0
     
@@ -52,11 +52,11 @@ struct PageView: View {
     //MARK:- PageView.INIT
     init(descriptors: PageDescriptors,
          size: CGSize,
-         deviceType: PlatformSpecifics.SizeClass) {
+         deviceSizeClass: PlatformSpecifics.SizeClass) {
         
         self.pageType = descriptors.pageType
         self.descriptors = descriptors
-        self.deviceType = deviceType
+        self.deviceSizeClass = deviceSizeClass
         
         let (a, b) = axesFor(size: size,
                              forceEqualAxes: descriptors.forceEqualAxes!)
@@ -86,7 +86,7 @@ struct PageView: View {
         }
         // KLUDGEY? easier than setting up a parallel descriptors dict for compact devices
         numPoints = downsizeNumPointsForCompactSizeDevices(descriptors: descriptors,
-                                                           deviceType: deviceType)
+                                                           deviceType: deviceSizeClass)
         model.calculateSuperEllipse(n: descriptors.order,
                                     numPoints: numPoints,
                                     axes: (a * baseCurveRatio, b * baseCurveRatio) )
@@ -113,7 +113,7 @@ struct PageView: View {
             // selections made by the user in the layers chooser.
             
             SELayerGroupsVisibility(model: self.model,
-                                    deviceType: self.deviceType)
+                                    deviceSize: self.deviceSizeClass)
         }
         //MARK:- onAppear()
         .onAppear {
