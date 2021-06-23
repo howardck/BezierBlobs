@@ -65,7 +65,7 @@ class Model: ObservableObject {
                               outerRange: outerRange)
     }
 
-    //MARK:- MAIN SUPERELLIPSE
+    //MARK:- SUPERELLIPSE
     func calculateSuperEllipse(n: Double,
                                numPoints: Int,
                                axes: Axes) {
@@ -75,7 +75,6 @@ class Model: ObservableObject {
                                                         with: axes)
     }
     
-    //MARK:- SUPPORT CURVES
     func calculateSupportCurves() {
         
         boundingCurves = calculateBoundingCurves(using: offsets)
