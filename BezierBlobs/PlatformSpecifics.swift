@@ -16,7 +16,7 @@ struct PlatformSpecifics {
         case compact
         case regular
     }
-    
+
     static func sizeClassForDevice(_ vSizeClass: UserInterfaceSizeClass,
                                    _ hSizeClass: UserInterfaceSizeClass) -> SizeClass {
 

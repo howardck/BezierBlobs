@@ -3,10 +3,7 @@
 //  BezierBlobs
 //
 //  Created by Howard Katz on 2021-06-16.
-//
 
-o review tab-setup logic given new PageDescriptors data format
 o make sure filenames in comments at the tops of files match the File Navigator filenames
-o review logic of all Page.onReceive() and .onTimer code closures
 o add MiscOptions section entry, "Normals & Outer Curves: 1) over 2) under
 o look at possibly amalgamating Model code for two methods, fixedPerturbationAnimation and RandomizedPerturbationAnimation
