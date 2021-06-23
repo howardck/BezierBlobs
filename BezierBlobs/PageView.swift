@@ -112,8 +112,7 @@ struct PageView: View {
             // in the layers view model, these in turn responding to
             // selections made by the user in the layers chooser.
             
-            SELayerGroupsVisibility(model: self.model,
-                                    deviceSize: self.deviceSizeClass)
+            SELayerGroupsVisibility(model: self.model)
         }
         //MARK:- onAppear()
         .onAppear {

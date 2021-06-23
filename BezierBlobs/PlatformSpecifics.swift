@@ -17,17 +17,6 @@ struct PlatformSpecifics {
         case regular
     }
     
-    let offset: CGFloat = 2.0
-    
-    static func radius(for deviceSize: SizeClass, markerType : MarkerType) -> CGFloat {
-        
-        return 0
-    }
-    
-    static func baseMarkerRadiusFor(deviceSize: SizeClass) -> CGFloat {
-        return 10
-    }
-    
     static func sizeClassForDevice(_ vSizeClass: UserInterfaceSizeClass,
                                    _ hSizeClass: UserInterfaceSizeClass) -> SizeClass {
 

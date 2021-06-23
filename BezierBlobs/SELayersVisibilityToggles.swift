@@ -11,29 +11,14 @@ struct SELayerGroupsVisibility: View {
     
     @ObservedObject var model: Model
     @EnvironmentObject var layers : SELayersViewModel
-    
-    // errors galore
-//    let r: CGFloat = 15
-//    let markerStyles : [MarkerType : CGFloat ] = [
-//        .blobAllMarkers :   r - 1,
-//        .vertexOrigin :     r - 1,
-//        .offsets :          r/2.0 - 1,
-//        .baseCurve :        r/2.0,
-//    ]
-    
-    // passed in from its PageView body invocation
-    
-    var deviceSize: PlatformSpecifics.SizeClass
 
     var body: some View {
 
     // STATIC SUPPORT CURVES BACKDROP
         Group {
             if layers.isVisible(layerWithType: .normals) {
-                //let radius = PlatformSpecifics.radius(for: deviceSize, markerType: .offset)
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
-//                                   markerRadius: PlatformSpecifics.radius)
                                    markerRadius: markerStyles[.offsets]!)
                 
             }
@@ -99,7 +84,6 @@ struct SELayerGroupsVisibility: View {
 struct SELayersVisibilityToggles_Previews: PreviewProvider {
     static var previews: some View {
         
-        SELayerGroupsVisibility(model: Model(),
-                                deviceSize: PlatformSpecifics.SizeClass.regular)
+        SELayerGroupsVisibility(model: Model())
     }
 }
