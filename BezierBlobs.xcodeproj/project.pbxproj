@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3B11CD3B266722D300EF266B /* Path.strokedPath_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B11CD3A266722D300EF266B /* Path.strokedPath_TEST.swift */; };
-		3B11D73925CC73450080F72F /* SELayersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B11D73825CC73450080F72F /* SELayersModel.swift */; };
+		3B11D73925CC73450080F72F /* SELayersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B11D73825CC73450080F72F /* SELayersViewModel.swift */; };
 		3B16CA4C2644B13D00B10838 /* PageDesc_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16CA4B2644B13D00B10838 /* PageDesc_TEST.swift */; };
 		3B19B091265D908500F63724 /* MainScreenUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B19B090265D908500F63724 /* MainScreenUI.swift */; };
 		3B1C09C0267A312C0048B79D /* SinglePage_TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1C09BF267A312C0048B79D /* SinglePage_TEST.swift */; };
@@ -29,7 +29,7 @@
 		3BB0F23D25DD70C100725800 /* SuperEllipseParametrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0F23C25DD70C100725800 /* SuperEllipseParametrics.swift */; };
 		3BB48CC22581A2CD005DEBB8 /* OtherUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB48CC12581A2CD005DEBB8 /* OtherUI.swift */; };
 		3BB636A8264F414600BAD9AE /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB636A7264F414600BAD9AE /* SFSymbols.swift */; };
-		3BB6692D2673BB7F00C57603 /* SELayerGroupsVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6692C2673BB7F00C57603 /* SELayerGroupsVisibility.swift */; };
+		3BB6692D2673BB7F00C57603 /* SELayersVisibilityToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6692C2673BB7F00C57603 /* SELayersVisibilityToggles.swift */; };
 		3BD421C325D635650034CE7D /* NOTES.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BD421C225D635650034CE7D /* NOTES.txt */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
 		5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */; };
@@ -46,7 +46,7 @@
 
 /* Begin PBXFileReference section */
 		3B11CD3A266722D300EF266B /* Path.strokedPath_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.strokedPath_TEST.swift; sourceTree = "<group>"; };
-		3B11D73825CC73450080F72F /* SELayersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayersModel.swift; sourceTree = "<group>"; };
+		3B11D73825CC73450080F72F /* SELayersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayersViewModel.swift; sourceTree = "<group>"; };
 		3B16CA4B2644B13D00B10838 /* PageDesc_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageDesc_TEST.swift; sourceTree = "<group>"; };
 		3B19B090265D908500F63724 /* MainScreenUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenUI.swift; sourceTree = "<group>"; };
 		3B1C09BF267A312C0048B79D /* SinglePage_TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePage_TEST.swift; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 		3BB0F23C25DD70C100725800 /* SuperEllipseParametrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperEllipseParametrics.swift; sourceTree = "<group>"; };
 		3BB48CC12581A2CD005DEBB8 /* OtherUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUI.swift; sourceTree = "<group>"; };
 		3BB636A7264F414600BAD9AE /* SFSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbols.swift; sourceTree = "<group>"; };
-		3BB6692C2673BB7F00C57603 /* SELayerGroupsVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayerGroupsVisibility.swift; sourceTree = "<group>"; };
+		3BB6692C2673BB7F00C57603 /* SELayersVisibilityToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayersVisibilityToggles.swift; sourceTree = "<group>"; };
 		3BD421C225D635650034CE7D /* NOTES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NOTES.txt; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierBlobsApp.swift; sourceTree = "<group>"; };
@@ -147,8 +147,8 @@
 				3BB0F23C25DD70C100725800 /* SuperEllipseParametrics.swift */,
 				5E57D2E1256D5CDB00D6B1C0 /* SuperEllipseShape.swift */,
 				3B779D252587CD5C00C5BC85 /* SELayerGroups.swift */,
-				3BB6692C2673BB7F00C57603 /* SELayerGroupsVisibility.swift */,
-				3B11D73825CC73450080F72F /* SELayersModel.swift */,
+				3BB6692C2673BB7F00C57603 /* SELayersVisibilityToggles.swift */,
+				3B11D73825CC73450080F72F /* SELayersViewModel.swift */,
 				3B686E022590091C00466BF5 /* SELayersChooser.swift */,
 				3B47B468264AC92A0016E0AA /* MiscOptionsModel.swift */,
 				3B81690425D56C9A0068010B /* MiscOptionsChooser.swift */,
@@ -253,9 +253,9 @@
 				3BA4072A2658864900349ECE /* VDSP_AnimatableVector.swift in Sources */,
 				3B67A9C9267BC5B7003F163E /* DEBUG.swift in Sources */,
 				3BB0F23D25DD70C100725800 /* SuperEllipseParametrics.swift in Sources */,
-				3B11D73925CC73450080F72F /* SELayersModel.swift in Sources */,
+				3B11D73925CC73450080F72F /* SELayersViewModel.swift in Sources */,
 				3B89711C267546E70018B721 /* PageDescriptors.swift in Sources */,
-				3BB6692D2673BB7F00C57603 /* SELayerGroupsVisibility.swift in Sources */,
+				3BB6692D2673BB7F00C57603 /* SELayersVisibilityToggles.swift in Sources */,
 				5E57D2E4256D5CDB00D6B1C0 /* SuperEllipseShape.swift in Sources */,
 				5E57D2EC256D5D1200D6B1C0 /* CGPointVector.swift in Sources */,
 				3BB094B925D9E42D00DE96CF /* EmojiView_TEST.swift in Sources */,

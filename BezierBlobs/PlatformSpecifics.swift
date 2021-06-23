@@ -17,6 +17,10 @@ struct PlatformSpecifics {
         case regular
     }
     
+    static func baseMarkerSizeForDevice(deviceSize: SizeClass) -> CGFloat {
+        return 10
+    }
+    
     static func sizeClassForDevice(_ vSizeClass: UserInterfaceSizeClass,
                                    _ hSizeClass: UserInterfaceSizeClass) -> SizeClass {
 

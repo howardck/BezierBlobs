@@ -17,7 +17,8 @@ struct PageView: View {
     
     let descriptors: PageDescriptors
     let pageType: PageDescriptors.PageType
-    
+    let deviceType : PlatformSpecifics.SizeClass
+        
     var numPoints : Int = 0
     
     //MARK:- @ObservedObject
@@ -55,6 +56,7 @@ struct PageView: View {
         
         self.pageType = descriptors.pageType
         self.descriptors = descriptors
+        self.deviceType = deviceType
         
         let (a, b) = axesFor(size: size,
                              forceEqualAxes: descriptors.forceEqualAxes!)
@@ -110,7 +112,8 @@ struct PageView: View {
             // in the layers view model, these in turn responding to
             // selections made by the user in the layers chooser.
             
-            SELayerGroupsVisibility(model: self.model)
+            SELayerGroupsVisibility(model: self.model,
+                                    deviceType: self.deviceType)
         }
         //MARK:- onAppear()
         .onAppear {

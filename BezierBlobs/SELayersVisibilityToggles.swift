@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct SELayerGroupsVisibility: View {
+
     
     @ObservedObject var model: Model
     @EnvironmentObject var layers : SELayersViewModel
+    
+    var deviceType: PlatformSpecifics.SizeClass
 
     var body: some View {
 
@@ -83,6 +86,7 @@ struct SELayerGroupsVisibility: View {
 struct SELayersVisibilityToggles_Previews: PreviewProvider {
     static var previews: some View {
         
-        SELayerGroupsVisibility(model: Model())
+        SELayerGroupsVisibility(model: Model(),
+                                deviceType: PlatformSpecifics.SizeClass.regular)
     }
 }
