@@ -84,7 +84,8 @@ struct PageView: View {
                                                  offsets: model.offsets,
                                                  ranges: model.perturbationDeltas)
         }
-        // KLUDGEY? easier than setting up a parallel descriptors dict for compact devices
+        // KLUDGE?  easier than setting up a parallel descriptors
+        //          dictionary or some such for compact devices
         numPoints = downsizeNumPointsForCompactSizeDevices(descriptors: descriptors,
                                                            deviceType: deviceSizeClass)
         model.calculateSuperEllipse(n: descriptors.order,

@@ -65,8 +65,8 @@ struct AnimatingBlob_Filled: View {
                 
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
-                    .fill(gradient)
-                    //.fill(colorScheme.fill)
+//                    .fill(gradient)
+                    .fill(colorScheme.fill)
             }
         }
     }
