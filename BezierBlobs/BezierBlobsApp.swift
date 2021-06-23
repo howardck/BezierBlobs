@@ -18,9 +18,9 @@ struct BezierBlobsApp: App {
                 .environmentObject(SELayersViewModel())
                 .environmentObject(MiscOptionsModel())
                 
-        /*  I started using this nomenclature before discovering Apple's
-            built-in light & dark mode support. this isn't that, and I'll
-            leave this nomenclature in place until I need the former (if ever).
+        /*  I started using this nomenclature (ColorScheme) before discovering
+            Apple's usage of the same name. I'll leave my nomenclature in place
+            until and if I need the former, if ever.
          */
                 .environmentObject(ColorScheme(background: Color.init(white: 0.4),
                                                stroke: .orange,

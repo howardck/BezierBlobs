@@ -12,6 +12,17 @@ struct SELayerGroupsVisibility: View {
     @ObservedObject var model: Model
     @EnvironmentObject var layers : SELayersViewModel
     
+    // errors galore
+//    let r: CGFloat = 15
+//    let markerStyles : [MarkerType : CGFloat ] = [
+//        .blobAllMarkers :   r - 1,
+//        .vertexOrigin :     r - 1,
+//        .offsets :          r/2.0 - 1,
+//        .baseCurve :        r/2.0,
+//    ]
+    
+    // passed in from its PageView body invocation
+    
     var deviceSize: PlatformSpecifics.SizeClass
 
     var body: some View {
@@ -19,9 +30,12 @@ struct SELayerGroupsVisibility: View {
     // STATIC SUPPORT CURVES BACKDROP
         Group {
             if layers.isVisible(layerWithType: .normals) {
+                //let radius = PlatformSpecifics.radius(for: deviceSize, markerType: .offset)
                 NormalsPlusMarkers(normals: model.normalsCurve,
                                    markerCurves: model.boundingCurves,
+//                                   markerRadius: PlatformSpecifics.radius)
                                    markerRadius: markerStyles[.offsets]!)
+                
             }
             if layers.isVisible(layerWithType: .offsetsEnvelope) {
                 OffsetCurves(curves: model.boundingCurves,
@@ -30,7 +44,7 @@ struct SELayerGroupsVisibility: View {
             }
         }
         
-    // ANIMATING STROKE & FILL
+    // ANIMATING BLOB STROKE & FILL
         Group {
             if layers.isVisible(layerWithType: .blob_filled) {
                 AnimatingBlob_Filled(curve: model.blobCurve,
