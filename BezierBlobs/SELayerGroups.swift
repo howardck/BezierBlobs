@@ -51,7 +51,7 @@ struct AnimatingBlob_Filled: View {
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
                     .fill(Color.init(white: 0.15))
-                    .offset(x: 4, y: 4)
+                    .offset(x: 5, y: 5)
                 
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )

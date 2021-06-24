@@ -9,7 +9,7 @@ import SwiftUI
 
 extension DEBUG {
     static let PRINT_BASIC_PAGE_INFO = true
-    static let PRINT_OFFSET_AND_PERTURBATION_DATA = true
+    static let PRINT_OFFSET_AND_PERTURBATION_DATA = false
     static let OVERLAY_SECOND_COPY_OF_NORMALS_PLUS_MARKERS = false
     static let PRINT_VERTEX_NORMALS = false
 }

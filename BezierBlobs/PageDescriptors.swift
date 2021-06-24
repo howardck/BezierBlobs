@@ -29,9 +29,9 @@ struct PageDescriptors {
                              axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.3..<0.1),
                              forceEqualAxes: true)
     static let classicSE = Self(pageType: .classicSE,
-                                order: 2.8, numPoints: 34,
-                                axisRelOffsets: (inner: 0.45, baseCurve: 0.6, outer: 0.85),
-                                axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.2..<0.1))
+                                order: 2.8, numPoints: 36,
+                                axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.9),
+                                axisRelDeltas: (innerRange: -0.1..<0.25, outerRange: -0.25..<0.1))
     static let deltaWing = Self(pageType: .deltaWing,
                                 order: 3.0, numPoints: 6,
                                 axisRelOffsets: (inner: 0.2, baseCurve: 0.4, outer: 0.75),

@@ -104,7 +104,7 @@ struct PageView: View {
         if deviceType == .compact {
             switch pageType {
                 case .circle : return 20
-                case .classicSE : return 30
+                case .classicSE : return 36
                 case .deltaWing : return descriptors.numPoints
                 case .rorschach : return 23
             }

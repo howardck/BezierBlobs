@@ -107,7 +107,7 @@ struct TwoButtonPanel : View {
                     showMiscOptionsList.toggle()
                 }
         }
-        .scaleEffect(deviceType == .compact ? 1.0 : 1.1)
+        .scaleEffect(deviceType == .compact ? 0.9 : 1.1)
     }
 }
 

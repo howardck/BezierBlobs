@@ -24,45 +24,50 @@ struct ContentView: View {
     init() {
         print("ContentView.init()")
     }
+    
+    
+    @State var selectedTab : Int = 4
         
     var body: some View {
 
         let sizeClass = PlatformSpecifics.sizeClassForDevice(vSizeClass!,
                                                               hSizeClass!)
         GeometryReader { gr in
-            TabView {
+            
+            TabView() {
 
+                PageView(descriptors: PageDescriptors.classicSE,
+                         size: gr.size,
+                         deviceSizeClass: sizeClass)
+                    .tabItem ({
+                        SFSymbol.tab_2
+                        Text("\(PageDescriptors.classicSE.pageType.rawValue)" )
+                    })
+                
                 PageView(descriptors: PageDescriptors.circle,
                          size: gr.size,
                          deviceSizeClass: sizeClass)
-                    .tabItem {
+                    .tabItem ({
                         SFSymbol.tab_1
                         Text("\(PageDescriptors.circle.pageType.rawValue)")
-                    }
+                    })
                 
-//                PageView(descriptors: PageDescriptors.classicSE,
-//                         size: gr.size,
-//                         deviceSizeClass: sizeClass)
-//                    .tabItem {
-//                        SFSymbol.tab_2
-//                        Text("\(PageDescriptors.classicSE.pageType.rawValue)" )
-//                    }
-//
-//                PageView(descriptors: PageDescriptors.deltaWing,
-//                         size: gr.size,
-//                         deviceSizeClass: sizeClass)
-//                    .tabItem {
-//                        SFSymbol.tab_3
-//                        Text("\(PageDescriptors.deltaWing.pageType.rawValue)" )
-//                    }
-//
-//                PageView(descriptors: PageDescriptors.rorschach,
-//                         size: gr.size,
-//                         deviceSizeClass: sizeClass)
-//                    .tabItem {
-//                        SFSymbol.tab_4
-//                        Text("\(PageDescriptors.rorschach.pageType.rawValue)" )
-//                  }
+
+                PageView(descriptors: PageDescriptors.deltaWing,
+                         size: gr.size,
+                         deviceSizeClass: sizeClass)
+                    .tabItem ({
+                        SFSymbol.tab_3
+                        Text("\(PageDescriptors.deltaWing.pageType.rawValue)" )
+                    })
+
+                PageView(descriptors: PageDescriptors.rorschach,
+                         size: gr.size,
+                         deviceSizeClass: sizeClass)
+                    .tabItem ({
+                        SFSymbol.tab_4
+                        Text("\(PageDescriptors.rorschach.pageType.rawValue)" )
+                    })
                 
                 ZStack {
                     PageGradientBackground()
