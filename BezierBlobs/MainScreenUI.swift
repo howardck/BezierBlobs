@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainScreenUI: View {
     
-    static let TWO_BUTTON_PADDING : CGFloat = 70
+    static let TWO_BUTTON_PADDING : CGFloat = 50
     static let TWO_BUTTON_PANEL_ON_LEFT = true
     
     @Binding var showLayersList: Bool

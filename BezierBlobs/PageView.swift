@@ -155,10 +155,7 @@ struct PageView: View {
         //MARK: onTapGesture(2)
         .onTapGesture(count: 2) {
             
-            let animationStyle = Model.IPHONE_SUITABLE_CONFIGURATION_FOR_ANIMATED_GIF ?
-                PageView.animationStyle : Animation.easeInOut(duration: 0.6)
-                
-            withAnimation(animationStyle)
+            withAnimation(PageView.animationStyle)
             {
                 animationTimer.cancel()
                 model.returnToInitialConfiguration()
@@ -215,12 +212,12 @@ struct DropShadowedText : View {
         VStack(spacing: 32) {
             ZStack {
                 Text(text)
-                    .font(.title3)
+                    .font(.headline)
                     .fontWeight(.light)
                     .foregroundColor(backColor)
                     .offset(x: 2, y: 2)
                 Text(text)
-                    .font(.title3)
+                    .font(.headline)
                     .fontWeight(.light)
                     .foregroundColor(foreColor)
             }

@@ -14,12 +14,12 @@ enum MarkerType : CaseIterable {
     case baseCurve
 }
 
-let r: CGFloat = 12
+let r: CGFloat = 11
 let markerStyles : [MarkerType : CGFloat] = [
     .blobAllMarkers :   r - 1,
-    .vertexOrigin :     r - 1,
+    .vertexOrigin :     r,
     .offsets :          r/2.0 - 1,
-    .baseCurve :        r/2.0,
+    .baseCurve :        r/2.0 - 1,
 ]
 
 //let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
@@ -51,7 +51,7 @@ struct AnimatingBlob_Filled: View {
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
                     .fill(Color.init(white: 0.15))
-                    .offset(x: 7, y: 7)
+                    .offset(x: 4, y: 4)
                 
                 SuperEllipse(curve: curve,
                              smoothed: options.smoothed )
@@ -87,13 +87,13 @@ struct AnimatingBlob_Stroked: View {
             SuperEllipse(curve: curve,
                          smoothed: isSmoothed)
                 .stroke(Gray.dark,
-                        style: StrokeStyle(lineWidth: 8, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 6, lineJoin: .round))
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
                 .stroke(colorScheme.stroke,
-                        style: StrokeStyle(lineWidth: 7, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 5, lineJoin: .round))
         }
     }
 }
@@ -123,7 +123,7 @@ struct AnimatingBlob_Markers : View {
             .fill(colorScheme.allVertices)
         
         SuperEllipse(curve: curve,
-                     bezierType: .allMarkers(radius: 4))
+                     bezierType: .allMarkers(radius: 3))
             .fill(Color.init(white: 0.9))
             .offset(x: -2, y: -2)
     }
@@ -152,7 +152,7 @@ struct AnimatingBlob_EvenNumberedVertexMarkers : View {
         
         SuperEllipse(curve: curve,
                      bezierType: .someMarkers(indexSet: vertices,
-                                               radius: 4))
+                                               radius: 3))
             .fill(Color.white)
             .offset(x: -2, y: -2)
     }

@@ -164,24 +164,13 @@ class Model: ObservableObject {
         // and return to it at a predetermined time later before ending the animation,
         // thus creating a video suitable to become an animated gif
         
-        if Model.IPHONE_SUITABLE_CONFIGURATION_FOR_ANIMATED_GIF {
-        
-            setInitialBlobCurveToRandomizedZig()
-            SAVED_BLOB_CURVE = blobCurve
-        }
-        else {
-            blobCurve = baseCurve.map{ $0.vertex }
-        }
+        setInitialBlobCurveToRandomizedZig()
+        SAVED_BLOB_CURVE = blobCurve
     }
     
     func returnToInitialConfiguration() {
 
-        if Model.IPHONE_SUITABLE_CONFIGURATION_FOR_ANIMATED_GIF {
-            blobCurve = SAVED_BLOB_CURVE
-        }
-        else {
-            setInitialBlobCurve()
-        }
+        blobCurve = SAVED_BLOB_CURVE
     }
     
     // MARK:- OTHER CURVES
