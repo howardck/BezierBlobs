@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PageView: View {
 
-    static let animationStyle = Animation.easeOut(duration: AnimationTimer.animationTimeIncrement)
+    static let animationStyle = Animation.easeInOut(duration: AnimationTimer.animationTimeIncrement)
     
     // might be useful later for fixed perturbation ranges
     static let NIL_RANGE : Range<CGFloat>
@@ -146,7 +146,10 @@ struct PageView: View {
         //MARK: onTapGesture(2)
         .onTapGesture(count: 2) {
             
-            withAnimation(Animation.easeInOut(duration: 0.6))
+            let animationStyle = Model.IPHONE_SUITABLE_CONFIGURATION_FOR_ANIMATED_GIF ?
+                PageView.animationStyle : Animation.easeInOut(duration: 0.6)
+                
+            withAnimation(animationStyle)
             {
                 animationTimer.cancel()
                 model.returnToInitialConfiguration()

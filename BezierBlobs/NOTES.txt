@@ -1,4 +1,16 @@
 
+24June2021
+    this special version in br IPHONE_ANIMATION_FOR_VIDEO
+    is especially adapted for a short iphone-based animated gig. it
+    1) hardwires smaller marker radii than usual,
+    2) changes descriptors for slightly tighter offsets and deltas, and
+    3) changes animation so that we start in an animated zigged state
+        and return to that same configuration on a 2-click, so that
+        an animated gif of the same can repeat endlessly smoothly.
+        
+    specific changes are noted here :
+    
+
 11may2021
     should new MiscOptionsModel.swift class be better labelled
     MiscOptions-VIEW-Model ...??? find MVVM explainer

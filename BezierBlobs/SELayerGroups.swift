@@ -14,7 +14,7 @@ enum MarkerType : CaseIterable {
     case baseCurve
 }
 
-let r: CGFloat = 15
+let r: CGFloat = 12
 let markerStyles : [MarkerType : CGFloat] = [
     .blobAllMarkers :   r - 1,
     .vertexOrigin :     r - 1,

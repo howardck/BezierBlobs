@@ -21,6 +21,10 @@ typealias PerturbationDeltas = (innerRange: Range<CGFloat>, outerRange: Range<CG
 
 
 class Model: ObservableObject {
+    
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    static let IPHONE_SUITABLE_CONFIGURATION_FOR_ANIMATED_GIF = true
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     // it's be easier to say a nilDelta == 0..<0, but that's a crasher
     static let NIL_DELTAS : Range<CGFloat> = 0..<CGFloat(SEParametrics.VANISHINGLY_SMALL_DOUBLE)
@@ -124,7 +128,8 @@ class Model: ObservableObject {
             curve += [vertexTuple.vertex.newPoint(at: offset,
                                                  along: vertexTuple.normal)]
         }
-        blobCurve = curve // this causes a state change and drives the animation
+        
+        blobCurve = curve // this causes a published state change and drives the animation
     }
     
     func animateToNextRandomizedPerturbationDelta() {
@@ -141,18 +146,42 @@ class Model: ObservableObject {
             curve += [vertexTuple.vertex.newPoint(at: offset,
                                                   along: vertexTuple.normal)]
         }
+        
         blobCurve = curve
     }
+    
+    func setInitialBlobCurveToRandomizedZig() {
+        
+        animateToNextRandomizedPerturbationDelta()
+    }
+    
+    var SAVED_BLOB_CURVE : [CGPoint]!
     
     //MARK:-
     func setInitialBlobCurve() {
         
-        blobCurve = baseCurve.map{ $0.vertex }
+        // we want to start w/ a randomized blob, save that curve configuration
+        // and return to it at a predetermined time later before ending the animation,
+        // thus creating a video suitable to become an animated gif
+        
+        if Model.IPHONE_SUITABLE_CONFIGURATION_FOR_ANIMATED_GIF {
+        
+            setInitialBlobCurveToRandomizedZig()
+            SAVED_BLOB_CURVE = blobCurve
+        }
+        else {
+            blobCurve = baseCurve.map{ $0.vertex }
+        }
     }
     
     func returnToInitialConfiguration() {
 
-        setInitialBlobCurve()
+        if Model.IPHONE_SUITABLE_CONFIGURATION_FOR_ANIMATED_GIF {
+            blobCurve = SAVED_BLOB_CURVE
+        }
+        else {
+            setInitialBlobCurve()
+        }
     }
     
     // MARK:- OTHER CURVES
