@@ -138,6 +138,8 @@ struct PageView: View {
                         model.animateToNextRandomizedPerturbationDelta()
                 }
             }
+            
+            model.nextPhaseIsZig.toggle()
             animationTimer.restart()
         }
         

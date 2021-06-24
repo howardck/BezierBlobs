@@ -111,6 +111,11 @@ class Model: ObservableObject {
         
         for vertexTuple in baseCurve {
             
+        /*  we move the maximum distance possible, from the outer limit of the outside
+             offset to the inner limit of the inside offset. this produces the most dramatic
+             visual change, as well as outlining where arm 'crossovers' are likely to occur,
+             so that offsets and/or perturb deltas can be adjusted to remove those if desired.
+         */
             let offset : CGFloat = movingToOutside ?
                 offsets.outer + perturbationDeltas.outerRange.upperBound :
                 offsets.inner + perturbationDeltas.innerRange.lowerBound
@@ -119,8 +124,7 @@ class Model: ObservableObject {
             curve += [vertexTuple.vertex.newPoint(at: offset,
                                                  along: vertexTuple.normal)]
         }
-        blobCurve = curve // we update blobCurve; this drives the animation
-        self.nextPhaseIsZig.toggle()
+        blobCurve = curve // this causes a state change and drives the animation
     }
     
     func animateToNextRandomizedPerturbationDelta() {
@@ -138,16 +142,12 @@ class Model: ObservableObject {
                                                   along: vertexTuple.normal)]
         }
         blobCurve = curve
-        // export the zigzag state so that the next cycle
-        // picks that up and starts in the proper 'direction'
-        self.nextPhaseIsZig.toggle()
     }
     
     //MARK:-
     func setInitialBlobCurve() {
         
         blobCurve = baseCurve.map{ $0.vertex }
-        nextPhaseIsZig = true
     }
     
     func returnToInitialConfiguration() {
