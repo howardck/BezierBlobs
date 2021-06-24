@@ -74,6 +74,7 @@ struct TwoButtonPanel : View {
     
     @Binding var showLayersList : Bool
     @Binding var showMiscOptionsList : Bool
+    var deviceType: PlatformSpecifics.SizeClass
     
     @EnvironmentObject var colorScheme : ColorScheme
     
@@ -106,7 +107,7 @@ struct TwoButtonPanel : View {
                     showMiscOptionsList.toggle()
                 }
         }
-        .scaleEffect(1.1)
+        .scaleEffect(deviceType == .compact ? 1.0 : 1.1)
     }
 }
 

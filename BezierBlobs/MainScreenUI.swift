@@ -14,6 +14,7 @@ struct MainScreenUI: View {
     
     @Binding var showLayersList: Bool
     @Binding var showMiscOptionsList : Bool
+    var deviceType: PlatformSpecifics.SizeClass
     
     @EnvironmentObject var layers : SELayersViewModel
     @EnvironmentObject var options : MiscOptionsModel
@@ -78,7 +79,8 @@ struct MainScreenUI: View {
                         }
                         
                         TwoButtonPanel(showLayersList: $showLayersList,
-                                       showMiscOptionsList: $showMiscOptionsList)
+                                       showMiscOptionsList: $showMiscOptionsList,
+                                       deviceType: deviceType)
                             .frame(width: s.width)
                             .padding(MainScreenUI.TWO_BUTTON_PADDING)
                         
@@ -114,7 +116,8 @@ struct ScreenUI_Previews: PreviewProvider {
             Spacer()
             
             TwoButtonPanel(showLayersList: $showLayersList,
-                           showMiscOptionsList: $showMiscOptionsList)
+                           showMiscOptionsList: $showMiscOptionsList,
+                           deviceType: .regular)
                 .frame(width: s.width)
                 .border(Color.red)
                 .padding(MainScreenUI.TWO_BUTTON_PADDING)
@@ -130,7 +133,8 @@ struct ScreenUI_Previews: PreviewProvider {
                                                baseCurveMarkers: .white))
             
             TwoButtonPanel(showLayersList: $showLayersList,
-                           showMiscOptionsList: $showMiscOptionsList)
+                           showMiscOptionsList: $showMiscOptionsList,
+                           deviceType: .regular)
                 .frame(width: s.width)
                 .border(Color.red)
                 .padding(MainScreenUI.TWO_BUTTON_PADDING)
@@ -146,7 +150,8 @@ struct ScreenUI_Previews: PreviewProvider {
                                                baseCurveMarkers: .white))
             
             TwoButtonPanel(showLayersList: $showLayersList,
-                           showMiscOptionsList: $showMiscOptionsList)
+                           showMiscOptionsList: $showMiscOptionsList,
+                           deviceType: .regular)
                 .frame(width: s.width)
                 .border(Color.red)
                 .padding(MainScreenUI.TWO_BUTTON_PADDING)
@@ -162,7 +167,8 @@ struct ScreenUI_Previews: PreviewProvider {
                                                baseCurveMarkers: .white))
             
             TwoButtonPanel(showLayersList: $showLayersList,
-                           showMiscOptionsList: $showMiscOptionsList)
+                           showMiscOptionsList: $showMiscOptionsList,
+                           deviceType: .regular)
                 .frame(width: s.width)
                 .border(Color.red)
                 .padding(MainScreenUI.TWO_BUTTON_PADDING)
@@ -178,7 +184,8 @@ struct ScreenUI_Previews: PreviewProvider {
                                                baseCurveMarkers: .white))
             
             TwoButtonPanel(showLayersList: $showLayersList,
-                           showMiscOptionsList: $showMiscOptionsList)
+                           showMiscOptionsList: $showMiscOptionsList,
+                           deviceType: .regular)
                 .frame(width: s.width)
                 .border(Color.red)
                 .padding(MainScreenUI.TWO_BUTTON_PADDING)
