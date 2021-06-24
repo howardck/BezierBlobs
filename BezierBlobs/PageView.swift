@@ -84,10 +84,14 @@ struct PageView: View {
                                                  offsets: model.offsets,
                                                  ranges: model.perturbationDeltas)
         }
-        // KLUDGE?  easier than setting up a parallel descriptors
-        //          dictionary or some such for compact devices
-        numPoints = downsizeNumPointsForCompactSizeDevices(descriptors: descriptors,
-                                                           deviceType: deviceSizeClass)
+        
+        // a somewhat dissatisfying 'kludge'. sort of defeats the purpose
+        // of having a descriptors setup in the first place and doesn't
+        // answer ALL device-size-related changes we might like to make
+
+        numPoints = numPointsForCompactSizeDevices(descriptors: descriptors,
+                                                   deviceType: deviceSizeClass)
+        
         model.calculateSuperEllipse(n: descriptors.order,
                                     numPoints: numPoints,
                                     axes: (a * baseCurveRatio, b * baseCurveRatio) )
@@ -95,10 +99,15 @@ struct PageView: View {
         model.calculateSupportCurves()
     }
     
-    func downsizeNumPointsForCompactSizeDevices(descriptors: PageDescriptors,
-                                                deviceType: PlatformSpecifics.SizeClass) -> Int {
-        if deviceType == .compact && (pageType == .circle || pageType == .classicSE) {
-            return Int(Double(descriptors.numPoints) * 0.85)
+    func numPointsForCompactSizeDevices(descriptors: PageDescriptors,
+                                        deviceType: PlatformSpecifics.SizeClass) -> Int {
+        if deviceType == .compact {
+            switch pageType {
+                case .circle : return 20
+                case .classicSE : return 30
+                case .deltaWing : return descriptors.numPoints
+                case .rorschach : return 23
+            }
         }
         return descriptors.numPoints
     }
@@ -175,7 +184,8 @@ struct PageView: View {
         .overlay(
             
             MainScreenUI(showLayersList : $showLayersList,
-                         showMiscOptionsList: $showMiscOptionsList)
+                         showMiscOptionsList: $showMiscOptionsList,
+                         deviceType: deviceSizeClass)
         )
     }
     
