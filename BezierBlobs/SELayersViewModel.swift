@@ -13,12 +13,12 @@ class SELayersViewModel : ObservableObject {
         Layer(type: .blob_filled, section: .animatingBlobCurves, visible: true),
         Layer(type: .blob_stroked, section: .animatingBlobCurves),
         Layer(type: .blob_vertex_0_marker, section: .animatingBlobCurves, visible: true),
-        Layer(type: .blob_outer_markers, section: .animatingBlobCurves, visible: true),
+        Layer(type: .blob_outer_markers, section: .animatingBlobCurves, visible: false),
         Layer(type: .blob_all_markers, section: .animatingBlobCurves),
         
     // SUPPORT CURVES
-        Layer(type: .baseCurve_and_markers, section: .staticSupportCurves, visible: true),
-        Layer(type: .offsetsEnvelope, section: .staticSupportCurves, visible: true),
+        Layer(type: .baseCurve_and_markers, section: .staticSupportCurves, visible: false),
+        Layer(type: .offsetsEnvelope, section: .staticSupportCurves, visible: false),
         Layer(type: .normals, section: .staticSupportCurves, visible: true),
         
     // SHORTCUTS

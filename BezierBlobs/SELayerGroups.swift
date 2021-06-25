@@ -18,7 +18,7 @@ let r: CGFloat = 11
 let markerStyles : [MarkerType : CGFloat] = [
     .blobAllMarkers :   r - 1,
     .vertexOrigin :     r,
-    .offsets :          r/2.0 - 1,
+    .offsets :          r/2.0 - 0.5,
     .baseCurve :        r/2.0 - 1,
 ]
 
@@ -200,8 +200,7 @@ struct NormalsPlusMarkers : View {
             SuperEllipse(curve: normals,
                          bezierType: .normals)
                 .stroke(Color.init(white: 1.0),
-//                .stroke(Color.orange,
-                        style: StrokeStyle(lineWidth: 5, dash: [1, 4]))
+                        style: StrokeStyle(lineWidth: 4, dash: [1, 3]))
             
     // INNER & OUTER MARKERS
             SuperEllipse(curve: markerCurves.inner,
@@ -219,7 +218,7 @@ struct BaseCurve_And_Markers : View {
     var curve : [CGPoint]
     var markerRadius : CGFloat
     
-    let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+    let strokeStyle = StrokeStyle(lineWidth: 1, dash: [3,2])
     
     @EnvironmentObject var colorScheme : ColorScheme
     
@@ -248,7 +247,7 @@ struct OffsetCurves : View {
     var markerRadius : CGFloat
     var showOffsets: (inner: Bool, outer: Bool)
     
-    let strokeStyle = StrokeStyle(lineWidth: 1.5, dash: [4,3])
+    let strokeStyle = StrokeStyle(lineWidth: 1, dash: [3,2])
     
     @EnvironmentObject var colorScheme : ColorScheme
 

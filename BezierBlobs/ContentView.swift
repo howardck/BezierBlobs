@@ -24,9 +24,6 @@ struct ContentView: View {
     init() {
         print("ContentView.init()")
     }
-    
-    
-    @State var selectedTab : Int = 4
         
     var body: some View {
 
@@ -35,14 +32,6 @@ struct ContentView: View {
         GeometryReader { gr in
             
             TabView() {
-
-                PageView(descriptors: PageDescriptors.classicSE,
-                         size: gr.size,
-                         deviceSizeClass: sizeClass)
-                    .tabItem ({
-                        SFSymbol.tab_2
-                        Text("\(PageDescriptors.classicSE.pageType.rawValue)" )
-                    })
                 
                 PageView(descriptors: PageDescriptors.circle,
                          size: gr.size,
@@ -51,7 +40,14 @@ struct ContentView: View {
                         SFSymbol.tab_1
                         Text("\(PageDescriptors.circle.pageType.rawValue)")
                     })
-                
+
+                PageView(descriptors: PageDescriptors.classicSE,
+                         size: gr.size,
+                         deviceSizeClass: sizeClass)
+                    .tabItem ({
+                        SFSymbol.tab_2
+                        Text("\(PageDescriptors.classicSE.pageType.rawValue)" )
+                    })
 
                 PageView(descriptors: PageDescriptors.deltaWing,
                          size: gr.size,

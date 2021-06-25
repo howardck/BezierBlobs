@@ -29,27 +29,15 @@ struct PageDescriptors {
                              axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.3..<0.1),
                              forceEqualAxes: true)
     static let classicSE = Self(pageType: .classicSE,
-                                order: 2.8, numPoints: 36,
-                                axisRelOffsets: (inner: 0.4, baseCurve: 0.6, outer: 0.9),
-                                axisRelDeltas: (innerRange: -0.1..<0.25, outerRange: -0.25..<0.1))
+                                order: 3.2, numPoints: 36,
+                                axisRelOffsets: (inner: 0.35, baseCurve: 0.6, outer: 0.9),
+                                axisRelDeltas: (innerRange: 0..<0.2, outerRange: -0.3..<0.1))
     static let deltaWing = Self(pageType: .deltaWing,
                                 order: 3.0, numPoints: 6,
                                 axisRelOffsets: (inner: 0.2, baseCurve: 0.4, outer: 0.75),
                                 axisRelDeltas: (innerRange: 0..<0.1, outerRange: -0.25..<0.25))
     static let rorschach = Self(pageType: .rorschach,
                                 order: 0.8, numPoints: 26,
-                                axisRelOffsets: (inner: 0.4, baseCurve: 0.7, outer: 1.1),
+                                axisRelOffsets: (inner: 0.4, baseCurve: 0.75, outer: 1.05),
                                 axisRelDeltas: (innerRange: -0.1..<0.2, outerRange: -0.3..<0.2))
-}
-
-struct PageDescriptors_TEST: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct PageDescriptors_TEST_Previews: PreviewProvider {
-    static var previews: some View {
-        PageDescriptors_TEST()
-    }
 }

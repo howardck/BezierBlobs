@@ -104,7 +104,7 @@ struct PageView: View {
         if deviceType == .compact {
             switch pageType {
                 case .circle : return 20
-                case .classicSE : return 36
+                case .classicSE : return 38
                 case .deltaWing : return descriptors.numPoints
                 case .rorschach : return 23
             }
@@ -180,7 +180,7 @@ struct PageView: View {
             }
         }
         .overlay(displaySuperEllipseMetrics(numPoints: numPoints))
-        .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.7))
+        .displayScreenSizeMetrics(frontColor: .black, backColor: .init(white: 0.85))
         .overlay(
             
             MainScreenUI(showLayersList : $showLayersList,
@@ -195,7 +195,7 @@ struct PageView: View {
             DropShadowedText(text: "numPoints: \(numPoints)",
                              foreColor: .white,
                              backColor: .init(white: 0.2))
-            DropShadowedText(text: "n: \(descriptors.order.format(fspec: "3.1"))",
+            DropShadowedText(text: "order: \(descriptors.order.format(fspec: "3.1"))",
                              foreColor: .white,
                              backColor: .init(white: 0.2))
         }
@@ -212,12 +212,12 @@ struct DropShadowedText : View {
         VStack(spacing: 32) {
             ZStack {
                 Text(text)
-                    .font(.headline)
+                    .font(.subheadline)
                     .fontWeight(.light)
                     .foregroundColor(backColor)
                     .offset(x: 2, y: 2)
                 Text(text)
-                    .font(.headline)
+                    .font(.subheadline)
                     .fontWeight(.light)
                     .foregroundColor(foreColor)
             }
