@@ -14,7 +14,7 @@ enum MarkerType : CaseIterable {
     case baseCurve
 }
 
-let r: CGFloat = 11
+let r: CGFloat = 8
 let markerStyles : [MarkerType : CGFloat] = [
     .blobAllMarkers :   r - 1,
     .vertexOrigin :     r,
@@ -22,9 +22,6 @@ let markerStyles : [MarkerType : CGFloat] = [
     .baseCurve :        r/2.0 - 1,
 ]
 
-//let blueGradient = Gradient(colors: [.blue, .init(white: 0.025)])
-//let orangeish = Gradient(colors: [.white, .orange, .red, .white])
-//let orangeish = Gradient(colors: [.white, .orange, .red, .black])
 let orangeish = Gradient(colors: [.white, .orange, .red, .white, Color.init(white: 0)])
 let blueGradient = Gradient(colors: [.init(white: 0.2), .blue, .init(white: 0.9)])
 let redGradient = Gradient(colors: [.red, .yellow])
@@ -86,14 +83,14 @@ struct AnimatingBlob_Stroked: View {
         ZStack {
             SuperEllipse(curve: curve,
                          smoothed: isSmoothed)
-                .stroke(Gray.dark,
-                        style: StrokeStyle(lineWidth: 6, lineJoin: .round))
+                .stroke(Color.init(white: 0.35),
+                        style: StrokeStyle(lineWidth: 5, lineJoin: .round))
             
             SuperEllipse(curve: curve,
                          bezierType: .lineSegments,
                          smoothed: isSmoothed)
                 .stroke(colorScheme.stroke,
-                        style: StrokeStyle(lineWidth: 5, lineJoin: .round))
+                        style: StrokeStyle(lineWidth: 4, lineJoin: .round))
         }
     }
 }

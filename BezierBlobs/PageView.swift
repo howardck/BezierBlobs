@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PageView: View {
 
-    static let animationStyle = Animation.easeInOut(duration: AnimationTimer.animationTimeIncrement)
+    static let animationStyle = Animation.easeOut(duration: AnimationTimer.animationTimeIncrement)
     
     // might be useful later for fixed perturbation ranges
     static let NIL_RANGE : Range<CGFloat>
