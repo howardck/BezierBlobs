@@ -1,0 +1,9 @@
+//
+//  TODO.txt
+//  BezierBlobs
+//
+//  Created by Howard Katz on 2021-06-16.
+
+o make sure filenames in comments at the tops of files match the File Navigator filenames
+o add MiscOptions section entry, "Normals & Outer Curves: 1) over 2) under
+o look at possibly amalgamating Model code for two methods, fixedPerturbationAnimation and RandomizedPerturbationAnimation
