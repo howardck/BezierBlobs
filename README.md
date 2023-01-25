@@ -4,6 +4,8 @@ This project is a SwiftUI exploration of how to animate a family of superellipse
 
 <img align="right" src="README_resources/Delta-unsmoothed:fixed_5.gif">
 
+TEST TEST
+
 <!-- width="640"> ->
 
 `BezierBlobs` runs on both iPhone and the iPad. The user experience at present is somewhat better on iPad, due to some unresolved issues that occur when changing orientation between landscape and portrait on the phone. To be fixed ...
