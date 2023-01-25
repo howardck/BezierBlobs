@@ -9,7 +9,6 @@ import Combine
 class SELayersModel : ObservableObject {
       
     static let DEBUG_PRINT_LAYERS = false
-    static let bullet : String = "\(2219)"
     
     static func loadDefaultLayers() -> [Layer] {
         [
@@ -26,7 +25,7 @@ class SELayersModel : ObservableObject {
             
         // STATIC SUPPORT CURVES
             Layer(type: .baseCurveWithMarkers, section: .staticSupportCurves, visible: true),
-            Layer(type: .offsetCurves, section: .staticSupportCurves),
+            Layer(type: .offsetCurves, section: .staticSupportCurves, visible: true),
             Layer(type: .normals, section: .staticSupportCurves, visible: true),
             
         // SHORTCUTS
