@@ -1,6 +1,6 @@
 *Everything you always wanted to know about superellipses, animated blob-like objects of the visual kind, and the intersection thereof.*
 
-This project is a SwiftUI exploration of how to animate a family of superellipse-based curves. In actuality it's a bit more general than that: the project shows how to animate between any curve, defined for our purposes as a `[CGPoint, CGVector]` array, where the `CGPoints` are the calculated vertices of the superellipse and the `CGVectors` are their corresponding normals, or orthogonals, and any secondary curve you are able to derive algorithmically from the first one, eg using a simple mapping or transformation. 
+This project is a SwiftUI exploration of how to animate a family of superellipse-based curves. In actuality it's a bit more general than that: the project shows how to animate between any curve, defined for our purposes as a `[CGPoint, CGVector]` array, where the `CGPoints` are the calculated vertices of the superellipse and the `CGVectors` are their corresponding normals, or orthogonals, and any secondary curve you are able to derive algorithmically from the first, eg using a simple mapping or transformation. 
 </br>
 </br>
 The project demonstrates two different examples, one the aforementioned *animating blob* effect; the other in which the vertex points on the curve travel in orbit-like fashion along its circumference.
