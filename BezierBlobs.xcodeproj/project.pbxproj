@@ -120,6 +120,13 @@
 			path = SimpleStaticSample;
 			sourceTree = "<group>";
 		};
+		3BF98CEE2980C693002FFC5E /* README_resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = README_resources;
+			sourceTree = "<group>";
+		};
 		5E57D2A3256D5AD900D6B1C0 = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +146,7 @@
 		5E57D2AE256D5AD900D6B1C0 /* BezierBlobs */ = {
 			isa = PBXGroup;
 			children = (
+				3BF98CEE2980C693002FFC5E /* README_resources */,
 				3B67A9C8267BC5B7003F163E /* DEBUG.swift */,
 				5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */,
 				3BEA92BC2757FA66007DF92F /* SimpleStaticSample */,
