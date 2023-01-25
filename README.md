@@ -1,4 +1,4 @@
-*Everything you always wanted to know about superellipses, SwiftUI, animated blob-like objects (of the visual kind), and the intersection thereof.*
+*Everything you always wanted to know about superellipses, animated blob-like objects of the visual kind, and the intersection thereof.*
 
 This project is a SwiftUI exploration of how to animate a family of superellipse-based curves. Actually, it's a bit more general than that: the project shows how to animate between any curve, defined simply for our purposes as a `[CGPoint]` array with an accompanying unit vector describing the normal at each `CGPoint`, and any secondary curve you can derive algorithmically from the first one, eg using a simple mapping or similar transformation. The project demonstrates two different examples of this.
 
