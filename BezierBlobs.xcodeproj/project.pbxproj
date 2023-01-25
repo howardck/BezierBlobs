@@ -31,6 +31,7 @@
 		3BB6692D2673BB7F00C57603 /* SELayersStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6692C2673BB7F00C57603 /* SELayersStack.swift */; };
 		3BC8DE6026B8A380008DB727 /* SimplePageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC8DE5F26B8A37F008DB727 /* SimplePageContentView.swift */; };
 		3BEA92BE2757FB54007DF92F /* SimpleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEA92BD2757FB54007DF92F /* SimpleShape.swift */; };
+		3BF98CF02980C73D002FFC5E /* Delta-unsmoothed:fixed_5.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BF98CEF2980C73D002FFC5E /* Delta-unsmoothed:fixed_5.gif */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
 		5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */; };
 		5E57D2B4256D5ADD00D6B1C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E57D2B3256D5ADD00D6B1C0 /* Assets.xcassets */; };
@@ -69,6 +70,7 @@
 		3BB6692C2673BB7F00C57603 /* SELayersStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SELayersStack.swift; sourceTree = "<group>"; };
 		3BC8DE5F26B8A37F008DB727 /* SimplePageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePageContentView.swift; sourceTree = "<group>"; };
 		3BEA92BD2757FB54007DF92F /* SimpleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleShape.swift; sourceTree = "<group>"; };
+		3BF98CEF2980C73D002FFC5E /* Delta-unsmoothed:fixed_5.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "Delta-unsmoothed:fixed_5.gif"; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierBlobsApp.swift; sourceTree = "<group>"; };
 		5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 		3BF98CEE2980C693002FFC5E /* README_resources */ = {
 			isa = PBXGroup;
 			children = (
+				3BF98CEF2980C73D002FFC5E /* Delta-unsmoothed:fixed_5.gif */,
 			);
 			path = README_resources;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 			files = (
 				5E57D2B7256D5ADD00D6B1C0 /* Preview Assets.xcassets in Resources */,
 				5E57D2B4256D5ADD00D6B1C0 /* Assets.xcassets in Resources */,
+				3BF98CF02980C73D002FFC5E /* Delta-unsmoothed:fixed_5.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
