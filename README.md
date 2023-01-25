@@ -5,7 +5,7 @@ This project is an exploration of how to animate a family of superellipse-based 
 </br>
 The project demonstrates two different examples, one the aforementioned ***animating blob*** effect; the other an ***orbital*** effect in which the vertex points of the curve travel along its circumference in orbit-like fashion.
 
-<img align="left" src="README_resources/Delta_fixed_unsmoothed_1.gif">
+<img align="left" src="README_resources/Delta_fixed_unsmoothed_1.gif width=566">
 
 TEST TEST
 
