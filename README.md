@@ -3,12 +3,13 @@
 This project is an exploration of how to animate a family of superellipse-based curves in SwiftUI. Actually it's a bit more general than that: the project shows how to animate between any superellipse-based curve, defined for our purposes as a `[CGPoint, CGVector]` array, where the `CGPoints` are the calculated vertices of the superellipse and the `CGVectors` are their corresponding normals, or orthogonals, and any secondary curve you can derive algorithmically from the first, eg using a simple mapping or transformation. 
 
 </br>
-<img align="right" src="README_resources/Delta_fixed_unsmoothed_1.gif" width="600">
+<img align="right" src="./README_resources/Delta_fixed_unsmoothed_1.gif" width="600">
 
 </br>
 The project demonstrates two different examples, one the aforementioned ***animating blob*** effect; the other an ***orbital*** effect in which the vertex points of the curve travel along its circumference in orbit-like fashion.
 
 <img align="left" src="/README_resources/Delta_fixed_unsmoothed_1.gif width=566">
+
 <!--
 https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/Delta_fixed_unsmoothed_1.gif
 ->
