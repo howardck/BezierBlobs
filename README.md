@@ -9,6 +9,8 @@ This project is an exploration of how to animate a family of superellipse-based 
 <-- THIS DOESN'T ->
 <img src="./README_resources/Delta_fixed_unsmoothed_1.gif" width="600" height="400"/>
 
+![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/Delta_fixed_unsmoothed_1.RESIZED_3.gif)
+
 <-- THIS WORKS YAY ->
 ![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/Delta_fixed_unsmoothed_1.gif)
 
