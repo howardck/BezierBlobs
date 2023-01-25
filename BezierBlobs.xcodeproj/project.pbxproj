@@ -33,6 +33,7 @@
 		3BEA92BE2757FB54007DF92F /* SimpleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEA92BD2757FB54007DF92F /* SimpleShape.swift */; };
 		3BF98CF32981D503002FFC5E /* Delta_fixed_unsmoothed_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BF98CF22981D503002FFC5E /* Delta_fixed_unsmoothed_1.gif */; };
 		3BF98CF52981DF63002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BF98CF42981DF62002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED.gif */; };
+		3BF98CF72981E420002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED_3.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BF98CF62981E420002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED_3.gif */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
 		5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */; };
 		5E57D2B4256D5ADD00D6B1C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E57D2B3256D5ADD00D6B1C0 /* Assets.xcassets */; };
@@ -73,6 +74,7 @@
 		3BEA92BD2757FB54007DF92F /* SimpleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleShape.swift; sourceTree = "<group>"; };
 		3BF98CF22981D503002FFC5E /* Delta_fixed_unsmoothed_1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Delta_fixed_unsmoothed_1.gif; sourceTree = "<group>"; };
 		3BF98CF42981DF62002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Delta_fixed_unsmoothed_1.RESIZED.gif; sourceTree = "<group>"; };
+		3BF98CF62981E420002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED_3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Delta_fixed_unsmoothed_1.RESIZED_3.gif; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierBlobsApp.swift; sourceTree = "<group>"; };
 		5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			children = (
 				3BF98CF42981DF62002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED.gif */,
 				3BF98CF22981D503002FFC5E /* Delta_fixed_unsmoothed_1.gif */,
+				3BF98CF62981E420002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED_3.gif */,
 			);
 			path = README_resources;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BF98CF32981D503002FFC5E /* Delta_fixed_unsmoothed_1.gif in Resources */,
+				3BF98CF72981E420002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED_3.gif in Resources */,
 				5E57D2B7256D5ADD00D6B1C0 /* Preview Assets.xcassets in Resources */,
 				3BF98CF52981DF63002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED.gif in Resources */,
 				5E57D2B4256D5ADD00D6B1C0 /* Assets.xcassets in Resources */,
