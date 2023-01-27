@@ -11,6 +11,7 @@ This project is an exploration of how to animate a family of superellipse-based 
 <br/>
 <br/>
 
+<--
 ---- DeltaWingFixedUnsmoothed ----
 ![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/NEW_DeltaWing_Gifs/DeltaWingFixedUnsmoothed.gif)
 
@@ -20,7 +21,10 @@ This project is an exploration of how to animate a family of superellipse-based 
 ---- DeltaWingRandomUnsmoothed ----
 ![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/NEW_DeltaWing_Gifs/DeltaWingRandomUnsmoothed.gif)
 
+
 </br>
+
+-->
 
 <--
 ![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/Delta_fixed_unsmoothed_1.RESIZED.gif)
