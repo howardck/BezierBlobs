@@ -34,6 +34,10 @@
 		3BF98CF32981D503002FFC5E /* Delta_fixed_unsmoothed_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BF98CF22981D503002FFC5E /* Delta_fixed_unsmoothed_1.gif */; };
 		3BF98CF52981DF63002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BF98CF42981DF62002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED.gif */; };
 		3BF98CF72981E420002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED_3.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BF98CF62981E420002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED_3.gif */; };
+		3BFE1CC629835C6C008FD219 /* DeltaWingRandomSmoothed_256colors.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BFE1CC229835C6B008FD219 /* DeltaWingRandomSmoothed_256colors.gif */; };
+		3BFE1CC729835C6C008FD219 /* DeltaWingRandomUnsmoothed.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BFE1CC329835C6B008FD219 /* DeltaWingRandomUnsmoothed.gif */; };
+		3BFE1CC829835C6C008FD219 /* DeltaWingRandomSmoothed_48colors.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BFE1CC429835C6B008FD219 /* DeltaWingRandomSmoothed_48colors.gif */; };
+		3BFE1CC929835C6C008FD219 /* DeltaWingFixedUnsmoothed.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3BFE1CC529835C6B008FD219 /* DeltaWingFixedUnsmoothed.gif */; };
 		5E57D2B0256D5AD900D6B1C0 /* BezierBlobsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */; };
 		5E57D2B2256D5AD900D6B1C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */; };
 		5E57D2B4256D5ADD00D6B1C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E57D2B3256D5ADD00D6B1C0 /* Assets.xcassets */; };
@@ -75,6 +79,10 @@
 		3BF98CF22981D503002FFC5E /* Delta_fixed_unsmoothed_1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Delta_fixed_unsmoothed_1.gif; sourceTree = "<group>"; };
 		3BF98CF42981DF62002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Delta_fixed_unsmoothed_1.RESIZED.gif; sourceTree = "<group>"; };
 		3BF98CF62981E420002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED_3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Delta_fixed_unsmoothed_1.RESIZED_3.gif; sourceTree = "<group>"; };
+		3BFE1CC229835C6B008FD219 /* DeltaWingRandomSmoothed_256colors.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = DeltaWingRandomSmoothed_256colors.gif; sourceTree = "<group>"; };
+		3BFE1CC329835C6B008FD219 /* DeltaWingRandomUnsmoothed.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = DeltaWingRandomUnsmoothed.gif; sourceTree = "<group>"; };
+		3BFE1CC429835C6B008FD219 /* DeltaWingRandomSmoothed_48colors.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = DeltaWingRandomSmoothed_48colors.gif; sourceTree = "<group>"; };
+		3BFE1CC529835C6B008FD219 /* DeltaWingFixedUnsmoothed.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = DeltaWingFixedUnsmoothed.gif; sourceTree = "<group>"; };
 		5E57D2AC256D5AD900D6B1C0 /* BezierBlobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BezierBlobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E57D2AF256D5AD900D6B1C0 /* BezierBlobsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierBlobsApp.swift; sourceTree = "<group>"; };
 		5E57D2B1256D5AD900D6B1C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -132,8 +140,20 @@
 				3BF98CF42981DF62002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED.gif */,
 				3BF98CF22981D503002FFC5E /* Delta_fixed_unsmoothed_1.gif */,
 				3BF98CF62981E420002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED_3.gif */,
+				3BFE1CC129835C6B008FD219 /* NEW_DeltaWing gifs */,
 			);
 			path = README_resources;
+			sourceTree = "<group>";
+		};
+		3BFE1CC129835C6B008FD219 /* NEW_DeltaWing gifs */ = {
+			isa = PBXGroup;
+			children = (
+				3BFE1CC229835C6B008FD219 /* DeltaWingRandomSmoothed_256colors.gif */,
+				3BFE1CC329835C6B008FD219 /* DeltaWingRandomUnsmoothed.gif */,
+				3BFE1CC429835C6B008FD219 /* DeltaWingRandomSmoothed_48colors.gif */,
+				3BFE1CC529835C6B008FD219 /* DeltaWingFixedUnsmoothed.gif */,
+			);
+			path = "NEW_DeltaWing gifs";
 			sourceTree = "<group>";
 		};
 		5E57D2A3256D5AD900D6B1C0 = {
@@ -260,9 +280,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BFE1CC829835C6C008FD219 /* DeltaWingRandomSmoothed_48colors.gif in Resources */,
 				3BF98CF32981D503002FFC5E /* Delta_fixed_unsmoothed_1.gif in Resources */,
 				3BF98CF72981E420002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED_3.gif in Resources */,
+				3BFE1CC629835C6C008FD219 /* DeltaWingRandomSmoothed_256colors.gif in Resources */,
 				5E57D2B7256D5ADD00D6B1C0 /* Preview Assets.xcassets in Resources */,
+				3BFE1CC729835C6C008FD219 /* DeltaWingRandomUnsmoothed.gif in Resources */,
+				3BFE1CC929835C6C008FD219 /* DeltaWingFixedUnsmoothed.gif in Resources */,
 				3BF98CF52981DF63002FFC5E /* Delta_fixed_unsmoothed_1.RESIZED.gif in Resources */,
 				5E57D2B4256D5ADD00D6B1C0 /* Assets.xcassets in Resources */,
 			);
