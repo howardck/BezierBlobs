@@ -6,9 +6,13 @@ This project is an exploration of how to animate a family of superellipse-based 
 DeltaWingFixedUnsmoothed
 ![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/NEW_DeltaWing_Gifs/DeltaWingFixedUnsmoothed.gif)
 
+</br>
 DeltaWingRandomUnsmoothed
 ![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/NEW_DeltaWing_Gifs/DeltaWingRandomUnsmoothed.gif)
 
+</br>
+
+<--
 ![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/Delta_fixed_unsmoothed_1.RESIZED.gif)
 
 <-- THIS DOESN'T ->
@@ -21,6 +25,7 @@ DeltaWingRandomUnsmoothed
 
 <-- THIS DOESN'T ->
 ![me](/README_resources/Delta_fixed_unsmoothed_1.gif)
+-->
 
 </br>
 The project demonstrates two different examples, one the aforementioned ***animating blob*** effect; the other an ***orbital*** effect in which the vertex points of the curve travel along its circumference in orbit-like fashion.
