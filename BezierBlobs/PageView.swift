@@ -1,4 +1,3 @@
-//
 //  PageView.swift
 //  BezierBlobs
 //
