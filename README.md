@@ -4,6 +4,10 @@ This project is an exploration of how to animate a family of superellipse-based 
 
 </br>
 
+![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/NEW_DeltaWing gifs/DeltaWingFixedUnsmoothed.gif)
+
+![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/NEW_DeltaWing gifs/DeltaWingRandomUnsmoothed.gif)
+
 ![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/Delta_fixed_unsmoothed_1.RESIZED.gif)
 
 <-- THIS DOESN'T ->
