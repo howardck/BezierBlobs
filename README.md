@@ -7,6 +7,8 @@ This project is an exploration of how to animate a family of superellipse-based 
 ![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/NEW_DeltaWing_Gifs/DeltaWingFixedUnsmoothed.gif)
 
 </br>
+</br>
+
 ---- DeltaWingRandomUnsmoothed ----
 ![me](https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/README_resources/NEW_DeltaWing_Gifs/DeltaWingRandomUnsmoothed.gif)
 
