@@ -3,7 +3,7 @@
 This project is an exploration of how to animate a family of superellipse-based curves in SwiftUI. Actually it's a bit more general than that: the project shows how to animate between any superellipse-based curve, defined for our purposes as a `[CGPoint, CGVector]` array, where the `CGPoints` are the calculated vertices of the superellipse and the `CGVectors` are their corresponding normals, or orthogonals, and any secondary curve you can derive algorithmically from the first, eg using a simple mapping or transformation. 
 
 MY GIF IS BELOW ME
-<img align="right" src="README_resources/NEW_DeltaWing_Gifs/DeltaWingFixedUnsmoothed.gif">
+<img align="right" src="README_resources/NEW_DeltaWing_Gifs/DeltaWingFixedUnsmoothed.gif" width="900">
 MY GIF IS ABOVE ME
 
 <br/>
