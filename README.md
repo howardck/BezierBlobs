@@ -1,6 +1,6 @@
 *Everything you always wanted to know about SwiftUI, superellipses, animated blobbie-type things, and the intersection thereof.*
 
-<img  src="/FolderBased_DeltaWing_gifs/DeltaWingFixedUnsmoothed.gif" width="760"/>
+<img align="right" src="FolderBased_DeltaWing_gifs/DeltaWingFixedUnsmoothed.gif" width="760">
 
 ![kkkkk](./FolderBased_DeltaWing_gifs/DeltaWingFixedUnsmoothed.gif)
 
