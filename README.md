@@ -5,7 +5,7 @@
 <br/>
 <br/>
 
-![kkkkk](./FolderBased_DeltaWing_gifs/GIFSKI_TEST.gif)
+![kkkkk](FolderBased_DeltaWing_gifs/GIFSKI_TEST.gif)
 
 https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/FolderBased_DeltaWing_gifs/GIFSKI_TEST.gif
 
