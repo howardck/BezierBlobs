@@ -1,5 +1,7 @@
 *Everything you always wanted to know about SwiftUI, superellipses, animated blobbie-type things, and the intersection thereof.*
 
+<img src="GIFs/DeltaWing.PNG">
+
 
 <img src="GIFs/1.DeltaWing.brewery.gif" width="960">
 
