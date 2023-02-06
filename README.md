@@ -4,7 +4,7 @@
 https://github.com/howardck/BezierBlobs/blob/main/BezierBlobs/FolderBased_DeltaWing_gifs/1.DeltaWing.brewery.gif
 ->
 
-<img align="right" src="BezierBlobs/1.DeltaWing.brewery.gif" width="900">
+<img align="right" src="/BezierBlobs/1.DeltaWing.brewery.gif" width="900">
 
 <!--
 <img align="right" src="FolderBased_DeltaWing_gifs/1.DeltaWing.brewery.gif" width="900">
