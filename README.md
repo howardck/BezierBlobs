@@ -2,7 +2,7 @@
 
 <img align="right" src="GIFs/DeltaWing.PNG" width="667">
 
-Here's a `SuperEllipse` **Shape** object. It has 6 vertices. The odd-numbered vertices are shown in red, the even-numbered one in blue. Just because.
+Here's a **`SuperEllipse`** `Shape` object with 6 vertices. The odd-numbered vertices are shown in red, the even-numbered one in blue. Just because.
 
 <img src="GIFs/LayersChooser.PNG" height="500">
 
