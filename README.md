@@ -2,7 +2,7 @@
 
 <img align="left" src="GIFs/DeltaWing.PNG" width="667">
 
-<img align="right" src="GIFs/LayersChooser.PNG" width="500">
+<img align="right" src="GIFs/LayersChooser.PNG" height="500">
 
 
 <img src="GIFs/1.DeltaWing.brewery.gif" width="960">
