@@ -2,6 +2,8 @@
 
 <img align="left" src="GIFs/DeltaWing.PNG" width="667">
 
+Does text fit in here??
+
 <img src="GIFs/LayersChooser.PNG" height="500">
 
 
