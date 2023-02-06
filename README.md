@@ -1,6 +1,6 @@
 *Everything you always wanted to know about SwiftUI, superellipses, animated blobbie-type things, and the intersection thereof.*
 
-<img align="left" src="GIFs/DeltaWing.PNG" width="667">
+<img align="right" src="GIFs/DeltaWing.PNG" width="667">
 
 Does text fit in here??
 
