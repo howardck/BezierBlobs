@@ -4,7 +4,7 @@
 
 Here's a **`SuperEllipse`** `Shape` object with 6 vertices. The odd-numbered vertices are shown in red, the even-numbered one in blue. Just because.
 
-<img src="GIFs/LayersChooser.PNG" height="500">
+<img src="GIFs/LayersChooser(iPhone14).PNG" height="500">
 
 Do you like the way it looks?
 
