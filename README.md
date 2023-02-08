@@ -1,27 +1,27 @@
 *Everything you always wanted to know about SwiftUI, superellipses, animated blobbie-type things, and the intersection thereof.*
 
 1.DeltaWing.PNG
-<img align="right" src="GIFs/1.DeltaWing.PNG" width="667">
+<img align="right" src="_GIFs/1.DeltaWing.PNG" width="667">
 
 <br/>
 
 2.DeltaWing.PNG
-<img align="right" src="GIFs/2.DeltaWing.PNG" width="667">
+<img align="right" src="_GIFs/2.DeltaWing.PNG" width="667">
 
 <br/>
 
 3.DW.2-cycles.no-optimization.gif
-<img align="right" src="GIFs/3.DW.2-cycles.no-optimization.gif" width="667">
+<img align="right" src="_GIFs/3.DW.2-cycles.no-optimization.gif" width="667">
 
 <br/>
 
 3.DW.2-cycles.optimized.gif
-<img align="right" src="GIFs/3.DW.2-cycles.optimized.gif" width="667">
+<img align="right" src="_GIFs/3.DW.2-cycles.optimized.gif" width="667">
 
 <br/>
 
 4.DeltaWing.gif
-<img align="right" src="GIFs/4.DeltaWing.gif" width="667">
+<img align="right" src="_GIFs/4.DeltaWing.gif" width="667">
 
 <!--
 <img src="GIFs/LayersChooser(iPhone14).PNG" height="500">
