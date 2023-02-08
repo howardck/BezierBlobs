@@ -1,16 +1,25 @@
 *Everything you always wanted to know about SwiftUI, superellipses, animated blobbie-type things, and the intersection thereof.*
 
+<br/>
+
+This is what I want to say about DeltaWing #111111111111. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!
+
 1.DeltaWing.GIF
 <br/>
 DeltaWing/Not Smoothed/Not Randomized
 <img align="center" src="_GIFs/1.DeltaWing.gif" width="667">
 
+
 <br/>
+
+This is what I want to say about DeltaWing #2222222222222. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!
 
 2.DeltaWing.GIF
 <br/>
 DeltaWing/Smoothed/Not Randomized
 <img align="left" src="_GIFs/2.DeltaWing.gif" width="667">
+
+This is what I want to say about DeltaWing #3333333333. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!
 
 <br/>
 
