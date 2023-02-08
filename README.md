@@ -11,17 +11,22 @@
 <br/>
 
 3.DW.2-cycles.no-optimization.GIF
-<img align="right" src="_GIFs/3.DW.2-cycles.no-optimization.gif" width="667">
+<img  src="_GIFs/3.DW.2-cycles.no-optimization.gif" width="667">
 
 <br/>
 
 3.DW.2-cycles.optimized.gif
-<img align="right" src="_GIFs/3.DW.2-cycles.optimized.gif" width="667">
+<img src="_GIFs/3.DW.2-cycles.optimized.gif" width="667">
 
 <br/>
 
 4.DeltaWing.gif
-<img align="right" src="_GIFs/4.DeltaWing.gif" width="667">
+<img   src="_GIFs/4.DeltaWing.gif" width="667">
+
+
+
+
+
 
 <!--
 <img src="GIFs/LayersChooser(iPhone14).PNG" height="500">
