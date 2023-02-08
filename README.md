@@ -17,7 +17,7 @@ This is what I want to say about DeltaWing #2222222222222. And a fine beast it i
 2.DeltaWing.GIF
 <br/>
 DeltaWing/Smoothed/Not Randomized
-<img align="left" src="_GIFs/2.DeltaWing.gif" width="667">
+<img align="center" src="_GIFs/2.DeltaWing.gif" width="667">
 
 This is what I want to say about DeltaWing #3333333333. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!
 
@@ -26,7 +26,7 @@ This is what I want to say about DeltaWing #3333333333. And a fine beast it is, 
 3.DeltaWing.gif
 <br/>
 DeltaWing/Smoothed/Randomized
-<img align="right" src="_GIFs/4.DeltaWing.gif" width="667">
+<img align="center" src="_GIFs/4.DeltaWing.gif" width="667">
 
 
 <!--
