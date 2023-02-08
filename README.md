@@ -3,7 +3,7 @@
 1.DeltaWing.GIF
 <br/>
 DeltaWing/Not Smoothed/Not Randomized
-<img align="left" src="_GIFs/1.DeltaWing.gif" width="667">
+<img align="center" src="_GIFs/1.DeltaWing.gif" width="667">
 
 <br/>
 
@@ -17,7 +17,7 @@ DeltaWing/Smoothed/Not Randomized
 3.DeltaWing.gif
 <br/>
 DeltaWing/Smoothed/Randomized
-<img align="left" src="_GIFs/4.DeltaWing.gif" width="667">
+<img align="right" src="_GIFs/4.DeltaWing.gif" width="667">
 
 
 <!--
