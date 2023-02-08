@@ -1,16 +1,16 @@
 *Everything you always wanted to know about SwiftUI, superellipses, animated blobbie-type things, and the intersection thereof.*
 
-1.DeltaWing.PNG
-<img align="right" src="_GIFs/1.DeltaWing.gif" width="667">
+1.DeltaWing.GIF
+<img src="_GIFs/1.DeltaWing.gif" width="667">
 
 <br/>
 
-2.DeltaWing.PNG
-<img align="right" src="_GIFs/2.DeltaWing.GIF" width="667">
+2.DeltaWing.GIF
+<img src="_GIFs/2.DeltaWing.gif" width="667">
 
 <br/>
 
-3.DW.2-cycles.no-optimization.gif
+3.DW.2-cycles.no-optimization.GIF
 <img align="right" src="_GIFs/3.DW.2-cycles.no-optimization.gif" width="667">
 
 <br/>
