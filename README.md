@@ -10,7 +10,7 @@ Now is the time for all good men to come to the aid of their party. To help one 
 
 <img align="center" src="_GIFs/0.DeltaWing.gif" width="667">
 
-<br/>
+This is what I want to say about DeltaWing #000000000000000. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!<br/>
 
 **1.DeltaWing.GIF**
 <br/>
@@ -20,9 +20,7 @@ Now is the time for all good men to come to the aid of their party. To help one 
 
 <img align="center" src="_GIFs/1.DeltaWing.gif" width="667">
 
-<br/>
-
-This is what I want to say about DeltaWing #2222222222222. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!<br/>
+This is what I want to say about DeltaWing #111111111111111. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!<br/>
 
 **2.DeltaWing.GIF**
 <br/>
@@ -32,9 +30,7 @@ Now is the time for all good men to come to the aid of their party. To help one 
 
 <img align="center" src="_GIFs/2.DeltaWing.gif" width="667">
 
-This is what I want to say about DeltaWing #3333333333. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!! <br/>
-
-<br/>
+This is what I want to say about DeltaWing #22222222222222. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!! <br/>
 
 **3.DeltaWing.gif**
 <br/>
