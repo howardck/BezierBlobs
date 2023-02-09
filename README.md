@@ -22,7 +22,7 @@ Now is the time for all good men to come to the aid of their party. To help one 
 
 <br/>
 
-This is what I want to say about DeltaWing #2222222222222. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!
+This is what I want to say about DeltaWing #2222222222222. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!<br/>
 
 2.DeltaWing.GIF
 <br/>
@@ -32,7 +32,7 @@ Now is the time for all good men to come to the aid of their party. To help one 
 
 <img align="center" src="_GIFs/2.DeltaWing.gif" width="667">
 
-This is what I want to say about DeltaWing #3333333333. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!
+This is what I want to say about DeltaWing #3333333333. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!! <br/>
 
 <br/>
 
@@ -40,7 +40,8 @@ This is what I want to say about DeltaWing #3333333333. And a fine beast it is, 
 <br/>
 DeltaWing/Smoothed/Randomized</br>
 
-Now is the time for all good men to come to the aid of their party. To help one and other, and to help this great (or not so great -- whatever) nation of ours once and for all discourage the scourge of all that is unhold and plays no role in the hopes and dreams of men. And women too for all that matter!!!
+Now is the time for all good men to come to the aid of their party. To help one and other, and to help this great (or not so great -- whatever) nation of ours once and for all discourage the scourge of all that is unhold and plays no role in the hopes and dreams of men. And women too for all that matter!!!<br/>
+
 <img align="center" src="_GIFs/4.DeltaWing.gif" width="667">
 
 
