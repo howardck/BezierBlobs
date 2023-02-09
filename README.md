@@ -2,10 +2,10 @@
 
 <br/>
 
-0-1.DeltaWing.GIF
+0.DeltaWing.GIF
 <br/>
 DeltaWing/Not Smoothed/Not Randomized/Vertex Markers Only
-<img align="center" src="_GIFs/0-1.DeltaWing.gif" width="667">
+<img align="center" src="_GIFs/0.DeltaWing.gif" width="667">
 
 <br/>
 
