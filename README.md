@@ -2,7 +2,7 @@
 
 <br/>
 
-0.DeltaWing.GIF
+**0.DeltaWing.GIF**
 <br/>
 DeltaWing/Not Smoothed/Not Randomized/Vertex Markers Only<br/>
 
@@ -12,7 +12,7 @@ Now is the time for all good men to come to the aid of their party. To help one 
 
 <br/>
 
-1.DeltaWing.GIF
+**1.DeltaWing.GIF**
 <br/>
 DeltaWing/Not Smoothed/Not Randomized<br/>
 
@@ -24,7 +24,7 @@ Now is the time for all good men to come to the aid of their party. To help one 
 
 This is what I want to say about DeltaWing #2222222222222. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!<br/>
 
-2.DeltaWing.GIF
+**2.DeltaWing.GIF**
 <br/>
 DeltaWing/Smoothed/Not Randomized<br/>
 
@@ -36,7 +36,7 @@ This is what I want to say about DeltaWing #3333333333. And a fine beast it is, 
 
 <br/>
 
-3.DeltaWing.gif
+**3.DeltaWing.gif**
 <br/>
 DeltaWing/Smoothed/Randomized</br>
 
