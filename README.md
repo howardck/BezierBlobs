@@ -2,13 +2,17 @@
 
 <br/>
 
-This is what I want to say about DeltaWing #111111111111. And a fine beast it is, no matter what you think of it and its kin, in life previous and left afterward. In other words, onward!!!
+0-1.DeltaWing.GIF
+<br/>
+DeltaWing/Not Smoothed/Not Randomized/Vertex Markers Only
+<img align="center" src="_GIFs/0-1.DeltaWing.gif" width="667">
+
+<br/>
 
 1.DeltaWing.GIF
 <br/>
 DeltaWing/Not Smoothed/Not Randomized
 <img align="center" src="_GIFs/1.DeltaWing.gif" width="667">
-
 
 <br/>
 
