@@ -6,13 +6,13 @@
 <br/>
 DeltaWing/Not Smoothed/Not Randomized/Vertex Markers Only<br/>
 
-<img align="center" src="_GIFs/0.DeltaWing.gif" width="500">
+<img align="center" src="_GIFs/0.DeltaWing.gif" width="750">
 
 **1.DeltaWing.GIF**
 <br/>
 DeltaWing/Not Smoothed/Not Randomized<br/>
 
-<img align="center" src="_GIFs/1.DeltaWing.gif" width="667">
+<img align="center" src="_GIFs/1.DeltaWing.gif" width="750">
 
 **2.DeltaWing.GIF**
 <br/>
@@ -24,7 +24,7 @@ DeltaWing/Smoothed/Not Randomized<br/>
 <br/>
 DeltaWing/Smoothed/Randomized</br>
 
-<img align="center" src="_GIFs/4.DeltaWing.gif" width="667">
+<img align="center" src="_GIFs/4.DeltaWing.gif" width="750">
 
 
 <!--
