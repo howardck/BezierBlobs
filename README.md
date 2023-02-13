@@ -12,6 +12,8 @@
 <br/>
 DeltaWing/Vertex Markers Only<br/>
 
+Here's an extremely simple **`SuperEllipse`** `Shape` object with 6 vertices. The odd-numbered vertices are shown in red, the even-numbered one in blue. Just because.
+
 <img align="center" src="_GIFs/0.DeltaWing.gif" width="750">
 
 **1.DeltaWing.GIF**
