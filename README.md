@@ -1,11 +1,12 @@
 *Everything you always wanted to know about SwiftUI, superellipses, animated blobbie-type things, and the intersection thereof. More generally, how to smooth and animate SwiftUI `Shape` objects whose paths consist primarily of computed vertices.*
 
-<br/>
-<br/>
 
 **README UNDER CONSTRUCTION**
 
 **WARNING: usage of animated GIFs on this page is a major power suck.**
+
+<br/>
+<br/>
 <br/>
 
 **0.DeltaWing.GIF**
