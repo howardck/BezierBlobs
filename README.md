@@ -2,6 +2,8 @@
 
 <br/>
 
+** README UNDER CONSTRUCTION. WARNING: usage of animated GIFs on this page is a major power suck. *&&*
+
 **0.DeltaWing.GIF**
 <br/>
 DeltaWing/Not Smoothed/Not Randomized/Vertex Markers Only<br/>
