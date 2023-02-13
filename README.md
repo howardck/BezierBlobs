@@ -32,10 +32,7 @@ DeltaWing/Smoothed/Randomized</br>
 
 <img align="center" src="_GIFs/4.DeltaWing.gif" width="750">
 
-
-<!--
 <img src="GIFs/LayersChooser(iPhone14).PNG" height="500">
-->
 
 <br/>
 
