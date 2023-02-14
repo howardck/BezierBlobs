@@ -14,7 +14,7 @@ Here's an extremely simple `SuperEllipse` with 6 vertices. The odd-numbered vert
 
 <img align="center" src="_GIFs/0.DeltaWing.gif" width="700">
 
-We can select which layers are showing using the `LayersChooser`. BezierBlobs uses `ZStack`s layered to the max. The DeltaWing conformation above uses 
+We can select which layers are showing using the `LayersChooser`, invoked by clicking on the leftmost red LayersChooser icon on the main screen. BezierBlobs uses `ZStack`s layered to the max. The "markers only" Delta Wing animation above uses 432 stacked `SuperEllipse` Shape layers.
 
 <img align="center" src="_PNGs/LayersChooser[0.DeltaWing.GIF].jpeg" width="230">
 
