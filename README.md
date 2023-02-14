@@ -14,19 +14,25 @@ Here's an extremely simple `SuperEllipse` with 6 vertices. The odd-numbered vert
 
 <img align="center" src="_GIFs/0.DeltaWing.gif" width="700">
 
-We can select which layers are showing using the `LayersChooser`, invoked by clicking on the leftmost red LayersChooser icon on the main screen. BezierBlobs uses `ZStack`s layered to the max. The "markers only" Delta Wing animation above uses 432 stacked `SuperEllipse` Shape layers.
+We can select which layers are showing using the `LayersChooser`, invoked by clicking on the leftmost red LayersChooser icon on the main screen. BezierBlobs uses ZStacks layered to the max. The "markers only" Delta Wing animation above uses 432 stacked `SuperEllipse` Shape layers.
 
 <img align="center" src="_PNGs/LayersChooser[0.DeltaWing.GIF].jpeg" width="230">
 
 **1.DeltaWing.GIF**
 
+If we don't do any smoothing and constrain the markers' motion along the orthogonals between each normal's endpoints, we see this:
+
 <img align="center" src="_GIFs/1.DeltaWing.gif" width="700">
 
 **2.DeltaWing.GIF**
 
+If we use our Options Chooser the apply Catmull-Rom smoothing to our main stroking layer, we see this:
+
 <img align="center" src="_GIFs/2.DeltaWing.gif" width="700">
 
 **3.DeltaWing.gif**
+
+And if we now let our orthogonal travellers semi-randomly over- or under-shoot the normal's endpoints, we see this:
 
 <img align="center" src="_GIFs/4.DeltaWing.gif" width="700">
 
