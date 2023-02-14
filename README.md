@@ -16,7 +16,7 @@ Here's an extremely simple `SuperEllipse` with 6 vertices. The odd-numbered vert
 
 We can select which layers are showing using the `LayersChooser`.
 
-<img align="center" src="_PNGs/LayersChooser[0.DeltaWing.GIF].jpeg" width="200">
+<img align="center" src="_PNGs/LayersChooser[0.DeltaWing.GIF].jpeg" width="230">
 
 **1.DeltaWing.GIF**
 
