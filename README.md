@@ -26,7 +26,7 @@ If we don't do any smoothing and constrain the markers' motion along the orthogo
 
 **2.DeltaWing.GIF**
 
-If we use our Options Chooser the apply Catmull-Rom smoothing to our main stroking layer, we see this:
+If we use our `Options Chooser` to apply Catmull-Rom smoothing to our main stroking layer, we see this:
 
 <img align="center" src="_GIFs/2.DeltaWing.gif" width="700">
 
