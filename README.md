@@ -12,19 +12,19 @@
 
 Here's an extremely simple `SuperEllipse` with 6 vertices. The odd-numbered vertices are shown in red, the even-numbered ones in blue. Just because. The markers for each vertex move in and out along their normals (or orthogonals if you like the fancier term). 
 
-<img align="center" src="_GIFs/0.DeltaWing.gif" width="750">
+<img align="center" src="_GIFs/0.DeltaWing.gif" width="700">
 
 **1.DeltaWing.GIF**
 
-<img align="center" src="_GIFs/1.DeltaWing.gif" width="750">
+<img align="center" src="_GIFs/1.DeltaWing.gif" width="700">
 
 **2.DeltaWing.GIF**
 
-<img align="center" src="_GIFs/2.DeltaWing.gif" width="750">
+<img align="center" src="_GIFs/2.DeltaWing.gif" width="700">
 
 **3.DeltaWing.gif**
 
-<img align="center" src="_GIFs/4.DeltaWing.gif" width="750">
+<img align="center" src="_GIFs/4.DeltaWing.gif" width="700">
 
 <img src="GIFs/LayersChooser(iPhone14).PNG" height="500">
 
