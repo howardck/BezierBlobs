@@ -4,33 +4,25 @@
 
 **README UNDER CONSTRUCTION**
 
-**WARNING: usage of animated GIFs on this page is a major power suck.**
+**WARNING: usage of animated GIFs on this page suck power bigtime. **
 
 <br/>
 
 **0.DeltaWing.GIF**
-<br/>
-DeltaWing/Vertex Markers Only<br/>
 
-Here's an extremely simple **`SuperEllipse`** `Shape` object with 6 vertices. The odd-numbered vertices are shown in red, the even-numbered one in blue. Just because.
+Here's an extremely simple `SuperEllipse` with 6 vertices. The odd-numbered vertices are shown in red, the even-numbered one in blue. Just because. 
 
 <img align="center" src="_GIFs/0.DeltaWing.gif" width="750">
 
 **1.DeltaWing.GIF**
-<br/>
-DeltaWing/Not Smoothed/Not Randomized<br/>
 
 <img align="center" src="_GIFs/1.DeltaWing.gif" width="750">
 
 **2.DeltaWing.GIF**
-<br/>
-DeltaWing/Smoothed/Not Randomized<br/>
 
 <img align="center" src="_GIFs/2.DeltaWing.gif" width="750">
 
 **3.DeltaWing.gif**
-<br/>
-DeltaWing/Smoothed/Randomized</br>
 
 <img align="center" src="_GIFs/4.DeltaWing.gif" width="750">
 
