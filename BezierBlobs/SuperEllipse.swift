@@ -35,11 +35,13 @@ struct SuperEllipse : Shape {
                     i == 0 ?
                     path.move(to: point) :
                     path.addLine(to: point)
+                    
                 case .singleMarker(let index, let radius) :
                     if i == index {
                         path.move(to: point)
                         path.addMarker(of: radius)
                     }
+                    
                 // nota: previously used for even/odds but less efficient.
                 // see Model.evenNumberedVertices() for example usages.
                 case .someMarkers(let indexSet, let radius) :
@@ -61,9 +63,9 @@ struct SuperEllipse : Shape {
                     path.move(to: point)
                     path.addMarker(of: radius)
                     
-                    /*  for normals, even-numbered points lie on the inner offset;
-                     the next point is its outer offset counterpart.
-                     */
+                    // for normals, even-numbered points lie on the inner offset.
+                    // the next point is its outer offset counterpart.
+                
                 case .normals :
                     if i.isEven() && i < curve.count {
                         path.move(to: point)
