@@ -10,7 +10,7 @@
 
 **0.DeltaWing.GIF**
 
-Here's an extremely simple `SuperEllipse` with 6 vertices. The odd-numbered vertices are shown in red, the even-numbered ones in blue. Just because. The markers for each vertex move in and out along their normals (or orthogonals if you like the fancier term). 
+Here's an extremely simple `SuperEllipse` with 6 vertices. The odd-numbered vertices are shown in red, the even-numbered ones in blue. Just because. The markers for each vertex move in and out along their normals (or orthogonals, if you prefer the fancier term). 
 
 <img align="center" src="_GIFs/0.DeltaWing.gif" width="700">
 
