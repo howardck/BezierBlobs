@@ -2,7 +2,7 @@
 
 This project explores using SwiftUI to create a superellipse-based **`Shape`** object, using a parametric equation to create an array of `(CGPoint, CGVector)` pairs describing the curve, where each `CGPoint` is a vertex on the curve, and its corresponding `CGVector` is a unit vector describing the orthogonal (aka normal) at that point. 
 
-One of the more important arguments to the `SuperEllipse()` initializer is `numPoints`, the number of desired vertices. This in turn determines how well or poorly the curve approximates its geometric ideal. Catmull-Rom smoothing during the `SuperEllipse.path()`-drawing process can provide an attractive curve.
+One of the more important arguments to the `SuperEllipse()` initializer is `numPoints`, the number of vertices desired for our bezier path. This determines how well or poorly the curve approximates its geometric ideal. Catmull-Rom smoothing during the `SuperEllipse.path()` drawing process goes a long way to making a jagged-looking curve attractive again.
 
 <br/>
 
