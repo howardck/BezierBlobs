@@ -1,7 +1,8 @@
 *Everything you always wanted to know about SwiftUI, superellipses, animated blobbie-type things, and the intersection thereof. More generally, how to smooth and animate SwiftUI **`Shape`** objects whose paths consist primarily of computed vertices and the line segments between them.*
 
-This project explores using SwiftUI to create a superellipse-based **`Shape`** object using a parametric equation that creates an array of `[CGPoint, CGVector]` pairs describing the curve, where each `CGPoint` is a vertex on the curve, and its corresponding `CGVector` is a unit vector describing the orthogonal (aka normal) at that point. 
-One of the arguments to the `SuperEllipse` initializer is `numPoints`, which describes the number of desired vertices, which in turn determines how well or poorly the curve approximates its geometric ideal.
+This project explores using SwiftUI to create a superellipse-based **`Shape`** object, using a parametric equation to create an array of `(CGPoint, CGVector)` pairs describing the curve, where each `CGPoint` is a vertex on the curve, and its corresponding `CGVector` is a unit vector describing the orthogonal (aka normal) at that point. 
+
+One of the more important arguments to the `SuperEllipse()` initializer is `numPoints`, the number of desired vertices. This in turn determines how well or poorly the curve approximates its geometric ideal. Catmull-Rom smoothing during the `SuperEllipse.path()`-drawing process can provide an attractive curve.
 
 <br/>
 
