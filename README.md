@@ -14,6 +14,10 @@ This project explores using SwiftUI to create a superellipse-based **`Shape`** o
 
 **0.DeltaWing.GIF**
 
+<img align="center" src="_PNGs/DeltaWing_SupportCurves.gif" width="700">
+
+The above PNG is new.
+
 Here's an extremely simple `SuperEllipse` with 6 vertices. The odd-numbered vertices are shown in red, the even-numbered ones in blue. Just because. The markers for each vertex move in and out along their normals (or orthogonals, if you prefer the fancier term). 
 
 <img align="center" src="_GIFs/0.DeltaWing.gif" width="700">
