@@ -14,7 +14,7 @@ This project explores using SwiftUI to create a superellipse-based **`Shape`** o
 
 **0.DeltaWing.GIF**
 
-<img align="center" src="_PNGs/DeltaWing_SupportCurves.PNG" width="700">
+<img align="center" src="_PNGs/DeltaWing_SupportCurves.png" width="700">
 
 The above PNG is new.
 
