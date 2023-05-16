@@ -1,3 +1,10 @@
+This project is about two things:
+
+1) How to create a superellipse-based `Shape` object. This means, at a minimum, being able to calculate the `CGPoint` positions of its vertices so that `SuperEllipse.path()` can draw them, and
+
+2) Being able to map those vertices into other configurations, so that we can begin to animate them in interesting ways.
+
+
 Superellipses are fun for exploring how to do animations in SwiftUI for a number of reasons:
 
 1) They're interesting structures in their own right and can vary hugely and in fascinating ways in appearance, depending on the values of the parameters we pass in to our parametric equation in `model.calculateSuperEllipse()`.
