@@ -22,7 +22,7 @@ Here's a simple example of what I'm talking about:
 
 The `SuperEllipse` shown here is very coarse at only six vertices. Starting from the origin of the curve, vertex number 0 at the far right of the figure, all the even-numbered vertices are shown in blue and the odd-numbered ones in red. Because it makes the algorithm easier to visualize and explain. 
 
-Each marker is moving back and forth from the so-called `innerOffset` curve to the outer one. All the blue, even-numbered markers move in one of the two directions in unison, and all the red odd-numbered ones correspondingly all move in the opposite one. 
+Each marker is moving back and forth from the so-called `innerOffset` curve to the outer one. All the blue, even-numbered markers move in one of the two directions in unison, and all the red odd-numbered ones all simultaneously move in the opposite direction at the same time. 
 
 
 
