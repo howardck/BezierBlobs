@@ -10,11 +10,17 @@ Superellipses are fun for exploring how to do animations in SwiftUI for a number
 	
 	where `baseCurve` is the original superellipse itself. Most of the other curves used in the animation are derived from this one.
   
-Being able to derive the normal at each vertex allows us to slide our vertex markers in and out along them to provide a variety of differing animation outcomes with very little code.  As one example, although we don't use it in this app, we can use our `baseCurve`'s normals to efficiently compute a secondary `offset` curve that shrinks or enlarges our SuperEllipse by any `offset` amount that we like:
+Being able to derive the normal at each vertex allows us to slide our vertex markers in and out along them to provide a variety of differing animation outcomes with very little code.  We can use our `baseCurve`'s normals to easily compute a secondary `offset` curve that shrinks or enlarges our SuperEllipse by any `offset` amount that we like:
 
 	`secondaryCurve  = baseCurve.map{ $0.newPoint(at: offset: along: $1)}`
 	
 where `newPoint` is a `CGPoint` extension. A positive offset moves our vertex outward from the base superellipse (thus creating a larger one) and a negative value moves it inward (thus creating a smaller one). The  `along: $1` argument is the `CGVector` normal we stored with its corresponding `CGPoint` vertex in the initial baseCurve.
+
+Enough chatter. Here's a simple example of what I'm talking about:
+
+Our `SuperEllipse` here is very coarse, at six vertices. The odd-numbered vertices are shown in red, the even-numbered ones in blue. Just because. The marker are moving back and forth from the so-called `innerOffset` curve to the outer one. 
+
+<img align="center" src="_GIFs/0.DeltaWing.gif" width="700">
 
 
 
