@@ -1,8 +1,8 @@
 Superellipses are great for exploring how to do animations in SwiftUI for a number of reasons.
 
-1) They're very interesting structures in their own right and can vary greatly in appearance, depending on the values of the several parameters that are passed in to our `model.calculateSuperEllipse() method.
+1) They're very interesting structures in their own right and can vary greatly in appearance, depending on the values of the several parameters that are passed in to `model.calculateSuperEllipse()`.
 
-2) One of those parameters, `numPoints`, stipulates the number of vertices to be plotting. This value can provide as coarse or as fine-grained an approximation of a hypothetically perfect superellipse as we like.
+2) One of those parameters, `numPoints`, stipulates the number of vertices to be plotted. This provides as coarse or as fine-grained an approximation of a hypothetically perfect superellipse as we like.
 
 3) In addition to calculating a `CGPoint` for each vertex, we also calculate the orthogonal (or normal) at each point as a `CGVector`. Our model stores these as an array of tuples:
 
