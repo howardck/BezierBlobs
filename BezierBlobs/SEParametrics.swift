@@ -12,10 +12,12 @@ struct SEParametrics {
     
     static let VANISHINGLY_SMALL_DOUBLE = 0.000000000000000001
 
-    static func calculateSuperEllipse(ε: Double,
+    static func calculateSuperEllipse(order: Double,
                                       for numPoints: Int,
                                       with axes: Axes) -> [(vertex: CGPoint, normal: CGVector)]
     {
+        let ε = 2.0/order
+        
         var baseCurve : BaseCurveTuples = [(vertex: CGPoint, normal: CGVector)]()
                 
         if DEBUG.PRINT_VERTICES_AND_NORMALS { print("[[ VERTICES + NORMALS ]]:") }

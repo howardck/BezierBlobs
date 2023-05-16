@@ -84,7 +84,7 @@ class Model: ObservableObject {
     func calculateSuperEllipse(order: Double,
                                numPoints: Int,
                                axes: Axes) {
-        baseCurve = SEParametrics.calculateSuperEllipse(ε: 2.0/order,
+        baseCurve = SEParametrics.calculateSuperEllipse(order: order,
                                                         for: numPoints,
                                                         with: axes)
     }

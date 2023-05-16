@@ -55,7 +55,7 @@ extension SimpleStaticPageView {
         print("offset: {\((offset).format(fspec: "4.2"))}")
         
         // so-called 'n' == 3.5; I prefer the term 'order'; whatever ...
-        model.baseCurve = SEParametrics.calculateSuperEllipse(ε: 2.0/3.5,
+        model.baseCurve = SEParametrics.calculateSuperEllipse(order: 3.5,
                                                               for: numPoints,
                                                               with: axes)
         model.calculateOffsetCurve(offset: offset)
