@@ -1,4 +1,4 @@
-Superellipses are great for exploring how to do animations in SwiftUI for a number of reasons.
+Superellipses are fun for exploring how to do animations in SwiftUI for a number of reasons.
 
 1) They're interesting structures in their own right and can vary hugely and in fascinating ways in appearance, depending on the values of the parameters we pass in to our parametric equation in `model.calculateSuperEllipse()`.
 
