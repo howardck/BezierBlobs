@@ -14,7 +14,7 @@ Being able to derive the normal at each vertex allows us to slide our vertex mar
 
 `secondaryCurve = baseCurve.map{ $0.newPoint(at: offset: along: $1)}`
 	
-`newPoint` is an extension on `CGPoint`. A positive offset moves our vertex outward from the base superellipse and a negative value moves it inward (thus creating a smaller one).
+`newPoint` is an extension on `CGPoint`. A positive offset moves our vertex outward from the base superellipse and a negative value moves it inward.
 
 Here's a simple example of what I'm talking about:
 
