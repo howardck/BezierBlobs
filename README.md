@@ -12,7 +12,7 @@ Superellipses are fun for exploring how to do animations in SwiftUI for a number
   
 Being able to derive the normal at each vertex allows us to slide our vertex markers in and out along them to provide a variety of differing animation outcomes with very little code.  The main blob or paint-splat-like animation in the project uses these normals to readily compute a secondary `offset` curve that shrinks or enlarges our SuperEllipse by any `offset` amount that we like:
 
-	`secondaryCurve  = baseCurve.map{ $0.newPoint(at: offset: along: $1)}`
+	`secondaryCurve = baseCurve.map{ $0.newPoint(at: offset: along: $1)}`
 	
 `newPoint` is an extension on `CGPoint`. A positive offset moves our vertex outward from the base superellipse (thus creating a larger one) and a negative value moves it inward (thus creating a smaller one). The  `along: $1` argument is the `CGVector` normal we stored with its corresponding `CGPoint` vertex in the original baseCurve.
 
