@@ -1,14 +1,14 @@
 Superellipses are great for exploring how to do animations in SwiftUI for a number of reasons.
 
-1) They're very interesting structures in their own right and can vary greatly in appearance, depending on the values of the several parameters that are passed in to `model.calculateSuperEllipse()`.
+1) They're very interesting structures in their own right and can vary greatly in appearance, depending on the values of the parameters we pass in to `model.calculateSuperEllipse()`.
 
-2) One of those parameters, `numPoints`, stipulates the number of vertices to be plotted. This provides as coarse or as fine-grained an approximation of a hypothetically perfect superellipse as we like.
+2) One of those parameters, `numPoints`, stipulates the number of vertices to be plotted. This allows us to specifiy as coarse or as fine-grained an approximation of a hypothetically perfect superellipse as we like.
 
 3) In addition to calculating a `CGPoint` for each vertex, we also calculate the orthogonal (or normal) at each point as a `CGVector`. Our model stores these as an array of tuples:
 
 	`baseCurve = [(vertex: CGPoint, normal: CGVector)]`
 	
-	where `baseCurve` is the main defining curve for the SuperEllipse. Most other curves used in the animation are derived from this one.
+	where `baseCurve` is the main defining curve for the SuperEllipse. Most of the other curves used in the animation are derived from this one.
   
 Being able to derive and store the normal for each vertex allows us to slide our vertex markers in and out along them to  provide a variety of differing animation outcomes with very little code.  As one example, although we don't use it in this app, we can easily use our `baseCurve`'s normals to efficiently compute a secondary `offset` curve that shrinks or enlarges our SuperEllipse by any `offset` amount that we like:
 
