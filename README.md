@@ -8,7 +8,7 @@ Superellipses are fun for exploring how to do animations in SwiftUI for a number
 
 	`baseCurve = [(vertex: CGPoint, normal: CGVector)]`
 	
-	where `baseCurve` is the "base" superellipse itself. Most of the other curves used in the animation are derived from this one. We can choose to display any or all of these or not using a UI element I call a Chooser. (Most of the rest of the world calls it a Picker.) See below.
+	where `baseCurve` is the "base" superellipse itself. Most of the other curves used in the animation are derived from this one. We can choose to display any or all of these or not using a UI element I call a Chooser. (Just because; most of the rest of the world calls it a Picker.) See below.
   
 Being able to derive the normal at each vertex allows us to slide our vertex markers in and out along them to provide a variety of differing animation outcomes with very little code.  The main blob or paint-splat-like animation in the project uses these normals to readily compute a secondary `offset` curve that shrinks or enlarges our SuperEllipse by any `offset` amount that we like:
 
