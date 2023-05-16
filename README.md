@@ -8,7 +8,7 @@ Superellipses are fun for exploring how to do animations in SwiftUI for a number
 
 	`baseCurve = [(vertex: CGPoint, normal: CGVector)]`
 	
-	where `baseCurve` is the "base" superellipse itself. Most of the other curves used in the animation are derived from this one. We can choose to display any or all of these or not using a UI element I call a Chooser. (Just because; most of the rest of the world calls it a Picker.) See below.
+	where `baseCurve` is the "base" superellipse itself. Most of the other curves used in the animation are derived from this one. Some of these will be a part of our animation, the others are so-called "support curves" -- they're used as part of the calculations we do. We can choose to display any or all of these curves using a UI element I call an `SELayersChooser. (Most of the rest of the iOS world would call this a picker; my app, my nomenclature.) See below.
   
 Being able to derive the normal at each vertex allows us to slide our vertex markers in and out along them to provide a variety of differing animation outcomes with very little code.  The main blob or paint-splat-like animation in the project uses these normals to readily compute a secondary `offset` curve that shrinks or enlarges our SuperEllipse by any `offset` amount that we like:
 
@@ -18,7 +18,7 @@ Being able to derive the normal at each vertex allows us to slide our vertex mar
 
 Here's a simple example of what I'm talking about:
 
-The `SuperEllipse` here is very coarse at only six vertices. Starting from the origin, vertex number 0 at the far right of the figure, all the even-numbered vertices are shown in blue and the odd-numbered ones in red because it makes the algorithm easier to visualize and explain. 
+The `SuperEllipse` shown here is very coarse at only six vertices. Starting from the origin, vertex number 0 at the far right of the figure, all the even-numbered vertices are shown in blue and the odd-numbered ones in red, because it makes the algorithm easier to visualize and explain. 
 
 Each marker is moving back and forth from the so-called `innerOffset` curve to the outer one. 
 
