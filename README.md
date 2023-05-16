@@ -4,21 +4,23 @@ Superellipses are fun for exploring how to do animations in SwiftUI for a number
 
 2) One of those parameters, `numPoints`, stipulates the number of vertices to be plotted. This allows us to specifiy as coarse or as fine-grained an approximation of a hypothetically perfect superellipse as we like.
 
-3) In addition to calculating the position of each vertex as a `CGPoint`, our parametric equation also calculates the orthogonal (ie, normal) at each point as a `CGVector`. Our model stores these as an array of tuples:
+3) In addition to calculating the position of each vertex as a `CGPoint`, our parametric equation also calculates the orthogonal (ie, normal) at each point as a `CGVector`. Our model stores both these values in an array of tuples:
 
 	`baseCurve = [(vertex: CGPoint, normal: CGVector)]`
 	
-	where `baseCurve` is the original superellipse itself. Most of the other curves used in the animation are derived from this one.
+	where `baseCurve` is the "base" superellipse itself. Most of the other curves used in the animation are derived from this one. We can choose to display these or not using a so-called Chooser list
   
-Being able to derive the normal at each vertex allows us to slide our vertex markers in and out along them to provide a variety of differing animation outcomes with very little code.  We can use our `baseCurve`'s normals to easily compute a secondary `offset` curve that shrinks or enlarges our SuperEllipse by any `offset` amount that we like:
+Being able to derive the normal at each vertex allows us to slide our vertex markers in and out along them to provide a variety of differing animation outcomes with very little code.  The main paint-splat animatiob in the project uses these normals to readily compute a secondary `offset` curve that shrinks or enlarges our SuperEllipse by any `offset` amount that we like:
 
 	`secondaryCurve  = baseCurve.map{ $0.newPoint(at: offset: along: $1)}`
 	
-where `newPoint` is a `CGPoint` extension. A positive offset moves our vertex outward from the base superellipse (thus creating a larger one) and a negative value moves it inward (thus creating a smaller one). The  `along: $1` argument is the `CGVector` normal we stored with its corresponding `CGPoint` vertex in the initial baseCurve.
+`newPoint` is an extension on `CGPoint`. A positive offset moves our vertex outward from the base superellipse (thus creating a larger one) and a negative value moves it inward (thus creating a smaller one). The  `along: $1` argument is the `CGVector` normal we stored with its corresponding `CGPoint` vertex in the original baseCurve.
 
-Enough chatter. Here's a simple example of what I'm talking about:
+Here's a simple example of what I'm talking about:
 
-Our `SuperEllipse` here is very coarse at only six vertices. The odd-numbered vertices are shown in red, the even-numbered ones in blue. Just because. The marker are moving back and forth from the so-called `innerOffset` curve to the outer one. 
+The `SuperEllipse` here is very coarse at only six vertices. The odd-numbered vertices are shown in red, the even-numbered ones in blue, because it makes the algorithm easier to visualize and explain. 
+
+Each marker is moving back and forth from the so-called `innerOffset` curve to the outer one. 
 
 <img align="center" src="_GIFs/0.DeltaWing.gif" width="700">
 
