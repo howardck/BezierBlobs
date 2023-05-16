@@ -18,9 +18,10 @@ where `newPoint` is a `CGPoint` extension. A positive offset moves our vertex ou
 
 Enough chatter. Here's a simple example of what I'm talking about:
 
-Our `SuperEllipse` here is very coarse, at six vertices. The odd-numbered vertices are shown in red, the even-numbered ones in blue. Just because. The marker are moving back and forth from the so-called `innerOffset` curve to the outer one. 
+Our `SuperEllipse` here is very coarse at only six vertices. The odd-numbered vertices are shown in red, the even-numbered ones in blue. Just because. The marker are moving back and forth from the so-called `innerOffset` curve to the outer one. 
 
 <img align="center" src="_GIFs/0.DeltaWing.gif" width="700">
+
 
 
 
