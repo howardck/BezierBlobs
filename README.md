@@ -24,6 +24,10 @@ The `SuperEllipse` shown here is very coarse at only six vertices. Starting from
 
 Each marker is moving back and forth from the so-called `innerOffset` curve to the outer one. All the blue, even-numbered markers move in one of the two directions in unison, and all the red odd-numbered ones all simultaneously move in the opposite direction at the same time. 
 
+Let's stroke our curve this time:
+
+<img align="center" src="_GIFs/1.DeltaWing.gif" width="700">
+
 
 
 
