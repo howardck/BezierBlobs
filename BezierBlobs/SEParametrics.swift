@@ -14,7 +14,8 @@ struct SEParametrics {
 
     static func calculateSuperEllipse(order: Double,
                                       for numPoints: Int,
-                                      with axes: Axes) -> [(vertex: CGPoint, normal: CGVector)]
+                                      with axes: Axes) ->
+                                            [(vertex: CGPoint, normal: CGVector)]
     {
         let ε = 2.0/order
         

@@ -75,6 +75,8 @@ class Model: ObservableObject {
     var axes : Axes = (1.0, 1.0)
     
     // MARK: - a new curve at distance 'offset' from the basecurve
+    // positive offsets create a new curve that's larger than the original
+    // negative offsets create one that's smaller
     
     func curve(at offset: Double) -> [CGPoint] {
         baseCurve.map{ $0.newPoint(at: offset, along: $1)}
