@@ -8,11 +8,11 @@
 import SwiftUI
 
 extension DEBUG {
-    static let PRINT_BASIC_PAGE_INFO = true
+    static let PRINT_BASIC_PAGE_INFO = false
     static let PRINT_VERTICES_AND_NORMALS = false
-    static let PRINT_OFFSET_AND_PERTURBATION_RANGES = true
+    static let PRINT_OFFSET_AND_PERTURBATION_RANGES = false
     static let PRINT_OFFSET_COORDINATES = false
-    static let TRACE_MAIN_ANIMATION_EVENTS = false
+    static let TRACE_MAIN_ANIMATION_EVENTS = true
 }
 
 struct DEBUG {
